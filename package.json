@@ -10,7 +10,7 @@
   "homepage": "https://github.com/hedywings/bluetooth",
   "devDependencies": {},
   "dependencies": {
-    "ccbnp": "0.0.3",
+    "ccbnp": "0.0.4",
     "enum": "^2.2.0",
     "lodash": "^3.10.1",
     "nedb": "^1.2.1",
