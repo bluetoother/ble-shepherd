@@ -1,3 +1,3 @@
 var blemgr = require('../lib/bleMgr');
 
-blemgr.start();
+blemgr.start(function() {});
