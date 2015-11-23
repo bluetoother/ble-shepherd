@@ -1,0 +1,26 @@
+{"owner":"9fTUuTa9jcr72FcO","ancestor":"78c5e570796e","uuid":"0x2a50","hdl":34,"prop":2,"val":{"VendorIDSource":1,"VendorID":13,"ProductID":0,"ProductVersion":272},"desc":null,"_id":"4oewbVmDgAnoIfgB"}
+{"owner":"9fTUuTa9jcr72FcO","ancestor":"78c5e570796e","uuid":"0x2a27","hdl":26,"prop":2,"val":{"HardwareRevisionString":"Hardware Revision"},"desc":null,"_id":"6SwR3fCD7vTMipFI"}
+{"_id":"78c5e570796e","role":"peripheral","addr":"0x78c5e570796e","addrType":0,"linkParams":{"interval":80,"latency":0,"timeout":2000},"servs":["0x1800","0x1801","0x180a","0xfff0"],"sm":{"pairMode":1,"ioCap":4,"mitm":1,"bond":1,"ltk":{"type":"Buffer","data":[174,109,178,190,23,55,85,207,129,252,24,35,21,202,85,204]},"div":20796,"rand":{"type":"Buffer","data":[129,255,56,163,223,210,137,25]}}}
+{"owner":"78c5e570796e","uuid":"0x180a","startHdl":16,"endHdl":34,"chars":["0x2a23","0x2a24","0x2a25","0x2a26","0x2a27","0x2a28","0x2a29","0x2a2a","0x2a50"],"_id":"9fTUuTa9jcr72FcO"}
+{"owner":"9fTUuTa9jcr72FcO","ancestor":"78c5e570796e","uuid":"0x2a2a","hdl":32,"prop":2,"val":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"desc":null,"_id":"A2UakNOJlrFJv2Xb"}
+{"owner":"THcMtgjGANjxp8pW","ancestor":"78c5e570796e","uuid":"0xfff5","hdl":50,"prop":2,"val":null,"desc":null,"_id":"BfVg4hf2Uh5we5vj"}
+{"owner":"9fTUuTa9jcr72FcO","ancestor":"78c5e570796e","uuid":"0x2a24","hdl":20,"prop":2,"val":{"ModelNumberString":"Model Number"},"desc":null,"_id":"BxvTdMnbIwpFvPzg"}
+{"owner":"9fTUuTa9jcr72FcO","ancestor":"78c5e570796e","uuid":"0x2a23","hdl":18,"prop":2,"val":{"ManufacturerIdentifier":"0x6e79700000","OrganizationallyUniqueIdentifier":"0xe5c578"},"desc":null,"_id":"DRdYao2FoZ0mtHeJ"}
+{"owner":"THcMtgjGANjxp8pW","ancestor":"78c5e570796e","uuid":"0xfff4","hdl":46,"prop":16,"val":null,"desc":null,"_id":"Odj82Sbfj7o67Wii"}
+{"owner":"9fTUuTa9jcr72FcO","ancestor":"78c5e570796e","uuid":"0x2a29","hdl":30,"prop":2,"val":{"ManufacturerNameString":"Manufacturer Name"},"desc":null,"_id":"PahNo3irY4Rg5a3J"}
+{"owner":"mbe0IYgMKLaTmJSG","ancestor":"78c5e570796e","uuid":"0x2a00","hdl":3,"prop":2,"val":{"DeviceName":"Simple BLE Peripheral"},"desc":null,"_id":"RZhncQFY9DljYUl9"}
+{"owner":"78c5e570796e","uuid":"0xfff0","startHdl":35,"endHdl":65535,"chars":["0xfff1","0xfff2","0xfff3","0xfff4","0xfff5"],"_id":"THcMtgjGANjxp8pW"}
+{"owner":"9fTUuTa9jcr72FcO","ancestor":"78c5e570796e","uuid":"0x2a28","hdl":28,"prop":2,"val":{"SoftwareRevisionString":"Software Revision"},"desc":null,"_id":"V6Y0ktTVRbVrRqZA"}
+{"owner":"THcMtgjGANjxp8pW","ancestor":"78c5e570796e","uuid":"0xfff3","hdl":43,"prop":8,"val":null,"desc":null,"_id":"VG4G4JutZ79mkx3z"}
+{"owner":"mbe0IYgMKLaTmJSG","ancestor":"78c5e570796e","uuid":"0x2a02","hdl":7,"prop":10,"val":{"PeripheralPrivacyFlag":0},"desc":null,"_id":"VKS6u2y98tOwfkzB"}
+{"owner":"9fTUuTa9jcr72FcO","ancestor":"78c5e570796e","uuid":"0x2a25","hdl":22,"prop":2,"val":{"SerialNumberString":"Serial Number"},"desc":null,"_id":"VPxAU1nH8Xeajbzk"}
+{"owner":"9fTUuTa9jcr72FcO","ancestor":"78c5e570796e","uuid":"0x2a26","hdl":24,"prop":2,"val":{"FirmwareRevisionString":"Firmware Revision"},"desc":null,"_id":"ZLdPhIRhXRTTL7Hz"}
+{"owner":"mbe0IYgMKLaTmJSG","ancestor":"78c5e570796e","uuid":"0x2a01","hdl":5,"prop":2,"val":{"Appearance":0},"desc":null,"_id":"auKDV6w657OwJyTH"}
+{"owner":"mbe0IYgMKLaTmJSG","ancestor":"78c5e570796e","uuid":"0x2a03","hdl":9,"prop":8,"val":null,"desc":null,"_id":"dMYL5SOhWv9iOHeh"}
+{"owner":"78c5e570796e","uuid":"0x1801","startHdl":12,"endHdl":15,"chars":["0x2a05"],"_id":"dd2OmQptWFBzMWbu"}
+{"owner":"THcMtgjGANjxp8pW","ancestor":"78c5e570796e","uuid":"0xfff2","hdl":40,"prop":2,"val":{"type":"Buffer","data":[2]},"desc":null,"_id":"j1Auw5aBokLNP6FK"}
+{"owner":"mbe0IYgMKLaTmJSG","ancestor":"78c5e570796e","uuid":"0x2a04","hdl":11,"prop":2,"val":{"MinConnInterval":80,"MaxConnInterval":160,"Latency":0,"Timeout":1000},"desc":null,"_id":"lLW4dDF3GAr4gewg"}
+{"owner":"78c5e570796e","uuid":"0x1800","startHdl":1,"endHdl":11,"chars":["0x2a00","0x2a01","0x2a02","0x2a03","0x2a04"],"_id":"mbe0IYgMKLaTmJSG"}
+{"owner":"THcMtgjGANjxp8pW","ancestor":"78c5e570796e","uuid":"0xfff1","hdl":37,"prop":10,"val":{"type":"Buffer","data":[1]},"desc":null,"_id":"sXGyqpEBk1Zc9lQN"}
+{"owner":"dd2OmQptWFBzMWbu","ancestor":"78c5e570796e","uuid":"0x2a05","hdl":14,"prop":32,"val":null,"desc":null,"_id":"yNGD9ruLv5Imp9CW"}
+{"_id":"78c5e570796e","role":"peripheral","addr":"0x78c5e570796e","addrType":0,"linkParams":{"interval":80,"latency":0,"timeout":2000},"servs":["0x1800","0x1801","0x180a","0xfff0"],"sm":{"pairMode":1,"ioCap":4,"mitm":1,"bond":1,"ltk":{"type":"Buffer","data":[174,109,34,126,186,91,199,241,124,83,59,161,223,210,169,153]},"div":37437,"rand":{"type":"Buffer","data":[77,239,20,54,133,15,56,160]}}}
