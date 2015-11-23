@@ -33,7 +33,7 @@ function bleApp () {
 
 	// blemgr.devmgr.bleDevices[1].servs['0xfff0'].chars['0xfff4'].readDesc();
 	setTimeout(function () {
-		console.log(blemgr.devmgr.bleDevices[1]);
+		// console.log(blemgr.devmgr.bleDevices[1]);
         // console.log(typeof blemgr.devmgr.bleDevices[1].servs['0x180a'].chars['0x2a23'].uuid);
         // console.log(blemgr.devmgr.bleDevices[1].servs['0x180a'].chars['0x2a23'].update());
         // console.log(blemgr.bleCentral.getAllAttrs());
@@ -48,3 +48,4 @@ function bleApp () {
 function preExec () {
     blemgr.regGattDefs('service', [{name: 'Test', uuid: '0xFFF0'}, {name: 'test2', uuid: '0xFFF1'}, {name: 'test3', uuid: '0xFFF3'}]);
 }
+
