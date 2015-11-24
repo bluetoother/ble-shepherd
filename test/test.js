@@ -28,24 +28,49 @@ var service = new servConstr('centralServ', '0xFFF0', charsInfo);
 blemgr.preExec = preExec;
 blemgr.start(spConfig, bleApp);
 
-function bleApp () {
-    blemgr.addLocalServ(service);
+function preExec () {
+    blemgr.regGattDefs('service', [{name: 'Test', uuid: '0xFFF0'}, {name: 'SimpleKeys', uuid: '0xffe0'}, {name: 'Accelerometer', uuid: '0xffa0'}]);
+    blemgr.regGattDefs('characteristic', [{name: 'KeyPressState', uuid: '0xffe1', params: ['Enable'], types: ['uint8']}, {name: 'Enable', uuid: '0xffa1'}, {name: 'AccelerometerX', uuid: '0xffa3'},
+        {name: 'AccelerometerY', uuid: '0xffa4'}, {name: 'AccelerometerZ', uuid: '0xffa5'}]);
+}
 
-	// blemgr.devmgr.bleDevices[1].servs['0xfff0'].chars['0xfff4'].readDesc();
-	setTimeout(function () {
-		// console.log(blemgr.devmgr.bleDevices[1]);
-        // console.log(typeof blemgr.devmgr.bleDevices[1].servs['0x180a'].chars['0x2a23'].uuid);
-        // console.log(blemgr.devmgr.bleDevices[1].servs['0x180a'].chars['0x2a23'].update());
-        // console.log(blemgr.bleCentral.getAllAttrs());
-	}, 3000);
+function bleApp () {
+    // var keyFob = blemgr.devmgr.findDev('0x9059af0b7722');
+
+    // blemgr.addLocalServ(service);
+    // keyFob.servs['0xffe0'].chars['0xffe1'].processInd = processKeyFobInd;
+    // keyFob.servs['0xffe0'].chars['0xffe1'].setConfig(true).then(function (result) {
+    //     console.log(result);
+    // }).fail(function (err) {
+    //     console.log(err);
+    // });
+
+    // keyFob.servs['0x1802'].chars['0x2a06'].write(1).then(function (result) {
+
+    // })
 
 	blemgr.on('ind', function(msg) {
-        // console.log(msg.type);
-        // console.log(msg.data);
+        switch (msg.type) {
+            case 'DEV_INCOMING':
+                break;
+            case 'DEV_LEAVING':
+                break;
+            case 'ATT_IND':
+                break;
+            case 'PASSKEY_NEED':
+                break;
+        }
     });
 }
 
-function preExec () {
-    blemgr.regGattDefs('service', [{name: 'Test', uuid: '0xFFF0'}, {name: 'test2', uuid: '0xFFF1'}, {name: 'test3', uuid: '0xFFF3'}]);
+function processKeyFobInd (data) {
+    console.log(data);
+    if (data === 1) {
+        console.log('Right button press.');
+    } else if (data === 2) {
+        console.log('Left button press.');
+    }
 }
+
+
 
