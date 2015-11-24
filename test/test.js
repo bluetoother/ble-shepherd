@@ -39,10 +39,10 @@ function bleApp () {
         // console.log(blemgr.bleCentral.getAllAttrs());
 	}, 3000);
 
-	// setTimeout(function () {
-	// 	console.log(blemgr.devmgr.bleDevices[2]);
-	// }, 15000);
-	
+	blemgr.on('ind', function(msg) {
+        // console.log(msg.type);
+        // console.log(msg.data);
+    });
 }
 
 function preExec () {
