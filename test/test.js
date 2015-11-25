@@ -35,19 +35,22 @@ function preExec () {
 }
 
 function bleApp () {
-    // var keyFob = blemgr.devmgr.findDev('0x9059af0b7722');
+    var keyFob = blemgr.devmgr.findDev('0x544a165e1f53');
 
-    // blemgr.addLocalServ(service);
-    // keyFob.servs['0xffe0'].chars['0xffe1'].processInd = processKeyFobInd;
-    // keyFob.servs['0xffe0'].chars['0xffe1'].setConfig(true).then(function (result) {
-    //     console.log(result);
-    // }).fail(function (err) {
-    //     console.log(err);
-    // });
+    blemgr.addLocalServ(service);
+    keyFob.servs['0xffe0'].chars['0xffe1'].processInd = processKeyFobInd;
+    keyFob.servs['0xffe0'].chars['0xffe1'].setConfig(true).then(function (result) {
+        console.log(result);
+    }).fail(function (err) {
+        console.log(err);
+    });
 
-    // keyFob.servs['0x1802'].chars['0x2a06'].write(1).then(function (result) {
-
-    // })
+    // setTimeout(function () {
+    //     var keyFob = blemgr.devmgr.findDev('0x544a165e1f53');
+    //     _.forEach(keyFob.servs, function (serv) {
+    //         console.log(serv);
+    //     });
+    // }, 30000);
 
 	blemgr.on('ind', function(msg) {
         switch (msg.type) {
@@ -64,11 +67,10 @@ function bleApp () {
 }
 
 function processKeyFobInd (data) {
-    console.log(data);
-    if (data === 1) {
-        console.log('Right button press.');
-    } else if (data === 2) {
+    if (data.Enable === 1) {
         console.log('Left button press.');
+    } else if (data.Enable === 2) {
+        console.log('Right button press.');
     }
 }
 
