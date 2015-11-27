@@ -1,8 +1,7 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var blemgr = require('../lib/bleMgr'),
-    servConstr = require('../lib/service/bleServConstr');
+var bShepherd = require('../lib/ble-shepherd'),
     spConfig = {
         path: '/dev/ttyACM0',
         options: {
@@ -16,25 +15,25 @@ var sensorTag, keyFob,
     sensorTemp = 0, 
     sensorAcceler = 0;
 
-blemgr.preExec = preExec;
-blemgr.start(spConfig, bleApp);
+bShepherd.preExec = preExec;
+bShepherd.start(spConfig, bleApp);
 
 function preExec () {
-    // blemgr.regGattDefs('service', [{name: 'Test', uuid: '0xFFF0'}, {name: 'SimpleKeys', uuid: '0xffe0'}, {name: 'Accelerometer', uuid: '0xffa0'}]);
-    // blemgr.regGattDefs('characteristic', [{name: 'KeyPressState', uuid: '0xffe1', params: ['Enable'], types: ['uint8']}, {name: 'Enable', uuid: '0xffa1'}, {name: 'AccelerometerX', uuid: '0xffa3'},
+    // bShepherd.regGattDefs('service', [{name: 'Test', uuid: '0xFFF0'}, {name: 'SimpleKeys', uuid: '0xffe0'}, {name: 'Accelerometer', uuid: '0xffa0'}]);
+    // bShepherd.regGattDefs('characteristic', [{name: 'KeyPressState', uuid: '0xffe1', params: ['Enable'], types: ['uint8']}, {name: 'Enable', uuid: '0xffa1'}, {name: 'AccelerometerX', uuid: '0xffa3'},
     //     {name: 'AccelerometerY', uuid: '0xffa4'}, {name: 'AccelerometerZ', uuid: '0xffa5'}]);
 }
 
 function bleApp () {
-    sensorTag = blemgr.devmgr.findDev('0x9059af0b8159');
-    keyFob = blemgr.devmgr.findDev('0x9059af0b7722');
+    sensorTag = bShepherd.devmgr.findDev('0x9059af0b8159');
+    keyFob = bShepherd.devmgr.findDev('0x9059af0b7722');
 
     sensorTag.servs['0xaa00'].chars['0xaa01'].processInd = callbackTemp;
     sensorTag.servs['0xaa10'].chars['0xaa11'].processInd = callbackAccelerometer;
     sensorTag.servs['0xaa50'].chars['0xaa51'].processInd = callbackGyroscope;
     keyFob.servs['0xffe0'].chars['0xffe1'].processInd = callbackSimpleKey;
 
-	blemgr.on('ind', function(msg) {
+	bShepherd.on('IND', function(msg) {
         switch (msg.type) {
             case 'DEV_INCOMING':
                 break;
