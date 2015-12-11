@@ -31,15 +31,11 @@ function preExec () {
 }
 
 function bleApp () {
-    // var keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
+    var keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
 
     bShepherd.addLocalServ(exampleServ);
-    // keyFob.servs['0xffe0'].chars['0xffe1'].processInd = processKeyFobInd;
-    // keyFob.servs['0xffe0'].chars['0xffe1'].setConfig(true).then(function (result) {
-    //     console.log(result);
-    // }).fail(function (err) {
-    //     console.log(err);
-    // });
+    keyFob.servs['0xffe0'].chars['0xffe1'].processInd = processKeyFobInd;
+    keyFob.servs['0xffe0'].chars['0xffe1'].setConfig(true);
 
     // setTimeout(function () {
     //     var keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
