@@ -6,7 +6,7 @@ var _ = require('lodash'),
     secmdl = new Secmdl();
 
 describe('start connection', function() {
-	var spConfig = {
+    var spConfig = {
         path: '/dev/ttyUSB0',
         options: {
             baudRate: 115200,
@@ -15,12 +15,12 @@ describe('start connection', function() {
         }
     };
 
-	it('init', function (done) {
-		ccBnp.on('ready', function (msg) {
+    it('init', function (done) {
+        ccBnp.on('ready', function (msg) {
             done();
         });
         ccBnp.init(spConfig, 'central');
-	});
+    });
 });
 
 describe('Constructor Check', function () {
