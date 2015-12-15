@@ -1,3 +1,4 @@
+//TODO, update()
 var _ = require('lodash'),
     should = require('should'),
     shouldP = require('should-promised'),
@@ -145,6 +146,7 @@ describe('Functional Check', function () {
     });
 
     it('update()', function () {
+        // TODO
         // can't testing here
     });
 
