@@ -5,7 +5,7 @@ var _ = require('lodash'),
     nwkScanner = new NwkScanner();
 
 describe('start connection', function() {
-	var spConfig = {
+    var spConfig = {
         path: '/dev/ttyUSB0',
         options: {
             baudRate: 115200,
@@ -14,71 +14,71 @@ describe('start connection', function() {
         }
     };
 
-	it('init', function (done) {
-		ccBnp.on('ready', function (msg) {
+    it('init', function (done) {
+        ccBnp.on('ready', function (msg) {
             done();
         });
         ccBnp.init(spConfig, 'central');
-	});
+    });
 });
 
 describe('Constructor Check', function () {
-	var scanParams = {
-	        time: null,
-	        interval: null,
-	        window: null
-	    },
-	    linkParams = {
-	        interval: null, 
-	        latency: null,
-	        timeout: null
-	    };
+    var scanParams = {
+            time: null,
+            interval: null,
+            window: null
+        },
+        linkParams = {
+            interval: null, 
+            latency: null,
+            timeout: null
+        };
 
-	it('NwkScanner()', function () {
-		(nwkScanner.permitState).should.equal('off');
-		(nwkScanner.scanParams).should.deepEqual(scanParams);
-		(nwkScanner.linkParams).should.deepEqual(linkParams);
-	});
+    it('NwkScanner()', function () {
+        (nwkScanner.permitState).should.equal('off');
+        (nwkScanner.scanParams).should.deepEqual(scanParams);
+        (nwkScanner.linkParams).should.deepEqual(linkParams);
+    });
 });
 
 describe('Signature Check', function () {
-	errMsg = 'setting must be an object and not be an array.';
+    errMsg = 'setting must be an object and not be an array.';
 
-	it('setScanParam(setting) - string', function () {
-		return nwkScanner.setScanParams('xxx').should.be.rejectedWith(errMsg);
-	});
+    it('setScanParam(setting) - string', function () {
+        return nwkScanner.setScanParams('xxx').should.be.rejectedWith(errMsg);
+    });
 
-	it('setScanParam(setting) - number', function () {
-		return nwkScanner.setScanParams(123).should.be.rejectedWith(errMsg);
-	});
+    it('setScanParam(setting) - number', function () {
+        return nwkScanner.setScanParams(123).should.be.rejectedWith(errMsg);
+    });
 
-	it('setScanParam(setting) - array', function () {
-		return nwkScanner.setScanParams([]).should.be.rejectedWith(errMsg);
-	});
+    it('setScanParam(setting) - array', function () {
+        return nwkScanner.setScanParams([]).should.be.rejectedWith(errMsg);
+    });
 
-	it('setScanParam(setting) - boolean', function () {
-		return nwkScanner.setScanParams(true).should.be.rejectedWith(errMsg);
-	});
+    it('setScanParam(setting) - boolean', function () {
+        return nwkScanner.setScanParams(true).should.be.rejectedWith(errMsg);
+    });
 
-	it('setLinkParams(setting) - string', function () {
-		return nwkScanner.setLinkParams('xxx').should.be.rejectedWith(errMsg);
-	});
+    it('setLinkParams(setting) - string', function () {
+        return nwkScanner.setLinkParams('xxx').should.be.rejectedWith(errMsg);
+    });
 
-	it('setLinkParams(setting) - number', function () {
-		return nwkScanner.setLinkParams(123).should.be.rejectedWith(errMsg);
-	});
+    it('setLinkParams(setting) - number', function () {
+        return nwkScanner.setLinkParams(123).should.be.rejectedWith(errMsg);
+    });
 
-	it('setLinkParams(setting) - array', function () {
-		return nwkScanner.setLinkParams([]).should.be.rejectedWith(errMsg);
-	});
+    it('setLinkParams(setting) - array', function () {
+        return nwkScanner.setLinkParams([]).should.be.rejectedWith(errMsg);
+    });
 
-	it('setLinkParams(setting) - boolean', function () {
-		return nwkScanner.setLinkParams(true).should.be.rejectedWith(errMsg);
-	});
+    it('setLinkParams(setting) - boolean', function () {
+        return nwkScanner.setLinkParams(true).should.be.rejectedWith(errMsg);
+    });
 });
 
 describe('Functional Check', function () {
-	var scanParams = {
+    var scanParams = {
             time: 10240,
             interval: 16,
             window: 16
@@ -89,22 +89,22 @@ describe('Functional Check', function () {
             timeout: 2000
         };
 
-	it('setScanParam() - no setting', function (done) {
-		nwkScanner.setScanParams().then(function () {
-			if (_.isEqual(nwkScanner.scanParams, scanParams)) {
-				done();
-			}
-		});
-	});
-
-	it('setScanParams() - partial setting', function (done) {
-		nwkScanner.setScanParams({interval: 8, window: 8}).then(function () {
-			scanParams.interval = 8;
-			scanParams.window = 8;
-			if (_.isEqual(nwkScanner.scanParams, scanParams)) 
+    it('setScanParam() - no setting', function (done) {
+        nwkScanner.setScanParams().then(function () {
+            if (_.isEqual(nwkScanner.scanParams, scanParams)) {
                 done();
-		});
-	});
+            }
+        });
+    });
+
+    it('setScanParams() - partial setting', function (done) {
+        nwkScanner.setScanParams({interval: 8, window: 8}).then(function () {
+            scanParams.interval = 8;
+            scanParams.window = 8;
+            if (_.isEqual(nwkScanner.scanParams, scanParams)) 
+                done();
+        });
+    });
 
     it('setScanParams() - full setting', function (done) {
         nwkScanner.setScanParams({time: 5012, interval: 16, window: 16}).then(function () {
