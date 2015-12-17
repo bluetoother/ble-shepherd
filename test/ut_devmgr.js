@@ -5,8 +5,8 @@ var _ = require('lodash'),
     fs = require('fs'),
     Devmgr = require('../lib/management/devmgr'),
     devmgr = new Devmgr(),
-    GATTDEFS = require('../lib/defs/gattdefs'),
-    bledb = require('../lib/bledb');
+    bledb = require('../lib/bledb'),
+    BleServ = require('../lib/service/bleServConstr');
 
 var dbPath = '../lib/database/ble.db';
 fs.exists(dbPath, function (isThere) {
@@ -15,6 +15,14 @@ fs.exists(dbPath, function (isThere) {
 
 var blePeri = devmgr.newDevice('peripheral', '0x78c5e570796e', 0),
     bleCen = devmgr.newDevice('central', '0x78c5e570737f');
+
+var pubCharsInfo = [
+        {uuid: '0x2a00', permit: 1, prop: 2, val: {DeviceName:"Simple BLE Central"}},
+        {uuid: '0x2a01', permit: 1, prop: 2, val: {Appearance:0}},
+        {uuid: '0x2a02', permit: 3, prop: 10, val: {PeripheralPrivacyFlag: 0}},
+        {uuid: '0x2a04', permit: 1, prop: 2, val: {MinConnInterval:80, MaxConnInterval:160, Latency:0, Timeout:1000}},
+    ],
+    pubServ = new BleServ('0x1800', pubCharsInfo);
 
 describe('start connection', function() {
     var spConfig = {
@@ -270,9 +278,9 @@ describe('Functional Check', function () {
 
         it('linkParamUpdate()', function (done) {
             var linkParamObj = {
-                    interval: 160,
-                    latency: 1,
-                    timeout:  1800
+                    interval: 80,
+                    latency: 0,
+                    timeout:  1000
                 },
                 recLinkParamObj = {};
 
@@ -286,123 +294,102 @@ describe('Functional Check', function () {
                         done();
                 }
             });
-            blePeri.linkParamUpdate(160, 1, 1800);
+            blePeri.linkParamUpdate(80, 0, 1000);
         });
 
-// this.timeout(60000);
-//         it('getServs()', function (done) {
-//             ccBnp.gap.terminateLink(0, 19).then(function () {
-//                 return ccBnp.gap.estLinkReq(0, 0, blePeri.addrType, blePeri.addr);
-//             }).then(function () {
-//                 return ccBnp.gatt.discAllPrimaryServices(0);
-//             }).then(function (result) {
-//                 console.log(result);
-//                 return ccBnp.gatt.discAllChars(0, 1, 11);
-//             }).then(function (result) {
-//                 console.log(result);
-//                 console.log('0x1800');
-//                 return ccBnp.gatt.discAllChars(0, 12, 15);
-//             }).then(function (result) {
-//                 console.log('0x1801');
-//                 console.log(result);
-//                 return ccBnp.gatt.discAllChars(0, 16, 34);
-//             }).then(function (result) {
-//                 console.log('0x180a');
-//                 console.log(result);
-//                 return ccBnp.gatt.discAllChars(0, 35, 65535);
-//             }).then(function (result) {
-//                 console.log('0xfff0');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 3, '0x2a00');
-//             }).then(function (result) {
-//                 console.log('2a00');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 5, '0x2a01');
-//             }).then(function (result) {
-//                 console.log('2a01');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 7, '0x2a02');
-//             }).then(function (result) {
-//                 console.log('2a02');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 11, '0x2a04');
-//             }).then(function (result) {
-//                 console.log('2a04');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 18, '0x2a23');
-//             }).then(function (result) {
-//                 console.log('2a23');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 20, '0x2a24');
-//             }).then(function (result) {
-//                 console.log('2a24');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 22, '0x2a25');
-//             }).then(function (result) {
-//                 console.log('2a25');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 24, '0x2a26');
-//             }).then(function (result) {
-//                 console.log('2a26');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 27, '0x2a27');
-//             }).then(function (result) {
-//                 console.log('2a27');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 28, '0x2a28');
-//             }).then(function (result) {
-//                 console.log('2a28');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 30, '0x2a29');
-//             }).then(function (result) {
-//                 console.log('2a29');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 32, '0x2a2a');
-//             }).then(function (result) {
-//                 console.log('2a2a');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 34, '0x2a50');
-//             }).then(function (result) {
-//                 console.log('2a50');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 37, '0xfff1');
-//             }).then(function (result) {
-//                 console.log('fff1');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 40, '0xfff2');
-//             }).then(function (result) {
-//                 console.log('fff2');
-//                 console.log(result);
-//                 return ccBnp.gatt.readCharValue(0, 50, '0xfff5');
-//             }).then(function (result) {
-//                 console.log('fff5');
-//                 console.log(result);
-//                 done();
-//             }).fail(function (err) {
-//                 console.log(err);
-//                 done();
-//             });
-//         });
-
-        // it('getServs()', function (done) {
-        //     // read speed very slow
-        //     // blePeri.servs = {};
-        //     blePeri.getServs().then(function (result) {
-        //         console.log(result);
-        //         done();
-        //     }).fail(function (err) {
-        //         console.log(err);
-        //         done();
-        //     });
-        // });
-
+        it('_getServs()', function () {
+            return blePeri._getServs().should.be.fulfilled();
+        });
 
         it('createSecMdl()', function () {
             blePeri.createSecMdl({}).should.deepEqual(blePeri.sm);
         });
 
-        it('encrypt()', function () {
-            blePeri.encrypt()
+        var authed = false;
+        it('encrypt()', function (done) {
+            ccBnp.on('ind', function (msg) {
+                if (msg.type === 'authenComplete') { authed = true; }
+                if (blePeri.sm.bond === 1) {
+                    if (authed && msg.type === 'bondComplete') 
+                        done();
+                } else {
+                    if (authed) { done(); }
+                }
+                
+            });
+            blePeri.encrypt();
+        });
+
+        it('expInfo()', function () {
+            var dev = _.cloneDeep(blePeri);
+            var sm = blePeri.sm.expInfo();
+            var servs = [];
+
+            _.forEach(dev.servs, function (serv) {
+                servs.push(serv.uuid);
+            });
+            delete dev._isSync;
+            delete dev.ownerDevmgr;
+            delete dev.state;
+            delete dev.connHdl;
+            dev.sm = sm;
+            dev.servs = servs;
+
+            blePeri.expInfo().should.deepEqual(dev);
+        });
+
+        it('loadServs()', function (done) {
+            var servs = {},
+                newServs = {};
+            _.forEach(blePeri.servs, function (serv, name) {
+                servs[name] = serv.expInfo();
+            });
+
+            blePeri.servs = {};
+            blePeri.loadServs().then(function () {
+                _.forEach(blePeri.servs, function (serv, name) {
+                    newServs[name] = serv.expInfo();
+                });
+                if (_.isEqual(servs, newServs))
+                    done();
+            });
+        });
+
+        it('update()', function (done) {
+            blePeri.update().then(function () {
+                if (blePeri._isSync === true)
+                    done();
+            });
+        });
+
+        it('remove()', function (done) {
+            var flag = false;
+            blePeri.remove().then(function () {
+                return bledb.getInfo('device');
+            }).then(function (result) {
+                _.forEach(result, function (dev) {
+                    if (dev._id === blePeri._id) {
+                        flag = ture;
+                    }
+                });
+                if (!flag)
+                    done();
+            });
+        });
+
+        it('save()',function (done) {
+            var flag = false;
+            blePeri.save().then(function () {
+                return bledb.getInfo('device');
+            }).then(function (result) {
+                _.forEach(result, function (dev) {
+                    if (dev._id === blePeri._id) {
+                        flag = true;
+                    }
+                });
+                if (flag)
+                    done();
+            });
         });
 
         it('disConnect()', function () {
@@ -411,6 +398,31 @@ describe('Functional Check', function () {
     });
 
     describe('central', function () {
+        it('regServ()', function (done) {
+            bleCen.regServ(pubServ).then(function () {
+                if (_.isEqual(bleCen.servs[0], pubServ))
+                    done();
+            });
+        });
 
+        it('findChar()', function () {
+            bleCen.findChar(pubServ.chars['0x2a00'].attrs[0].hdl)
+                .should.deepEqual(pubServ.chars['0x2a00']);
+        });
+
+        it('getAllAttrs()', function () {
+            bleCen.getAllAttrs().should.deepEqual(pubServ.getAttrs());
+        });
+
+        it('_processAttMsg()', function () {
+            //TODO
+        });
+
+        it('delServ', function (done) {
+            bleCen.delServ(bleCen.servs[0].startHdl).then(function () {
+                if (_.isEmpty(bleCen.servs))
+                    done();
+            });
+        });
     });
 });
