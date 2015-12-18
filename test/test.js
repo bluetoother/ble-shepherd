@@ -1,7 +1,10 @@
 var _ = require('lodash');
 
 var bShepherd = require('../lib/ble-shepherd'),
+    servConstr = require('../lib/service/bleServConstr'),
     exampleServ = require('../lib/service/example'),
+    pubServ = exampleServ.publicServ,
+    priServ = exampleServ.privateServ,
     spConfig = {
         path: '/dev/ttyUSB0',
         options: {
@@ -10,6 +13,9 @@ var bShepherd = require('../lib/ble-shepherd'),
             flowControl: true
         }
     };
+
+var peri,
+    keyFob;
 
 bShepherd.preExec = preExec;
 bShepherd.start(spConfig, bleApp);
@@ -33,20 +39,18 @@ function preExec () {
 function bleApp () {
     var keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
 
-    bShepherd.addLocalServ(exampleServ);
-    keyFob.servs['0xffe0'].chars['0xffe1'].processInd = processKeyFobInd;
-    keyFob.servs['0xffe0'].chars['0xffe1'].setConfig(true);
+    bShepherd.addLocalServ(pubServ).then(function () {
+        return bShepherd.addLocalServ(priServ);
+    }).done();
 
-    // setTimeout(function () {
-    //     var keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
-    //     _.forEach(keyFob.servs, function (serv) {
-    //         console.log(serv);
-    //     });
-    // }, 30000);
+    setTimeout(function () {
+        bShepherd.devmgr.stopScan();
+    }, 5000);
 
 	bShepherd.on('IND', function(msg) {
         switch (msg.type) {
             case 'DEV_INCOMING':
+                devIncomingHdlr(msg.data);
                 break;
             case 'DEV_LEAVING':
                 break;
@@ -65,6 +69,17 @@ function processKeyFobInd (data) {
         console.log('Left button press.');
     } else if (data.Enable === 2) {
         console.log('Right button press.');
+    }
+}
+
+function devIncomingHdlr(addr) {
+    if (addr === '0x78c5e570796e') {
+        peri = bShepherd.devmgr.findDev('0x78c5e570796e');
+
+    } else if (addr === '0x544a165e1f53') {
+        keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
+        keyFob.servs['0xffe0'].chars['0xffe1'].processInd = processKeyFobInd;
+        keyFob.servs['0xffe0'].chars['0xffe1'].setConfig(true);
     }
 }
 
