@@ -3,7 +3,7 @@ var Q = require('q'),
 
 var bShepherd = require('../lib/ble-shepherd'),
     spConfig = {
-        path: '/dev/ttyACM0',
+        path: '/dev/ttyUSB0',
         options: {
             baudRate: 115200,
             rtscts: true,
@@ -25,17 +25,18 @@ function preExec () {
 }
 
 function bleApp () {
-    sensorTag = bShepherd.devmgr.findDev('0x9059af0b8159');
-    keyFob = bShepherd.devmgr.findDev('0x9059af0b7722');
-
-    sensorTag.servs['0xaa00'].chars['0xaa01'].processInd = callbackTemp;
-    sensorTag.servs['0xaa10'].chars['0xaa11'].processInd = callbackAccelerometer;
-    sensorTag.servs['0xaa50'].chars['0xaa51'].processInd = callbackGyroscope;
-    keyFob.servs['0xffe0'].chars['0xffe1'].processInd = callbackSimpleKey;
-
 	bShepherd.on('IND', function(msg) {
         switch (msg.type) {
             case 'DEV_INCOMING':
+                if (msg.data === '0x9059af0b8159') { //0x9059af0b8159
+                    sensorTag = bShepherd.devmgr.findDev('0x9059af0b8159');
+                    sensorTag.servs['0xaa00'].chars['0xaa01'].processInd = callbackTemp;
+                    sensorTag.servs['0xaa10'].chars['0xaa11'].processInd = callbackAccelerometer;
+                    sensorTag.servs['0xaa50'].chars['0xaa51'].processInd = callbackGyroscope;
+                } else if (msg.data === '0x544a165e1f53') { //0x9059af0b7722
+                    keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
+                    keyFob.servs['0xffe0'].chars['0xffe1'].processInd = callbackSimpleKey;
+                }
                 break;
             case 'DEV_LEAVING':
                 break;

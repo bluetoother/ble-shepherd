@@ -22,7 +22,7 @@ fs.exists(dbPath, function (isThere) {
 
 describe('Signature Check', function () {
     it('start(spConfig)', function () {
-        // (function () { bShepherd.start(spConfig); }).should.not.throw();
+        (function () { bShepherd.start({path: '123'}); }).should.not.throw();
 
         (function () { bShepherd.start({}); }).should.throw();
         (function () { bShepherd.start([]); }).should.throw();
@@ -104,9 +104,39 @@ describe('Functional Check', function () {
     });
 
     it('addLocalServ()', function (done) {
-        console.log(bShepherd.bleCentral);
         bShepherd.addLocalServ(pubServ).then(function () {
-            done();
+            if (pubServ._isRegister === true)
+                done();
         });
+    });
+
+    it('_regUuidHdlTable()', function () {
+            var dev = {
+                role: 'peripheral',
+                connHdl: 1,
+                servs: {
+                    serv: {
+                        chars: [  
+                            {hdl: 1, uuid: '0x0011'}, 
+                            {hdl: 2, uuid: '0x0022'}, 
+                            {hdl: 3, uuid: '0x0033'}
+                        ]
+                    }
+                }
+            },
+            result = {
+                1: {
+                    1: '0x0011',
+                    2: '0x0022',
+                    3: '0x0033'
+                }
+            };
+        should(bShepherd._regUuidHdlTable()).be.undefined();
+        bShepherd.devmgr.bleDevices.push(dev);
+        bShepherd._regUuidHdlTable().should.be.deepEqual(result);
+    });
+
+    it('devmgr.stopScan()', function () {
+        bShepherd.devmgr.stopScan().should.be.fulfilledWith();
     });
 });
