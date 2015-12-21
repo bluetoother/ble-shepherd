@@ -36,6 +36,7 @@ function bleApp () {
                 } else if (msg.data === '0x544a165e1f53') { //0x9059af0b7722
                     keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
                     keyFob.servs['0xffe0'].chars['0xffe1'].processInd = callbackSimpleKey;
+                    keyFobSimpleKey(keyFob, 1);
                 }
                 break;
             case 'DEV_LEAVING':
@@ -46,8 +47,6 @@ function bleApp () {
                 break;
         }
     });
-
-    keyFobSimpleKey(keyFob, 1);
 }
 
 
