@@ -37,7 +37,22 @@ function preExec () {
 }
 
 function bleApp () {
-    var keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
+    bShepherd.setScanRule = function (times) {
+        var interval;
+
+        if (times) {
+            if (times <= 5) {
+                interval = 500;
+            } else if (times <= 10) {
+                interval = 5000;
+            } else if (times > 10) {
+                interval = 10000;
+            }
+            return interval;
+        } else {
+            return false;
+        }
+    };
 
     bShepherd.addLocalServ(pubServ).then(function () {
         return bShepherd.addLocalServ(priServ);
