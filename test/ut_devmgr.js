@@ -216,7 +216,7 @@ describe('Functional Check', function () {
         });
 
         it('loadDevs() - no device', function () {
-            return devmgr.loadDevs().should.be.fulfilledWith([]);
+            return devmgr._loadDevs().should.be.fulfilledWith([]);
         });
 
         it('loadDevs() - with device', function () {
@@ -230,7 +230,7 @@ describe('Functional Check', function () {
         });
 
         it('stopScan() - scanState is off', function () {
-            return devmgr.stopScan().should.be.fulfilledWith();
+            return devmgr._stopScan().should.be.fulfilledWith();
         });
 
         it('stopScan() - scanState is on', function () {
@@ -242,15 +242,8 @@ describe('Functional Check', function () {
     describe('peripheral', function () {
         var cloneDev;
 
-        it('connect()', function (done) {
-            blePeri.connect().then(function () {
-                if (blePeri.state === 'online' && blePeri._isSync === true) {
-                    cloneDev = _.cloneDeep(blePeri.expInfo());
-                    done();
-                }
-            }).fail(function (err) {
-                console.log(err);
-            });
+        it('connect()', function () {
+            return blePeri.connect().should.be.fulfilled();
         });
 
         it('cancelConnect()', function () {
@@ -264,12 +257,39 @@ describe('Functional Check', function () {
             });
         });
 
-        it('reconnect to device', function () {
-            return blePeri.connect().should.be.fulfilled();
+        it('reconnect to device', function (done) {
+            blePeri.connect().then(function () {
+                blePeri.connHdl = 0;
+                if (blePeri._isSync === true) {
+                    done();
+                }
+            }).fail(function (err) {
+                console.log(err);
+            });
+        });
+
+        it('_getServs()', function () {
+            return blePeri._getServs().should.be.fulfilled();
+        });
+
+        it('save()',function (done) {
+            var flag = false;
+            cloneDev = _.cloneDeep(blePeri.expInfo());
+            blePeri.save().then(function () {
+                return bledb.getInfo('device');
+            }).then(function (result) {
+                _.forEach(result, function (dev) {
+                    if (dev._id === blePeri._id) {
+                        flag = true;
+                    }
+                });
+                if (flag)
+                    done();
+            });
         });
 
         it('loadDevs() - with device', function (done) {
-            devmgr.loadDevs().then(function (result) {
+            devmgr._loadDevs().then(function (result) {
                 var dev = result[0].expInfo();
                 if (_.isEqual(dev, cloneDev))
                     done();
@@ -297,10 +317,6 @@ describe('Functional Check', function () {
             blePeri.linkParamUpdate(80, 0, 1000);
         });
 
-        it('_getServs()', function () {
-            return blePeri._getServs().should.be.fulfilled();
-        });
-
         it('createSecMdl()', function () {
             blePeri.createSecMdl({}).should.deepEqual(blePeri.sm);
         });
@@ -309,6 +325,7 @@ describe('Functional Check', function () {
         it('encrypt()', function (done) {
             ccBnp.on('ind', function (msg) {
                 if (msg.type === 'authenComplete') { authed = true; }
+                console.log(msg);
                 if (blePeri.sm.bond === 1) {
                     if (authed && msg.type === 'bondComplete') 
                         done();
@@ -346,7 +363,7 @@ describe('Functional Check', function () {
             });
 
             blePeri.servs = {};
-            blePeri.loadServs().then(function () {
+            blePeri._loadServs().then(function () {
                 _.forEach(blePeri.servs, function (serv, name) {
                     newServs[name] = serv.expInfo();
                 });
@@ -373,21 +390,6 @@ describe('Functional Check', function () {
                     }
                 });
                 if (!flag)
-                    done();
-            });
-        });
-
-        it('save()',function (done) {
-            var flag = false;
-            blePeri.save().then(function () {
-                return bledb.getInfo('device');
-            }).then(function (result) {
-                _.forEach(result, function (dev) {
-                    if (dev._id === blePeri._id) {
-                        flag = true;
-                    }
-                });
-                if (flag)
                     done();
             });
         });

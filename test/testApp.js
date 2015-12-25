@@ -58,10 +58,6 @@ function bleApp () {
         return bShepherd.addLocalServ(priServ);
     }).done();
 
-    setTimeout(function () {
-        bShepherd.devmgr.stopScan();
-    }, 5000);
-
 	bShepherd.on('IND', function(msg) {
         switch (msg.type) {
             case 'DEV_INCOMING':
@@ -95,6 +91,15 @@ function devIncomingHdlr(addr) {
         keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
         keyFob.servs['0xffe0'].chars['0xffe1'].processInd = processKeyFobInd;
         keyFob.servs['0xffe0'].chars['0xffe1'].setConfig(true);
+    } else if (addr === '0xd05fb820a857') {
+        console.log('find sivann module!!!');
+        var dev = bShepherd.devmgr.findDev('0xd05fb820a857');
+        console.log(dev.servs['0xaac0'].chars['0xaac1']);
+        dev.servs['0xaac0'].chars['0xaac1'].write(new Buffer([0x01])).then(function () {
+            console.log('write success');
+        }).fail(function (err) {
+            console.log(err);
+        });
     }
 }
 

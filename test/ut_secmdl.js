@@ -37,8 +37,8 @@ describe('Constructor Check', function () {
         (secmdl.state).should.equal('unencrypted');
         (secmdl.pairMode).should.equal(1);
         (secmdl.ioCap).should.equal(4);
-        (secmdl.mitm).should.equal(1);
-        (secmdl.bond).should.equal(1);
+        (secmdl.mitm).should.be.true();
+        (secmdl.bond).should.be.true();
     });
 
     it('Secmdl(setting) - with setting', function () {
@@ -51,14 +51,15 @@ describe('Constructor Check', function () {
 });
 
 describe('Signature Check', function () {
-    var errMsg = 'setting must be an object.';
+    var errMsg = 'setting must be an object.',
+        passkeyErrMsg = 'passkey must be number and should not exceed six numbers';
 
     it('setParam(param, val) - no arg', function () {
-        return secmdl.setParam().should.be.rejectedWith('Bad Arguments. Data must be given.');
+        return secmdl.setParam().should.be.rejectedWith('Bad Arguments.');
     });
 
     it('setParam(param, val) - bad param type', function () {
-        return secmdl.setParam([], 1).should.be.rejectedWith('param must be a number');
+        return secmdl.setParam([], 1).should.be.rejectedWith('param must be a number or string');
     });
 
     it('setParam(param, val) - bad val type', function () {
@@ -71,6 +72,30 @@ describe('Signature Check', function () {
 
     it('setParam(param, val) - error param id', function () {
         return secmdl.setParam(1, 1).should.be.rejectedWith('Param input error.');
+    });
+
+    it('passPasskey(passkey) - no arg', function () {
+        return secmdl.passPasskey().should.be.rejectedWith(passkeyErrMsg);
+    });
+
+    it('passPasskey(passkey) - string', function () {
+        return secmdl.passPasskey('xxx').should.be.rejectedWith(passkeyErrMsg);
+    });
+
+    it('passPasskey(passkey) - object', function () {
+        return secmdl.passPasskey({}).should.be.rejectedWith(passkeyErrMsg);
+    });
+
+    it('passPasskey(passkey) - array', function () {
+        return secmdl.passPasskey([]).should.be.rejectedWith(passkeyErrMsg);
+    });
+
+    it('passPasskey(passkey) - boolean', function () {
+        return secmdl.passPasskey(false).should.be.rejectedWith(passkeyErrMsg);
+    });
+
+    it('passPasskey(passkey) - number with error lenth', function () {
+        return secmdl.passPasskey(1234567).should.be.rejectedWith(passkeyErrMsg);
     });
 
     it('update(setting) - string', function () {
@@ -105,7 +130,7 @@ describe('Functional Check', function () {
     });
 
     it('passPasskey()', function (done) {
-        secmdl.passPasskey('000000', function (err) {
+        secmdl.passPasskey(0, function (err) {
             if (err.errorCode === 18)
                 done();
         });
@@ -113,10 +138,7 @@ describe('Functional Check', function () {
 
     this.timeout(3000);
     it('pairing()', function (done) {
-        secmdl.pairing().then(function (result) {
-            secmdl.ltk = result.dev_ltk;
-            secmdl.div = result.dev_div;
-            secmdl.rand = result.dev_rand;
+        secmdl.pairing().then(function () {
             done();
         });
     });
