@@ -6,7 +6,7 @@ var _ = require('lodash'),
 
 describe('start connection', function() {
     var spConfig = {
-        path: '/dev/ttyUSB0',
+        path: '/dev/ttyACM0',
         options: {
             baudRate: 115200,
             rtscts: true,
@@ -141,7 +141,6 @@ describe('Functional Check', function () {
 
     it('setLinkParams() - full setting', function (done) {
         nwkScanner.setLinkParams({interval: 80, latency: 0, timeout: 1000}).then(function () {
-            console.log(nwkScanner.linkParams);
             linkParams.interval = 80;
             linkParams.latency = 0;
             linkParams.timeout = 1000;
@@ -161,7 +160,7 @@ describe('Functional Check', function () {
     it('scan()', function (done) {
         nwkScanner.scan().then(function (result) {
             _.forEach(result, function (dev) {
-                if (dev.addr === '0x78c5e570796e')
+                if (dev)
                     done();
             });
         });
@@ -199,13 +198,13 @@ describe('Functional Check', function () {
 
     this.timeout(10000);
     it('_contScan()', function (done) {
-        var count = 1;
+        var count = 0;
         nwkScanner.setScanParams({time: 2000}).then(function () {
             nwkScanner._contScan();
         });
         nwkScanner.on('NS:IND', function (msg) {
             count++;
-            if (count === 5)
+            if (count === 3)
                 done();
         });
     });

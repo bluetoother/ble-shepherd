@@ -1,0 +1,27 @@
+{"_id":"78c5e570796e","role":"peripheral","addr":"0x78c5e570796e","addrType":0,"linkParams":{"interval":80,"latency":0,"timeout":2000},"servs":["0x1800","0x1801","0x180a","0xfff0"],"sm":null}
+{"_id":"544a165e1f53","role":"peripheral","addr":"0x544a165e1f53","addrType":0,"linkParams":{"interval":80,"latency":0,"timeout":2000},"servs":["0x1800","0x1801","0x180a","0x1803","0x1802","0x1804","0x180f","0xffa0","0xffe0"],"sm":null}
+{"owner":"78c5e570796e","uuid":"0x1800","startHdl":1,"endHdl":5,"chars":["0x2a00","0x2a01","0x2a02","0x2a03","0x2a04"],"_id":"9YQcHs5jh9LUcf8n"}
+{"owner":"544a165e1f53","uuid":"0xfff0","startHdl":6,"endHdl":10,"chars":["0xfff1","0xfff2","0xfff3","0xfff4","0xfff5"],"_id":"EDTPihjMpwuQpaHI"}
+{"owner":"78c5e570796e","ancestor":"78c5e570796e","uuid":"0x2a00","hdl":2,"prop":2,"val":{"DeviceName":"Simple BLE Peripheral"},"desc":null,"_id":"ZVVEbODtpWBAsp0r"}
+{"owner":"544a165e1f53","ancestor":"544a165e1f53","uuid":"0xfff1","hdl":7,"prop":10,"val":{"val":1},"desc":null,"_id":"kp5TyQULDGvfFjX1"}
+{"_id":"78c5e570796e","role":"peripheral","addr":"0x78c5e570796e","addrType":0,"linkParams":{"interval":90,"latency":0,"timeout":2000},"servs":["0x1800","0x1801","0x180a","0xfff0"],"sm":null}
+{"_id":"78c5e570796e","role":"peripheral","addr":"0x78c5e570796e","addrType":0,"linkParams":{"interval":80,"latency":0,"timeout":2000},"servs":["0x1800"],"sm":null}
+{"_id":"78c5e570796e","role":"peripheral","addr":"0x78c5e570796e","addrType":0,"linkParams":{"interval":80,"latency":0,"timeout":2000},"servs":["0x1800","0x1801","0x180a","0xfff0"],"sm":null}
+{"$$deleted":true,"_id":"ZVVEbODtpWBAsp0r"}
+{"$$deleted":true,"_id":"kp5TyQULDGvfFjX1"}
+{"owner":"9YQcHs5jh9LUcf8n","ancestor":"78c5e570796e","uuid":"0x2a00","hdl":2,"prop":2,"val":{"DeviceName":"Simple BLE Peripheral"},"desc":null,"_id":"sIV8kIhF0DJjZupQ"}
+{"owner":"EDTPihjMpwuQpaHI","ancestor":"544a165e1f53","uuid":"0xfff1","hdl":7,"prop":10,"val":{"val":1},"desc":null,"_id":"XTqTfmNBmAJQGeM2"}
+{"$$deleted":true,"_id":"9YQcHs5jh9LUcf8n"}
+{"$$deleted":true,"_id":"sIV8kIhF0DJjZupQ"}
+{"$$deleted":true,"_id":"EDTPihjMpwuQpaHI"}
+{"$$deleted":true,"_id":"XTqTfmNBmAJQGeM2"}
+{"owner":"78c5e570796e","uuid":"0x1800","startHdl":1,"endHdl":5,"chars":["0x2a00","0x2a01","0x2a02","0x2a03","0x2a04"],"_id":"Fkey0nnsOvMmBwYo"}
+{"owner":"544a165e1f53","uuid":"0xfff0","startHdl":6,"endHdl":10,"chars":["0xfff1","0xfff2","0xfff3","0xfff4","0xfff5"],"_id":"mceDK8hYf5LY33ed"}
+{"owner":"9YQcHs5jh9LUcf8n","ancestor":"78c5e570796e","uuid":"0x2a00","hdl":2,"prop":2,"val":{"DeviceName":"Simple BLE Peripheral"},"desc":null,"_id":"1Hr1Tm2290dVh8V9"}
+{"owner":"EDTPihjMpwuQpaHI","ancestor":"544a165e1f53","uuid":"0xfff1","hdl":7,"prop":10,"val":{"val":1},"desc":null,"_id":"B5rj78ny9m93vGFJ"}
+{"$$deleted":true,"_id":"78c5e570796e"}
+{"$$deleted":true,"_id":"Fkey0nnsOvMmBwYo"}
+{"$$deleted":true,"_id":"1Hr1Tm2290dVh8V9"}
+{"$$deleted":true,"_id":"544a165e1f53"}
+{"$$deleted":true,"_id":"mceDK8hYf5LY33ed"}
+{"$$deleted":true,"_id":"B5rj78ny9m93vGFJ"}
