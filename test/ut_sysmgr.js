@@ -24,10 +24,6 @@ describe('System manager testing: ', function() {
         ccBnp.init(spConfig, 'central');
     });
 
-    it('init() check', function () {
-        sysmgr.init().should.be.fulfilledWith(startupMsg);
-    });
-
     it('softReset() check', function () {
         sysmgr.softReset().should.be.fulfilledWith({status: 0});
     });
