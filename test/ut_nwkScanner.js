@@ -24,14 +24,14 @@ describe('start connection', function() {
 
 describe('Constructor Check', function () {
     var scanParams = {
-            time: null,
-            interval: null,
-            window: null
+            time: 10240,
+            interval: 16,
+            window: 16
         },
         linkParams = {
-            interval: null, 
-            latency: null,
-            timeout: null
+            interval: 80, 
+            latency: 0,
+            timeout: 2000
         };
 
     it('NwkScanner()', function () {
@@ -141,6 +141,7 @@ describe('Functional Check', function () {
 
     it('setLinkParams() - full setting', function (done) {
         nwkScanner.setLinkParams({interval: 80, latency: 0, timeout: 1000}).then(function () {
+            console.log(nwkScanner.linkParams);
             linkParams.interval = 80;
             linkParams.latency = 0;
             linkParams.timeout = 1000;

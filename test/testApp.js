@@ -56,7 +56,9 @@ function bleApp () {
 
     bShepherd.addLocalServ(pubServ).then(function () {
         return bShepherd.addLocalServ(priServ);
-    }).done();
+    }).fail(function (err) {
+        console.log(err);
+    });
 
 	bShepherd.on('IND', function(msg) {
         switch (msg.type) {
