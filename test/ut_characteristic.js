@@ -14,10 +14,10 @@ fs.exists(dbPath, function (isThere) {
 });
 
 var ownerServ = {ownerDev: {connHdl: 0}},
-    charPubR = new Char({uuid: '0x2a00', hdl: 3, prop: 2}),
-    charPriW = new Char({uuid: '0xFFF3', hdl: 43, prop: 8}),
-    charPriNoti = new Char({uuid: '0xFFF4', hdl: 46, prop: 16}),
-    charPriRW = new Char({uuid: '0xFFF1', hdl: 37, prop: 10});
+    charPubR = new Char({uuid: '0x2a00', hdl: 3, prop: ['Read']}),
+    charPriW = new Char({uuid: '0xFFF3', hdl: 43, prop: ['Write']}),
+    charPriNoti = new Char({uuid: '0xFFF4', hdl: 46, prop: ['Notif']}),
+    charPriRW = new Char({uuid: '0xFFF1', hdl: 37, prop: ['Read', 'Write']});
 
 charPubR.ownerServ = ownerServ;
 charPriW.ownerServ = ownerServ;
@@ -87,23 +87,23 @@ describe('Signature Check', function () {
     });
 
     it('encryptAndReExec(type, value) - no arg', function () {
-        return charPubR.encryptAndReExec().should.be.rejectedWith('Bad arguments.');
+        return charPubR._encryptAndReExec().should.be.rejectedWith('Bad arguments.');
     });
 
     it('encryptAndReExec(type, value) - bad type(num)', function () {
-        return charPubR.encryptAndReExec(123).should.be.rejectedWith('type input error');
+        return charPubR._encryptAndReExec(123).should.be.rejectedWith('type input error');
     });
 
     it('encryptAndReExec(type, value) - bad type(arr)', function () {
-        return charPubR.encryptAndReExec([]).should.be.rejectedWith('type input error');
+        return charPubR._encryptAndReExec([]).should.be.rejectedWith('type input error');
     });
 
     it('encryptAndReExec(type, value) - bad type(obj)', function () {
-        return charPubR.encryptAndReExec({}).should.be.rejectedWith('type input error');
+        return charPubR._encryptAndReExec({}).should.be.rejectedWith('type input error');
     });
 
     it('encryptAndReExec(type, value) - bad type(str)', function () {
-        return charPubR.encryptAndReExec('123').should.be.rejectedWith('type input error');
+        return charPubR._encryptAndReExec('123').should.be.rejectedWith('type input error');
     });
 
     it('setConfig(config) - string', function () {
@@ -130,7 +130,7 @@ describe('Functional Check', function () {
 
     it('read() - readable characteristic', function (done) {
         charPubR.read().then(function (result) {
-            var resultVal = { DeviceName: 'Simple BLE Peripheral' };
+            var resultVal = { name: 'Simple BLE Peripheral' };
             if (_.isEqual(charPubR.val, resultVal) && _.isEqual(result, resultVal))
                 done();
         });
@@ -155,7 +155,7 @@ describe('Functional Check', function () {
     });
 
     it('readDesc() - prop is read', function (done) {
-        var resultVal = { UserDescription: 'Characteristic 1' };
+        var resultVal = { userDescription: 'Characteristic 1' };
         charPubR.ownerServ.endHdl = 0xFFFF;
         charPubR.readDesc().then(function (result) {
             if (_.isEqual(result, resultVal) && _.isEqual(charPubR.desc, resultVal))
@@ -164,7 +164,7 @@ describe('Functional Check', function () {
     });
 
     it('readDesc() - prop is write', function (done) {
-        var resultVal = { UserDescription: 'Characteristic 3' };
+        var resultVal = { userDescription: 'Characteristic 3' };
         charPriW.ownerServ.endHdl = 0xFFFF;
         charPriW.readDesc().then(function (result) {
             if (_.isEqual(result, resultVal) && _.isEqual(charPriW.desc, resultVal))
@@ -190,6 +190,8 @@ describe('Functional Check', function () {
         }).then(function (result) {
             if (result === false)
                 done();
+        }).fail(function (err) {
+            console.log(err);
         });
     });
 
@@ -215,8 +217,8 @@ describe('Functional Check', function () {
 
     it('indUpdate()', function (done) {
         var newVal = new Buffer([2]);
-        charPriRW.indUpdate(newVal).then(function (result) {
-            if (result === 1 && _.isEqual(charPriRW.val, newVal))
+        charPriRW.indUpdate(newVal).then(function () {
+            if (_.isEqual(charPriRW.val, newVal))
                 done();
         });
     });

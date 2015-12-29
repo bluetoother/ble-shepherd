@@ -17,10 +17,10 @@ var blePeri = devmgr.newDevice('peripheral', '0x78c5e570796e', 0),
     bleCen = devmgr.newDevice('central', '0x78c5e570737f');
 
 var pubCharsInfo = [
-        {uuid: '0x2a00', permit: 1, prop: 2, val: {DeviceName:"Simple BLE Central"}},
-        {uuid: '0x2a01', permit: 1, prop: 2, val: {Appearance:0}},
-        {uuid: '0x2a02', permit: 3, prop: 10, val: {PeripheralPrivacyFlag: 0}},
-        {uuid: '0x2a04', permit: 1, prop: 2, val: {MinConnInterval:80, MaxConnInterval:160, Latency:0, Timeout:1000}},
+        {uuid: '0x2a00', permit: ['Read'], prop: ['Read'], val: {name:"Simple BLE Central"}},
+        {uuid: '0x2a01', permit: ['Read'], prop: ['Read'], val: {category:0}},
+        {uuid: '0x2a02', permit: ['Read', 'Write'], prop: ['Read', 'Write'], val: {flag: 0}},
+        {uuid: '0x2a04', permit: ['Read'], prop: ['Read'], val: {minConnInterval:80, maxConnInterval:160, latency:0, timeout:1000}},
     ],
     pubServ = new BleServ('0x1800', pubCharsInfo);
 
@@ -115,22 +115,22 @@ describe('Signature Check', function () {
     describe('peripheral', function () {
         var linkErrMsg = 'All argument must be number.',
             encryptErrMsg = 'setting must be an object';
-        it('linkParamUpdate(interval, latency, timeout) - no arg', function () {
-            return blePeri.linkParamUpdate().should.be.rejectedWith(linkErrMsg);
+        it('updateLinkParam(interval, latency, timeout) - no arg', function () {
+            return blePeri.updateLinkParam().should.be.rejectedWith(linkErrMsg);
         });
 
-        it('linkParamUpdate(interval, latency, timeout) - partial arg', function () {
-            return blePeri.linkParamUpdate(12, 22).should.be.rejectedWith(linkErrMsg);
+        it('updateLinkParam(interval, latency, timeout) - partial arg', function () {
+            return blePeri.updateLinkParam(12, 22).should.be.rejectedWith(linkErrMsg);
         });
 
-        it('linkParamUpdate(interval, latency, timeout) - wrong type', function () {
-            return blePeri.linkParamUpdate(12, 22, '45').should.be.rejectedWith(linkErrMsg);
+        it('updateLinkParam(interval, latency, timeout) - wrong type', function () {
+            return blePeri.updateLinkParam(12, 22, '45').should.be.rejectedWith(linkErrMsg);
         });
-        it('linkParamUpdate(interval, latency, timeout) - wrong type', function () {
-            return blePeri.linkParamUpdate(12, [], 100).should.be.rejectedWith(linkErrMsg);
+        it('updateLinkParam(interval, latency, timeout) - wrong type', function () {
+            return blePeri.updateLinkParam(12, [], 100).should.be.rejectedWith(linkErrMsg);
         });
-        it('linkParamUpdate(interval, latency, timeout) - wrong type', function () {
-            return blePeri.linkParamUpdate({}, 50, 100).should.be.rejectedWith(linkErrMsg);
+        it('updateLinkParam(interval, latency, timeout) - wrong type', function () {
+            return blePeri.updateLinkParam({}, 50, 100).should.be.rejectedWith(linkErrMsg);
         });
 
         it('createSecMdl(setting)', function () {
@@ -155,6 +155,34 @@ describe('Signature Check', function () {
         });
         it('encrypt(setting) - bad type', function () {
             return blePeri.encrypt(true).should.be.rejectedWith(encryptErrMsg);
+        });
+
+        it('findChar(servUuid, charUuid)', function () {
+            (function () { blePeri.findChar('0x1800', '0x2a00'); }).should.not.throw();
+
+            (function () { blePeri.findChar([], '0x2a00'); }).should.throw();
+            (function () { blePeri.findChar(123, '0x2a00'); }).should.throw();
+            (function () { blePeri.findChar('xxx', '0x2a00'); }).should.throw();
+            (function () { blePeri.findChar(false, '0x2a00'); }).should.throw();
+            (function () { blePeri.findChar(undefined, '0x2a00'); }).should.throw();
+            (function () { blePeri.findChar(null, '0x2a00'); }).should.throw();
+            (function () { blePeri.findChar('0x1800', []); }).should.throw();
+            (function () { blePeri.findChar('0x1800', 123); }).should.throw();
+            (function () { blePeri.findChar('0x1800', 'xxx'); }).should.throw();
+            (function () { blePeri.findChar('0x1800', false); }).should.throw();
+            (function () { blePeri.findChar('0x1800', undefined); }).should.throw();
+            (function () { blePeri.findChar('0x1800', null); }).should.throw();
+        });
+
+        it('regCharHdlr', function () {
+            (function () { blePeri.regCharHdlr('0x1800', '0x2a00', function () {}); }).should.not.throw();
+
+            (function () { blePeri.regCharHdlr('0x1800', '0x2a00', []); }).should.throw();
+            (function () { blePeri.regCharHdlr('0x1800', '0x2a00', 123); }).should.throw();
+            (function () { blePeri.regCharHdlr('0x1800', '0x2a00', false); }).should.throw();
+            (function () { blePeri.regCharHdlr('0x1800', '0x2a00', undefined); }).should.throw();
+            (function () { blePeri.regCharHdlr('0x1800', '0x2a00', null); }).should.throw();
+            (function () { blePeri.regCharHdlr('0x1800', '0x2a00', 'xxx'); }).should.throw();
         });
     });
 
@@ -193,17 +221,6 @@ describe('Signature Check', function () {
         });
         it('delServ(hdl) - bad type', function () {
             return bleCen.delServ(null).should.be.rejectedWith(delErrMsg);
-        });
-
-        it('findChar(hdl)', function () {
-            (function () { bleCen.findChar(10); }).should.not.throw();
-
-            (function () { bleCen.findChar(); }).should.throw();
-            (function () { bleCen.findChar({}); }).should.throw();
-            (function () { bleCen.findChar([]); }).should.throw();
-            (function () { bleCen.findChar('xxx'); }).should.throw();
-            (function () { bleCen.findChar(false); }).should.throw();
-            (function () { bleCen.findChar(undefined); }).should.throw();
         });
     });
 });
@@ -250,8 +267,8 @@ describe('Functional Check', function () {
             return blePeri.connect().should.be.rejectedWith('connect timeout');
         });      
 
-        it('disConnect()', function (done) {
-            blePeri.disConnect().then(function () {
+        it('disconnect()', function (done) {
+            blePeri.disconnect().then(function () {
                 if (blePeri.state === 'offline' && _.isNull(blePeri.connHdl))
                     done();
             });
@@ -296,7 +313,7 @@ describe('Functional Check', function () {
             });
         });
 
-        it('linkParamUpdate()', function (done) {
+        it('updateLinkParam()', function (done) {
             var linkParamObj = {
                     interval: 80,
                     latency: 0,
@@ -314,7 +331,7 @@ describe('Functional Check', function () {
                         done();
                 }
             });
-            blePeri.linkParamUpdate(80, 0, 1000);
+            blePeri.updateLinkParam(80, 0, 1000);
         });
 
         it('createSecMdl()', function () {
@@ -325,12 +342,16 @@ describe('Functional Check', function () {
         it('encrypt()', function (done) {
             ccBnp.on('ind', function (msg) {
                 if (msg.type === 'authenComplete') { authed = true; }
-                console.log(msg);
                 if (blePeri.sm.bond === 1) {
-                    if (authed && msg.type === 'bondComplete') 
+                    if (authed && msg.type === 'bondComplete') {
+                        authed = false;
                         done();
+                    }
                 } else {
-                    if (authed) { done(); }
+                    if (authed) { 
+                        authed = false;
+                        done(); 
+                    }
                 }
                 
             });
@@ -379,6 +400,54 @@ describe('Functional Check', function () {
             });
         });
 
+        it('findChar()', function () {
+            var char = blePeri.findChar('0x1800', '0x2a00'),
+                comparedChar = {
+                    ancestor: '78c5e570796e',
+                    uuid: '0x2a00',
+                    hdl: 3,
+                    prop: ['Read'],
+                    val: {name: "Simple BLE Peripheral"},
+                    desc: null
+                };
+            char = char.expInfo();
+            delete char.owner;
+            
+            char.should.deepEqual(comparedChar);
+        });
+
+        it('read()', function (done) {
+            blePeri.read('0x1800', '0x2a00').then(function (result) {
+                var resultVal = { name: 'Simple BLE Peripheral' };
+                if (_.isEqual(result, resultVal)) { done(); }
+            });
+        });
+
+        it('write()', function (done) {
+            var char = blePeri.findChar('0xfff0', '0xfff1');
+            blePeri.write('0xfff0', '0xfff1', new Buffer([1])).then(function () {
+                if (_.isEqual(char.val, new Buffer([1]))) { done(); }
+            });
+        });
+
+        it('readDesc()', function (done) {
+            var char = blePeri.findChar('0xfff0', '0xfff1'),
+                resultVal = { userDescription: 'Characteristic 1' };
+                char.ownerServ.endHdl = 0xFFFF;
+                blePeri.readDesc('0xfff0', '0xfff1').then(function (result) {
+                    if (_.isEqual(result, resultVal))
+                        done();
+                });
+        });
+
+        it('setConfig()', function () {
+            return blePeri.setConfig('0xfff0', '0xfff4', false).should.be.fulfilled();
+        });
+
+        it('regCharHdlr()', function () {
+            blePeri.regCharHdlr('0xfff0', '0xfff1', function () {}).should.deepEqual(blePeri);
+        });
+
         it('remove()', function (done) {
             var flag = false;
             blePeri.remove().then(function () {
@@ -394,26 +463,17 @@ describe('Functional Check', function () {
             });
         });
 
-        it('disConnect()', function () {
-            blePeri.disConnect().should.be.fulfilled();
+        it('disconnect()', function () {
+            return blePeri.disconnect().should.be.fulfilled();
         });
     });
 
     describe('central', function () {
         it('regServ()', function (done) {
-            bleCen.regServ(pubServ).then(function () {
+            bleCen.regServ(pubServ).then(function (result) {
                 if (_.isEqual(bleCen.servs[0], pubServ))
                     done();
             });
-        });
-
-        it('findChar()', function () {
-            bleCen.findChar(pubServ.chars['0x2a00'].attrs[0].hdl)
-                .should.deepEqual(pubServ.chars['0x2a00']);
-        });
-
-        it('getAllAttrs()', function () {
-            bleCen.getAllAttrs().should.deepEqual(pubServ.getAttrs());
         });
 
         it('_processAttMsg()', function () {

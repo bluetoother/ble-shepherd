@@ -5,7 +5,7 @@ var _ = require('lodash'),
     fs = require('fs'),
     GATTDEFS = require('../lib/defs/gattdefs'),
     bShepherd = require('../lib/ble-shepherd'),
-    pubServ = require('../lib/service/example').publicServ,
+    pubServInfo = require('../lib/service/example').publicServ,
     spConfig = {
         path: '/dev/ttyUSB0',
         options: {
@@ -51,34 +51,108 @@ describe('Signature Check', function () {
         (function () { bShepherd.regGattDefs('service', null); }).should.throw();
     });
 
-    var addServErrMsg = 'Service object must instance of bleServConstr module.';
-    it('addLocalServ(bleServ) - bad bleServ Type(obj)', function () {
-        return bShepherd.addLocalServ({}).should.be.rejectedWith(addServErrMsg);
+    var resetErrMsg = 'mode must be a string of soft or hard';
+    it('reset(mode) - bad mode Type(obj)', function () {
+        return bShepherd.reset({}).should.be.rejectedWith(resetErrMsg);
     });
 
-    it('addLocalServ(bleServ) - bad bleServ Type(arr)', function () {
+    it('reset(mode) - bad mode Type(arr)', function () {
+        return bShepherd.reset([]).should.be.rejectedWith(resetErrMsg);
+    });
+
+    it('reset(mode) - bad mode Type(str)', function () {
+        return bShepherd.reset('xxx').should.be.rejectedWith(resetErrMsg);
+    });
+
+    it('reset(mode) - bad mode Type(num)', function () {
+        return bShepherd.reset(123).should.be.rejectedWith(resetErrMsg);
+    });
+
+    it('reset(mode) - bad mode Type(bool)', function () {
+        return bShepherd.reset(true).should.be.rejectedWith(resetErrMsg);
+    });
+    it('reset(mode) - bad mode Type(null)', function () {
+        return bShepherd.reset(null).should.be.rejectedWith(resetErrMsg);
+    });
+
+    var addServErrMsg = 'servInfo must be an object',
+        charsInfoErrMsg = 'servInfo.charsInfo must be an array.',
+        uuidErrMsg = 'servInfo.uuid must be a string and start with 0x';
+    it('addLocalServ(servInfo) - bad servInfo Type(arr)', function () {
         return bShepherd.addLocalServ([]).should.be.rejectedWith(addServErrMsg);
     });
 
-    it('addLocalServ(bleServ) - bad bleServ Type(str)', function () {
+    it('addLocalServ(servInfo) - bad servInfo Type(str)', function () {
         return bShepherd.addLocalServ('xxx').should.be.rejectedWith(addServErrMsg);
     });
 
-    it('addLocalServ(bleServ) - bad bleServ Type(bool)', function () {
+    it('addLocalServ(servInfo) - bad servInfo Type(bool)', function () {
         return bShepherd.addLocalServ(true).should.be.rejectedWith(addServErrMsg);
     });
 
-    it('addLocalServ(bleServ) - bad bleServ Type(null)', function () {
+    it('addLocalServ(servInfo) - bad servInfo Type(null)', function () {
         return bShepherd.addLocalServ(null).should.be.rejectedWith(addServErrMsg);
     });
 
-    it('addLocalServ(bleServ) - no central', function () {
-        return bShepherd.addLocalServ(pubServ).should.be.rejectedWith('You must connect to the local side host.');
+    it('addLocalServ(servInfo) - bad servInfo.uuid Type(obj)', function () {
+        return bShepherd.addLocalServ({uuid: {},charsInfo: []}).should.be.rejectedWith(uuidErrMsg);
     });
 
-    it('addLocalServ(bleServ) - service already exist', function () {
-        bShepherd.bleCentral = {servs: [pubServ]};
-        return bShepherd.addLocalServ(pubServ).should.be.rejectedWith('Local service already exist. You need to delete the old before add a new.');
+    it('addLocalServ(servInfo) - bad servInfo.uuid Type(arr)', function () {
+        return bShepherd.addLocalServ({uuid: [],charsInfo: []}).should.be.rejectedWith(uuidErrMsg);
+    });
+
+    it('addLocalServ(servInfo) - bad servInfo.uuid Type(bool)', function () {
+        return bShepherd.addLocalServ({uuid: true,charsInfo: []}).should.be.rejectedWith(uuidErrMsg);
+    });
+
+    it('addLocalServ(servInfo) - bad servInfo.uuid Type(str)', function () {
+        return bShepherd.addLocalServ({uuid: 'xxx',charsInfo: []}).should.be.rejectedWith(uuidErrMsg);
+    });
+
+    it('addLocalServ(servInfo) - bad servInfo.uuid Type(obj)', function () {
+        return bShepherd.addLocalServ({uuid: {},charsInfo: []}).should.be.rejectedWith(uuidErrMsg);
+    });
+
+    it('addLocalServ(servInfo) - bad servInfo.charsInfo Type(obj)', function () {
+        return bShepherd.addLocalServ({uuid: '0x1800',charsInfo: {}}).should.be.rejectedWith(charsInfoErrMsg);
+    });
+
+    it('addLocalServ(servInfo) - bad servInfo.charsInfo Type(bool)', function () {
+        return bShepherd.addLocalServ({uuid: '0x1800',charsInfo: false}).should.be.rejectedWith(charsInfoErrMsg);
+    });
+
+    it('addLocalServ(servInfo) - bad servInfo.charsInfo Type(str)', function () {
+        return bShepherd.addLocalServ({uuid: '0x1800',charsInfo: 'xxx'}).should.be.rejectedWith(charsInfoErrMsg);
+    });
+
+    it('addLocalServ(servInfo) - bad servInfo.charsInfo Type(null)', function () {
+        return bShepherd.addLocalServ({uuid: '0x1800',charsInfo: null}).should.be.rejectedWith(charsInfoErrMsg);
+    });
+
+    var setErrMsg = 'type must be a string of scan or link';
+    it('setNwkParams(type, setting) - bad type(obj)', function () {
+        return bShepherd.setNwkParams({} ,{}).should.be.rejectedWith(setErrMsg);
+    });
+
+    it('setNwkParams(type, setting) - bad type(arr)', function () {
+        return bShepherd.setNwkParams([] ,{}).should.be.rejectedWith(setErrMsg);
+    });
+
+    it('setNwkParams(type, setting) - bad type(str)', function () {
+        return bShepherd.setNwkParams('xxx' ,{}).should.be.rejectedWith(setErrMsg);
+    });
+
+    it('setNwkParams(type, setting) - bad type(num)', function () {
+        return bShepherd.setNwkParams(123 ,{}).should.be.rejectedWith(setErrMsg);
+    });
+
+    it('setNwkParams(type, setting) - bad type(bool)', function () {
+        return bShepherd.setNwkParams(true ,{}).should.be.rejectedWith(setErrMsg);
+    });
+
+    it('setNwkParams(type, setting) - bad type(null)', function () {
+        return bShepherd.setNwkParams(null ,{}).should.be.rejectedWith(setErrMsg);
     });
 });
 
@@ -99,13 +173,13 @@ describe('Functional Check', function () {
     it('regGattDefs()', function () {
         var toRegServ = [{name: 'Test', uuid: '0xFFF0'}];
 
-        bShepherd.regGattDefs('service', toRegServ).should.be.deepEqual({name: [], uuid: []});
+        bShepherd.regGattDefs('service', toRegServ).should.be.deepEqual({});
         should(GATTDEFS.ServUuid.get(0xfff0)).be.type('object');
     });
 
     it('addLocalServ()', function (done) {
-        bShepherd.addLocalServ(pubServ).then(function () {
-            if (pubServ._isRegister === true)
+        bShepherd.addLocalServ(pubServInfo).then(function (serv) {
+            if (serv._isRegister === true)
                 done();
         });
     });
@@ -137,6 +211,6 @@ describe('Functional Check', function () {
     });
 
     it('devmgr.stopScan()', function () {
-        bShepherd.devmgr.stopScan().should.be.fulfilledWith();
+        bShepherd.devmgr._stopScan().should.be.fulfilledWith();
     });
 });

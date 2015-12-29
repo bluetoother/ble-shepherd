@@ -40,18 +40,18 @@ function bleApp () {
     bShepherd.setScanRule = function (times) {
         var interval;
 
-        if (times) {
-            if (times <= 5) {
-                interval = 500;
-            } else if (times <= 10) {
-                interval = 5000;
-            } else if (times > 10) {
-                interval = 10000;
-            }
-            return interval;
+        if (_.isUndefined(times)) {
+            interval = 5000;
         } else {
-            return false;
-        }
+            if (times <= 5) {
+                interval = 10000;
+            } else if (times <= 10) {
+                interval = 30000;
+            } else if (times > 10) {
+                interval = 60000;
+            }
+        } 
+        return interval;
     };
 
     bShepherd.addLocalServ(pubServ).then(function () {
@@ -75,6 +75,10 @@ function bleApp () {
                 break;
         }
     });
+
+    setTimeout(function () {
+        bShepherd.permitJoin(false);
+    }, 10000);
 }
 
 function processKeyFobInd (data) {
@@ -89,6 +93,11 @@ function devIncomingHdlr(addr) {
     if (addr === '0x78c5e570796e') {
         peri = bShepherd.devmgr.findDev('0x78c5e570796e');
 
+        // setTimeout(function () {
+        //     console.log('check peri state');
+        //     console.log(peri);
+        // }, 20000);
+        
     } else if (addr === '0x544a165e1f53') {
         keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
         keyFob.servs['0xffe0'].chars['0xffe1'].processInd = processKeyFobInd;
