@@ -12,7 +12,7 @@ fs.exists(dbPath, function (isThere) {
     if (isThere) { fs.unlink(dbPath); }
 });
 
-var ownerDev = {connHdl: 0, _id: '78c5e570796e'},
+var ownerDev = {connHdl: 0, _id: '78c5e570796e', servs: []},
     pubServ = new Serv({uuid: '0x1800', startHdl: 1, endHdl: 11}),
     priServ = new Serv({uuid: '0xfff0', startHdl: 35, endHdl: 65535});
 
@@ -68,7 +68,7 @@ describe('Functional Check', function () {
     });
 
     it('getChars() - public service', function (done) {
-        pubServ.getChars().then(function () {
+        pubServ._getChars().then(function () {
             var charArr = ['0x2a00', '0x2a01', '0x2a02', '0x2a03', '0x2a04'];
             _.forEach(pubServ.chars, function (char, key) {
                 charArr.splice(_.indexOf(charArr, key), 1);
@@ -79,7 +79,7 @@ describe('Functional Check', function () {
     });
 
     it('getChars() - private service', function (done) {
-        priServ.getChars().then(function () {
+        priServ._getChars().then(function () {
             var charArr = ['0xfff1', '0xfff2', '0xfff3', '0xfff4', '0xfff5'];
             _.forEach(priServ.chars, function (char, key) {
                 charArr.splice(_.indexOf(charArr, key), 1);
@@ -119,7 +119,7 @@ describe('Functional Check', function () {
             chars[key] = char.expInfo();
         });
         pubServ.chars = {};
-        pubServ.loadChars().then(function () {
+        pubServ._loadChars().then(function () {
             _.forEach(pubServ.chars, function (char, key) {
                 pubServ.chars[key] = char.expInfo();
             });
@@ -129,8 +129,7 @@ describe('Functional Check', function () {
     });
 
     it('remove()', function () {
-        console.log(pubServ);
-        return pubServ.remove.should.be.fulfilled();
+        return pubServ.remove().should.be.fulfilled();
     });
 
     it('disconnect to device', function () {
