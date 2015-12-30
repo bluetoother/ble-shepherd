@@ -17,10 +17,10 @@ var bShepherd = require('../lib/ble-shepherd'),
 var peri,
     keyFob;
 
-bShepherd.preExec = preExec;
+bShepherd.appInit = appInit;
 bShepherd.start(spConfig, bleApp);
 
-function preExec () {
+function appInit () {
     bShepherd.regGattDefs('service', [
         {name: 'Test', uuid: '0xFFF0'}, 
         {name: 'SimpleKeys', uuid: '0xffe0'}, 
@@ -54,10 +54,10 @@ function bleApp () {
         return interval;
     };
 
-    bShepherd.addLocalServ(pubServ).then(function () {
-        return bShepherd.addLocalServ(priServ);
-    }).fail(function (err) {
-        console.log(err);
+    bShepherd.addLocalServ(pubServ, function (err) {
+        if (!err) {
+            bShepherd.addLocalServ(priServ);
+        }
     });
 
 	bShepherd.on('IND', function(msg) {
@@ -78,7 +78,18 @@ function bleApp () {
 
     setTimeout(function () {
         bShepherd.permitJoin(false);
-    }, 10000);
+    }, 20000);
+}
+
+function devIncomingHdlr(addr) {
+    if (addr === '0x78c5e570796e') {
+        peri = bShepherd.find('0x78c5e570796e');        
+    } else if (addr === '0x544a165e1f53') {
+        keyFob = bShepherd.find('0x544a165e1f53');
+
+        keyFob.regCharHdlr('0xffe0', '0xffe1', processKeyFobInd);
+        keyFob.setNotify('0xffe0', '0xffe1', true);
+    }
 }
 
 function processKeyFobInd (data) {
@@ -88,31 +99,4 @@ function processKeyFobInd (data) {
         console.log('Right button press.');
     }
 }
-
-function devIncomingHdlr(addr) {
-    if (addr === '0x78c5e570796e') {
-        peri = bShepherd.devmgr.findDev('0x78c5e570796e');
-
-        // setTimeout(function () {
-        //     console.log('check peri state');
-        //     console.log(peri);
-        // }, 20000);
-        
-    } else if (addr === '0x544a165e1f53') {
-        keyFob = bShepherd.devmgr.findDev('0x544a165e1f53');
-        keyFob.servs['0xffe0'].chars['0xffe1'].processInd = processKeyFobInd;
-        keyFob.servs['0xffe0'].chars['0xffe1'].setConfig(true);
-    } else if (addr === '0xd05fb820a857') {
-        console.log('find sivann module!!!');
-        var dev = bShepherd.devmgr.findDev('0xd05fb820a857');
-        console.log(dev.servs['0xaac0'].chars['0xaac1']);
-        dev.servs['0xaac0'].chars['0xaac1'].write(new Buffer([0x01])).then(function () {
-            console.log('write success');
-        }).fail(function (err) {
-            console.log(err);
-        });
-    }
-}
-
-
 
