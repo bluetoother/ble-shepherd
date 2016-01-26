@@ -13,6 +13,7 @@
     "should-promised": "^0.3.1"
   },
   "dependencies": {
+    "async-kit": "^0.6.8",
     "ccbnp": "0.0.4",
     "enum": "^2.2.0",
     "lodash": "^3.10.1",

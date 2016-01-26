@@ -27,7 +27,7 @@ function appInit () {
 }
 
 function bleApp () {
-	bShepherd.on('IND', function(msg) {
+    bShepherd.on('IND', function(msg) {
         switch (msg.type) {
             case 'DEV_INCOMING':
                 if (msg.data === '0x9059af0b8159') {
@@ -44,6 +44,9 @@ function bleApp () {
                 }
                 break;
             case 'DEV_LEAVING':
+                break;
+            case 'DEV_PAUSE':
+                console.log('Pause device: ' + msg.data);
                 break;
             case 'ATT_IND':
                 break;
@@ -265,4 +268,3 @@ function callbackSimpleKey (data) {
         keyFobAlert(keyFob, 0);
     }
 }
-
