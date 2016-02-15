@@ -1,7 +1,7 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/ble-shepherd'),
+var bShepherd = require('../lib/cc254x/ble-shepherd'),
     spCfg = {
         path: '/dev/ttyUSB0',
         options: {
@@ -198,7 +198,6 @@ function callbackTemp (data) {
     if (tObj > 50) {
         keyFobAlert(keyFob, 2);
     }
-
 }
 
 function callbackAccelerometer (data) {
