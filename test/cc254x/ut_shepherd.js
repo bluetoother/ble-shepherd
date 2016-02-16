@@ -3,9 +3,9 @@ var _ = require('lodash'),
     shouldd = require('should-promised'),
     ccBnp = require('ccbnp'),
     fs = require('fs'),
-    GATTDEFS = require('../lib/defs/gattdefs'),
-    bShepherd = require('../lib/ble-shepherd'),
-    pubServInfo = require('../lib/service/example').publicServ,
+    GATTDEFS = require('../../lib/defs/gattdefs'),
+    bShepherd = require('../../lib/cc254x/ble-shepherd'),
+    pubServInfo = require('../../lib/cc254x/service/example').publicServ,
     spConfig = {
         path: '/dev/ttyUSB0',
         options: {

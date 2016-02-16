@@ -1,7 +1,7 @@
 var _ = require('lodash'),
     should = require('should-promised'),
     ccBnp = require('ccbnp'),
-    NwkScanner = require('../lib/management/nwkScanner'),
+    NwkScanner = require('../../lib/cc254x/management/nwkScanner'),
     nwkScanner = new NwkScanner();
 
 describe('start connection', function() {

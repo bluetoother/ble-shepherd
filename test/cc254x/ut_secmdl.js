@@ -3,7 +3,7 @@ var _ = require('lodash'),
     should = require('should'),
     shouldP = require('should-promised'),
     ccBnp = require('ccbnp'),
-    Secmdl = require('../lib/management/secmdl'),
+    Secmdl = require('../../lib/cc254x/management/secmdl'),
     secmdl = new Secmdl();
 
 describe('start connection', function() {

@@ -2,8 +2,8 @@ var _ = require('lodash'),
     should = require('should'),
     shouldd = require('should-promised'),
     ccBnp = require('ccbnp'),
-    BleServ = require('../lib/service/bleServConstr'),
-    GATTDEFS = require('../lib/defs/gattdefs');
+    BleServ = require('../../lib/cc254x/service/bleServConstr'),
+    GATTDEFS = require('../../lib/defs/gattdefs');
 
 var pubCharsInfo = [
         {uuid: '0x2a00', permit: ['Read'], prop: ['Read'], val: {DeviceName:"Simple BLE Central"}},

@@ -3,12 +3,12 @@ var _ = require('lodash'),
     shouldd = require('should-promised'),
     ccBnp = require('ccbnp'),
     fs = require('fs'),
-    Devmgr = require('../lib/management/devmgr'),
+    Devmgr = require('../../lib/cc254x/management/devmgr'),
     devmgr = new Devmgr(),
-    bledb = require('../lib/bledb'),
-    BleServ = require('../lib/service/bleServConstr');
+    bledb = require('../../lib/cc254x/bledb'),
+    BleServ = require('../../lib/cc254x/service/bleServConstr');
 
-var dbPath = '../lib/database/ble.db';
+var dbPath = '../../lib/cc254x/database/ble.db';
 fs.exists(dbPath, function (isThere) {
     if (isThere) { fs.unlink(dbPath); }
 });

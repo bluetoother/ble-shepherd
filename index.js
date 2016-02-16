@@ -1,3 +1,5 @@
 'use strict';
 
-module.exports = require('./lib/ble-shepherd');
+module.exports = function (chipName) {
+	return require('./lib/' + chipName + '/ble-shepherd');
+};
