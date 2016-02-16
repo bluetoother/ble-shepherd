@@ -4,11 +4,11 @@ var _ = require('lodash'),
     shouldd = require('should-promised'),
     ccBnp = require('ccbnp'),
     fs = require('fs'),
-    Char = require('../lib/management/characteristic'),
-    GATTDEFS = require('../lib/defs/gattdefs'),
-    bledb = require('../lib/bledb');
+    Char = require('../../lib/cc254x/management/characteristic'),
+    GATTDEFS = require('../../lib/defs/gattdefs'),
+    bledb = require('../../lib/cc254x/bledb');
 
-var dbPath = '../lib/database/ble.db';
+var dbPath = '../../lib/cc254x/database/ble.db';
 fs.exists(dbPath, function (isThere) {
     if (isThere) { fs.unlink(dbPath); }
 });

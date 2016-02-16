@@ -1,9 +1,9 @@
 var _ = require('lodash'),
     should = require('should-promised'),
     fs = require('fs'),
-    bledb = require('../lib/bledb');
+    bledb = require('../../lib/cc254x/bledb');
 
-var dbPath = '../lib/database/ble.db';
+var dbPath = '../../lib/cc254x/database/ble.db';
 fs.exists(dbPath, function (isThere) {
     if (isThere) { fs.unlink(dbPath); }
 });

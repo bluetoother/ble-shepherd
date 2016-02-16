@@ -1,7 +1,7 @@
 var _ = require('lodash'),
     should = require('should-promised'),
     ccBnp = require('ccbnp'),
-    sysmgr = require('../lib/management/sysmgr');
+    sysmgr = require('../../lib/cc254x/management/sysmgr');
 
 describe('System manager testing: ', function() {
     var spConfig = {
