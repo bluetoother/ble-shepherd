@@ -16,7 +16,7 @@ describe('start connection', function () {
     this.timeout(10000);
     it('init', function (done) {
     	manager.start(function () {
-                manager.on('IND', function (msg) {
+                manager.once('IND', function (msg) {
                     if (msg.type === 'DEV_INCOMING') {
                         periph = manager.find(msg.data);
                         done();
@@ -128,10 +128,15 @@ describe('Functional Check', function () {
         });
     });
 
+    this.timeout(2500);
     it('connect()', function (done) {
-        periph.connect(function (err) {
-            if (!err) { done(); }
+        manager.on('IND', function (msg) {
+            if (msg.type === 'DEV_INCOMING' && msg.data === periph.addr) {
+                done();
+            }
         });
+
+        periph.connect();
     });
 
     it('updateLinkParam()', function (done) {
@@ -142,13 +147,62 @@ describe('Functional Check', function () {
         });
     });
 
+    this.timeout(5000);
     it('update()', function (done) {
-        periph.update(function () {
+        periph.update(function (err) {
             if (!err) { done(); }
         });
     });
 
-    // it('', function () {
-    //     var char = periph.servs['0x1800'].chars['0x2a00']
-    // });
+    it('findChar()', function () {
+        var char = periph.servs['0x1800'].chars['0x2a00'];
+        periph.findChar('0x1800', '0x2a00').should.deepEqual(char);
+    });
+
+    it ('read()', function (done) {
+        periph.read('0x1800', '0x2a00', function (err, data) {
+            if (!err) {
+                if (_.isEqual(data, {name:"TI BLE Keyfob"})) {
+                    done();
+                }
+            }
+        });
+    });
+
+    it('readDesc()', function (done) {
+        periph.readDesc('0x1800', '0x2a00', function (err, desc) {
+            if (!err) {
+                if (_.isEqual(desc, { userDescription: 'TI BLE Keyfob' })) {
+                    done();
+                }
+            }
+        });
+    });
+
+    it('write()', function (done) {
+        var writeVal = new Buffer([0]);
+
+        periph.write('0xffa0', '0xffa1', writeVal, function (err) {
+            if (!err) {
+                periph.read('0xffa0', '0xffa1', function (err, data) {
+                    if (_.isEqual(data, writeVal)) {
+                        done();
+                    }
+                });
+            }
+        });
+    });
+
+    it('setNotify()', function (done) {
+        periph.setNotify('0xffe0', '0xffe1', true, function (err) {
+            if (!err) { done(); }
+        });
+    });
+
+    it('regCharHdlr', function (done) {
+        periph.regCharHdlr('0xffe0', '0xffe1', function (data) {
+            console.log(data);
+            done();
+        });
+    });
 });
