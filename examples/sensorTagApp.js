@@ -16,7 +16,7 @@ var sensorTag, keyFob,
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(spCfg, bleApp);
+bShepherd.start(bleApp, spCfg);
 
 function appInit () {
      bShepherd.regGattDefs('characteristic', [

@@ -1,132 +1,160 @@
-{"_id":"00188c37b65c","role":"peripheral","addr":"0x00188c37b65c","addrType":0,"linkParams":{"interval":80,"latency":0,"timeout":2000},"servs":["0x1800","0x180a","0x1801","0x1814","0x180f"],"sm":null}
-{"owner":"mnDXrYYjYY77RucH","ancestor":"544a165e1f53","uuid":"0x2a2a","hdl":32,"prop":["Read"],"val":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"desc":null,"_id":"04vZ0bPQ898RCv6o"}
-{"owner":"544a165e1f53","uuid":"0xffe0","startHdl":69,"endHdl":65535,"chars":["0xffe1"],"_id":"0Gheqh2ZthWNXBl7"}
-{"owner":"7o9s0DUQorvqZyUX","ancestor":"d03972c3d10a","uuid":"0xf114","hdl":46,"prop":["Notif"],"val":null,"desc":null,"_id":"1UGmIJKTBUOIW6Vr"}
-{"owner":"ZsKIGf1b4mD87uY7","ancestor":"d03972c3d10a","uuid":"0x2a03","hdl":9,"prop":["Write"],"val":null,"desc":null,"_id":"1YT7utYE1DMqSZDq"}
-{"owner":"Mx3UPdCCficEOm5j","ancestor":"9059af0b8159","uuid":"0xf000aa3204514000b000000000000000","hdl":68,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"20UB7d81bxhdwVTw"}
-{"owner":"SwwZGfz8Z0OS163y","ancestor":"9059af0b8159","uuid":"0x2a23","hdl":18,"prop":["Read"],"val":{"manufacturerID":"0x00000b8159","organizationallyUID":"0x9059af"},"desc":null,"_id":"3Gi0sVSvhwpzQz2X"}
-{"owner":"9059af0b8159","uuid":"0x1800","startHdl":1,"endHdl":11,"chars":["0x2a00","0x2a01","0x2a02","0x2a03","0x2a04"],"_id":"3S78nddOTnUBkGhF"}
-{"owner":"z6jhyY78RluH6RJm","ancestor":"00188c37b65c","uuid":"0x2a27","hdl":12,"prop":["Read"],"val":{"hardwareRev":"CSR101x A05"},"desc":null,"_id":"3aQy9osHP3OA6ypa"}
-{"owner":"A2E5EhsuBhtFxALl","ancestor":"544a165e1f53","uuid":"0x2a03","hdl":9,"prop":["Read","Write"],"val":{"addr":"0x000000000000"},"desc":null,"_id":"3sYDQIwFlr8MVlzX"}
-{"owner":"3S78nddOTnUBkGhF","ancestor":"9059af0b8159","uuid":"0x2a03","hdl":9,"prop":["Read","Write"],"val":{"addr":"0x000000000000"},"desc":null,"_id":"4cfkChZQIhVkVALl"}
-{"owner":"544a165e1f53","uuid":"0x1802","startHdl":38,"endHdl":40,"chars":["0x2a06"],"_id":"4fprwS1tGVsOEM1A"}
-{"owner":"544a165e1f53","uuid":"0x180f","startHdl":45,"endHdl":49,"chars":["0x2a19"],"_id":"4mhjV0XGT9XyCpue"}
-{"owner":"ZsKIGf1b4mD87uY7","ancestor":"d03972c3d10a","uuid":"0x2a00","hdl":3,"prop":["Read"],"val":{"name":"bPoint_Plug"},"desc":null,"_id":"4yal7OFgPFEOdoXj"}
+{"owner":"iUmhGw3puKalKmit","ancestor":"9059af0b8159","uuid":"0x2a04","hdl":11,"prop":["Read"],"val":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"desc":null,"_id":"0CucO1xUZXNsY4Rn"}
+{"owner":"9059af0b8159","uuid":"0xffe0","startHdl":93,"endHdl":97,"chars":["0xffe1"],"_id":"0VFaVh4VPz0riGHp"}
+{"owner":"8UTLVuqfLWgzX9cL","ancestor":"9059af0b8159","uuid":"0xf000aa0104514000b000000000000000","hdl":37,"prop":["Read","Notif"],"val":{"rawT2":0,"rawT1":0},"desc":null,"_id":"13ZeiTLPjFtDoeJl"}
+{"owner":"qG7tuZhQ03UuI1iN","ancestor":"9059af0b8159","uuid":"0xf000aa4304514000b000000000000000","hdl":82,"prop":["Read"],"val":{"type":"Buffer","data":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},"desc":null,"_id":"1q28njHm58W3sCrd"}
+{"owner":"o5KFq4H3l07Fkrgy","ancestor":"544a165e1f53","uuid":"0x2a28","hdl":28,"prop":["Read"],"val":{"softwareRev":"Software Revision\u0000"},"desc":null,"_id":"2koLFmo4fpS2wkdJ"}
+{"owner":"HFXeZYg2v8S9HemD","ancestor":"544a165e1f53","uuid":"0x2a06","hdl":40,"prop":["WriteNoRsp"],"val":null,"desc":null,"_id":"3oBI1pjjseqUokkX"}
+{"owner":"d03972c3d10a","uuid":"0xf000ffc004514000b000000000000000","startHdl":52,"endHdl":65535,"chars":["0xf000ffc104514000b000000000000000","0xf000ffc204514000b000000000000000"],"_id":"4SaICFJiJdPQa8p7"}
+{"owner":"iUmhGw3puKalKmit","ancestor":"9059af0b8159","uuid":"0x2a00","hdl":3,"prop":["Read"],"val":{"name":"TI BLE Sensor Tag"},"desc":null,"_id":"4nXaahEBB0V5NHx3"}
+{"owner":"XuBzxXy9yIc6fex9","ancestor":"544a165e1f53","uuid":"0x2a06","hdl":37,"prop":["Read","Write"],"val":{"alertLevel":0},"desc":null,"_id":"4vtxeHM2KFulDBp0"}
 {"_id":"544a165e1f53","role":"peripheral","addr":"0x544a165e1f53","addrType":0,"linkParams":{"interval":80,"latency":0,"timeout":2000},"servs":["0x1800","0x1801","0x180a","0x1803","0x1802","0x1804","0x180f","0xffa0","0xffe0"],"sm":null}
-{"owner":"7o9s0DUQorvqZyUX","ancestor":"d03972c3d10a","uuid":"0xf112","hdl":40,"prop":["Read"],"val":{"type":"Buffer","data":[2]},"desc":null,"_id":"5tdxoGGzbIt7p5ui"}
-{"owner":"7N7d4l8rJhf9GJSJ","ancestor":"d03972c3d10a","uuid":"0x2a05","hdl":14,"prop":["Ind"],"val":null,"desc":null,"_id":"5x8e6X6zEVhhMOCU"}
-{"owner":"kOPrn4jIG2flAU0O","ancestor":"9059af0b8159","uuid":"0xf000ffc104514000b000000000000000","hdl":107,"prop":["WriteNoRsp","Write","Notif"],"val":null,"desc":null,"_id":"63upTqune4PesBwJ"}
-{"owner":"544a165e1f53","uuid":"0x1801","startHdl":12,"endHdl":15,"chars":["0x2a05"],"_id":"6ZvPYIYmIbJC9lpB"}
-{"owner":"lXdvKQEJFqlIxdfb","ancestor":"544a165e1f53","uuid":"0xffa4","hdl":62,"prop":["Notif"],"val":null,"desc":null,"_id":"6jKyIWQFzr0KPb3M"}
-{"owner":"A2E5EhsuBhtFxALl","ancestor":"544a165e1f53","uuid":"0x2a04","hdl":11,"prop":["Read"],"val":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"desc":null,"_id":"6veLewnNVM2QqbZS"}
-{"owner":"mnDXrYYjYY77RucH","ancestor":"544a165e1f53","uuid":"0x2a25","hdl":22,"prop":["Read"],"val":{"serialNum":"Serial Number\u0000"},"desc":null,"_id":"7ESslScgfJV7N9Ly"}
-{"owner":"d03972c3d10a","uuid":"0x1801","startHdl":12,"endHdl":15,"chars":["0x2a05"],"_id":"7N7d4l8rJhf9GJSJ"}
-{"owner":"d03972c3d10a","uuid":"0xf110","startHdl":35,"endHdl":51,"chars":["0xf111","0xf112","0xf113","0xf114","0xf115"],"_id":"7o9s0DUQorvqZyUX"}
-{"owner":"wB9Qq9ttged8W4bO","ancestor":"00188c37b65c","uuid":"0x2a55","hdl":31,"prop":["Write","Ind"],"val":null,"desc":null,"_id":"86N8Ns5ZuYDktvTh"}
-{"owner":"SwwZGfz8Z0OS163y","ancestor":"9059af0b8159","uuid":"0x2a29","hdl":30,"prop":["Read"],"val":{"manufacturerName":"Texas Instruments\u0000"},"desc":null,"_id":"8LbBhUBVETUWOat3"}
-{"owner":"A2E5EhsuBhtFxALl","ancestor":"544a165e1f53","uuid":"0x2a00","hdl":3,"prop":["Read"],"val":{"name":"TI BLE Keyfob"},"desc":null,"_id":"8m7SPS9bpOzKTyD9"}
-{"owner":"ZsKIGf1b4mD87uY7","ancestor":"d03972c3d10a","uuid":"0x2a02","hdl":7,"prop":["Read","Write"],"val":{"flag":false},"desc":null,"_id":"8nHbuNjpbFL01PfH"}
-{"owner":"A2E5EhsuBhtFxALl","ancestor":"544a165e1f53","uuid":"0x2a02","hdl":7,"prop":["Read","Write"],"val":{"flag":false},"desc":null,"_id":"8unbpaOSB9UhzyR5"}
+{"owner":"BeYPflz3WJeCj2jn","ancestor":"544a165e1f53","uuid":"0x2a07","hdl":43,"prop":["Read","Notif"],"val":{"txPower":0},"desc":null,"_id":"5AAiTghpI8uxx9bA"}
+{"owner":"Jwt28ngxBdnKOg9W","ancestor":"d03972c3d10a","uuid":"0xf114","hdl":46,"prop":["Notif"],"val":{"type":"Buffer","data":[65,84,82,16,0,0,247,0,0,16,1,170,170,170,170,170,170,1,0,0]},"desc":null,"_id":"5hfOebfiT0DeffmP"}
+{"owner":"dPmkP4eXfLsLJZUh","ancestor":"9059af0b8159","uuid":"0xf000aa2104514000b000000000000000","hdl":56,"prop":["Read","Notif"],"val":{"type":"Buffer","data":[0,0,0,0]},"desc":null,"_id":"5kPSebaOfeVMXiyT"}
+{"owner":"9059af0b8159","uuid":"0xf000aa0004514000b000000000000000","startHdl":35,"endHdl":42,"chars":["0xf000aa0104514000b000000000000000","0xf000aa0204514000b000000000000000"],"_id":"8UTLVuqfLWgzX9cL"}
 {"_id":"9059af0b8159","role":"peripheral","addr":"0x9059af0b8159","addrType":0,"linkParams":{"interval":80,"latency":0,"timeout":2000},"servs":["0x1800","0x1801","0x180a","0xf000aa0004514000b000000000000000","0xf000aa1004514000b000000000000000","0xf000aa2004514000b000000000000000","0xf000aa3004514000b000000000000000","0xf000aa4004514000b000000000000000","0xf000aa5004514000b000000000000000","0xffe0","0xf000aa6004514000b000000000000000","0xf000ffc004514000b000000000000000"],"sm":null}
-{"owner":"6ZvPYIYmIbJC9lpB","ancestor":"544a165e1f53","uuid":"0x2a05","hdl":14,"prop":["Ind"],"val":null,"desc":null,"_id":"9q6pBLpdpGvWAimn"}
-{"owner":"fUJ0GfTEUiGe4x4O","ancestor":"9059af0b8159","uuid":"0xf000aa0204514000b000000000000000","hdl":41,"prop":["Read","Write"],"val":{"type":"Buffer","data":[1]},"desc":null,"_id":"9ufeBeEoHcpbvp1Z"}
-{"owner":"544a165e1f53","uuid":"0x1800","startHdl":1,"endHdl":11,"chars":["0x2a00","0x2a01","0x2a02","0x2a03","0x2a04"],"_id":"A2E5EhsuBhtFxALl"}
-{"owner":"7o9s0DUQorvqZyUX","ancestor":"d03972c3d10a","uuid":"0xf113","hdl":43,"prop":["Write"],"val":null,"desc":null,"_id":"B2WfI8MviOzvds4q"}
-{"owner":"00188c37b65c","uuid":"0x1800","startHdl":1,"endHdl":7,"chars":["0x2a00","0x2a01","0x2a04"],"_id":"BT9A19dGsOU8HgcO"}
-{"owner":"n0tIzjALsILpWWVD","ancestor":"d03972c3d10a","uuid":"0xf000ffc204514000b000000000000000","hdl":58,"prop":["WriteNoRsp","Write","Notif"],"val":null,"desc":null,"_id":"BjOVovNegq5r9Fmn"}
-{"owner":"iV6csq6mXnrw6RGF","ancestor":"d03972c3d10a","uuid":"0x2a25","hdl":22,"prop":["Read"],"val":{"serialNum":"Serial Number\u0000"},"desc":null,"_id":"Cd24s43QjQuyZLlK"}
-{"owner":"mnDXrYYjYY77RucH","ancestor":"544a165e1f53","uuid":"0x2a23","hdl":18,"prop":["Read"],"val":{"manufacturerID":"0x00005e1f53","organizationallyUID":"0x544a16"},"desc":null,"_id":"D5exxALC08pnQSof"}
-{"owner":"BT9A19dGsOU8HgcO","ancestor":"00188c37b65c","uuid":"0x2a04","hdl":7,"prop":["Read"],"val":{"type":"Buffer","data":[200,220,0,0,88,2]},"desc":null,"_id":"EeAJzHaUUVnnWhL0"}
-{"owner":"iV6csq6mXnrw6RGF","ancestor":"d03972c3d10a","uuid":"0x2a27","hdl":26,"prop":["Read"],"val":{"hardwareRev":"Hardware Revision\u0000"},"desc":null,"_id":"Ev8ldQl8NsWdjpI9"}
-{"owner":"iV6csq6mXnrw6RGF","ancestor":"d03972c3d10a","uuid":"0x2a28","hdl":28,"prop":["Read"],"val":{"softwareRev":"Software Revision\u0000"},"desc":null,"_id":"F3yN2AQAFXfFmnuH"}
-{"owner":"Mx3UPdCCficEOm5j","ancestor":"9059af0b8159","uuid":"0xf000aa3104514000b000000000000000","hdl":64,"prop":["Read","Notif"],"val":{"type":"Buffer","data":[0,0,0,0,0,0]},"desc":null,"_id":"FPhHTwHHwE3wWwzK"}
-{"owner":"SwwZGfz8Z0OS163y","ancestor":"9059af0b8159","uuid":"0x2a24","hdl":20,"prop":["Read"],"val":{"modelNum":"N.A.\u0000"},"desc":null,"_id":"Fbk9rxoH4BmbgHRk"}
-{"owner":"SwwZGfz8Z0OS163y","ancestor":"9059af0b8159","uuid":"0x2a2a","hdl":32,"prop":["Read"],"val":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"desc":null,"_id":"Gy0BtQBDdaI1L6w3"}
-{"owner":"BT9A19dGsOU8HgcO","ancestor":"00188c37b65c","uuid":"0x2a00","hdl":3,"prop":["Read","Write"],"val":{"name":"Wristband X"},"desc":null,"_id":"H4xa8fu0zFcswqO9"}
-{"owner":"ZsKIGf1b4mD87uY7","ancestor":"d03972c3d10a","uuid":"0x2a01","hdl":5,"prop":["Read"],"val":{"category":0},"desc":null,"_id":"HDRbwl6zxoZFHzi8"}
-{"owner":"n0tIzjALsILpWWVD","ancestor":"d03972c3d10a","uuid":"0xf000ffc104514000b000000000000000","hdl":54,"prop":["WriteNoRsp","Write","Notif"],"val":null,"desc":null,"_id":"HzRdlzR0EDJ2HaGJ"}
-{"owner":"4mhjV0XGT9XyCpue","ancestor":"544a165e1f53","uuid":"0x2a19","hdl":47,"prop":["Read","Notif"],"val":{"level":21},"desc":null,"_id":"IM0g0u5QmPzKumQH"}
-{"owner":"9059af0b8159","uuid":"0xf000aa2004514000b000000000000000","startHdl":54,"endHdl":61,"chars":["0xf000aa2104514000b000000000000000","0xf000aa2204514000b000000000000000"],"_id":"Ia8KjMKWknDs2WXB"}
-{"owner":"9059af0b8159","uuid":"0xf000aa1004514000b000000000000000","startHdl":43,"endHdl":53,"chars":["0xf000aa1104514000b000000000000000","0xf000aa1204514000b000000000000000","0xf000aa1304514000b000000000000000"],"_id":"IqtUAiOI0gunS63w"}
-{"owner":"Ia8KjMKWknDs2WXB","ancestor":"9059af0b8159","uuid":"0xf000aa2204514000b000000000000000","hdl":60,"prop":["Read","Write"],"val":{"type":"Buffer","data":[1]},"desc":null,"_id":"IsYKtMf5QUmMWIc1"}
-{"owner":"9059af0b8159","uuid":"0x1801","startHdl":12,"endHdl":15,"chars":["0x2a05"],"_id":"J2iRJQ7FIHsuKWHN"}
-{"owner":"BT9A19dGsOU8HgcO","ancestor":"00188c37b65c","uuid":"0x2a01","hdl":5,"prop":["Read"],"val":{"category":961},"desc":null,"_id":"KTnT9godgofoSK8M"}
-{"owner":"IqtUAiOI0gunS63w","ancestor":"9059af0b8159","uuid":"0xf000aa1104514000b000000000000000","hdl":45,"prop":["Read","Notif"],"val":{"x":0,"y":5,"z":67},"desc":null,"_id":"LHZSUIkSCG7Blqzb"}
-{"owner":"N5PeXk6MmV1Tp4yf","ancestor":"9059af0b8159","uuid":"0xf000aa5204514000b000000000000000","hdl":91,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"LdZ5EBeGVkvekgaY"}
-{"owner":"SwwZGfz8Z0OS163y","ancestor":"9059af0b8159","uuid":"0x2a25","hdl":22,"prop":["Read"],"val":{"serialNum":"N.A.\u0000"},"desc":null,"_id":"Lj3eAcIcEkHzhyXH"}
-{"owner":"N5PeXk6MmV1Tp4yf","ancestor":"9059af0b8159","uuid":"0xf000aa5104514000b000000000000000","hdl":87,"prop":["Read","Notif"],"val":{"x":0,"y":0,"z":0},"desc":null,"_id":"MRUWQM8Z0SQUCi6i"}
-{"owner":"9059af0b8159","uuid":"0xf000aa3004514000b000000000000000","startHdl":62,"endHdl":72,"chars":["0xf000aa3104514000b000000000000000","0xf000aa3204514000b000000000000000","0xf000aa3304514000b000000000000000"],"_id":"Mx3UPdCCficEOm5j"}
-{"owner":"9059af0b8159","uuid":"0xf000aa5004514000b000000000000000","startHdl":85,"endHdl":92,"chars":["0xf000aa5104514000b000000000000000","0xf000aa5204514000b000000000000000"],"_id":"N5PeXk6MmV1Tp4yf"}
-{"owner":"wZCBQqsHgHTrCvki","ancestor":"9059af0b8159","uuid":"0xf000aa4304514000b000000000000000","hdl":82,"prop":["Read"],"val":{"type":"Buffer","data":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},"desc":null,"_id":"NgnBB9RPXD9NctgI"}
-{"owner":"V6wdM9PEWWMeeKyK","ancestor":"9059af0b8159","uuid":"0xf000aa6204514000b000000000000000","hdl":103,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"OiICTgTcviSA4FSm"}
-{"owner":"z6jhyY78RluH6RJm","ancestor":"00188c37b65c","uuid":"0x2a25","hdl":10,"prop":["Read"],"val":{"serialNum":"MA5I37005788"},"desc":null,"_id":"P6B8W94j2crAnmjH"}
-{"owner":"wB9Qq9ttged8W4bO","ancestor":"00188c37b65c","uuid":"0x2a54","hdl":27,"prop":["Read"],"val":{"feature":31},"desc":null,"_id":"PN2DYPHId1jnCuGB"}
-{"owner":"Ia8KjMKWknDs2WXB","ancestor":"9059af0b8159","uuid":"0xf000aa2104514000b000000000000000","hdl":56,"prop":["Read","Notif"],"val":{"rawT":25372,"rawH":33838},"desc":null,"_id":"PgLqQlw1bUloRwAF"}
-{"owner":"A2E5EhsuBhtFxALl","ancestor":"544a165e1f53","uuid":"0x2a01","hdl":5,"prop":["Read"],"val":{"category":0},"desc":null,"_id":"Px5p6naBsBLzTULF"}
-{"owner":"VfX3MX44sNWNawUZ","ancestor":"544a165e1f53","uuid":"0x2a07","hdl":43,"prop":["Read","Notif"],"val":{"txPower":0},"desc":null,"_id":"QWZyEY76nPePGJLa"}
-{"owner":"mnDXrYYjYY77RucH","ancestor":"544a165e1f53","uuid":"0x2a26","hdl":24,"prop":["Read"],"val":{"firmwareRev":"Firmware Revision\u0000"},"desc":null,"_id":"Qi9rpMHg5jZSXntR"}
-{"owner":"mnDXrYYjYY77RucH","ancestor":"544a165e1f53","uuid":"0x2a27","hdl":26,"prop":["Read"],"val":{"hardwareRev":"Hardware Revision\u0000"},"desc":null,"_id":"R9I44jasxPR33zcD"}
-{"owner":"SwwZGfz8Z0OS163y","ancestor":"9059af0b8159","uuid":"0x2a50","hdl":34,"prop":["Read"],"val":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"desc":null,"_id":"RJkkPqwtNtOfc7LO"}
-{"owner":"mUoDYqjOmV0iaeWX","ancestor":"544a165e1f53","uuid":"0x2a06","hdl":37,"prop":["Read","Write"],"val":{"alertLevel":0},"desc":null,"_id":"SomIKZ3F44s7SRkb"}
-{"owner":"9059af0b8159","uuid":"0x180a","startHdl":16,"endHdl":34,"chars":["0x2a23","0x2a24","0x2a25","0x2a26","0x2a27","0x2a28","0x2a29","0x2a2a","0x2a50"],"_id":"SwwZGfz8Z0OS163y"}
-{"owner":"wB9Qq9ttged8W4bO","ancestor":"00188c37b65c","uuid":"0x2a5d","hdl":29,"prop":["Read"],"val":{"sensorLocation":2},"desc":null,"_id":"T51DoASP58j0TEze"}
-{"owner":"iV6csq6mXnrw6RGF","ancestor":"d03972c3d10a","uuid":"0x2a24","hdl":20,"prop":["Read"],"val":{"modelNum":"bPoint001\u0000"},"desc":null,"_id":"T7vTKM0ISkFnFBAD"}
-{"owner":"wB9Qq9ttged8W4bO","ancestor":"00188c37b65c","uuid":"0x2aff","hdl":34,"prop":["Read","WriteNoRsp","Write"],"val":{"type":"Buffer","data":[255,79,0,213,67,56,3,0,255,0,239,0,255,80,0,0,182,22,0,34]},"desc":null,"_id":"Ta8bki2toKri4vxu"}
-{"owner":"mnDXrYYjYY77RucH","ancestor":"544a165e1f53","uuid":"0x2a28","hdl":28,"prop":["Read"],"val":{"softwareRev":"Software Revision\u0000"},"desc":null,"_id":"TfnaT8dVq1l0pXn0"}
-{"owner":"iV6csq6mXnrw6RGF","ancestor":"d03972c3d10a","uuid":"0x2a29","hdl":30,"prop":["Read"],"val":{"manufacturerName":"reIDEA\u0000"},"desc":null,"_id":"TlGqRrSXTRKnQYui"}
-{"owner":"wZCBQqsHgHTrCvki","ancestor":"9059af0b8159","uuid":"0xf000aa4204514000b000000000000000","hdl":79,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"TluFvvqq3tbqNYtK"}
-{"owner":"3S78nddOTnUBkGhF","ancestor":"9059af0b8159","uuid":"0x2a02","hdl":7,"prop":["Read"],"val":{"flag":false},"desc":null,"_id":"UndXJVwUBWSeqN0O"}
-{"owner":"9059af0b8159","uuid":"0xf000aa6004514000b000000000000000","startHdl":98,"endHdl":104,"chars":["0xf000aa6104514000b000000000000000","0xf000aa6204514000b000000000000000"],"_id":"V6wdM9PEWWMeeKyK"}
-{"owner":"SwwZGfz8Z0OS163y","ancestor":"9059af0b8159","uuid":"0x2a28","hdl":28,"prop":["Read"],"val":{"softwareRev":"N.A.\u0000"},"desc":null,"_id":"VPIF2sDt9JNT6kW5"}
-{"owner":"SwwZGfz8Z0OS163y","ancestor":"9059af0b8159","uuid":"0x2a26","hdl":24,"prop":["Read"],"val":{"firmwareRev":"1.01 (Feb  7 2013)\u0000"},"desc":null,"_id":"VWHjOeGmlIrvA7VM"}
-{"owner":"544a165e1f53","uuid":"0x1804","startHdl":41,"endHdl":44,"chars":["0x2a07"],"_id":"VfX3MX44sNWNawUZ"}
-{"owner":"SwwZGfz8Z0OS163y","ancestor":"9059af0b8159","uuid":"0x2a27","hdl":26,"prop":["Read"],"val":{"hardwareRev":"N.A.\u0000"},"desc":null,"_id":"X5TgEj4dW4DLgfCm"}
-{"owner":"mnDXrYYjYY77RucH","ancestor":"544a165e1f53","uuid":"0x2a24","hdl":20,"prop":["Read"],"val":{"modelNum":"Model Number\u0000"},"desc":null,"_id":"XCODpjbmeaYevnvZ"}
-{"owner":"mnDXrYYjYY77RucH","ancestor":"544a165e1f53","uuid":"0x2a50","hdl":34,"prop":["Read"],"val":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"desc":null,"_id":"XPD09F1r2wUSba08"}
-{"owner":"z6jhyY78RluH6RJm","ancestor":"00188c37b65c","uuid":"0x2a29","hdl":18,"prop":["Read"],"val":{"manufacturerName":"Mobile Action Technolo"},"desc":null,"_id":"XcrJVxWPVXixzhqy"}
-{"owner":"iV6csq6mXnrw6RGF","ancestor":"d03972c3d10a","uuid":"0x2a2a","hdl":32,"prop":["Read"],"val":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"desc":null,"_id":"YUSNUZHyYO9iQv2i"}
-{"owner":"wB9Qq9ttged8W4bO","ancestor":"00188c37b65c","uuid":"0x2a53","hdl":24,"prop":["Notif"],"val":{"type":"Buffer","data":[130,0,0,0,0,0,0,0,0,0,0,0,3,0,86,2,0,0]},"desc":null,"_id":"Z6FEo2poJvJ57vti"}
-{"owner":"d03972c3d10a","uuid":"0x1800","startHdl":1,"endHdl":11,"chars":["0x2a00","0x2a01","0x2a02","0x2a03","0x2a04"],"_id":"ZsKIGf1b4mD87uY7"}
-{"owner":"kOPrn4jIG2flAU0O","ancestor":"9059af0b8159","uuid":"0xf000ffc204514000b000000000000000","hdl":111,"prop":["WriteNoRsp","Write","Notif"],"val":null,"desc":null,"_id":"aoHimxjAHwtnDEmT"}
-{"_id":"d03972c3d10a","role":"peripheral","addr":"0xd03972c3d10a","addrType":0,"linkParams":{"interval":0,"latency":0,"timeout":0},"servs":["0x1800","0x1801","0x180a","0xf110","0xf000ffc004514000b000000000000000"],"sm":{"pairMode":1,"ioCap":4,"mitm":1,"bond":1,"ltk":{"type":"Buffer","data":[18,58,166,140,113,187,184,164,84,49,18,60,102,140,29,43]},"div":34313,"rand":{"type":"Buffer","data":[251,163,144,193,126,175,72,225]}}}
-{"owner":"lXdvKQEJFqlIxdfb","ancestor":"544a165e1f53","uuid":"0xffa1","hdl":52,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"dkTSOAiAPmDKjOeD"}
-{"owner":"iY78sRguB7T9kj0V","ancestor":"9059af0b8159","uuid":"0xffe1","hdl":95,"prop":["Notif"],"val":null,"desc":null,"_id":"eIuVQonm4bqNQHDx"}
-{"owner":"3S78nddOTnUBkGhF","ancestor":"9059af0b8159","uuid":"0x2a00","hdl":3,"prop":["Read"],"val":{"name":"TI BLE Sensor Tag"},"desc":null,"_id":"etjwdWGn3xTGv0dd"}
-{"owner":"iV6csq6mXnrw6RGF","ancestor":"d03972c3d10a","uuid":"0x2a23","hdl":18,"prop":["Read"],"val":{"manufacturerID":"0x0000c3d10a","organizationallyUID":"0xd03972"},"desc":null,"_id":"ewiQQQfbTEzY77uj"}
-{"owner":"mnDXrYYjYY77RucH","ancestor":"544a165e1f53","uuid":"0x2a29","hdl":30,"prop":["Read"],"val":{"manufacturerName":"Manufacturer Name\u0000"},"desc":null,"_id":"fAJdYCU2JHPXlDar"}
-{"owner":"9059af0b8159","uuid":"0xf000aa0004514000b000000000000000","startHdl":35,"endHdl":42,"chars":["0xf000aa0104514000b000000000000000","0xf000aa0204514000b000000000000000"],"_id":"fUJ0GfTEUiGe4x4O"}
-{"owner":"0Gheqh2ZthWNXBl7","ancestor":"544a165e1f53","uuid":"0xffe1","hdl":71,"prop":["Notif"],"val":null,"desc":null,"_id":"fwDAODaRYDgpMlBO"}
-{"owner":"3S78nddOTnUBkGhF","ancestor":"9059af0b8159","uuid":"0x2a04","hdl":11,"prop":["Read"],"val":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"desc":null,"_id":"g5omPUsxIAgfiDZ6"}
-{"owner":"IqtUAiOI0gunS63w","ancestor":"9059af0b8159","uuid":"0xf000aa1304514000b000000000000000","hdl":52,"prop":["Read","Write"],"val":{"type":"Buffer","data":[100]},"desc":null,"_id":"gdVW72f7tTKO68WJ"}
-{"owner":"00188c37b65c","uuid":"0x180f","startHdl":35,"endHdl":65535,"chars":["0x2a19"],"_id":"hGsMJd3FyYrsPpnE"}
-{"owner":"d03972c3d10a","uuid":"0x180a","startHdl":16,"endHdl":34,"chars":["0x2a23","0x2a24","0x2a25","0x2a26","0x2a27","0x2a28","0x2a29","0x2a2a","0x2a50"],"_id":"iV6csq6mXnrw6RGF"}
-{"owner":"9059af0b8159","uuid":"0xffe0","startHdl":93,"endHdl":97,"chars":["0xffe1"],"_id":"iY78sRguB7T9kj0V"}
-{"owner":"3S78nddOTnUBkGhF","ancestor":"9059af0b8159","uuid":"0x2a01","hdl":5,"prop":["Read"],"val":{"category":0},"desc":null,"_id":"id8Ux0Urtq0AscJy"}
-{"owner":"z6jhyY78RluH6RJm","ancestor":"00188c37b65c","uuid":"0x2a26","hdl":14,"prop":["Read"],"val":{"firmwareRev":"Q62"},"desc":null,"_id":"iu8TjQ4c7UT4jaXK"}
-{"owner":"iV6csq6mXnrw6RGF","ancestor":"d03972c3d10a","uuid":"0x2a26","hdl":24,"prop":["Read"],"val":{"firmwareRev":"bPointFW V1503.04\u0000"},"desc":null,"_id":"jBfwh0UmSEDM9N9c"}
-{"owner":"lXdvKQEJFqlIxdfb","ancestor":"544a165e1f53","uuid":"0xffa2","hdl":55,"prop":["Read"],"val":{"type":"Buffer","data":[20,0]},"desc":null,"_id":"jF6Tv1ZDKI0moSF1"}
-{"owner":"Mx3UPdCCficEOm5j","ancestor":"9059af0b8159","uuid":"0xf000aa3304514000b000000000000000","hdl":71,"prop":["Read","Write"],"val":{"type":"Buffer","data":[200]},"desc":null,"_id":"js5hjdQkmBgRq8Z9"}
-{"owner":"9059af0b8159","uuid":"0xf000ffc004514000b000000000000000","startHdl":105,"endHdl":65535,"chars":["0xf000ffc104514000b000000000000000","0xf000ffc204514000b000000000000000"],"_id":"kOPrn4jIG2flAU0O"}
-{"owner":"00188c37b65c","uuid":"0x1801","startHdl":21,"endHdl":21,"chars":[],"_id":"kSNNTyQgnm0ChoaV"}
-{"owner":"z6jhyY78RluH6RJm","ancestor":"00188c37b65c","uuid":"0x2a50","hdl":20,"prop":["Read"],"val":{"vendorIDSource":1,"vendorID":10,"productID":332,"productVersion":256},"desc":null,"_id":"kp2Max6fwoLtbqYU"}
-{"owner":"544a165e1f53","uuid":"0xffa0","startHdl":50,"endHdl":68,"chars":["0xffa1","0xffa2","0xffa3","0xffa4","0xffa5"],"_id":"lXdvKQEJFqlIxdfb"}
-{"owner":"z6jhyY78RluH6RJm","ancestor":"00188c37b65c","uuid":"0x2a28","hdl":16,"prop":["Read"],"val":{"softwareRev":"1.0.1505.06P"},"desc":null,"_id":"llXrYxAlhRZlduFk"}
-{"owner":"lXdvKQEJFqlIxdfb","ancestor":"544a165e1f53","uuid":"0xffa5","hdl":66,"prop":["Notif"],"val":null,"desc":null,"_id":"lzucTWmaPid8Z6x8"}
-{"owner":"544a165e1f53","uuid":"0x1803","startHdl":35,"endHdl":37,"chars":["0x2a06"],"_id":"mUoDYqjOmV0iaeWX"}
-{"owner":"544a165e1f53","uuid":"0x180a","startHdl":16,"endHdl":34,"chars":["0x2a23","0x2a24","0x2a25","0x2a26","0x2a27","0x2a28","0x2a29","0x2a2a","0x2a50"],"_id":"mnDXrYYjYY77RucH"}
-{"owner":"7o9s0DUQorvqZyUX","ancestor":"d03972c3d10a","uuid":"0xf115","hdl":50,"prop":["Read"],"val":null,"desc":null,"_id":"n0EHw9L1ME1ar1bq"}
-{"owner":"d03972c3d10a","uuid":"0xf000ffc004514000b000000000000000","startHdl":52,"endHdl":65535,"chars":["0xf000ffc104514000b000000000000000","0xf000ffc204514000b000000000000000"],"_id":"n0tIzjALsILpWWVD"}
-{"owner":"fUJ0GfTEUiGe4x4O","ancestor":"9059af0b8159","uuid":"0xf000aa0104514000b000000000000000","hdl":37,"prop":["Read","Notif"],"val":{"rawT2":65452,"rawT1":2620},"desc":null,"_id":"nHoWCpI8I9MwVW2A"}
-{"owner":"wZCBQqsHgHTrCvki","ancestor":"9059af0b8159","uuid":"0xf000aa4104514000b000000000000000","hdl":75,"prop":["Read","Notif"],"val":{"type":"Buffer","data":[0,0,0,0]},"desc":null,"_id":"oB7qthCF4tWKgu3m"}
-{"owner":"iV6csq6mXnrw6RGF","ancestor":"d03972c3d10a","uuid":"0x2a50","hdl":34,"prop":["Read"],"val":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"desc":null,"_id":"pieHlpKd4z0bN7Lh"}
-{"owner":"7o9s0DUQorvqZyUX","ancestor":"d03972c3d10a","uuid":"0xf111","hdl":37,"prop":["Read","Write"],"val":{"type":"Buffer","data":[65,84,67,80,0,0,40,0,0,0,0,0,31,135,18,141,1,0,0,0]},"desc":null,"_id":"pwsIdjSZfhlvTZqT"}
-{"owner":"V6wdM9PEWWMeeKyK","ancestor":"9059af0b8159","uuid":"0xf000aa6104514000b000000000000000","hdl":100,"prop":["Read"],"val":{"type":"Buffer","data":[63,0]},"desc":null,"_id":"qoNlNuRxsxs1eAFW"}
-{"owner":"4fprwS1tGVsOEM1A","ancestor":"544a165e1f53","uuid":"0x2a06","hdl":40,"prop":["WriteNoRsp"],"val":null,"desc":null,"_id":"s2Fbhfh6x10h9pCv"}
-{"owner":"lXdvKQEJFqlIxdfb","ancestor":"544a165e1f53","uuid":"0xffa3","hdl":58,"prop":["Notif"],"val":null,"desc":null,"_id":"st4inS8L16fJ7J0B"}
-{"owner":"IqtUAiOI0gunS63w","ancestor":"9059af0b8159","uuid":"0xf000aa1204514000b000000000000000","hdl":49,"prop":["Read","Write"],"val":{"type":"Buffer","data":[1]},"desc":null,"_id":"tk872UMbQ5dqZkW8"}
-{"owner":"ZsKIGf1b4mD87uY7","ancestor":"d03972c3d10a","uuid":"0x2a04","hdl":11,"prop":["Read"],"val":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"desc":null,"_id":"vCqKIzZZAmkNsRFM"}
-{"owner":"00188c37b65c","uuid":"0x1814","startHdl":22,"endHdl":34,"chars":["0x2a53","0x2a54","0x2a5d","0x2a55","0x2aff"],"_id":"wB9Qq9ttged8W4bO"}
-{"owner":"9059af0b8159","uuid":"0xf000aa4004514000b000000000000000","startHdl":73,"endHdl":84,"chars":["0xf000aa4104514000b000000000000000","0xf000aa4204514000b000000000000000","0xf000aa4304514000b000000000000000"],"_id":"wZCBQqsHgHTrCvki"}
-{"owner":"hGsMJd3FyYrsPpnE","ancestor":"00188c37b65c","uuid":"0x2a19","hdl":37,"prop":["Read","Notif"],"val":{"level":100},"desc":null,"_id":"xZEJmFWrnFIqyMnD"}
-{"owner":"00188c37b65c","uuid":"0x180a","startHdl":8,"endHdl":20,"chars":["0x2a25","0x2a27","0x2a26","0x2a28","0x2a29","0x2a50"],"_id":"z6jhyY78RluH6RJm"}
-{"owner":"J2iRJQ7FIHsuKWHN","ancestor":"9059af0b8159","uuid":"0x2a05","hdl":14,"prop":["Ind"],"val":null,"desc":null,"_id":"zFsjAjBn3PmBIZSl"}
+{"owner":"kv8rdS8Nq8ECsTU3","ancestor":"9059af0b8159","uuid":"0xf000aa6204514000b000000000000000","hdl":103,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"9M9xRgcl1iQ6JrQP"}
+{"owner":"wvwMwDNLW4e9QdLq","ancestor":"d03972c3d10a","uuid":"0x2a28","hdl":28,"prop":["Read"],"val":{"softwareRev":"Software Revision\u0000"},"desc":null,"_id":"9rBk380TWvW88ce1"}
+{"owner":"teeCyhBouq2FPKsa","ancestor":"9059af0b8159","uuid":"0x2a23","hdl":18,"prop":["Read"],"val":{"manufacturerID":"0x00000b8159","organizationallyUID":"0x9059af"},"desc":null,"_id":"9s8G4JcSR4UEiFcU"}
+{"owner":"hq2wxMnbe3xPSDTO","ancestor":"544a165e1f53","uuid":"0x2a03","hdl":9,"prop":["Read","Write"],"val":{"addr":"0x000000000000"},"desc":null,"_id":"AaPStjVlFSR9Vt7R"}
+{"owner":"kv8rdS8Nq8ECsTU3","ancestor":"9059af0b8159","uuid":"0xf000aa6104514000b000000000000000","hdl":100,"prop":["Read"],"val":{"type":"Buffer","data":[63,0]},"desc":null,"_id":"AaooWfZ5zmIEvPqm"}
+{"owner":"544a165e1f53","uuid":"0x1804","startHdl":41,"endHdl":44,"chars":["0x2a07"],"_id":"BeYPflz3WJeCj2jn"}
+{"owner":"teeCyhBouq2FPKsa","ancestor":"9059af0b8159","uuid":"0x2a27","hdl":26,"prop":["Read"],"val":{"hardwareRev":"N.A.\u0000"},"desc":null,"_id":"BhmlueYawc7IHN8g"}
+{"owner":"MKYyg393RSJzbUEX","ancestor":"9059af0b8159","uuid":"0xf000ffc104514000b000000000000000","hdl":107,"prop":["WriteNoRsp","Write","Notif"],"val":null,"desc":null,"_id":"CE0p8dQbIWDveBEo"}
+{"owner":"pUZEmREZ02WtJU9v","ancestor":"544a165e1f53","uuid":"0xffa2","hdl":55,"prop":["Read"],"val":{"type":"Buffer","data":[20,0]},"desc":null,"_id":"CMDgeStiNm8f4ZHy"}
+{"owner":"Jwt28ngxBdnKOg9W","ancestor":"d03972c3d10a","uuid":"0xf112","hdl":40,"prop":["Read"],"val":{"type":"Buffer","data":[2]},"desc":null,"_id":"Cvj67HYPF6t6e66I"}
+{"owner":"pUZEmREZ02WtJU9v","ancestor":"544a165e1f53","uuid":"0xffa5","hdl":66,"prop":["Notif"],"val":null,"desc":null,"_id":"DBmixrT8oE6dYwXR"}
+{"owner":"te2SmfoszRx7nM01","ancestor":"9059af0b8159","uuid":"0xf000aa3204514000b000000000000000","hdl":68,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"DioETIk8TRogTHlN"}
+{"owner":"teeCyhBouq2FPKsa","ancestor":"9059af0b8159","uuid":"0x2a50","hdl":34,"prop":["Read"],"val":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"desc":null,"_id":"E5BeOweORCosThjB"}
+{"owner":"o5KFq4H3l07Fkrgy","ancestor":"544a165e1f53","uuid":"0x2a24","hdl":20,"prop":["Read"],"val":{"modelNum":"Model Number\u0000"},"desc":null,"_id":"FN1D5ko2IcIgXake"}
+{"owner":"iUmhGw3puKalKmit","ancestor":"9059af0b8159","uuid":"0x2a02","hdl":7,"prop":["Read"],"val":{"flag":false},"desc":null,"_id":"Fa80GItucItrVcVN"}
+{"owner":"4SaICFJiJdPQa8p7","ancestor":"d03972c3d10a","uuid":"0xf000ffc104514000b000000000000000","hdl":54,"prop":["WriteNoRsp","Write","Notif"],"val":null,"desc":null,"_id":"Fjm0gL36IglhqqNS"}
+{"owner":"d03972c3d10a","uuid":"0x1801","startHdl":12,"endHdl":15,"chars":["0x2a05"],"_id":"Fqzwz5KtVHG1Aqv2"}
+{"owner":"hq2wxMnbe3xPSDTO","ancestor":"544a165e1f53","uuid":"0x2a00","hdl":3,"prop":["Read"],"val":{"name":"TI BLE Keyfob"},"desc":null,"_id":"GdW7GOaEy4I6pyYl"}
+{"owner":"544a165e1f53","uuid":"0x1802","startHdl":38,"endHdl":40,"chars":["0x2a06"],"_id":"HFXeZYg2v8S9HemD"}
+{"owner":"pUZEmREZ02WtJU9v","ancestor":"544a165e1f53","uuid":"0xffa1","hdl":52,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"Hh8Ly49Zk5EPuGYP"}
+{"owner":"0VFaVh4VPz0riGHp","ancestor":"9059af0b8159","uuid":"0xffe1","hdl":95,"prop":["Notif"],"val":null,"desc":null,"_id":"I18haPKY6nyChTQR"}
+{"owner":"Jwt28ngxBdnKOg9W","ancestor":"d03972c3d10a","uuid":"0xf115","hdl":50,"prop":["Read"],"val":null,"desc":null,"_id":"JdyzFgeIyynfFVlY"}
+{"owner":"d03972c3d10a","uuid":"0xf110","startHdl":35,"endHdl":51,"chars":["0xf111","0xf112","0xf113","0xf114","0xf115"],"_id":"Jwt28ngxBdnKOg9W"}
+{"owner":"wvwMwDNLW4e9QdLq","ancestor":"d03972c3d10a","uuid":"0x2a26","hdl":24,"prop":["Read"],"val":{"firmwareRev":"bPointFW V1503.04\u0000"},"desc":null,"_id":"KuVUNO1IszEmQMcV"}
+{"owner":"o5KFq4H3l07Fkrgy","ancestor":"544a165e1f53","uuid":"0x2a29","hdl":30,"prop":["Read"],"val":{"manufacturerName":"Manufacturer Name\u0000"},"desc":null,"_id":"LowJa0HKPYzxeLCD"}
+{"owner":"9059af0b8159","uuid":"0xf000aa1004514000b000000000000000","startHdl":43,"endHdl":53,"chars":["0xf000aa1104514000b000000000000000","0xf000aa1204514000b000000000000000","0xf000aa1304514000b000000000000000"],"_id":"MCZWllmKb8GbEB6N"}
+{"owner":"dPmkP4eXfLsLJZUh","ancestor":"9059af0b8159","uuid":"0xf000aa2204514000b000000000000000","hdl":60,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"MGLxRL2nBaTZ8WOT"}
+{"owner":"9059af0b8159","uuid":"0xf000ffc004514000b000000000000000","startHdl":105,"endHdl":65535,"chars":["0xf000ffc104514000b000000000000000","0xf000ffc204514000b000000000000000"],"_id":"MKYyg393RSJzbUEX"}
+{"owner":"ixnAAzeF9adNeFWg","ancestor":"d03972c3d10a","uuid":"0x2a02","hdl":7,"prop":["Read"],"val":{"flag":false},"desc":null,"_id":"MfRLLOXUm1PCpIjR"}
+{"owner":"hq2wxMnbe3xPSDTO","ancestor":"544a165e1f53","uuid":"0x2a02","hdl":7,"prop":["Read","Write"],"val":{"flag":false},"desc":null,"_id":"OscAXZJpfeRnnz5X"}
+{"owner":"hq2wxMnbe3xPSDTO","ancestor":"544a165e1f53","uuid":"0x2a01","hdl":5,"prop":["Read"],"val":{"category":0},"desc":null,"_id":"PGxZjaoJwmF2jZpu"}
+{"owner":"teeCyhBouq2FPKsa","ancestor":"9059af0b8159","uuid":"0x2a28","hdl":28,"prop":["Read"],"val":{"softwareRev":"N.A.\u0000"},"desc":null,"_id":"PMIzVpkFklc5Xg4l"}
+{"owner":"wvwMwDNLW4e9QdLq","ancestor":"d03972c3d10a","uuid":"0x2a27","hdl":26,"prop":["Read"],"val":{"hardwareRev":"Hardware Revision\u0000"},"desc":null,"_id":"PjhjCu64rR7yuvKi"}
+{"owner":"zixyPSW2McyxDxim","ancestor":"9059af0b8159","uuid":"0xf000aa5104514000b000000000000000","hdl":87,"prop":["Read","Notif"],"val":{"x":0,"y":0,"z":0},"desc":null,"_id":"Ql3tAwsua2hBPImf"}
+{"owner":"o5KFq4H3l07Fkrgy","ancestor":"544a165e1f53","uuid":"0x2a50","hdl":34,"prop":["Read"],"val":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"desc":null,"_id":"RZIpze2Qf9KQnzPN"}
+{"owner":"ixnAAzeF9adNeFWg","ancestor":"d03972c3d10a","uuid":"0x2a04","hdl":11,"prop":["Read"],"val":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"desc":null,"_id":"Rc7sbN5D2yt44Xjf"}
+{"owner":"wpMHCwGGwBPlS3nz","ancestor":"9059af0b8159","uuid":"0x2a05","hdl":14,"prop":["Ind"],"val":null,"desc":null,"_id":"SBT7g0h5lOaiwbak"}
+{"owner":"Jwt28ngxBdnKOg9W","ancestor":"d03972c3d10a","uuid":"0xf113","hdl":43,"prop":["Write"],"val":null,"desc":null,"_id":"SOLAeIGhP5MmrvcM"}
+{"owner":"te2SmfoszRx7nM01","ancestor":"9059af0b8159","uuid":"0xf000aa3104514000b000000000000000","hdl":64,"prop":["Read","Notif"],"val":{"type":"Buffer","data":[0,0,0,0,0,0]},"desc":null,"_id":"TdIP0WDXXVTJytYB"}
+{"owner":"MCZWllmKb8GbEB6N","ancestor":"9059af0b8159","uuid":"0xf000aa1304514000b000000000000000","hdl":52,"prop":["Read","Write"],"val":{"type":"Buffer","data":[100]},"desc":null,"_id":"TiKxxapOrZxzHmDk"}
+{"owner":"MCZWllmKb8GbEB6N","ancestor":"9059af0b8159","uuid":"0xf000aa1204514000b000000000000000","hdl":49,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"UUiSiSoiBHQLIHvx"}
+{"owner":"544a165e1f53","uuid":"0x1801","startHdl":12,"endHdl":15,"chars":["0x2a05"],"_id":"VXA6c6CeqGME6X1A"}
+{"owner":"iUmhGw3puKalKmit","ancestor":"9059af0b8159","uuid":"0x2a01","hdl":5,"prop":["Read"],"val":{"category":0},"desc":null,"_id":"VtUSnvUVE1IHggZV"}
+{"owner":"o5KFq4H3l07Fkrgy","ancestor":"544a165e1f53","uuid":"0x2a25","hdl":22,"prop":["Read"],"val":{"serialNum":"Serial Number\u0000"},"desc":null,"_id":"WN7JHW4idQji1ZxG"}
+{"owner":"544a165e1f53","uuid":"0x1803","startHdl":35,"endHdl":37,"chars":["0x2a06"],"_id":"XuBzxXy9yIc6fex9"}
+{"owner":"o5KFq4H3l07Fkrgy","ancestor":"544a165e1f53","uuid":"0x2a2a","hdl":32,"prop":["Read"],"val":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"desc":null,"_id":"Y9ymt4moJaByAZWD"}
+{"owner":"Fqzwz5KtVHG1Aqv2","ancestor":"d03972c3d10a","uuid":"0x2a05","hdl":14,"prop":["Ind"],"val":null,"desc":null,"_id":"YKonswPXO4UBp8Qb"}
+{"owner":"o5KFq4H3l07Fkrgy","ancestor":"544a165e1f53","uuid":"0x2a23","hdl":18,"prop":["Read"],"val":{"manufacturerID":"0x00005e1f53","organizationallyUID":"0x544a16"},"desc":null,"_id":"amXAmpf2LeTA2ePq"}
+{"owner":"4SaICFJiJdPQa8p7","ancestor":"d03972c3d10a","uuid":"0xf000ffc204514000b000000000000000","hdl":58,"prop":["WriteNoRsp","Write","Notif"],"val":null,"desc":null,"_id":"bnsvy7Yy1zxIHnIF"}
+{"owner":"wvwMwDNLW4e9QdLq","ancestor":"d03972c3d10a","uuid":"0x2a50","hdl":34,"prop":["Read"],"val":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"desc":null,"_id":"brZ3ip8pmXNFOFtk"}
+{"owner":"teeCyhBouq2FPKsa","ancestor":"9059af0b8159","uuid":"0x2a26","hdl":24,"prop":["Read"],"val":{"firmwareRev":"1.01 (Feb  7 2013)\u0000"},"desc":null,"_id":"c27ZpNRG9MfGMls7"}
+{"owner":"qG7tuZhQ03UuI1iN","ancestor":"9059af0b8159","uuid":"0xf000aa4204514000b000000000000000","hdl":79,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"cwwwz8tVkihzQjpI"}
+{"_id":"d03972c3d10a","role":"peripheral","addr":"0xd03972c3d10a","addrType":0,"linkParams":{"interval":800,"latency":0,"timeout":1000},"servs":["0x1800","0x1801","0x180a","0xf110","0xf000ffc004514000b000000000000000"],"sm":{"pairMode":1,"ioCap":4,"mitm":1,"bond":1,"ltk":{"type":"Buffer","data":[251,167,211,194,169,156,162,125,18,59,37,143,170,152,146,61]},"div":3567,"rand":{"type":"Buffer","data":[64,6,196,240,44,147,122,93]}}}
+{"owner":"ixnAAzeF9adNeFWg","ancestor":"d03972c3d10a","uuid":"0x2a03","hdl":9,"prop":["Write"],"val":null,"desc":null,"_id":"d7IL7PbNoK5tvr5G"}
+{"owner":"9059af0b8159","uuid":"0xf000aa2004514000b000000000000000","startHdl":54,"endHdl":61,"chars":["0xf000aa2104514000b000000000000000","0xf000aa2204514000b000000000000000"],"_id":"dPmkP4eXfLsLJZUh"}
+{"owner":"VXA6c6CeqGME6X1A","ancestor":"544a165e1f53","uuid":"0x2a05","hdl":14,"prop":["Ind"],"val":null,"desc":null,"_id":"diIJvKPqKkUBbYx6"}
+{"owner":"wvwMwDNLW4e9QdLq","ancestor":"d03972c3d10a","uuid":"0x2a25","hdl":22,"prop":["Read"],"val":{"serialNum":"Serial Number\u0000"},"desc":null,"_id":"e3rakXW8Lwv50ZCz"}
+{"owner":"544a165e1f53","uuid":"0x180f","startHdl":45,"endHdl":49,"chars":["0x2a19"],"_id":"e8qQGIzPgerXlk5h"}
+{"owner":"MKYyg393RSJzbUEX","ancestor":"9059af0b8159","uuid":"0xf000ffc204514000b000000000000000","hdl":111,"prop":["WriteNoRsp","Write","Notif"],"val":null,"desc":null,"_id":"eUahVj1x2w1rzJc9"}
+{"owner":"8UTLVuqfLWgzX9cL","ancestor":"9059af0b8159","uuid":"0xf000aa0204514000b000000000000000","hdl":41,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"eezCuX2u624M94p2"}
+{"owner":"pUZEmREZ02WtJU9v","ancestor":"544a165e1f53","uuid":"0xffa3","hdl":58,"prop":["Notif"],"val":null,"desc":null,"_id":"f6xaMD6wWdJF7EMJ"}
+{"owner":"teeCyhBouq2FPKsa","ancestor":"9059af0b8159","uuid":"0x2a29","hdl":30,"prop":["Read"],"val":{"manufacturerName":"Texas Instruments\u0000"},"desc":null,"_id":"fymuEyvJgdi0ydWo"}
+{"owner":"zixyPSW2McyxDxim","ancestor":"9059af0b8159","uuid":"0xf000aa5204514000b000000000000000","hdl":91,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0]},"desc":null,"_id":"gB6dZLBJDArlQYaB"}
+{"owner":"pUZEmREZ02WtJU9v","ancestor":"544a165e1f53","uuid":"0xffa4","hdl":62,"prop":["Notif"],"val":null,"desc":null,"_id":"gFcfHbSq8FheB0aA"}
+{"owner":"hq2wxMnbe3xPSDTO","ancestor":"544a165e1f53","uuid":"0x2a04","hdl":11,"prop":["Read"],"val":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"desc":null,"_id":"gNR1NasAIw0ip7oc"}
+{"owner":"teeCyhBouq2FPKsa","ancestor":"9059af0b8159","uuid":"0x2a24","hdl":20,"prop":["Read"],"val":{"modelNum":"N.A.\u0000"},"desc":null,"_id":"gvC8K3ZfgdphgFpu"}
+{"owner":"544a165e1f53","uuid":"0x1800","startHdl":1,"endHdl":11,"chars":["0x2a00","0x2a01","0x2a02","0x2a03","0x2a04"],"_id":"hq2wxMnbe3xPSDTO"}
+{"owner":"wvwMwDNLW4e9QdLq","ancestor":"d03972c3d10a","uuid":"0x2a23","hdl":18,"prop":["Read"],"val":{"manufacturerID":"0x0000c3d10a","organizationallyUID":"0xd03972"},"desc":null,"_id":"i5BjIxFApWQ5hA4j"}
+{"owner":"iUmhGw3puKalKmit","ancestor":"9059af0b8159","uuid":"0x2a03","hdl":9,"prop":["Read","Write"],"val":{"addr":"0x000000000000"},"desc":null,"_id":"iHeXfuvqH7uGQ3GY"}
+{"owner":"9059af0b8159","uuid":"0x1800","startHdl":1,"endHdl":11,"chars":["0x2a00","0x2a01","0x2a02","0x2a03","0x2a04"],"_id":"iUmhGw3puKalKmit"}
+{"owner":"d03972c3d10a","uuid":"0x1800","startHdl":1,"endHdl":11,"chars":["0x2a00","0x2a01","0x2a02","0x2a03","0x2a04"],"_id":"ixnAAzeF9adNeFWg"}
+{"owner":"ixnAAzeF9adNeFWg","ancestor":"d03972c3d10a","uuid":"0x2a00","hdl":3,"prop":["Read"],"val":{"name":"bPoint_Plug"},"desc":null,"_id":"iz5TaKpWFZtNl2wM"}
+{"owner":"ixnAAzeF9adNeFWg","ancestor":"d03972c3d10a","uuid":"0x2a01","hdl":5,"prop":["Read"],"val":{"category":0},"desc":null,"_id":"kL4t9brGfRcS65Mq"}
+{"owner":"qG7tuZhQ03UuI1iN","ancestor":"9059af0b8159","uuid":"0xf000aa4104514000b000000000000000","hdl":75,"prop":["Read","Notif"],"val":{"type":"Buffer","data":[0,0,0,0]},"desc":null,"_id":"kOhGJSHMc1ZLQZW6"}
+{"owner":"9059af0b8159","uuid":"0xf000aa6004514000b000000000000000","startHdl":98,"endHdl":104,"chars":["0xf000aa6104514000b000000000000000","0xf000aa6204514000b000000000000000"],"_id":"kv8rdS8Nq8ECsTU3"}
+{"owner":"teeCyhBouq2FPKsa","ancestor":"9059af0b8159","uuid":"0x2a2a","hdl":32,"prop":["Read"],"val":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"desc":null,"_id":"kzAiOPX3U9xeKN8C"}
+{"owner":"e8qQGIzPgerXlk5h","ancestor":"544a165e1f53","uuid":"0x2a19","hdl":47,"prop":["Read","Notif"],"val":{"level":21},"desc":null,"_id":"lWyNW0IN5gSNy0Rg"}
+{"owner":"wvwMwDNLW4e9QdLq","ancestor":"d03972c3d10a","uuid":"0x2a2a","hdl":32,"prop":["Read"],"val":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"desc":null,"_id":"mPVL38oOODQ0Cuit"}
+{"owner":"teeCyhBouq2FPKsa","ancestor":"9059af0b8159","uuid":"0x2a25","hdl":22,"prop":["Read"],"val":{"serialNum":"N.A.\u0000"},"desc":null,"_id":"n51Dmg4MmojfhxEJ"}
+{"owner":"544a165e1f53","uuid":"0x180a","startHdl":16,"endHdl":34,"chars":["0x2a23","0x2a24","0x2a25","0x2a26","0x2a27","0x2a28","0x2a29","0x2a2a","0x2a50"],"_id":"o5KFq4H3l07Fkrgy"}
+{"owner":"544a165e1f53","uuid":"0xffa0","startHdl":50,"endHdl":68,"chars":["0xffa1","0xffa2","0xffa3","0xffa4","0xffa5"],"_id":"pUZEmREZ02WtJU9v"}
+{"owner":"9059af0b8159","uuid":"0xf000aa4004514000b000000000000000","startHdl":73,"endHdl":84,"chars":["0xf000aa4104514000b000000000000000","0xf000aa4204514000b000000000000000","0xf000aa4304514000b000000000000000"],"_id":"qG7tuZhQ03UuI1iN"}
+{"owner":"9059af0b8159","uuid":"0xf000aa3004514000b000000000000000","startHdl":62,"endHdl":72,"chars":["0xf000aa3104514000b000000000000000","0xf000aa3204514000b000000000000000","0xf000aa3304514000b000000000000000"],"_id":"te2SmfoszRx7nM01"}
+{"owner":"9059af0b8159","uuid":"0x180a","startHdl":16,"endHdl":34,"chars":["0x2a23","0x2a24","0x2a25","0x2a26","0x2a27","0x2a28","0x2a29","0x2a2a","0x2a50"],"_id":"teeCyhBouq2FPKsa"}
+{"owner":"o5KFq4H3l07Fkrgy","ancestor":"544a165e1f53","uuid":"0x2a27","hdl":26,"prop":["Read"],"val":{"hardwareRev":"Hardware Revision\u0000"},"desc":null,"_id":"uPRbKK7OUzN9fJkS"}
+{"owner":"te2SmfoszRx7nM01","ancestor":"9059af0b8159","uuid":"0xf000aa3304514000b000000000000000","hdl":71,"prop":["Read","Write"],"val":{"type":"Buffer","data":[200]},"desc":null,"_id":"uUJHwNTvMQIE3oLW"}
+{"owner":"zxxQp7pfibKeaiTD","ancestor":"544a165e1f53","uuid":"0xffe1","hdl":71,"prop":["Notif"],"val":null,"desc":null,"_id":"vKNB3M2kmFhlLlGR"}
+{"owner":"wvwMwDNLW4e9QdLq","ancestor":"d03972c3d10a","uuid":"0x2a24","hdl":20,"prop":["Read"],"val":{"modelNum":"bPoint001\u0000"},"desc":null,"_id":"w0ghXejDvBFmHMr7"}
+{"owner":"o5KFq4H3l07Fkrgy","ancestor":"544a165e1f53","uuid":"0x2a26","hdl":24,"prop":["Read"],"val":{"firmwareRev":"Firmware Revision\u0000"},"desc":null,"_id":"wOlY6VORr1fxSJ3K"}
+{"owner":"wvwMwDNLW4e9QdLq","ancestor":"d03972c3d10a","uuid":"0x2a29","hdl":30,"prop":["Read"],"val":{"manufacturerName":"reIDEA\u0000"},"desc":null,"_id":"wVyBx86nfhskNpVm"}
+{"owner":"9059af0b8159","uuid":"0x1801","startHdl":12,"endHdl":15,"chars":["0x2a05"],"_id":"wpMHCwGGwBPlS3nz"}
+{"owner":"d03972c3d10a","uuid":"0x180a","startHdl":16,"endHdl":34,"chars":["0x2a23","0x2a24","0x2a25","0x2a26","0x2a27","0x2a28","0x2a29","0x2a2a","0x2a50"],"_id":"wvwMwDNLW4e9QdLq"}
+{"owner":"MCZWllmKb8GbEB6N","ancestor":"9059af0b8159","uuid":"0xf000aa1104514000b000000000000000","hdl":45,"prop":["Read","Notif"],"val":{"x":0,"y":0,"z":0},"desc":null,"_id":"xro7EOuLWXVTnSlb"}
+{"owner":"9059af0b8159","uuid":"0xf000aa5004514000b000000000000000","startHdl":85,"endHdl":92,"chars":["0xf000aa5104514000b000000000000000","0xf000aa5204514000b000000000000000"],"_id":"zixyPSW2McyxDxim"}
+{"owner":"Jwt28ngxBdnKOg9W","ancestor":"d03972c3d10a","uuid":"0xf111","hdl":37,"prop":["Read","Write"],"val":{"type":"Buffer","data":[0,128,177,4,212,30,176,255,4,0,180,176,255,4,0,66,176,4,208,40]},"desc":null,"_id":"zudJoOdzZ08A5XeK"}
+{"owner":"544a165e1f53","uuid":"0xffe0","startHdl":69,"endHdl":65535,"chars":["0xffe1"],"_id":"zxxQp7pfibKeaiTD"}
+{"$$deleted":true,"_id":"9059af0b8159"}
+{"$$deleted":true,"_id":"0VFaVh4VPz0riGHp"}
+{"$$deleted":true,"_id":"8UTLVuqfLWgzX9cL"}
+{"$$deleted":true,"_id":"MCZWllmKb8GbEB6N"}
+{"$$deleted":true,"_id":"MKYyg393RSJzbUEX"}
+{"$$deleted":true,"_id":"dPmkP4eXfLsLJZUh"}
+{"$$deleted":true,"_id":"iUmhGw3puKalKmit"}
+{"$$deleted":true,"_id":"kv8rdS8Nq8ECsTU3"}
+{"$$deleted":true,"_id":"qG7tuZhQ03UuI1iN"}
+{"$$deleted":true,"_id":"te2SmfoszRx7nM01"}
+{"$$deleted":true,"_id":"teeCyhBouq2FPKsa"}
+{"$$deleted":true,"_id":"wpMHCwGGwBPlS3nz"}
+{"$$deleted":true,"_id":"zixyPSW2McyxDxim"}
+{"$$deleted":true,"_id":"0CucO1xUZXNsY4Rn"}
+{"$$deleted":true,"_id":"13ZeiTLPjFtDoeJl"}
+{"$$deleted":true,"_id":"1q28njHm58W3sCrd"}
+{"$$deleted":true,"_id":"4nXaahEBB0V5NHx3"}
+{"$$deleted":true,"_id":"5kPSebaOfeVMXiyT"}
+{"$$deleted":true,"_id":"9M9xRgcl1iQ6JrQP"}
+{"$$deleted":true,"_id":"9s8G4JcSR4UEiFcU"}
+{"$$deleted":true,"_id":"AaooWfZ5zmIEvPqm"}
+{"$$deleted":true,"_id":"BhmlueYawc7IHN8g"}
+{"$$deleted":true,"_id":"CE0p8dQbIWDveBEo"}
+{"$$deleted":true,"_id":"DioETIk8TRogTHlN"}
+{"$$deleted":true,"_id":"E5BeOweORCosThjB"}
+{"$$deleted":true,"_id":"Fa80GItucItrVcVN"}
+{"$$deleted":true,"_id":"I18haPKY6nyChTQR"}
+{"$$deleted":true,"_id":"MGLxRL2nBaTZ8WOT"}
+{"$$deleted":true,"_id":"PMIzVpkFklc5Xg4l"}
+{"$$deleted":true,"_id":"Ql3tAwsua2hBPImf"}
+{"$$deleted":true,"_id":"SBT7g0h5lOaiwbak"}
+{"$$deleted":true,"_id":"TdIP0WDXXVTJytYB"}
+{"$$deleted":true,"_id":"TiKxxapOrZxzHmDk"}
+{"$$deleted":true,"_id":"UUiSiSoiBHQLIHvx"}
+{"$$deleted":true,"_id":"VtUSnvUVE1IHggZV"}
+{"$$deleted":true,"_id":"c27ZpNRG9MfGMls7"}
+{"$$deleted":true,"_id":"cwwwz8tVkihzQjpI"}
+{"$$deleted":true,"_id":"eUahVj1x2w1rzJc9"}
+{"$$deleted":true,"_id":"eezCuX2u624M94p2"}
+{"$$deleted":true,"_id":"fymuEyvJgdi0ydWo"}
+{"$$deleted":true,"_id":"gB6dZLBJDArlQYaB"}
+{"$$deleted":true,"_id":"gvC8K3ZfgdphgFpu"}
+{"$$deleted":true,"_id":"iHeXfuvqH7uGQ3GY"}
+{"$$deleted":true,"_id":"kOhGJSHMc1ZLQZW6"}
+{"$$deleted":true,"_id":"kzAiOPX3U9xeKN8C"}
+{"$$deleted":true,"_id":"n51Dmg4MmojfhxEJ"}
+{"$$deleted":true,"_id":"uUJHwNTvMQIE3oLW"}
+{"$$deleted":true,"_id":"xro7EOuLWXVTnSlb"}
+{"_id":"d03972c3d10a","role":"peripheral","addr":"0xd03972c3d10a","addrType":0,"linkParams":{"interval":800,"latency":0,"timeout":1000},"servs":["0x1800","0x1801","0x180a","0xf110","0xf000ffc004514000b000000000000000"],"sm":{"pairMode":1,"ioCap":4,"mitm":1,"bond":1,"ltk":{"type":"Buffer","data":[152,36,222,41,154,217,78,234,231,117,69,8,55,179,236,148]},"div":9614,"rand":{"type":"Buffer","data":[169,155,177,190,164,116,97,120]}}}
