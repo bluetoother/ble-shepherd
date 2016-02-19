@@ -1,117 +1,192 @@
-{"owner":"9059af0b8159","uuid":"f000aa4004514000b000000000000000","chars":["f000aa4104514000b000000000000000","f000aa4204514000b000000000000000","f000aa4304514000b000000000000000"],"_id":"01zkuhRoEhR5GBlg"}
-{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3304514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[200]},"_id":"02sOwh4OJtzIxxtM"}
-{"ancestor":"544a165e1f53","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"04AlsbdGSLGkiS1C"}
-{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"N.A.\u0000"},"_id":"0X9nz8KT6JfaIaJ4"}
-{"ancestor":"9059af0b8159","owner":"f000ffc004514000b000000000000000","uuid":"f000ffc204514000b000000000000000","properties":["writeWithoutResponse","write","notify"],"value":null,"_id":"0uZkePxjvtPqiQE7"}
-{"owner":"544a165e1f53","uuid":"1804","chars":["2a07"],"_id":"1FQN5VzBGeK5ZiWT"}
-{"owner":"544a165e1f53","uuid":"1802","chars":["2a06"],"_id":"1l2qjSKQq83dp12X"}
-{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"Model Number\u0000"},"_id":"1pg2a3x9riW0OVwQ"}
-{"ancestor":"9059af0b8159","owner":"1800","uuid":"2a02","properties":["read"],"value":{"flag":false},"_id":"32FYu7miCTk1uvrN"}
-{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"42Fv7jZJoP9SFFmP"}
-{"owner":"9059af0b8159","uuid":"f000aa2004514000b000000000000000","chars":["f000aa2104514000b000000000000000","f000aa2204514000b000000000000000"],"_id":"4d0f2rHQbpbluRVz"}
-{"owner":"9059af0b8159","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"51pGSmDmCIpD2T1E"}
-{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"Serial Number\u0000"},"_id":"9ZynMubGVsyd42uk"}
-{"ancestor":"9059af0b8159","owner":"f000aa6004514000b000000000000000","uuid":"f000aa6104514000b000000000000000","properties":["read"],"value":{"type":"Buffer","data":[63,0]},"_id":"9fNc5g1AziI6C7u5"}
-{"id":"544a165e1f53","address":"54:4a:16:5e:1f:53","addressType":"public","advertisement":{"localName":"Keyfobdemo","serviceData":[],"serviceUuids":["1803","1802","1804"]},"rssi":-83,"services":["1800","1801","180a","1803","1802","1804","180f","ffa0","ffe0"],"_id":"9zo29PXJhkSbvfph"}
-{"owner":"544a165e1f53","uuid":"ffa0","chars":["ffa1","ffa2","ffa3","ffa4","ffa5"],"_id":"BWrF0atSpGemkEJc"}
-{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"Dwo9jLRTHBinuA6c"}
-{"ancestor":"9059af0b8159","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"ES01kRGwTgQLnql2"}
-{"owner":"9059af0b8159","uuid":"f000aa3004514000b000000000000000","chars":["f000aa3104514000b000000000000000","f000aa3204514000b000000000000000","f000aa3304514000b000000000000000"],"_id":"EhdVfWZd0WU4BZqQ"}
-{"owner":"544a165e1f53","uuid":"1801","chars":["2a05"],"_id":"EmbilasYIGzn1dUR"}
-{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"Hardware Revision\u0000"},"_id":"JCqynSlaxmGXHUcc"}
-{"owner":"9059af0b8159","uuid":"ffe0","chars":["ffe1"],"_id":"Je7kqpuhhKE4y4bT"}
-{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"KubrwKgx4WLP9kfa"}
-{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"N.A.\u0000"},"_id":"LGPuTMIOJQguKOPG"}
-{"ancestor":"9059af0b8159","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":null,"_id":"LHXI0pxnDa5arFG8"}
-{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"TI BLE Keyfob"},"_id":"LKJtroojMvsbCW9X"}
-{"ancestor":"9059af0b8159","owner":"f000aa2004514000b000000000000000","uuid":"f000aa2204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"LPZ0ENAznbthuLsS"}
-{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"Firmware Revision\u0000"},"_id":"LcT4lCtP9LMYv0Ah"}
-{"owner":"544a165e1f53","uuid":"ffe0","chars":["ffe1"],"_id":"Lcde48CUfcXOrddv"}
-{"ancestor":"544a165e1f53","owner":"1803","uuid":"2a06","properties":["read","write"],"value":{"alertLevel":0},"_id":"NuupbNqwUpyjm4Pb"}
-{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":0},"_id":"PJrkFrVWfNq5Cw7r"}
-{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x00005e1f53","organizationallyUID":"0x544a16"},"_id":"PbJME2LSkudyoODE"}
-{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a02","properties":["read","write"],"value":{"flag":false},"_id":"PjgbaBleGk47qAaN"}
-{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa2","properties":["read"],"value":{"type":"Buffer","data":[20,0]},"_id":"RdI1JWEswGlGWDo3"}
-{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"N.A.\u0000"},"_id":"TKJ7uGxrw7uqCCMN"}
-{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"N.A.\u0000"},"_id":"Tdgaj0pKDBexD0ry"}
-{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x00000b8159","organizationallyUID":"0x9059af"},"_id":"UeguFO4rJPvmB1cY"}
-{"ancestor":"9059af0b8159","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"UsZ32MMuRCb09duz"}
-{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0104514000b000000000000000","properties":["read","notify"],"value":{"rawT2":65535,"rawT1":2468},"_id":"UtOdztX8KDrwjEQO"}
-{"ancestor":"544a165e1f53","owner":"1804","uuid":"2a07","properties":["read","notify"],"value":{"txPower":-6},"_id":"V0FUFJbB4SHxjojH"}
-{"owner":"9059af0b8159","uuid":"f000aa0004514000b000000000000000","chars":["f000aa0104514000b000000000000000","f000aa0204514000b000000000000000"],"_id":"V1oLiRawFXvDxFcn"}
-{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"WPSnBmFyLl6PgZQV"}
-{"ancestor":"544a165e1f53","owner":"1802","uuid":"2a06","properties":["writeWithoutResponse"],"value":null,"_id":"XeSkuOp8Prh0Xclx"}
-{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"Z5JDYJYCwTnN1sHy"}
-{"ancestor":"9059af0b8159","owner":"1800","uuid":"2a03","properties":["read","write"],"value":{"addr":"0x000000000000"},"_id":"ZWnwcZCeUUK7UqkJ"}
-{"owner":"9059af0b8159","uuid":"f000ffc004514000b000000000000000","chars":["f000ffc104514000b000000000000000","f000ffc204514000b000000000000000"],"_id":"ZZ1fHVEscTOuOf1K"}
-{"ancestor":"9059af0b8159","owner":"f000aa2004514000b000000000000000","uuid":"f000aa2104514000b000000000000000","properties":["read","notify"],"value":{"type":"Buffer","data":[0,0,0,0]},"_id":"ZZNOP2eMj3l5qQOs"}
-{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"_id":"abeuvQfpk9qnyy5i"}
-{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1104514000b000000000000000","properties":["read","notify"],"value":{"x":0,"y":5,"z":66},"_id":"cvQNpqPdK4LvoLfX"}
-{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa5","properties":["notify"],"value":null,"_id":"dCVQzinDIIxUbg7D"}
-{"owner":"544a165e1f53","uuid":"180f","chars":["2a19"],"_id":"dcFklXu0MLdIxiHd"}
-{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"Texas Instruments\u0000"},"_id":"e7FY1uaslnVIEYFh"}
-{"owner":"9059af0b8159","uuid":"1801","chars":["2a05"],"_id":"gjZPkpGjX7Dn2xm1"}
-{"owner":"9059af0b8159","uuid":"f000aa5004514000b000000000000000","chars":["f000aa5104514000b000000000000000","f000aa5204514000b000000000000000"],"_id":"hKKu5QyL9hZTN0S8"}
-{"owner":"544a165e1f53","uuid":"1803","chars":["2a06"],"_id":"hKdIvHk27XIPfwW2"}
-{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa3","properties":["notify"],"value":null,"_id":"iJ4ND0Sz2si2IruY"}
-{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"1.01 (Feb  7 2013)\u0000"},"_id":"jHnsB92niw2yNoZT"}
-{"owner":"9059af0b8159","uuid":"f000aa6004514000b000000000000000","chars":["f000aa6104514000b000000000000000","f000aa6204514000b000000000000000"],"_id":"jR8C2Dovv8EIzOtD"}
-{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"_id":"jVMN2R9svfEBTitl"}
-{"owner":"544a165e1f53","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"k4tdI1CDmP3sRcdy"}
-{"ancestor":"9059af0b8159","owner":"f000aa6004514000b000000000000000","uuid":"f000aa6204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"ku6Z09Bk8T1U1Zu0"}
-{"owner":"9059af0b8159","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"nOzevJHnnzKwo1xN"}
-{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3104514000b000000000000000","properties":["read","notify"],"value":{"type":"Buffer","data":[0,0,0,0,0,0]},"_id":"oDj46kNksBp3MJ9s"}
-{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1304514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[100]},"_id":"oKbYxrLNtzF1kz7f"}
-{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"oPjP0OxG4mOktPOB"}
-{"ancestor":"9059af0b8159","owner":"f000aa5004514000b000000000000000","uuid":"f000aa5204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"pdVXXW7znOdFjX2o"}
-{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa4","properties":["notify"],"value":null,"_id":"q1EMsSkiA5Orn5h7"}
-{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"qRljnKbVwfICkQ7q"}
-{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4104514000b000000000000000","properties":["read","notify"],"value":{"type":"Buffer","data":[0,0,0,0]},"_id":"qmCJ3WyUGTI57GkQ"}
-{"ancestor":"544a165e1f53","owner":"180f","uuid":"2a19","properties":["read","notify"],"value":{"level":21},"_id":"sIwRVwGdW8MzhsOx"}
-{"owner":"9059af0b8159","uuid":"f000aa1004514000b000000000000000","chars":["f000aa1104514000b000000000000000","f000aa1204514000b000000000000000","f000aa1304514000b000000000000000"],"_id":"suvrjYKnMSX4bsYR"}
-{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"Manufacturer Name\u0000"},"_id":"t19ILfaC78NfHyQJ"}
-{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa1","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"t1oqzetoJmVe5mpt"}
-{"ancestor":"9059af0b8159","owner":"f000ffc004514000b000000000000000","uuid":"f000ffc104514000b000000000000000","properties":["writeWithoutResponse","write","notify"],"value":null,"_id":"ufu0pRZrEc0syqpW"}
-{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a03","properties":["read","write"],"value":{"addr":"0x000000000000"},"_id":"ui4UlzUpGAQTQvew"}
-{"owner":"544a165e1f53","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"v4bQMc9y2JPh1K2v"}
-{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"vZ7Fa8neTr8MiFdJ"}
-{"ancestor":"9059af0b8159","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"TI BLE Sensor Tag"},"_id":"wFX7vniHJP0dH5Cq"}
-{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"Software Revision\u0000"},"_id":"yQBn2ai58TyzgCKE"}
-{"ancestor":"9059af0b8159","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"ygFbNwMDHEjBdVzt"}
-{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4304514000b000000000000000","properties":["read"],"value":{"type":"Buffer","data":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},"_id":"yzZylz6Br2bd6FQX"}
-{"ancestor":"9059af0b8159","owner":"f000aa5004514000b000000000000000","uuid":"f000aa5104514000b000000000000000","properties":["read","notify"],"value":{"x":0,"y":0,"z":0},"_id":"zQ8uKMFn4TjFBOZn"}
-{"id":"9059af0b8159","address":"90:59:af:0b:81:59","addressType":"public","advertisement":{"localName":"SensorTag","txPowerLevel":0,"serviceData":[],"serviceUuids":[]},"rssi":-54,"services":["1800","1801","180a","f000aa0004514000b000000000000000","f000aa1004514000b000000000000000","f000aa2004514000b000000000000000","f000aa3004514000b000000000000000","f000aa4004514000b000000000000000","f000aa5004514000b000000000000000","ffe0","f000aa6004514000b000000000000000","f000ffc004514000b000000000000000"],"_id":"zQqi3SAKFzysTwmj"}
-{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"_id":"abeuvQfpk9qnyy5i"}
-{"ancestor":"544a165e1f53","owner":"1804","uuid":"2a07","properties":["read","notify"],"value":{"txPower":0},"_id":"V0FUFJbB4SHxjojH"}
-{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa1","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"t1oqzetoJmVe5mpt"}
-{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa2","properties":["read"],"value":{"type":"Buffer","data":[20,0]},"_id":"RdI1JWEswGlGWDo3"}
-{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"_id":"jVMN2R9svfEBTitl"}
-{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0104514000b000000000000000","properties":["read","notify"],"value":{"rawT2":0,"rawT1":0},"_id":"UtOdztX8KDrwjEQO"}
-{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"Dwo9jLRTHBinuA6c"}
-{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1104514000b000000000000000","properties":["read","notify"],"value":{"x":0,"y":0,"z":0},"_id":"cvQNpqPdK4LvoLfX"}
-{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"WPSnBmFyLl6PgZQV"}
-{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1304514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[100]},"_id":"oKbYxrLNtzF1kz7f"}
-{"ancestor":"9059af0b8159","owner":"f000aa2004514000b000000000000000","uuid":"f000aa2104514000b000000000000000","properties":["read","notify"],"value":{"type":"Buffer","data":[0,0,0,0]},"_id":"ZZNOP2eMj3l5qQOs"}
-{"ancestor":"9059af0b8159","owner":"f000aa2004514000b000000000000000","uuid":"f000aa2204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"LPZ0ENAznbthuLsS"}
-{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3104514000b000000000000000","properties":["read","notify"],"value":{"type":"Buffer","data":[0,0,0,0,0,0]},"_id":"oDj46kNksBp3MJ9s"}
-{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"KubrwKgx4WLP9kfa"}
-{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3304514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[200]},"_id":"02sOwh4OJtzIxxtM"}
-{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4104514000b000000000000000","properties":["read","notify"],"value":{"type":"Buffer","data":[0,0,0,0]},"_id":"qmCJ3WyUGTI57GkQ"}
-{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"vZ7Fa8neTr8MiFdJ"}
-{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4304514000b000000000000000","properties":["read"],"value":{"type":"Buffer","data":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},"_id":"yzZylz6Br2bd6FQX"}
-{"ancestor":"9059af0b8159","owner":"f000aa5004514000b000000000000000","uuid":"f000aa5204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"pdVXXW7znOdFjX2o"}
-{"ancestor":"9059af0b8159","owner":"f000aa6004514000b000000000000000","uuid":"f000aa6104514000b000000000000000","properties":["read"],"value":{"type":"Buffer","data":[63,0]},"_id":"9fNc5g1AziI6C7u5"}
-{"ancestor":"9059af0b8159","owner":"f000aa6004514000b000000000000000","uuid":"f000aa6204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"ku6Z09Bk8T1U1Zu0"}
-{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":1},"_id":"PJrkFrVWfNq5Cw7r"}
-{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":0},"_id":"PJrkFrVWfNq5Cw7r"}
-{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0104514000b000000000000000","properties":["read","notify"],"value":{"rawT2":65479,"rawT1":2472},"_id":"UtOdztX8KDrwjEQO"}
-{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1104514000b000000000000000","properties":["read","notify"],"value":{"x":0,"y":5,"z":66},"_id":"cvQNpqPdK4LvoLfX"}
-{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0104514000b000000000000000","properties":["read","notify"],"value":{"rawT2":11,"rawT1":2472},"_id":"UtOdztX8KDrwjEQO"}
-{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1104514000b000000000000000","properties":["read","notify"],"value":{"x":0,"y":5,"z":67},"_id":"cvQNpqPdK4LvoLfX"}
-{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0104514000b000000000000000","properties":["read","notify"],"value":{"rawT2":75,"rawT1":2476},"_id":"UtOdztX8KDrwjEQO"}
-{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1104514000b000000000000000","properties":["read","notify"],"value":{"x":0,"y":5,"z":66},"_id":"cvQNpqPdK4LvoLfX"}
-{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0104514000b000000000000000","properties":["read","notify"],"value":{"rawT2":45,"rawT1":2476},"_id":"UtOdztX8KDrwjEQO"}
-{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0104514000b000000000000000","properties":["read","notify"],"value":{"rawT2":91,"rawT1":2476},"_id":"UtOdztX8KDrwjEQO"}
-{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":1},"_id":"PJrkFrVWfNq5Cw7r"}
-{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1104514000b000000000000000","properties":["read","notify"],"value":{"x":1,"y":5,"z":66},"_id":"cvQNpqPdK4LvoLfX"}
-{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":0},"_id":"PJrkFrVWfNq5Cw7r"}
+{"ancestor":"d03972c3d10a","owner":"f110","uuid":"f115","properties":["read"],"value":{"type":"Buffer","data":[]},"_id":"0bRSeOMORbLaF8H0"}
+{"owner":"544a165e1f53","uuid":"ffe0","chars":["ffe1"],"_id":"0uB2dQMYImOjXeKi"}
+{"ancestor":"9059af0b8159","owner":"f000ffc004514000b000000000000000","uuid":"f000ffc104514000b000000000000000","properties":["writeWithoutResponse","write","notify"],"value":null,"_id":"1hAptLLgqtGurD9n"}
+{"ancestor":"d05fb820a857","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"3O1QIyjkdFejqdDm"}
+{"ancestor":"9059af0b8159","owner":"f000aa5004514000b000000000000000","uuid":"f000aa5104514000b000000000000000","properties":["read","notify"],"value":{"x":0,"y":0,"z":0},"_id":"4NdGWHTZhSj4GPbh"}
+{"ancestor":"d05fb820a857","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"PIR Sensor"},"_id":"5dBbw3lsRlPPBWsU"}
+{"ancestor":"544a165e1f53","owner":"180f","uuid":"2a19","properties":["read","notify"],"value":{"level":21},"_id":"5iWFEZkMK7Lpt0zY"}
+{"ancestor":"d05fb820a857","owner":"1800","uuid":"2a03","properties":["write"],"value":null,"_id":"5sA3D0DPgiZ2QBhU"}
+{"ancestor":"00188c37b65c","owner":"1814","uuid":"2a55","properties":["write","indicate"],"value":null,"_id":"5sf4otVbs2I5o5D3"}
+{"ancestor":"d03972c3d10a","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"bPointFW V1503.04\u0000"},"_id":"7AUrunCvCXCJfgRL"}
+{"owner":"9059af0b8159","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"7FhBvrrOnO337LgL"}
+{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"N.A.\u0000"},"_id":"7YesQo0TTkHhtNMJ"}
+{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1304514000b000000000000000","properties":["read","write"],"value":{"0":100},"_id":"8E6j2vhLBXeBxHTe"}
+{"ancestor":"9059af0b8159","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"94tYaqYds8B6KEKg"}
+{"ancestor":"d03972c3d10a","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"reIDEA\u0000"},"_id":"9CNwRNthckSK7Wvl"}
+{"owner":"9059af0b8159","uuid":"ffe0","chars":["ffe1"],"_id":"9chxXqyJ32c5N30O"}
+{"ancestor":"00188c37b65c","owner":"1814","uuid":"2aff","properties":["read","writeWithoutResponse","write"],"value":{"type":"Buffer","data":[255,195,0,27,28,120,3,0,0,0,239,0,0,12,0,0,182,22,0,34]},"_id":"9m942Xn2XFKdavda"}
+{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0104514000b000000000000000","properties":["read","notify"],"value":{"rawT2":65388,"rawT1":2556},"_id":"9oWqOeTOQo6YxPiq"}
+{"ancestor":"9059af0b8159","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"TI BLE Sensor Tag"},"_id":"A5mRE1vqumGsv4Tk"}
+{"owner":"00188c37b65c","uuid":"1800","chars":["2a00","2a01","2a04"],"_id":"AJyEpowsrQ6H9rpn"}
+{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1104514000b000000000000000","properties":["read","notify"],"value":{"x":255,"y":5,"z":66},"_id":"AM4XunvdS7P6qWFB"}
+{"ancestor":"d05fb820a857","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"Manufacturer Name"},"_id":"ATZZJlTbLrQePDtD"}
+{"ancestor":"00188c37b65c","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"CSR101x A05"},"_id":"BNujquwLs8YPc6QX"}
+{"ancestor":"9059af0b8159","owner":"f000aa2004514000b000000000000000","uuid":"f000aa2204514000b000000000000000","properties":["read","write"],"value":{"0":0},"_id":"CFsBxMBc8UZWOZEP"}
+{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0204514000b000000000000000","properties":["read","write"],"value":{"0":0},"_id":"D4IcGNveoAaGzCCg"}
+{"ancestor":"d05fb820a857","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"Serial Number"},"_id":"E8FnYT5r9KcblpgF"}
+{"ancestor":"d03972c3d10a","owner":"f000ffc004514000b000000000000000","uuid":"f000ffc104514000b000000000000000","properties":["writeWithoutResponse","write","notify"],"value":null,"_id":"EVqa1t5mkAYGZDgY"}
+{"owner":"9059af0b8159","uuid":"f000aa2004514000b000000000000000","chars":["f000aa2104514000b000000000000000","f000aa2204514000b000000000000000"],"_id":"EXKVuXPg8EluiUqf"}
+{"owner":"9059af0b8159","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"EdgOu0mcakaiuqVB"}
+{"owner":"00188c37b65c","uuid":"180a","chars":["2a25","2a27","2a26","2a28","2a29","2a50"],"_id":"EyIQlDWoYsJThKQw"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"Firmware Revision\u0000"},"_id":"FyMKfdixDlLJ3X0h"}
+{"ancestor":"00188c37b65c","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"Mobile Action Technology Inc."},"_id":"GKZcu3pXOvhFn8jg"}
+{"ancestor":"d03972c3d10a","owner":"f110","uuid":"f112","properties":["read"],"value":{"type":"Buffer","data":[2]},"_id":"GtO9pvj7Nq888BPQ"}
+{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"N.A.\u0000"},"_id":"JOthGHTKyBu43Za4"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"Model Number\u0000"},"_id":"KEQ08T3EVxXzf2jd"}
+{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"N.A.\u0000"},"_id":"KqiAvkkTJwL88A2u"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x00005e1f53","organizationallyUID":"0x544a16"},"_id":"L7WoohdHXxD7CsXG"}
+{"ancestor":"d05fb820a857","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"MGFRAqU3FFkjUvcT"}
+{"ancestor":"d03972c3d10a","owner":"1800","uuid":"2a03","properties":["write"],"value":null,"_id":"MIV57gzzGgubeZwE"}
+{"owner":"544a165e1f53","uuid":"1802","chars":["2a06"],"_id":"MPOzInnXzBfq8ENc"}
+{"owner":"9059af0b8159","uuid":"1801","chars":["2a05"],"_id":"MxWMNTWrC1vW2ifF"}
+{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":0},"_id":"N2ZO9xURz2I27gne"}
+{"ancestor":"d05fb820a857","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"_id":"N7AJjr9nIby0PmTs"}
+{"ancestor":"9059af0b8159","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":null,"_id":"OMCwHbp9ttVeUGC5"}
+{"owner":"00188c37b65c","uuid":"1814","chars":["2a53","2a54","2a5d","2a55","2aff"],"_id":"OUt9BH6IPKktSUpP"}
+{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3104514000b000000000000000","properties":["read","notify"],"value":{"0":0,"1":0,"2":0,"3":0,"4":0,"5":0},"_id":"PP3nmEtoaOeLTEVQ"}
+{"owner":"544a165e1f53","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"Q0qHkCwGGIxWuRpy"}
+{"owner":"d03972c3d10a","uuid":"f110","chars":["f111","f112","f113","f114","f115"],"_id":"RDv67JgHIUS4XG72"}
+{"ancestor":"00188c37b65c","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"MA5I37005788"},"_id":"RRZA8WAzGOkIyCl2"}
+{"owner":"9059af0b8159","uuid":"f000aa6004514000b000000000000000","chars":["f000aa6104514000b000000000000000","f000aa6204514000b000000000000000"],"_id":"RTbNBd8SRUy70TLC"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa3","properties":["notify"],"value":null,"_id":"RlC9ZjoWbCBv0Xk0"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"SC2LWko6lVwz8ibc"}
+{"ancestor":"d03972c3d10a","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"SOjjQGI7IpEjyXHT"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"Software Revision\u0000"},"_id":"SZvRrgsa9PCGweLR"}
+{"ancestor":"00188c37b65c","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":10,"productID":332,"productVersion":256},"_id":"Saye4MWlTLl2DENT"}
+{"owner":"9059af0b8159","uuid":"f000aa1004514000b000000000000000","chars":["f000aa1104514000b000000000000000","f000aa1204514000b000000000000000","f000aa1304514000b000000000000000"],"_id":"T6KMWPLIvidmJQ7n"}
+{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"0":254,"1":0,"2":101,"3":120,"4":112,"5":101,"6":114,"7":105,"8":109,"9":101,"10":110,"11":116,"12":97,"13":108},"_id":"TRzC5bMNKupk5eFl"}
+{"id":"00188c37b65c","address":"00:18:8c:37:b6:5c","addressType":"public","advertisement":{"localName":"Wristband X","txPowerLevel":-2,"serviceData":[],"serviceUuids":["1814"]},"rssi":-47,"services":["1800","180a","1801","1814","180f"],"_id":"TZb9vRwkQcmKidre"}
+{"ancestor":"544a165e1f53","owner":"1804","uuid":"2a07","properties":["read","notify"],"value":{"txPower":0},"_id":"TjSPNB0mb0MHGKbI"}
+{"ancestor":"d03972c3d10a","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x0000c3d10a","organizationallyUID":"0xd03972"},"_id":"U25nfN8OA0V22GXd"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"0":254,"1":0,"2":101,"3":120,"4":112,"5":101,"6":114,"7":105,"8":109,"9":101,"10":110,"11":116,"12":97,"13":108},"_id":"VRUeHmkE9yaKtor5"}
+{"ancestor":"9059af0b8159","owner":"1800","uuid":"2a02","properties":["read"],"value":{"flag":false},"_id":"WKIcEaQtffpatO59"}
+{"ancestor":"d03972c3d10a","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"Hardware Revision\u0000"},"_id":"WjencBBBGm4eCFBh"}
+{"ancestor":"d05fb820a857","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"WyRkQckBBBHbYl44"}
+{"ancestor":"d03972c3d10a","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"_id":"XGQSqII634QYMUZB"}
+{"owner":"544a165e1f53","uuid":"180f","chars":["2a19"],"_id":"XJvIhxdhoKJo6lkU"}
+{"owner":"d05fb820a857","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"XK55ESTJpNzMOT7L"}
+{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3304514000b000000000000000","properties":["read","write"],"value":{"0":200},"_id":"XggIRiQxRR1PxqBD"}
+{"id":"544a165e1f53","address":"54:4a:16:5e:1f:53","addressType":"public","advertisement":{"localName":"Keyfobdemo","serviceData":[],"serviceUuids":["1803","1802","1804"]},"rssi":-47,"services":["1800","1801","180a","1803","1802","1804","180f","ffa0","ffe0"],"_id":"XrpDgf6cOqCI0grr"}
+{"id":"d05fb820a857","address":"d0:5f:b8:20:a8:57","addressType":"public","advertisement":{"localName":"PIRSensor","txPowerLevel":0,"serviceData":[],"serviceUuids":[]},"rssi":-53,"services":["1800","1801","180a","aac0"],"_id":"YVqdERcOzk69OZiG"}
+{"ancestor":"d05fb820a857","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"Software Revision"},"_id":"YrhDvGm1dDgPNONy"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"Serial Number\u0000"},"_id":"Ysm3e1QVE8hayfF5"}
+{"ancestor":"d03972c3d10a","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"YusAggBrKkczeyvl"}
+{"owner":"9059af0b8159","uuid":"f000ffc004514000b000000000000000","chars":["f000ffc104514000b000000000000000","f000ffc204514000b000000000000000"],"_id":"adqZHo2zgoGOAjrg"}
+{"ancestor":"d03972c3d10a","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"alStj5E5q9I9Z6A3"}
+{"ancestor":"00188c37b65c","owner":"180f","uuid":"2a19","properties":["read","notify"],"value":{"level":100},"_id":"az35291UahhYXNo6"}
+{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"1.01 (Feb  7 2013)\u0000"},"_id":"b7L9MKiewm6YnbJY"}
+{"ancestor":"d03972c3d10a","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"bPoint001\u0000"},"_id":"b8LYO5ZwhUmlTAWK"}
+{"ancestor":"9059af0b8159","owner":"f000ffc004514000b000000000000000","uuid":"f000ffc204514000b000000000000000","properties":["writeWithoutResponse","write","notify"],"value":null,"_id":"bHmCMNMRiKIlLz3c"}
+{"ancestor":"00188c37b65c","owner":"1800","uuid":"2a04","properties":["read"],"value":{"type":"Buffer","data":[200,220,0,0,88,2]},"_id":"bMZkMbAFLmQgVGoZ"}
+{"ancestor":"00188c37b65c","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":961},"_id":"cCqrwph6BwNV0Yjj"}
+{"ancestor":"544a165e1f53","owner":"1802","uuid":"2a06","properties":["writeWithoutResponse"],"value":null,"_id":"cXpCN6Wd1YPK1A0a"}
+{"ancestor":"00188c37b65c","owner":"1800","uuid":"2a00","properties":["read","write"],"value":{"name":"Wristband X"},"_id":"ceC5KaQ1fFz4pGhM"}
+{"ancestor":"00188c37b65c","owner":"1814","uuid":"2a53","properties":["notify"],"value":null,"_id":"ceElg3vcbiJ5PenG"}
+{"ancestor":"d03972c3d10a","owner":"f000ffc004514000b000000000000000","uuid":"f000ffc204514000b000000000000000","properties":["writeWithoutResponse","write","notify"],"value":null,"_id":"cpF5iVJxX5hj9IhO"}
+{"ancestor":"d05fb820a857","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"Model Number"},"_id":"dMoZtIsYtHuTzsq3"}
+{"ancestor":"00188c37b65c","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"Q62"},"_id":"ddBhVFOAZfHjtNnW"}
+{"owner":"544a165e1f53","uuid":"1804","chars":["2a07"],"_id":"dmZ3u7Q28Ih3dR4N"}
+{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4304514000b000000000000000","properties":["read"],"value":{"0":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0},"_id":"eBozorFMSSSmLP5p"}
+{"ancestor":"00188c37b65c","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"1.0.1505.06P"},"_id":"eL0i38Lot5LKQyvq"}
+{"ancestor":"d03972c3d10a","owner":"f110","uuid":"f111","properties":["read","write"],"value":{"type":"Buffer","data":[0,128,177,4,212,30,176,255,4,0,0,176,255,4,0,66,176,4,208,40]},"_id":"eNVXsL4HDn96WNcA"}
+{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a03","properties":["read","write"],"value":{"addr":"0x000000000000"},"_id":"fNExzGGWolJtKZnb"}
+{"ancestor":"d03972c3d10a","owner":"1800","uuid":"2a02","properties":["read"],"value":{"flag":false},"_id":"fRYay8BYHXpSHjYB"}
+{"id":"9059af0b8159","address":"90:59:af:0b:81:59","addressType":"public","advertisement":{"localName":"SensorTag","txPowerLevel":0,"serviceData":[],"serviceUuids":[]},"rssi":-62,"services":["1800","1801","180a","f000aa0004514000b000000000000000","f000aa1004514000b000000000000000","f000aa2004514000b000000000000000","f000aa3004514000b000000000000000","f000aa4004514000b000000000000000","f000aa5004514000b000000000000000","ffe0","f000aa6004514000b000000000000000","f000ffc004514000b000000000000000"],"_id":"fWz1sdYblv6ENr3v"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"Manufacturer Name\u0000"},"_id":"fdO97MtxrkcN4ZO1"}
+{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"Texas Instruments\u0000"},"_id":"feGEtvaQlpFMfGfR"}
+{"owner":"544a165e1f53","uuid":"ffa0","chars":["ffa1","ffa2","ffa3","ffa4","ffa5"],"_id":"fkNVhiaBImZvYJu4"}
+{"ancestor":"9059af0b8159","owner":"f000aa6004514000b000000000000000","uuid":"f000aa6204514000b000000000000000","properties":["read","write"],"value":{"0":0},"_id":"g2M3CRAASknwcgvg"}
+{"ancestor":"d05fb820a857","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"Firmware Revision"},"_id":"g3ueKcuLbWIJ88ve"}
+{"owner":"00188c37b65c","uuid":"1801","chars":[],"_id":"hJcT1N7AJnfuWxtb"}
+{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"N.A.\u0000"},"_id":"hKnXVGmki2I7Bo9a"}
+{"ancestor":"9059af0b8159","owner":"1800","uuid":"2a03","properties":["read","write"],"value":{"addr":"0x000000000000"},"_id":"hq8LjUVAMiIMrxkT"}
+{"owner":"d03972c3d10a","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"i99RH7djVqyALrhu"}
+{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x00000b8159","organizationallyUID":"0x9059af"},"_id":"iU0Dy9T7FBgDDT3o"}
+{"ancestor":"d03972c3d10a","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"Software Revision\u0000"},"_id":"j1NI3HTmQkFtWyLu"}
+{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a02","properties":["read","write"],"value":{"flag":false},"_id":"jL2KboA0P9EWqb6r"}
+{"owner":"9059af0b8159","uuid":"f000aa0004514000b000000000000000","chars":["f000aa0104514000b000000000000000","f000aa0204514000b000000000000000"],"_id":"jPiwqx48bIb2lsMJ"}
+{"ancestor":"d03972c3d10a","owner":"f110","uuid":"f113","properties":["write"],"value":null,"_id":"jt2WXDn3yq00a4Zs"}
+{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"kDNVruBlQmk35ggw"}
+{"ancestor":"9059af0b8159","owner":"f000aa6004514000b000000000000000","uuid":"f000aa6104514000b000000000000000","properties":["read"],"value":{"0":63,"1":0},"_id":"kGLvTVdelee1sFod"}
+{"ancestor":"9059af0b8159","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"kZMTBfErWkpqYINY"}
+{"ancestor":"9059af0b8159","owner":"f000aa5004514000b000000000000000","uuid":"f000aa5204514000b000000000000000","properties":["read","write"],"value":{"0":0},"_id":"lx0GW3afWqN92ar5"}
+{"owner":"9059af0b8159","uuid":"f000aa3004514000b000000000000000","chars":["f000aa3104514000b000000000000000","f000aa3204514000b000000000000000","f000aa3304514000b000000000000000"],"_id":"lz9JsEpUKgiIhhFs"}
+{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"m6uWjrLtodB7awNz"}
+{"ancestor":"9059af0b8159","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"mbpIa4MKwm4kYcrd"}
+{"id":"d03972c3d10a","address":"d0:39:72:c3:d1:0a","addressType":"public","advertisement":{"localName":"bPoint_Plug","txPowerLevel":0,"serviceData":[],"serviceUuids":["f110"]},"rssi":-49,"services":["1800","1801","180a","f110","f000ffc004514000b000000000000000"],"_id":"mhLt7jBnVZ7AOoMc"}
+{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4204514000b000000000000000","properties":["read","write"],"value":{"0":0},"_id":"mi4NEaVFMO7HQhoH"}
+{"ancestor":"d03972c3d10a","owner":"f110","uuid":"f114","properties":["notify"],"value":null,"_id":"muKcCnaUYwTeajC8"}
+{"owner":"544a165e1f53","uuid":"1801","chars":["2a05"],"_id":"nLbiy7LHeM5Ei8yo"}
+{"ancestor":"544a165e1f53","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"ndWKxWwCJI1MCitv"}
+{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"ndrdSORbyar0EIfB"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa2","properties":["read"],"value":{"0":20,"1":0},"_id":"nu13HUy6EwYwsBLj"}
+{"owner":"d03972c3d10a","uuid":"1801","chars":["2a05"],"_id":"o9ukxRpQiQ4jZ7Fi"}
+{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4104514000b000000000000000","properties":["read","notify"],"value":{"0":0,"1":0,"2":0,"3":0},"_id":"oNjGYRHulqQxNbau"}
+{"owner":"9059af0b8159","uuid":"f000aa4004514000b000000000000000","chars":["f000aa4104514000b000000000000000","f000aa4204514000b000000000000000","f000aa4304514000b000000000000000"],"_id":"ompazDirt8dOUh9T"}
+{"owner":"d05fb820a857","uuid":"aac0","chars":["aac1"],"_id":"pf1PeSLyN1qzk518"}
+{"owner":"00188c37b65c","uuid":"180f","chars":["2a19"],"_id":"pxTwWquUOmiGnKCP"}
+{"owner":"d03972c3d10a","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"qUPy65bXkdpzPnPp"}
+{"ancestor":"9059af0b8159","owner":"f000aa2004514000b000000000000000","uuid":"f000aa2104514000b000000000000000","properties":["read","notify"],"value":{"0":0,"1":0,"2":0,"3":0},"_id":"rfNUKDzv3z5Lwb2Q"}
+{"owner":"9059af0b8159","uuid":"f000aa5004514000b000000000000000","chars":["f000aa5104514000b000000000000000","f000aa5204514000b000000000000000"],"_id":"s38jfZq5Oo4ALX2M"}
+{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"TI BLE Keyfob"},"_id":"s8jTtNEBCRwigR1J"}
+{"owner":"d03972c3d10a","uuid":"f000ffc004514000b000000000000000","chars":["f000ffc104514000b000000000000000","f000ffc204514000b000000000000000"],"_id":"sC2qAfeSbdyHC7us"}
+{"ancestor":"00188c37b65c","owner":"1814","uuid":"2a5d","properties":["read"],"value":{"sensorLocation":2},"_id":"sImWP15YJwEFrL1x"}
+{"ancestor":"d03972c3d10a","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"sZ7N23jNCDBdmrmw"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"Hardware Revision\u0000"},"_id":"tUEXNsourgoAFP08"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa5","properties":["notify"],"value":null,"_id":"udPnDBtKFX8pQRW9"}
+{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3204514000b000000000000000","properties":["read","write"],"value":{"0":0},"_id":"uvJpNC29OIlOq8gV"}
+{"ancestor":"d05fb820a857","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x000020a857","organizationallyUID":"0xd05fb8"},"_id":"vCLZOcgkYg0gDrDE"}
+{"owner":"544a165e1f53","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"wJGcLmVtDEpKju4b"}
+{"ancestor":"d05fb820a857","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"Hardware Revision"},"_id":"wPdIQjzsvCpwQKGQ"}
+{"ancestor":"544a165e1f53","owner":"1803","uuid":"2a06","properties":["read","write"],"value":{"alertLevel":0},"_id":"wTI4vWfjte5l7Ogc"}
+{"ancestor":"d05fb820a857","owner":"aac0","uuid":"aac1","properties":["read","notify"],"value":{"type":"Buffer","data":[0]},"_id":"wc2GnLcqkw576Agc"}
+{"ancestor":"d05fb820a857","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"xNkzKgGCjjJjaPnR"}
+{"ancestor":"d05fb820a857","owner":"1800","uuid":"2a02","properties":["read","write"],"value":{"flag":false},"_id":"xbZF2BOOEzOnPad1"}
+{"ancestor":"d03972c3d10a","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"bPoint_Plug"},"_id":"yN4PNbjN0FMbKqWF"}
+{"ancestor":"d03972c3d10a","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"Serial Number\u0000"},"_id":"yVnJuNZK6YGWwx9w"}
+{"owner":"544a165e1f53","uuid":"1803","chars":["2a06"],"_id":"zD9loZfLHY6x5lvC"}
+{"owner":"d05fb820a857","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"zEIsnLp3llzvRtN2"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa4","properties":["notify"],"value":null,"_id":"zPFkWWbLY6Hfldwd"}
+{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1204514000b000000000000000","properties":["read","write"],"value":{"0":0},"_id":"zQ5scH1aol3N8n3T"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa1","properties":["read","write"],"value":{"0":0},"_id":"zYIJqJlPSU8BmFJ9"}
+{"owner":"d05fb820a857","uuid":"1801","chars":["2a05"],"_id":"zdTK3msBl8tjRzuA"}
+{"ancestor":"00188c37b65c","owner":"1814","uuid":"2a54","properties":["read"],"value":{"feature":31},"_id":"zzApGc361A9tct2X"}
+{"ancestor":"00188c37b65c","owner":"1800","uuid":"2a04","properties":["read"],"value":{"type":"Buffer","data":[200,220,0,0,88,2]},"_id":"bMZkMbAFLmQgVGoZ"}
+{"ancestor":"00188c37b65c","owner":"1814","uuid":"2aff","properties":["read","writeWithoutResponse","write"],"value":{"type":"Buffer","data":[255,196,0,196,29,120,3,0,0,0,239,0,255,12,0,0,182,22,0,34]},"_id":"9m942Xn2XFKdavda"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"_id":"VRUeHmkE9yaKtor5"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa1","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"zYIJqJlPSU8BmFJ9"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa2","properties":["read"],"value":{"type":"Buffer","data":[20,0]},"_id":"nu13HUy6EwYwsBLj"}
+{"ancestor":"9059af0b8159","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"_id":"TRzC5bMNKupk5eFl"}
+{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0104514000b000000000000000","properties":["read","notify"],"value":{"rawT2":0,"rawT1":0},"_id":"9oWqOeTOQo6YxPiq"}
+{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"D4IcGNveoAaGzCCg"}
+{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1104514000b000000000000000","properties":["read","notify"],"value":{"x":0,"y":0,"z":0},"_id":"AM4XunvdS7P6qWFB"}
+{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"zQ5scH1aol3N8n3T"}
+{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1304514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[100]},"_id":"8E6j2vhLBXeBxHTe"}
+{"ancestor":"9059af0b8159","owner":"f000aa2004514000b000000000000000","uuid":"f000aa2104514000b000000000000000","properties":["read","notify"],"value":{"type":"Buffer","data":[0,0,0,0]},"_id":"rfNUKDzv3z5Lwb2Q"}
+{"ancestor":"9059af0b8159","owner":"f000aa2004514000b000000000000000","uuid":"f000aa2204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"CFsBxMBc8UZWOZEP"}
+{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3104514000b000000000000000","properties":["read","notify"],"value":{"type":"Buffer","data":[0,0,0,0,0,0]},"_id":"PP3nmEtoaOeLTEVQ"}
+{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"uvJpNC29OIlOq8gV"}
+{"ancestor":"9059af0b8159","owner":"f000aa3004514000b000000000000000","uuid":"f000aa3304514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[200]},"_id":"XggIRiQxRR1PxqBD"}
+{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4104514000b000000000000000","properties":["read","notify"],"value":{"type":"Buffer","data":[0,0,0,0]},"_id":"oNjGYRHulqQxNbau"}
+{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"mi4NEaVFMO7HQhoH"}
+{"ancestor":"9059af0b8159","owner":"f000aa4004514000b000000000000000","uuid":"f000aa4304514000b000000000000000","properties":["read"],"value":{"type":"Buffer","data":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},"_id":"eBozorFMSSSmLP5p"}
+{"ancestor":"9059af0b8159","owner":"f000aa5004514000b000000000000000","uuid":"f000aa5204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"lx0GW3afWqN92ar5"}
+{"ancestor":"9059af0b8159","owner":"f000aa6004514000b000000000000000","uuid":"f000aa6104514000b000000000000000","properties":["read"],"value":{"type":"Buffer","data":[63,0]},"_id":"kGLvTVdelee1sFod"}
+{"ancestor":"9059af0b8159","owner":"f000aa6004514000b000000000000000","uuid":"f000aa6204514000b000000000000000","properties":["read","write"],"value":{"type":"Buffer","data":[0]},"_id":"g2M3CRAASknwcgvg"}
+{"ancestor":"d03972c3d10a","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"_id":"XGQSqII634QYMUZB"}
+{"ancestor":"d03972c3d10a","owner":"f110","uuid":"f111","properties":["read","write"],"value":{"type":"Buffer","data":[0,128,177,4,212,30,176,255,4,0,0,176,255,4,0,66,176,4,208,40]},"_id":"eNVXsL4HDn96WNcA"}
+{"ancestor":"d03972c3d10a","owner":"f110","uuid":"f112","properties":["read"],"value":{"type":"Buffer","data":[2]},"_id":"GtO9pvj7Nq888BPQ"}
+{"ancestor":"d03972c3d10a","owner":"f110","uuid":"f115","properties":["read"],"value":{"type":"Buffer","data":[]},"_id":"0bRSeOMORbLaF8H0"}
+{"ancestor":"d05fb820a857","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"type":"Buffer","data":[254,0,101,120,112,101,114,105,109,101,110,116,97,108]},"_id":"N7AJjr9nIby0PmTs"}
+{"ancestor":"d05fb820a857","owner":"aac0","uuid":"aac1","properties":["read","notify"],"value":{"type":"Buffer","data":[0]},"_id":"wc2GnLcqkw576Agc"}
+{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":1},"_id":"N2ZO9xURz2I27gne"}
+{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":0},"_id":"N2ZO9xURz2I27gne"}
+{"ancestor":"9059af0b8159","owner":"f000aa0004514000b000000000000000","uuid":"f000aa0104514000b000000000000000","properties":["read","notify"],"value":{"rawT2":65460,"rawT1":2556},"_id":"9oWqOeTOQo6YxPiq"}
+{"ancestor":"9059af0b8159","owner":"f000aa1004514000b000000000000000","uuid":"f000aa1104514000b000000000000000","properties":["read","notify"],"value":{"x":0,"y":5,"z":65},"_id":"AM4XunvdS7P6qWFB"}
+{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":1},"_id":"N2ZO9xURz2I27gne"}
+{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":0},"_id":"N2ZO9xURz2I27gne"}
+{"ancestor":"d05fb820a857","owner":"aac0","uuid":"aac1","properties":["read","notify"],"value":{"type":"Buffer","data":[1]},"_id":"wc2GnLcqkw576Agc"}
+{"ancestor":"d05fb820a857","owner":"aac0","uuid":"aac1","properties":["read","notify"],"value":{"type":"Buffer","data":[0]},"_id":"wc2GnLcqkw576Agc"}
+{"ancestor":"d05fb820a857","owner":"aac0","uuid":"aac1","properties":["read","notify"],"value":{"type":"Buffer","data":[1]},"_id":"wc2GnLcqkw576Agc"}
+{"ancestor":"d05fb820a857","owner":"aac0","uuid":"aac1","properties":["read","notify"],"value":{"type":"Buffer","data":[0]},"_id":"wc2GnLcqkw576Agc"}
+{"ancestor":"d05fb820a857","owner":"aac0","uuid":"aac1","properties":["read","notify"],"value":{"type":"Buffer","data":[1]},"_id":"wc2GnLcqkw576Agc"}
