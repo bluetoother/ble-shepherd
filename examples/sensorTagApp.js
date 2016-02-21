@@ -3,7 +3,7 @@ var Q = require('q'),
 
 var bShepherd = require('../lib/csr8510/ble-shepherd'),
     spCfg = {
-        path: '/dev/ttyUSB0',
+        path: '/dev/ttyACM0',
         options: {
             baudRate: 115200,
             rtscts: true,
