@@ -1,9 +1,9 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/csr8510/ble-shepherd'),
+var bShepherd = require('../lib/cc254x/ble-shepherd'),
     spCfg = {
-        path: '/dev/ttyACM0',
+        path: '/dev/ttyUSB0',
         options: {
             baudRate: 115200,
             rtscts: true,
