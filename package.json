@@ -1,12 +1,23 @@
 {
-  "name": "bluetooth",
+  "name": "ble-shepherd",
   "version": "0.0.0",
+  "description": "ble-shepherd is a network controller for BLE devices. It aims to help you build a BLE machine network with less effort on node.js",
   "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/hedywings/ble-shepherd.git"
   },
-  "author": "Hedy Wang",
+  "keywords": [
+    "ble", "cc254x", "csr8510"
+  ],
+  "author": "Hedy Wang <hedywings@gmail.com>",
+  "contributors": [
+    "Peter Yi <peter.eb9@gmail.com>"
+  ],
+  "license": "MIT",
   "homepage": "https://github.com/hedywings/ble-shepherd",
   "devDependencies": {
     "should": "^7.1.1",
@@ -22,5 +33,8 @@
     "nedb": "^1.2.1",
     "noble": "^1.3.0",
     "q": "^1.4.1"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/hedywings/ble-shepherd/issues"
+  },
 }
