@@ -2,7 +2,7 @@
 var _ = require('lodash'),
     should = require('should'),
     shouldd = require('should-promised'),
-    ccBnp = require('ccbnp'),
+    ccBnp = require('cc-bnp'),
     fs = require('fs'),
     Char = require('../../lib/cc254x/management/characteristic'),
     GATTDEFS = require('../../lib/defs/gattdefs'),
@@ -13,16 +13,16 @@ fs.exists(dbPath, function (isThere) {
     if (isThere) { fs.unlink(dbPath); }
 });
 
-var ownerServ = {ownerDev: {connHdl: 0}},
-    charPubR = new Char({uuid: '0x2a00', hdl: 3, prop: ['Read']}),
-    charPriW = new Char({uuid: '0xFFF3', hdl: 43, prop: ['Write']}),
-    charPriNoti = new Char({uuid: '0xFFF4', hdl: 46, prop: ['Notif']}),
-    charPriRW = new Char({uuid: '0xFFF1', hdl: 37, prop: ['Read', 'Write']});
+var ownerServ = {_ownerDev: {connHdl: 0}},
+    charPubR = new Char({uuid: '0x2a00', hdl: 3, prop: ['read']}),
+    charPriW = new Char({uuid: '0xFFF3', hdl: 43, prop: ['write']}),
+    charPriNoti = new Char({uuid: '0xFFF4', hdl: 46, prop: ['notify']}),
+    charPriRW = new Char({uuid: '0xFFF1', hdl: 37, prop: ['read', 'write']});
 
-charPubR.ownerServ = ownerServ;
-charPriW.ownerServ = ownerServ;
-charPriNoti.ownerServ = ownerServ;
-charPriRW.ownerServ = ownerServ;
+charPubR._ownerServ = ownerServ;
+charPriW._ownerServ = ownerServ;
+charPriNoti._ownerServ = ownerServ;
+charPriRW._ownerServ = ownerServ;
 
 describe('start connection', function() {
     var spConfig = {
@@ -53,9 +53,8 @@ describe('Constructor Check', function () {
 
     it('Char()', function () {
         should(char._id).be.null();
-        should(char._isSync).be.false();
         should(char._authState).be.null();
-        should(char.ownerServ).be.null();
+        should(char._ownerServ).be.null();
         should(char.uuid).be.equal(charInfo.uuid);
         should(char.hdl).be.equal(charInfo.hdl);
         should(char.prop).be.equal(charInfo.prop);
@@ -130,6 +129,7 @@ describe('Functional Check', function () {
 
     it('read() - readable characteristic', function (done) {
         charPubR.read().then(function (result) {
+            console.log(result);
             var resultVal = { name: 'Simple BLE Peripheral' };
             if (_.isEqual(charPubR.val, resultVal) && _.isEqual(result, resultVal))
                 done();
@@ -156,7 +156,7 @@ describe('Functional Check', function () {
 
     it('readDesc() - prop is read', function (done) {
         var resultVal = { userDescription: 'Characteristic 1' };
-        charPubR.ownerServ.endHdl = 0xFFFF;
+        charPubR._ownerServ.endHdl = 0xFFFF;
         charPubR.readDesc().then(function (result) {
             if (_.isEqual(result, resultVal) && _.isEqual(charPubR.desc, resultVal))
                 done();
@@ -165,7 +165,7 @@ describe('Functional Check', function () {
 
     it('readDesc() - prop is write', function (done) {
         var resultVal = { userDescription: 'Characteristic 3' };
-        charPriW.ownerServ.endHdl = 0xFFFF;
+        charPriW._ownerServ.endHdl = 0xFFFF;
         charPriW.readDesc().then(function (result) {
             if (_.isEqual(result, resultVal) && _.isEqual(charPriW.desc, resultVal))
                 done();
@@ -177,19 +177,9 @@ describe('Functional Check', function () {
         // can't testing here
     });
 
-    it('getConfig()', function (done) {
-        charPriNoti.getConfig().then(function (result) {
-            if (_.isBoolean(result))
-                done();
-        });
-    });
-
     it('setConfig()', function (done) {
         charPriNoti.setConfig(false).then(function (result) {
-            return charPriNoti.getConfig();
-        }).then(function (result) {
-            if (result === false)
-                done();
+            done();
         }).fail(function (err) {
             console.log(err);
         });
@@ -200,7 +190,7 @@ describe('Functional Check', function () {
         delete testChar._id;
         delete testChar._isSync;
         delete testChar._authState;
-        delete testChar.ownerServ;
+        delete testChar._ownerServ;
         delete testChar.name;
         delete testChar.processInd;
         testChar.owner = undefined;
@@ -225,8 +215,7 @@ describe('Functional Check', function () {
 
     it('update() - characteristic value unchange', function (done) {
         charPriRW.update().then(function () {
-            if (charPriRW._isSync === true)
-                done();
+            done();
         });
     });
 
@@ -235,16 +224,10 @@ describe('Functional Check', function () {
         ccBnp.gatt.writeCharValue(0, charPriRW.hdl, newVal, charPriRW.uuid).then(function () {
             return charPriRW.update();
         }).then(function () {
-            if (charPriRW._isSync)
-                done();
+            done();
         });
 
     });
-
-    it('remove()', function () {
-        charPriRW.remove().should.be.fulfilled();
-    });
-
 
     it('disconnect to device', function () {
         return ccBnp.gap.terminateLink(0, 19).should.be.fulfilled();

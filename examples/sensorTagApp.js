@@ -1,7 +1,7 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/csr8510/ble-shepherd'),
+var bShepherd = require('../lib/cc254x/ble-shepherd'),
     spCfg = {
         path: '/dev/ttyUSB0',
         options: {

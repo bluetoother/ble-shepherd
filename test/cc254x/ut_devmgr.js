@@ -1,10 +1,9 @@
 var _ = require('lodash'),
     should = require('should'),
     shouldd = require('should-promised'),
-    ccBnp = require('ccbnp'),
+    ccBnp = require('cc-bnp'),
     fs = require('fs'),
-    Devmgr = require('../../lib/cc254x/management/devmgr'),
-    devmgr = new Devmgr(),
+    devmgr = require('../../lib/cc254x/management/devmgr'),
     bledb = require('../../lib/cc254x/bledb'),
     BleServ = require('../../lib/cc254x/service/bleServConstr');
 
@@ -44,15 +43,13 @@ describe('start connection', function() {
 
 describe('Constructor Check', function () {
     it('devmgr', function () {
-        should(devmgr._scanState).be.equal('off');
         should(devmgr.bleDevices).be.deepEqual([blePeri]);
-        should(devmgr.discDevices).be.deepEqual([]);
+        should(devmgr._discDevs).be.deepEqual([]);
     });
 
     it('peripheral', function () {
         should(blePeri._id).be.equal('78c5e570796e');
-        should(blePeri._isSync).be.false();
-        should(blePeri.ownerDevmgr).be.deepEqual(devmgr);
+        should(blePeri._ownerDevmgr).be.deepEqual(devmgr);
         should(blePeri.role).be.equal('peripheral');
         should(blePeri.addr).be.equal('0x78c5e570796e');
         should(blePeri.addrType).be.equal(0);
@@ -113,24 +110,15 @@ describe('Signature Check', function () {
     });
 
     describe('peripheral', function () {
-        var linkErrMsg = 'All argument must be number.',
+        var linkErrMsg = 'interval, latency and timeout must be number..',
             encryptErrMsg = 'setting must be an object';
-        it('updateLinkParam(interval, latency, timeout) - no arg', function () {
-            return blePeri.updateLinkParam().should.be.rejectedWith(linkErrMsg);
-        });
 
-        it('updateLinkParam(interval, latency, timeout) - partial arg', function () {
-            return blePeri.updateLinkParam(12, 22).should.be.rejectedWith(linkErrMsg);
-        });
-
-        it('updateLinkParam(interval, latency, timeout) - wrong type', function () {
-            return blePeri.updateLinkParam(12, 22, '45').should.be.rejectedWith(linkErrMsg);
-        });
-        it('updateLinkParam(interval, latency, timeout) - wrong type', function () {
-            return blePeri.updateLinkParam(12, [], 100).should.be.rejectedWith(linkErrMsg);
-        });
-        it('updateLinkParam(interval, latency, timeout) - wrong type', function () {
-            return blePeri.updateLinkParam({}, 50, 100).should.be.rejectedWith(linkErrMsg);
+        it('updateLinkParam(interval, latency, timeout)', function () {
+            (function () { blePeri.updateLinkParam(); }).should.throw();
+            (function () { blePeri.updateLinkParam(12, 22); }).should.throw();
+            (function () { blePeri.updateLinkParam(12, 22, '45'); }).should.throw();
+            (function () { blePeri.updateLinkParam(12, [], 100); }).should.throw();
+            (function () { blePeri.updateLinkParam({}, 50, 100); }).should.throw();
         });
 
         it('createSecMdl(setting)', function () {
@@ -144,17 +132,11 @@ describe('Signature Check', function () {
             (function () { blePeri.createSecMdl(null); }).should.throw();
         });
 
-        it('encrypt(setting) - bad type', function () {
-            return blePeri.encrypt([]).should.be.rejectedWith(encryptErrMsg);
-        });
-        it('encrypt(setting) - bad type', function () {
-            return blePeri.encrypt('xxx').should.be.rejectedWith(encryptErrMsg);
-        });
-        it('encrypt(setting) - bad type', function () {
-            return blePeri.encrypt(123).should.be.rejectedWith(encryptErrMsg);
-        });
-        it('encrypt(setting) - bad type', function () {
-            return blePeri.encrypt(true).should.be.rejectedWith(encryptErrMsg);
+        it('encrypt(setting)', function () {
+            (function () { blePeri.encrypt([]); }).should.throw();
+            (function () { blePeri.updateLinkParam(); }).should.throw();
+            (function () { blePeri.encrypt('xxx'); }).should.throw();
+            (function () { blePeri.encrypt(true); }).should.throw();
         });
 
         it('findChar(servUuid, charUuid)', function () {
@@ -233,7 +215,7 @@ describe('Functional Check', function () {
         });
 
         it('loadDevs() - no device', function () {
-            return devmgr._loadDevs().should.be.fulfilledWith([]);
+            return devmgr.loadPeriphs().should.be.fulfilledWith([]);
         });
 
         it('loadDevs() - with device', function () {
@@ -277,16 +259,15 @@ describe('Functional Check', function () {
         it('reconnect to device', function (done) {
             blePeri.connect().then(function () {
                 blePeri.connHdl = 0;
-                if (blePeri._isSync === true) {
-                    done();
-                }
+                blePeri.state = 'online';
+                done();
             }).fail(function (err) {
                 console.log(err);
             });
         });
 
-        it('_getServs()', function () {
-            return blePeri._getServs().should.be.fulfilled();
+        it('getServs()', function () {
+            return blePeri.getServs().should.be.fulfilled();
         });
 
         it('save()',function (done) {
@@ -305,8 +286,8 @@ describe('Functional Check', function () {
             });
         });
 
-        it('loadDevs() - with device', function (done) {
-            devmgr._loadDevs().then(function (result) {
+        it('loadPeriphs() - with device', function (done) {
+            devmgr.loadPeriphs().then(function (result) {
                 var dev = result[0].expInfo();
                 if (_.isEqual(dev, cloneDev))
                     done();
@@ -335,11 +316,13 @@ describe('Functional Check', function () {
         });
 
         it('createSecMdl()', function () {
+
             blePeri.createSecMdl({}).should.deepEqual(blePeri.sm);
         });
 
         var authed = false;
         it('encrypt()', function (done) {
+            blePeri.state = 'online';
             ccBnp.on('ind', function (msg) {
                 if (msg.type === 'authenComplete') { authed = true; }
                 if (blePeri.sm.bond === 1) {
@@ -367,7 +350,7 @@ describe('Functional Check', function () {
                 servs.push(serv.uuid);
             });
             delete dev._isSync;
-            delete dev.ownerDevmgr;
+            delete dev._ownerDevmgr;
             delete dev.state;
             delete dev.connHdl;
             dev.sm = sm;
@@ -384,7 +367,7 @@ describe('Functional Check', function () {
             });
 
             blePeri.servs = {};
-            blePeri._loadServs().then(function () {
+            blePeri.loadServs().then(function () {
                 _.forEach(blePeri.servs, function (serv, name) {
                     newServs[name] = serv.expInfo();
                 });
@@ -395,8 +378,7 @@ describe('Functional Check', function () {
 
         it('update()', function (done) {
             blePeri.update().then(function () {
-                if (blePeri._isSync === true)
-                    done();
+                done();
             });
         });
 
@@ -406,7 +388,7 @@ describe('Functional Check', function () {
                     ancestor: '78c5e570796e',
                     uuid: '0x2a00',
                     hdl: 3,
-                    prop: ['Read'],
+                    prop: ['read'],
                     val: {name: "Simple BLE Peripheral"},
                     desc: null
                 };
@@ -433,15 +415,15 @@ describe('Functional Check', function () {
         it('readDesc()', function (done) {
             var char = blePeri.findChar('0xfff0', '0xfff1'),
                 resultVal = { userDescription: 'Characteristic 1' };
-                char.ownerServ.endHdl = 0xFFFF;
+                char._ownerServ.endHdl = 0xFFFF;
                 blePeri.readDesc('0xfff0', '0xfff1').then(function (result) {
                     if (_.isEqual(result, resultVal))
                         done();
                 });
         });
 
-        it('setConfig()', function () {
-            return blePeri.setConfig('0xfff0', '0xfff4', false).should.be.fulfilled();
+        it('setNotify()', function () {
+            return blePeri.setNotify('0xfff0', '0xfff4', false).should.be.fulfilled();
         });
 
         it('regCharHdlr()', function () {

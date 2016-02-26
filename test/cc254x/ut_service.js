@@ -1,7 +1,7 @@
 var _ = require('lodash'),
     should = require('should'),
     shouldd = require('should-promised'),
-    ccBnp = require('ccbnp'),
+    ccBnp = require('cc-bnp'),
     fs = require('fs'),
     Serv = require('../../lib/cc254x/management/service'),
     GATTDEFS = require('../../lib/defs/gattdefs'),
@@ -16,8 +16,8 @@ var ownerDev = {connHdl: 0, _id: '78c5e570796e', servs: []},
     pubServ = new Serv({uuid: '0x1800', startHdl: 1, endHdl: 11}),
     priServ = new Serv({uuid: '0xfff0', startHdl: 35, endHdl: 65535});
 
-pubServ.ownerDev = ownerDev;
-priServ.ownerDev = ownerDev;
+pubServ._ownerDev = ownerDev;
+priServ._ownerDev = ownerDev;
 
 describe('start connection', function() {
     var spConfig = {
@@ -48,8 +48,7 @@ describe('Constructor Check', function () {
 
     it('Serv()', function () {
         should(serv._id).be.null();
-        should(serv._isSync).be.false();
-        should(serv.ownerDev).be.null();
+        should(serv._ownerDev).be.null();
         should(serv.uuid).be.equal(servInfo.uuid);
         should(serv.startHdl).be.equal(servInfo.startHdl);
         should(serv.endHdl).be.equal(servInfo.endHdl);
@@ -68,7 +67,7 @@ describe('Functional Check', function () {
     });
 
     it('getChars() - public service', function (done) {
-        pubServ._getChars().then(function () {
+        pubServ.getChars().then(function () {
             var charArr = ['0x2a00', '0x2a01', '0x2a02', '0x2a03', '0x2a04'];
             _.forEach(pubServ.chars, function (char, key) {
                 charArr.splice(_.indexOf(charArr, key), 1);
@@ -79,7 +78,7 @@ describe('Functional Check', function () {
     });
 
     it('getChars() - private service', function (done) {
-        priServ._getChars().then(function () {
+        priServ.getChars().then(function () {
             var charArr = ['0xfff1', '0xfff2', '0xfff3', '0xfff4', '0xfff5'];
             _.forEach(priServ.chars, function (char, key) {
                 charArr.splice(_.indexOf(charArr, key), 1);
@@ -94,7 +93,7 @@ describe('Functional Check', function () {
             chars = [];
         delete serv._id;
         delete serv._isSync;
-        delete serv.ownerDev;
+        delete serv._ownerDev;
         delete serv.name;
         _.forEach(serv.chars, function (char) {
             chars.push(char.uuid);
@@ -119,17 +118,13 @@ describe('Functional Check', function () {
             chars[key] = char.expInfo();
         });
         pubServ.chars = {};
-        pubServ._loadChars().then(function () {
+        pubServ.loadChars().then(function () {
             _.forEach(pubServ.chars, function (char, key) {
                 pubServ.chars[key] = char.expInfo();
             });
             if (_.isEqual(pubServ.chars, chars))
                 done();
         });
-    });
-
-    it('remove()', function () {
-        return pubServ.remove().should.be.fulfilled();
     });
 
     it('disconnect to device', function () {

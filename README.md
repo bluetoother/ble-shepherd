@@ -9,13 +9,13 @@
 * [Usage](#Usage)
 * [APIs and Events](#APIs) 
 * [Advanced topics](#Advanced)
-	* [How to define your own Service and Characteristic](#addDefinition)
-	* [How to add Services to central](#addService)
+    * [How to define your own Service and Characteristic](#addDefinition)
+    * [How to add Services to central](#addService)
 * [Demo](#Demo)
-	* [Running the server with ble-shepherd](#runServer)
-	* [Processing device online and offline](#devOnlineOffline)
-	* [Process characteristic notification](#charNotif)
-	* [Control the device via website](#ctrlDev)
+    * [Running the server with ble-shepherd](#runServer)
+    * [Processing device online and offline](#devOnlineOffline)
+    * [Process characteristic notification](#charNotif)
+    * [Control the device via website](#ctrlDev)
 * [Example](#Example)
 * [License](#License)
 
@@ -108,6 +108,7 @@ central.appInit = function () {
 
 * [peripheral.connect()](#API_connect)
 * [peripheral.disconnect()](#API_disconnect)
+* [peripheral.remove()](#API_remove)
 * [peripheral.updateLinkParam()](#API_updateLinkParam)
 * [peripheral.encrypt()](#API_encrypt)
 * [peripheral.passPasskey()](#API_passPasskey)
@@ -120,24 +121,27 @@ central.appInit = function () {
 
 The following table shows the support of ble-shepherd APIs on different SoC.
 
-| Interface        						| API		      	| CC254x BNP      |  CSR8510 dongle |
+| Interface                             | API               | CC254x BNP      |  CSR8510 dongle |
 | --------------------------------------| ------------------| --------------- | --------------- |
-| Control the Network					| start       		| V 			  | V |
-|										| setNwkParams 		| V     		  | V     |
-|										| permitJoin       	| V     | V     |
-|										| command       	| V     | X     |
-|										| find 	            | V | V |
-|										| regGattDefs       | V     | V     |
-|										| addLocalServ      | V     | X     |
-| Monitor and Control the Peripherals	| updateLinkParam   | V | V |
-|										| encrypt       	| V | X |
-|										| passPasskey       | V | X |
-|										| readDesc       	| V     | V     |
-|										| setNotify       	| V     | V     |
-|										| update       		| V     | V     |
-|										| read       		| V     | V     |
-|										| write       		| V     | V     |
-|										| regCharHdlr       | V     | V     |
+| Control the Network                   | start             | V               | V               |
+|                                       | setNwkParams      | V               | V               |
+|                                       | permitJoin        | V               | V               |
+|                                       | command           | V               | X               |
+|                                       | find              | V               | V               |
+|                                       | regGattDefs       | V               | V               |
+|                                       | addLocalServ      | V               | X               |
+| Monitor and Control the Peripherals   | connect           | V               | V               |
+|                                       | disconnect        | V               | V               |
+|                                       | remove            | V               | V               |
+|                                       | updateLinkParam   | V               | V               |     
+|                                       | encrypt           | V               | X               |
+|                                       | passPasskey       | V               | X               |
+|                                       | readDesc          | V               | V               |
+|                                       | setNotify         | V               | V               |
+|                                       | update            | V               | V               |
+|                                       | read              | V               | V               |
+|                                       | write             | V               | V               |
+|                                       | regCharHdlr       | V               | V               |
 
 <br />
 *************************************************
@@ -257,7 +261,7 @@ central.setNwkParams('link', { interval: 5000 }, function (err) {
 
 **Arguments**  
 
-1. `time` (*Boolean*): Interval in seconds for central openning for devices to join the network. Set time to 0 can immediately close the admission.
+1. `time` (*Number*): Interval in seconds for central openning for devices to join the network. Set time to 0 can immediately close the admission.
 
 **Returns**  
 
@@ -409,7 +413,7 @@ Event Handler: `function(msg) { }`
 The central will fire an `IND` event upon receiving an indication from a peripheral. An incoming message will be typed in `msg.type` with either one of `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `PASSKEY_NEED` and `LOCAL_SERV_ERR` according to its purpose.
 
 - **DEV_ONLINE**
-	A peripheral join the network.
+    A peripheral join the network.
 
     - `msg.type` (*String*): `'DEV_ONLINE'`
     - `msg.data` (*String*): Device address  
@@ -505,21 +509,21 @@ The central will fire an `IND` event upon receiving an indication from a periphe
 **Example**
 ```javascript
 central.on('IND', function (msg) {
-	if (msg.type === 'DEV_ONLINE') {
-		console.log(msg);
-	}
+    if (msg.type === 'DEV_ONLINE') {
+        console.log(msg);
+    }
 });
 
 central.on('IND', function (msg) {
-	if (msg.type === 'DEV_INCOMING') {
-		console.log(msg);
-	}
+    if (msg.type === 'DEV_INCOMING') {
+        console.log(msg);
+    }
 });
 
 peripheral.connect(function (err) {
-	if (err) {
-		console.log(err);
-	}
+    if (err) {
+        console.log(err);
+    }
 });
 ```
 
@@ -537,15 +541,41 @@ peripheral.connect(function (err) {
 **Example**
 ```javascript
 central.on('IND', function (msg) {
-	if (msg.type === 'DEV_LEAVING') {
-		console.log(msg);
-	}
+    if (msg.type === 'DEV_LEAVING') {
+        console.log(msg);
+    }
 });
 
 peripheral.disconnect(function (err) {
-	if (err) {
-		console.log(err);
-	}
+    if (err) {
+        console.log(err);
+    }
+});
+```
+
+*************************************************
+<a name="API_remove"></a>
+###.remove([callback])
+> Disconnect to the remote BLE peripheral and remove peripheral record from database. Central will fire a `IND` event with meaasge type `DEV_LEAVING` when the procedure of disconnecting is completed. 
+
+**Arguments**
+- `callack` (*Function*): `function (err) {}`. Get called when the connection between central and remote peripheral is disconnected and peripheral record is removed.
+
+**Returns**
+- (*none*)
+
+**Example**
+```javascript
+central.on('IND', function (msg) {
+    if (msg.type === 'DEV_LEAVING') {
+        console.log(msg);
+    }
+});
+
+peripheral.remove(function (err) {
+    if (err) {
+        console.log(err);
+    }
 });
 ```
 
@@ -611,9 +641,9 @@ var setting = {
 
 central.on('IND', function (msg) {
     if (msg.type === 'PASSKEY_NEED') {
-		//finding the peripheral and send passkey by calling passPasskey() here
-		console.log(msg);
-	}
+        //finding the peripheral and send passkey by calling passPasskey() here
+        console.log(msg);
+    }
 });
 
 peripheral.encrypt(setting, function (err) {
@@ -794,11 +824,11 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
 
 **Example**
 ```javascript
-	peripheral.regCharHdlr('0xffe0', '0xffe1', processInd);
+    peripheral.regCharHdlr('0xffe0', '0xffe1', processInd);
 
-	function processInd (data) {
-		console.log(data);
-	}
+    function processInd (data) {
+        console.log(data);
+    }
 ```
 
 <br />
@@ -810,83 +840,83 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
 Use the `central.regGattDefs(type, regObjs)` method to register private service or characteristic definations. Register private characteristic defination can helps you parse and build characteristic value.
 
 * `regObjs` format will vary according to the register type
-	* If `type === 'service'`, `regObjs` should be given with an array of the _Service information object_ having the following properties.
+    * If `type === 'service'`, `regObjs` should be given with an array of the _Service information object_ having the following properties.
 
-		| Property | Type | Mandatory | Description |
-		|----------|----------|----------|----------|
-		| uuid | String | required | characteristic uuid |
-		| name | String | required | characteristic name |
-		(Note: Neither name nor uuid conflict with a public Service or a registered Service.)
+        | Property | Type | Mandatory | Description |
+        |----------|----------|----------|----------|
+        | uuid | String | required | characteristic uuid |
+        | name | String | required | characteristic name |
+        (Note: Neither name nor uuid conflict with a public Service or a registered Service.)
 
-	* If `type === 'characteristic'`, `regObjs` should be given with an array of the _Characteristic information object_ having the following properties. 
-	
-		| Property | Type | Mandatory | Description |
-		|----------|----------|----------|----------|
-		| uuid | String | required | characteristic uuid |
-		| name | String | required | characteristic name |
-		| params | Array | required | characteristic parameters |
-		| types | Array | required | characteristic parameters type |
-		* `params`: The Characteristic value will be parsed into an object with keys given in this array. The built-in parser will parse the payload according to the given keys in order.
-		* `types`: An array used to type each data in the params array. The order of entries in types and params array should be exactly matched.
-		
-		(Note: Neither name nor uuid conflict with a public Characteristic or a registered Characteristic.)
+    * If `type === 'characteristic'`, `regObjs` should be given with an array of the _Characteristic information object_ having the following properties. 
+    
+        | Property | Type | Mandatory | Description |
+        |----------|----------|----------|----------|
+        | uuid | String | required | characteristic uuid |
+        | name | String | required | characteristic name |
+        | params | Array | required | characteristic parameters |
+        | types | Array | required | characteristic parameters type |
+        * `params`: The Characteristic value will be parsed into an object with keys given in this array. The built-in parser will parse the payload according to the given keys in order.
+        * `types`: An array used to type each data in the params array. The order of entries in types and params array should be exactly matched.
+        
+        (Note: Neither name nor uuid conflict with a public Characteristic or a registered Characteristic.)
 
 * Example
-	* Register service definations
-	```js
-	central.regGattDefs('service', [
-	    { name: 'SimpleKeys', uuid: '0xffe0' },
-	    { name: 'Accelerometer', uuid: '0xffa0' }
-	]);
-	```
+    * Register service definations
+    ```js
+    central.regGattDefs('service', [
+        { name: 'SimpleKeys', uuid: '0xffe0' },
+        { name: 'Accelerometer', uuid: '0xffa0' }
+    ]);
+    ```
 
-	* Register characteristic definitions
-	```js
-	central.regGattDefs('characteristic', [
-	    { name: 'KeyPressState', uuid: '0xffe1', params: [ 'Enable' ], types: [ 'uint8' ] }, 
-	    { name: 'AccelerometerX', uuid: '0xffa3', params: [ 'X' ], types: [ 'uint8' ] }, 
-	    { name: 'AccelerometerY', uuid: '0xffa4', params: [ 'Y' ], types: [ 'uint8' ] }, 
-	    { name: 'AccelerometerZ', uuid: '0xffa5', params: [ 'Z' ], types: [ 'uint8' ] }, 
-	]);
-	```
+    * Register characteristic definitions
+    ```js
+    central.regGattDefs('characteristic', [
+        { name: 'KeyPressState', uuid: '0xffe1', params: [ 'Enable' ], types: [ 'uint8' ] }, 
+        { name: 'AccelerometerX', uuid: '0xffa3', params: [ 'X' ], types: [ 'uint8' ] }, 
+        { name: 'AccelerometerY', uuid: '0xffa4', params: [ 'Y' ], types: [ 'uint8' ] }, 
+        { name: 'AccelerometerZ', uuid: '0xffa5', params: [ 'Z' ], types: [ 'uint8' ] }, 
+    ]);
+    ```
 
 *************************************************
 <a name="addService"></a>
 ###How to add services to central
 Use the `central.addLocalServ(servInfo, callback)` method to create a local service to the central and register to the CC254X BNP. 
-	
+    
 * The following table shows the details of each property within `servInfo`.
 
-	| Property | Type | Mandatory | Description |
-	|----------|----------|----------|----------|
-	| uuid | String | required | service uuid |
-	| name | String | optional | service name |
-	| charsInfo | Array | required | including lots of characteristic information objects |
+    | Property | Type | Mandatory | Description |
+    |----------|----------|----------|----------|
+    | uuid | String | required | service uuid |
+    | name | String | optional | service name |
+    | charsInfo | Array | required | including lots of characteristic information objects |
 
 * Each entry in `charsInfo` array should be an object having the following preoperties:
 
-	| Property | Type | Mandatory | Description |
-	|----------|----------|----------|----------|
-	| uuid | String | required | characteristic uuid |
-	| name | String | optional | characteristic name |
-	| permit | Array | required | characteristic permission |
-	| prop | Array | required | characteristic property |
-	| val | Object or Buffer | required | characteristic value |
-	| desc | String | optional | characteristic description |
-	- Allowed Characteristic property: 'Broadcast', 'Read', 'WriteWithoutResponse', 'Write', 'Notify', 'Indicate', 'AuthenticatedSignedWrites', 'ExtendedProperties'
-	- Allowed Characteristic permission: 'Read', 'Write', 'AuthenRead', 'AuthenWrite', 'AuthorRead', 'AuthorWrite', 'EncryptRead', 'EncryptWrite'
+    | Property | Type | Mandatory | Description |
+    |----------|----------|----------|----------|
+    | uuid | String | required | characteristic uuid |
+    | name | String | optional | characteristic name |
+    | permit | Array | required | characteristic permission |
+    | prop | Array | required | characteristic property |
+    | val | Object or Buffer | required | characteristic value |
+    | desc | String | optional | characteristic description |
+    - Allowed Characteristic property: 'Broadcast', 'Read', 'WriteWithoutResponse', 'Write', 'Notify', 'Indicate', 'AuthenticatedSignedWrites', 'ExtendedProperties'
+    - Allowed Characteristic permission: 'Read', 'Write', 'AuthenRead', 'AuthenWrite', 'AuthorRead', 'AuthorWrite', 'EncryptRead', 'EncryptWrite'
 
 * Differences between Prop and Permit
-	- Each characteristic have lots of attributes, including characteristic value and many option information about the value, such as Characteristic User Description.
-		- `permit`: Each attribute of characteristic has its own permission, `permit` parameter used to define the permission of characteristic value attribute
-		- `prop`: `prop` parameter used to represent one of the attributes of characteristic, it has read permission to let all GATT clients know they can do what operation on characteristic value.
-		
-	Note: `prop` must be compatible with `permit`, otherwise GATT clients will be misled.
+    - Each characteristic have lots of attributes, including characteristic value and many option information about the value, such as Characteristic User Description.
+        - `permit`: Each attribute of characteristic has its own permission, `permit` parameter used to define the permission of characteristic value attribute
+        - `prop`: `prop` parameter is a attribute of characteristic which is used to describe the permission of characteristic value, it has read permission to let all GATT clients know they can do what operation on characteristic value.
+        
+    Note: `prop` must be compatible with `permit`, otherwise GATT clients will be misled.
 
 * Example
-	* Add public service, if characteristic is public , property `val` of charInfo object must ba an object and format must follow [public characteristic definition](https://github.com/hedywings/ccBnp#3characteristics) of ccBnp.
-	```js
-	var charsInfo = [
+    * Add public service, if characteristic is public , property `val` of charInfo object must ba an object and format must follow [public characteristic definition](https://github.com/hedywings/ccBnp#3characteristics) of ccBnp.
+    ```js
+    var charsInfo = [
         { uuid: '0x2a00', permit: [ 'Read' ], prop: [ 'Read' ], val: { name: "BLE Shepherd" } },
         { uuid: '0x2a28', permit: [ 'Read' ], prop: [ 'Read' ], val: { softwareRev: '0.0.1' } },
         { uuid: '0x2a29', permit: [ 'Read '], prop: [ 'Read '], val: { manufacturerName: 'sivann' } }
@@ -896,19 +926,19 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
         charsInfo : charsInfo
     };
 
-	central.addLocalServ(servInfo, function (err, service) {
-	    if (err)
-	        console.log(err);
-	    else
-	        console.log(service);
-	});
-	```
+    central.addLocalServ(servInfo, function (err, service) {
+        if (err)
+            console.log(err);
+        else
+            console.log(service);
+    });
+    ```
 
-	* Add private service, if characteristic is not a public one, you need to register characteristic definition by refer to the section [How to define your own Service and Characteristic](#addDefinition), or you will need to process raw buffer of characteristic value by yourself.
+    * Add private service, if characteristic is not a public one, you need to register characteristic definition by refer to the section [How to define your own Service and Characteristic](#addDefinition), or you will need to process raw buffer of characteristic value by yourself.
 
-	```js
-	// if characteristic definition is not registered, type of characteristic value must be buffer
-	var charsInfo = [
+    ```js
+    // if characteristic definition is not registered, type of characteristic value must be buffer
+    var charsInfo = [
         { uuid: 'aa11', name: 'data', permit: [ 'Read' ], prop: [ 'Read' ], val: new Buffer([10, 20, 30]) },
         { uuid: 'aa12', name: 'config', permit: [ 'Write' ], prop: [ 'Write' ], val: new Buffer([1]) },
         { uuid: 'aa13', name: 'period', permit: [ 'Write '], prop: [ 'Write '], val: new Buffer([100]) }
@@ -919,15 +949,15 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
         charsInfo : charsInfo
     };
 
-	central.addLocalServ(servInfo, function (err, service) {
-	    if (err)
-	        console.log(err);
-	    else
-	        console.log(service);
-	});
+    central.addLocalServ(servInfo, function (err, service) {
+        if (err)
+            console.log(err);
+        else
+            console.log(service);
+    });
 
-	// if characteristic definition is registered, type of characteristic value must be object and follow the format you have registered 
-	var charsInfo = [
+    // if characteristic definition is registered, type of characteristic value must be object and follow the format you have registered 
+    var charsInfo = [
         { uuid: '0xaa11', name: 'data', permit: [ 'Read' ], prop: [ 'Read' ], val: {x: 10, y: 10, z: 10} },
         { uuid: '0xaa12', name: 'config', permit: [ 'Write' ], prop: [ 'Write' ], val: {range: 1} },
         { uuid: '0xaa13', name: 'period', permit: [ 'Write '], prop: [ 'Write '], val: {period: 100} }
@@ -938,19 +968,19 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
         charsInfo : charsInfo
     };
 
-	central.regGattDefs('characteristic', [
-	    { name: 'data', uuid: '0xaa11', params: [ 'x', 'y', 'z' ], types: [ 'uint8', 'uint8', 'uint8' ] }, 
-	    { name: 'config', uuid: '0xaa12', params: [ 'range' ], types: [ 'uint8' ] }, 
-	    { name: 'period', uuid: '0xaa13', params: [ 'period' ], types: [ 'uint8' ] }
-	]);
+    central.regGattDefs('characteristic', [
+        { name: 'data', uuid: '0xaa11', params: [ 'x', 'y', 'z' ], types: [ 'uint8', 'uint8', 'uint8' ] }, 
+        { name: 'config', uuid: '0xaa12', params: [ 'range' ], types: [ 'uint8' ] }, 
+        { name: 'period', uuid: '0xaa13', params: [ 'period' ], types: [ 'uint8' ] }
+    ]);
 
-	central.addLocalServ(servInfo, function (err, service) {
-	    if (err)
-	        console.log(err);
-	    else
-	        console.log(service);
-	});
-	```
+    central.addLocalServ(servInfo, function (err, service) {
+        if (err)
+            console.log(err);
+        else
+            console.log(service);
+    });
+    ```
 
 <br />
 <a name="Demo"></a>
@@ -987,25 +1017,25 @@ bleSockets.initialize(server);
 // bleSocket.js
 
 var io = require('socket.io'),
-	central = require('ble-shepherd')('csr8510');
+    central = require('ble-shepherd')('csr8510');
 
 var connFlag = true,
-	bleSocket;
+    bleSocket;
 
 exports.initialize = function(server) {
-	// Express server run with socket.io 
+    // Express server run with socket.io 
     io = io(server);
 
     io.on('connection', function (socket) {
         bleSocket = socket;
-		
+        
         if (connFlag) {
-			//start running ble-shepherd
+            //start running ble-shepherd
             central.start(bleApp);
             connFlag = false;
         }
 
-		//listening 'req' event from client-side
+        //listening 'req' event from client-side
         socket.on('req', socketReqHdlr);
     });
 };
@@ -1024,7 +1054,7 @@ Different types of [`'IND'` events](#EVT_ind) can be received and processed in o
 // bleSocket.js
 
 function manaIndHdlr (msg) {
-	var dev;
+    var dev;
 
     switch (msg.type) {
         case 'DEV_INCOMING':
@@ -1042,48 +1072,48 @@ function manaIndHdlr (msg) {
 }
 ```
 - When the `'DEV_INCOMING'` type event is received, different processes based on different devices are performed, and then the socket broadcasts the 'rsp' event with the 'devIncoming' type to inform all clients that certain devices have joined the network.
-	- For example, when a device with an address of 0x9059af0b8159 joins the network, handlers are registered to handle characteristics notification, and notification of those characteristics are enabled.
-	```js
-	// bleSocket.js
+    - For example, when a device with an address of 0x9059af0b8159 joins the network, handlers are registered to handle characteristics notification, and notification of those characteristics are enabled.
+    ```js
+    // bleSocket.js
 
-	function processDevIncome (dev) {
-	    var emitFlag = true,
-	        newDev;
-	
-	    switch (dev.addr) {
-			case '0x9059af0b8159':
-	            sensorTag = dev;
-				// register characteristics handler
-	            sensorTag.regCharHdlr('0xaa00', '0xaa01', callbackTemp);
-	            sensorTag.regCharHdlr('0xaa10', '0xaa11', callbackAccelerometer);
-	            sensorTag.regCharHdlr('0xaa20', '0xaa21', callbackHumid);
-	            sensorTag.regCharHdlr('0xffe0', '0xffe1', callbackSimpleKey);
-	
-				// enable characteristics notification
-				sensorTag.setNotify('0xffe0', '0xffe1', true);
-				sensorTag.setNotify('0xaa00', '0xaa01', true);
-				sensorTag.setNotify('0xaa10', '0xaa11', true);
-				sensorTag.setNotify('0xaa20', '0xaa21', true);
-	            break;
-	        case '0x00188c37b65c':
-	            // ...
-	            break;
-	        case '0x544a165e1f53':
-	            // ...
-				break;
-	        // ...
-	        default:
-				// if the device is not required for application, then remove immediately.
-	            dev.remove();
-	            emitFlag = false;
-	            break;
-	    }
-	
-	    if(emitFlag) {
-	        io.sockets.emit('rsp', {type: 'devIncoming', data: {addr: dev.addr, name: dev.findChar('0x1800', '0x2a00')}});
-	    }
-	}
-	```
+    function processDevIncome (dev) {
+        var emitFlag = true,
+            newDev;
+    
+        switch (dev.addr) {
+            case '0x9059af0b8159':
+                sensorTag = dev;
+                // register characteristics handler
+                sensorTag.regCharHdlr('0xaa00', '0xaa01', callbackTemp);
+                sensorTag.regCharHdlr('0xaa10', '0xaa11', callbackAccelerometer);
+                sensorTag.regCharHdlr('0xaa20', '0xaa21', callbackHumid);
+                sensorTag.regCharHdlr('0xffe0', '0xffe1', callbackSimpleKey);
+    
+                // enable characteristics notification
+                sensorTag.setNotify('0xffe0', '0xffe1', true);
+                sensorTag.setNotify('0xaa00', '0xaa01', true);
+                sensorTag.setNotify('0xaa10', '0xaa11', true);
+                sensorTag.setNotify('0xaa20', '0xaa21', true);
+                break;
+            case '0x00188c37b65c':
+                // ...
+                break;
+            case '0x544a165e1f53':
+                // ...
+                break;
+            // ...
+            default:
+                // if the device is not required for application, then remove immediately.
+                dev.remove();
+                emitFlag = false;
+                break;
+        }
+    
+        if(emitFlag) {
+            io.sockets.emit('rsp', {type: 'devIncoming', data: {addr: dev.addr, name: dev.findChar('0x1800', '0x2a00')}});
+        }
+    }
+    ```
 - When the `'DEV_LEAVING'` type event is received, the socket broadcasts the 'rsp' event with the 'devLeaving' type to inform all clients that one device have left the network. 
 
 *************************************************
@@ -1118,7 +1148,7 @@ function tempNotifHdlr (data) {
         rawT2 = rawT2 - 65536;
     }
 
-	//convert data to Celsius temperature
+    //convert data to Celsius temperature
     m_tmpAmb = (rawT1)/128.0;
     Vobj2 = rawT2 * 0.00000015625;
     Tdie2 = m_tmpAmb + 273.15;
@@ -1129,15 +1159,15 @@ function tempNotifHdlr (data) {
     tempVal = _.ceil((tempVal - 273.15), 2);
 
     console.log('Temperature:   ' +  tempVal);
-	emitObj.value = tempVal;
+    emitObj.value = tempVal;
 
-	// broadcast value to all client-side
+    // broadcast value to all client-side
     io.sockets.emit('rsp', {type: 'attrInd', data: emitObj});
 
-	// pass value to the cloud
+    // pass value to the cloud
     client.feed.new('99703785', 'temperature', tempVal);
 
-	// if temperature too high, switch the relay on to open fan
+    // if temperature too high, switch the relay on to open fan
     if (tempVal > 30 && relay && relay.switch === 'off') {
         connAndSwitchRelay('on');
     }
@@ -1161,7 +1191,7 @@ socket.on('rsp', function (msg) {
             // ...
             break;
         case 'attrInd':
-				// update the value of device element on web page
+                // update the value of device element on web page
                 $('#' + data.sensorType).html('<p class="nowrap">' + data.value  + '</p>');
             break;
     }
@@ -1192,7 +1222,7 @@ $('.switchOn').click(function () {
                 val: 'on'
             }
         };
-	// emit 'req' event with type 'write' to notify server-side 
+    // emit 'req' event with type 'write' to notify server-side 
     socket.emit('req', emitObj);
 });
 ```
@@ -1205,7 +1235,7 @@ exports.initialize = function(server) {
     io = io(server);
 
     io.on('connection', function (socket) {
-		// ...
+        // ...
         socket.on('req', socketReqHdlr);
     });
 };
@@ -1222,13 +1252,13 @@ function socketReqHdlr (msg) {
             if (data.devId === plug.addr) {
                 // ...
             } else if (data.devId === healBracelet.addr) {
-				// ...
-			} else if (data.devId === relay.addr) {
+                // ...
+            } else if (data.devId === relay.addr) {
                 if (data.val === 'on') {
-					// open fan
+                    // open fan
                     relay.write(data.uuidServ, data.uuidChar, new Buffer([0x01]));
                 } else {
-					// close fan
+                    // close fan
                     relay.write(data.uuidServ, data.uuidChar, new Buffer([0x00]));
                 }
             }
