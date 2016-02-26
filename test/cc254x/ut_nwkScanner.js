@@ -1,12 +1,11 @@
 var _ = require('lodash'),
     should = require('should-promised'),
-    ccBnp = require('ccbnp'),
-    NwkScanner = require('../../lib/cc254x/management/nwkScanner'),
-    nwkScanner = new NwkScanner();
+    ccBnp = require('cc-bnp'),
+    nwkScanner = require('../../lib/cc254x/management/nwkScanner');
 
 describe('start connection', function() {
     var spConfig = {
-        path: '/dev/ttyACM0',
+        path: '/dev/ttyUSB0',
         options: {
             baudRate: 115200,
             rtscts: true,
@@ -29,51 +28,14 @@ describe('Constructor Check', function () {
             window: 16
         },
         linkParams = {
-            interval: 80, 
+            interval: 24, 
             latency: 0,
-            timeout: 2000
+            timeout: 200
         };
 
     it('NwkScanner()', function () {
-        (nwkScanner.permitState).should.equal('off');
         (nwkScanner.scanParams).should.deepEqual(scanParams);
         (nwkScanner.linkParams).should.deepEqual(linkParams);
-    });
-});
-
-describe('Signature Check', function () {
-    errMsg = 'setting must be an object and not be an array.';
-
-    it('setScanParam(setting) - string', function () {
-        return nwkScanner.setScanParams('xxx').should.be.rejectedWith(errMsg);
-    });
-
-    it('setScanParam(setting) - number', function () {
-        return nwkScanner.setScanParams(123).should.be.rejectedWith(errMsg);
-    });
-
-    it('setScanParam(setting) - array', function () {
-        return nwkScanner.setScanParams([]).should.be.rejectedWith(errMsg);
-    });
-
-    it('setScanParam(setting) - boolean', function () {
-        return nwkScanner.setScanParams(true).should.be.rejectedWith(errMsg);
-    });
-
-    it('setLinkParams(setting) - string', function () {
-        return nwkScanner.setLinkParams('xxx').should.be.rejectedWith(errMsg);
-    });
-
-    it('setLinkParams(setting) - number', function () {
-        return nwkScanner.setLinkParams(123).should.be.rejectedWith(errMsg);
-    });
-
-    it('setLinkParams(setting) - array', function () {
-        return nwkScanner.setLinkParams([]).should.be.rejectedWith(errMsg);
-    });
-
-    it('setLinkParams(setting) - boolean', function () {
-        return nwkScanner.setLinkParams(true).should.be.rejectedWith(errMsg);
     });
 });
 
@@ -84,18 +46,10 @@ describe('Functional Check', function () {
             window: 16
         },
         linkParams = {
-            interval: 80,
+            interval: 24,
             latency: 0,
-            timeout: 2000
+            timeout: 200
         };
-
-    it('setScanParam() - no setting', function (done) {
-        nwkScanner.setScanParams().then(function () {
-            if (_.isEqual(nwkScanner.scanParams, scanParams)) {
-                done();
-            }
-        });
-    });
 
     it('setScanParams() - partial setting', function (done) {
         nwkScanner.setScanParams({interval: 8, window: 8}).then(function () {
@@ -123,17 +77,11 @@ describe('Functional Check', function () {
         });
     });
 
-    it('setLinkParams() - no setting', function (done) {
-        nwkScanner.setLinkParams().then(function () {
-            if (_.isEqual(nwkScanner.linkParams, linkParams))
-                done();
-        });
-    });
-
     it('setLinkParams() - partial setting', function (done) {
         nwkScanner.setLinkParams({interval: 40, latency: 2}).then(function () {
             linkParams.interval = 40;
             linkParams.latency = 2;
+            console.log(nwkScanner.linkParams);
             if (_.isEqual(nwkScanner.linkParams, linkParams))
                 done();
         });
@@ -176,37 +124,6 @@ describe('Functional Check', function () {
                 done();
         });
         nwkScanner.cancelScan();
-    });
-
-    it('permitJoin(mode) - mode is true & permitState is off', function () {
-        return nwkScanner.permitJoin(true).should.be.fulfilled();
-    });
-
-    it('permitJoin(mode) - mode is true & permitState is on', function () {
-        nwkScanner.permitState = 'on';
-        return nwkScanner.permitJoin(true).should.be.rejectedWith('Scanning has already start.');
-    });
-
-    it('permitJoin(mode) - mode is false & permitState is on', function () {
-        return nwkScanner.permitJoin(false).should.be.fulfilled();
-    });
-
-    it('permitJoin(mode) - mode is false & permitState is off', function () {
-        nwkScanner.permitState = 'off';
-        return nwkScanner.permitJoin(false).should.be.rejectedWith('Scanning has already stop.');
-    });
-
-    this.timeout(10000);
-    it('_contScan()', function (done) {
-        var count = 0;
-        nwkScanner.setScanParams({time: 2000}).then(function () {
-            nwkScanner._contScan();
-        });
-        nwkScanner.on('NS:IND', function (msg) {
-            count++;
-            if (count === 3)
-                done();
-        });
     });
 });
 

@@ -1,10 +1,11 @@
 var _ = require('lodash'),
     should = require('should'),
     shouldd = require('should-promised'),
-    ccBnp = require('ccbnp'),
+    ccBnp = require('cc-bnp'),
     fs = require('fs'),
     GATTDEFS = require('../../lib/defs/gattdefs'),
     bShepherd = require('../../lib/cc254x/ble-shepherd'),
+    devmgr = require('../../lib/cc254x/management/devmgr'),
     pubServInfo = require('../../lib/cc254x/service/example').publicServ,
     spConfig = {
         path: '/dev/ttyUSB0',
@@ -22,15 +23,15 @@ fs.exists(dbPath, function (isThere) {
 
 describe('Signature Check', function () {
     it('start(spConfig)', function () {
-        (function () { bShepherd.start({path: '123'}); }).should.not.throw();
+        (function () { bShepherd.start(function () {}, {path: '123'}); }).should.not.throw();
 
-        (function () { bShepherd.start({}); }).should.throw();
-        (function () { bShepherd.start([]); }).should.throw();
-        (function () { bShepherd.start('xxx'); }).should.throw();
-        (function () { bShepherd.start(123); }).should.throw();
-        (function () { bShepherd.start(false); }).should.throw();
-        (function () { bShepherd.start(undefined); }).should.throw();
-        (function () { bShepherd.start(null); }).should.throw();
+        (function () { bShepherd.start(function () {}, {}); }).should.throw();
+        (function () { bShepherd.start(function () {}, []); }).should.throw();
+        (function () { bShepherd.start(function () {}, 'xxx'); }).should.throw();
+        (function () { bShepherd.start(function () {}, 123); }).should.throw();
+        (function () { bShepherd.start(function () {}, false); }).should.throw();
+        (function () { bShepherd.start(function () {}, undefined); }).should.throw();
+        (function () { bShepherd.start(function () {}, null); }).should.throw();
     });
 
     it('regGattDefs(type, regObjs)', function () {
@@ -51,34 +52,10 @@ describe('Signature Check', function () {
         (function () { bShepherd.regGattDefs('service', null); }).should.throw();
     });
 
-    var resetErrMsg = 'mode must be a string of soft or hard';
-    it('reset(mode) - bad mode Type(obj)', function () {
-        return bShepherd.reset({}).should.be.rejectedWith(resetErrMsg);
-    });
-
-    it('reset(mode) - bad mode Type(arr)', function () {
-        return bShepherd.reset([]).should.be.rejectedWith(resetErrMsg);
-    });
-
-    it('reset(mode) - bad mode Type(str)', function () {
-        return bShepherd.reset('xxx').should.be.rejectedWith(resetErrMsg);
-    });
-
-    it('reset(mode) - bad mode Type(num)', function () {
-        return bShepherd.reset(123).should.be.rejectedWith(resetErrMsg);
-    });
-
-    it('reset(mode) - bad mode Type(bool)', function () {
-        return bShepherd.reset(true).should.be.rejectedWith(resetErrMsg);
-    });
-    it('reset(mode) - bad mode Type(null)', function () {
-        return bShepherd.reset(null).should.be.rejectedWith(resetErrMsg);
-    });
-
     var addServErrMsg = 'servInfo must be an object',
         charsInfoErrMsg = 'servInfo.charsInfo must be an array.',
         uuidErrMsg = 'servInfo.uuid must be a string and start with 0x';
-    it('addLocalServ(servInfo) - bad servInfo Type(arr)', function () {
+    /*it('addLocalServ(servInfo) - bad servInfo Type(arr)', function () {
         return bShepherd.addLocalServ([]).should.be.rejectedWith(addServErrMsg);
     });
 
@@ -128,10 +105,26 @@ describe('Signature Check', function () {
 
     it('addLocalServ(servInfo) - bad servInfo.charsInfo Type(null)', function () {
         return bShepherd.addLocalServ({uuid: '0x1800',charsInfo: null}).should.be.rejectedWith(charsInfoErrMsg);
+    });*/
+
+    it('addLocalServ(servInfo)', function () {
+        (function () { bShepherd.addLocalServ([]); }).should.throw();
+        (function () { bShepherd.addLocalServ('xxx'); }).should.throw();
+        (function () { bShepherd.addLocalServ(true); }).should.throw();
+        (function () { bShepherd.addLocalServ(null); }).should.throw();
+        (function () { bShepherd.addLocalServ({uuid: {},charsInfo: []}); }).should.throw();
+        (function () { bShepherd.addLocalServ({uuid: [],charsInfo: []}); }).should.throw();
+        (function () { bShepherd.addLocalServ({uuid: true,charsInfo: []}); }).should.throw();
+        (function () { bShepherd.addLocalServ({uuid: 'xxx',charsInfo: []}); }).should.throw();
+        (function () { bShepherd.addLocalServ({uuid: {},charsInfo: []}); }).should.throw();
+        (function () { bShepherd.addLocalServ({uuid: '0x1800',charsInfo: {}}); }).should.throw();
+        (function () { bShepherd.addLocalServ({uuid: '0x1800',charsInfo: false}); }).should.throw();
+        (function () { bShepherd.addLocalServ({uuid: '0x1800',charsInfo: 'xxx'}); }).should.throw();
+        (function () { bShepherd.addLocalServ({uuid: '0x1800',charsInfo: null}); }).should.throw();
     });
 
     var setErrMsg = 'type must be a string of scan or link';
-    it('setNwkParams(type, setting) - bad type(obj)', function () {
+    /*it('setNwkParams(type, setting) - bad type(obj)', function () {
         return bShepherd.setNwkParams({} ,{}).should.be.rejectedWith(setErrMsg);
     });
 
@@ -153,6 +146,15 @@ describe('Signature Check', function () {
 
     it('setNwkParams(type, setting) - bad type(null)', function () {
         return bShepherd.setNwkParams(null ,{}).should.be.rejectedWith(setErrMsg);
+    });*/
+
+    it('setNwkParams(type, setting)', function () {
+        (function () { bShepherd.setNwkParams({} ,{}); }).should.throw();
+        (function () { bShepherd.setNwkParams([] ,{}); }).should.throw();
+        (function () { bShepherd.setNwkParams('xxx' ,{}); }).should.throw();
+        (function () { bShepherd.setNwkParams(123 ,{}); }).should.throw();
+        (function () { bShepherd.setNwkParams(true ,{}); }).should.throw();
+        (function () { bShepherd.setNwkParams(null ,{}); }).should.throw();
     });
 });
 
@@ -161,11 +163,11 @@ describe('Functional Check', function () {
         ccBnp.on('ready', function () {
             done();
         });
-        bShepherd.start(spConfig);
+        bShepherd.start(function () {}, spConfig);
     });
 
-    it('callBleCmd()', function (done) {
-        bShepherd.callBleCmd('gap', 'setParam', {paramID: 2, paramValue: 10240}).then(function (result) {
+    it('command()', function (done) {
+        bShepherd.command('gap', 'setParam', {paramID: 2, paramValue: 10240}).then(function (result) {
             done();
         });
     });
@@ -173,7 +175,7 @@ describe('Functional Check', function () {
     it('regGattDefs()', function () {
         var toRegServ = [{name: 'Test', uuid: '0xFFF0'}];
 
-        bShepherd.regGattDefs('service', toRegServ).should.be.deepEqual({});
+        bShepherd.regGattDefs('service', toRegServ).should.be.deepEqual(bShepherd);
         should(GATTDEFS.ServUuid.get(0xfff0)).be.type('object');
     });
 
@@ -206,11 +208,11 @@ describe('Functional Check', function () {
                 }
             };
         should(bShepherd._regUuidHdlTable()).be.undefined();
-        bShepherd.devmgr.bleDevices.push(dev);
+        devmgr.bleDevices.push(dev);
         bShepherd._regUuidHdlTable().should.be.deepEqual(result);
     });
 
     it('devmgr.stopScan()', function () {
-        bShepherd.devmgr._stopScan().should.be.fulfilledWith();
+        devmgr._stopScan().should.be.fulfilledWith();
     });
 });

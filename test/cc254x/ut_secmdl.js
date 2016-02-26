@@ -2,7 +2,7 @@
 var _ = require('lodash'),
     should = require('should'),
     shouldP = require('should-promised'),
-    ccBnp = require('ccbnp'),
+    ccBnp = require('cc-bnp'),
     Secmdl = require('../../lib/cc254x/management/secmdl'),
     secmdl = new Secmdl();
 
@@ -54,48 +54,60 @@ describe('Signature Check', function () {
     var errMsg = 'setting must be an object.',
         passkeyErrMsg = 'passkey must be number and should not exceed six numbers';
 
-    it('setParam(param, val) - no arg', function () {
-        return secmdl.setParam().should.be.rejectedWith('Bad Arguments.');
+    // it('setParam(param, val) - no arg', function () {
+    //     return secmdl.setParam().should.be.rejectedWith('Bad Arguments.');
+    // });
+
+    // it('setParam(param, val) - bad param type', function () {
+    //     return secmdl.setParam([], 1).should.be.rejectedWith('param must be a number or string');
+    // });
+
+    // it('setParam(param, val) - bad val type', function () {
+    //     return secmdl.setParam(0x0400, '1').should.be.rejectedWith('val must be a number');
+    // });
+
+    // it('setParam(param, val) - error param id', function () {
+    //     return secmdl.setParam(1, 1).should.be.rejectedWith('Param input error.');
+    // });
+
+    it('setParam(param, val)', function () {
+        (function () { secmdl.setParam(); }).should.throw();
+        (function () { secmdl.setParam([], 1); }).should.throw();
+        (function () { secmdl.setParam(0x0400, '1'); }).should.throw();
+        (function () { secmdl.setParam(1, 1); }).should.throw();
     });
 
-    it('setParam(param, val) - bad param type', function () {
-        return secmdl.setParam([], 1).should.be.rejectedWith('param must be a number or string');
-    });
+    // it('passPasskey(passkey) - no arg', function () {
+    //     return secmdl.passPasskey().should.be.rejectedWith(passkeyErrMsg);
+    // });
 
-    it('setParam(param, val) - bad val type', function () {
-        return secmdl.setParam(0x0400, '1').should.be.rejectedWith('val must be a number');
-    });
+    // it('passPasskey(passkey) - string', function () {
+    //     return secmdl.passPasskey('xxx').should.be.rejectedWith(passkeyErrMsg);
+    // });
 
-    it('setParam(param, val) - error param id', function () {
-        return secmdl.setParam(1, 1).should.be.rejectedWith('Param input error.');
-    });
+    // it('passPasskey(passkey) - object', function () {
+    //     return secmdl.passPasskey({}).should.be.rejectedWith(passkeyErrMsg);
+    // });
 
-    it('setParam(param, val) - error param id', function () {
-        return secmdl.setParam(1, 1).should.be.rejectedWith('Param input error.');
-    });
+    // it('passPasskey(passkey) - array', function () {
+    //     return secmdl.passPasskey([]).should.be.rejectedWith(passkeyErrMsg);
+    // });
 
-    it('passPasskey(passkey) - no arg', function () {
-        return secmdl.passPasskey().should.be.rejectedWith(passkeyErrMsg);
-    });
+    // it('passPasskey(passkey) - boolean', function () {
+    //     return secmdl.passPasskey(false).should.be.rejectedWith(passkeyErrMsg);
+    // });
 
-    it('passPasskey(passkey) - string', function () {
-        return secmdl.passPasskey('xxx').should.be.rejectedWith(passkeyErrMsg);
-    });
+    // it('passPasskey(passkey) - number with error lenth', function () {
+    //     return secmdl.passPasskey(1234567).should.be.rejectedWith(passkeyErrMsg);
+    // });
 
-    it('passPasskey(passkey) - object', function () {
-        return secmdl.passPasskey({}).should.be.rejectedWith(passkeyErrMsg);
-    });
-
-    it('passPasskey(passkey) - array', function () {
-        return secmdl.passPasskey([]).should.be.rejectedWith(passkeyErrMsg);
-    });
-
-    it('passPasskey(passkey) - boolean', function () {
-        return secmdl.passPasskey(false).should.be.rejectedWith(passkeyErrMsg);
-    });
-
-    it('passPasskey(passkey) - number with error lenth', function () {
-        return secmdl.passPasskey(1234567).should.be.rejectedWith(passkeyErrMsg);
+    it('passPasskey(passkey)', function () {
+        (function () { secmdl.passPasskey(); }).should.throw();
+        (function () { secmdl.passPasskey('xxx'); }).should.throw();
+        (function () { secmdl.passPasskey({}); }).should.throw();
+        (function () { secmdl.passPasskey([]); }).should.throw();
+        (function () { secmdl.passPasskey(false); }).should.throw();
+        (function () { secmdl.passPasskey(1234567); }).should.throw();
     });
 
     it('update(setting) - string', function () {
@@ -117,7 +129,7 @@ describe('Signature Check', function () {
 
 describe('Functional Check', function () {
     it('connect to device', function () {
-        secmdl.ownerDev = {connHdl: 0};
+        secmdl._ownerDev = {connHdl: 0};
         return ccBnp.gap.estLinkReq(0, 0, 0, '0x78c5e570796e').should.be.fulfilled();
     });
 
@@ -130,7 +142,7 @@ describe('Functional Check', function () {
     });
 
     it('passPasskey()', function (done) {
-        secmdl.passPasskey(0, function (err) {
+        secmdl.passPasskey('000000').fail(function (err) {
             if (err.errorCode === 18)
                 done();
         });
@@ -161,7 +173,7 @@ describe('Functional Check', function () {
     });
 
     it('expInfo()', function () {
-        delete secmdl.ownerDev;
+        delete secmdl._ownerDev;
         delete secmdl.state;
         secmdl.div = undefined;
         secmdl.expInfo().should.deepEqual(secmdl);
