@@ -22,9 +22,11 @@
 <br />
 <a name="Overiew"></a>
 ##Overview
-**ble-shepherd** is a network controller for BLE devices. It aims to help you build a BLE machine network with less effort on node.js.  
+**ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.  
   
-**ble-shepherd** is an extension of a BLE *central* device with features that you need in controlling your network, monitoring and operating the BLE *pheripheral* devices. This controller takes care of many essential operations in establishing a network, such as auto scanning for *pheripheral* devices, storing connected devices records to and reloading them from the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection. Regarding monitor and operate of *peripherals*, it is easy to set and receive notification of changes from remote *peripherals*. In addition, reading resources from and writing values to *periphrals* is also a simple task, here is an example:
+**ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating the BLE *pheripheral* devices. Many essentials of network management has been done by this controller, e.g., auto scanning for *pheripheral* devices, storing connected devices records to and reloading them from the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
+
+With **ble-shepherd**, you can get rid of such networking things and focus on your application logics. It is easy to set and receive notifications from remote *peripherals*. Furthermore, reading resources from and writing values to *periphrals* is also a simple task, here is an example:
 
 ``` js
 peripheral.read('0x1800', '0x2a00', functional (err, value) {
@@ -35,20 +37,20 @@ peripheral.write('0x1800', '0x2a02', { Flag: false }, functional (err) {
 });
 ```
 
-With the power of node.js, you can build your own application console and design your own RESTful APIs in seconds. **ble-shepherd** opens another way of implementing IoT applications with BLE devices and helps you make your BLE devices happy onto the cloud.  
+**ble-shepherd** opens another way of implementing IoT applications with BLE devices. With node.js, you can build your own application console and design your own RESTful APIs in seconds. It is easy to make your BLE devices happy onto the cloud.  
   
 **Note**:  
-At this moment, **ble-shepherd** is built on top of TI [CC254X BLE Network Processor](http://processors.wiki.ti.com/index.php/CC254X_WITH_EXT_MCU#Network_Processor) with the [ccBnp](https://github.com/hedywings/ccBnp) library and CSR8510 BLE4.0 USB Adapter's with [noble]() library. This project may support TI [CC264X](http://processors.wiki.ti.com/index.php/CC2640_BLE_Network_Processor) BLE Network Processor in the near future (if I can get the development tools). Please let me know if you have any suggestions about the BLE SoC solutions.
+At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/hedywings/ccBnp) and [noble]() libraries. They are targeting on TI [CC254X BLE Network Processor](http://processors.wiki.ti.com/index.php/CC254X_WITH_EXT_MCU#Network_Processor) and CSR8510 BLE4.0 USB Adapter, respectively. This project may support TI [CC264X](http://processors.wiki.ti.com/index.php/CC2640_BLE_Network_Processor) BLE Network Processor in the near future (if I can get the development tools). Please let me know if you have any suggestions about the BLE SoC solutions.  
 
 <br />
 <a name="Features"></a>
 ##Features
 
-- Building your machine network with BLE devices.
-- Controlling the network with no pain. Auto reconnection, permission of device joining, built-in database and many more.
-- Creating IoT applications with BLE devices is simple and quick.  
-- **ble-shepherd** can define its own _Services_ and _Characteritics_ to be a BLE gadget, not just plays as a network controller.
-- Based-on node.js. It's easy to integrate BLE applications with other services or font-end frameworks, e.g., http server, express, React.js, Angular.js.
+- Building your machine network with BLE devices.  
+- Controlling the network with no pain, i.e., auto reconnection, permission of device joining, built-in database and many more.  
+- Creating BLE IoT apps is simple and quick.  
+- Allows you to define _Services_ and _Characteritics_ on **ble-shepherd** itself to make it a BLE gadget. **ble-shepherd** not just plays as a network controller.  
+- Based-on node.js. It's easy to integrate BLE apps with other services or font-end frameworks, e.g., http server, express, React.js, Angular.js.
 
 <br />
 <a name="Installation"></a>
