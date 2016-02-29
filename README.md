@@ -36,6 +36,7 @@ peripheral.write('0x1800', '0x2a02', { flag: false }, functional (err) {
     // value is remotely write to the peripheral device
 });
 ```
+
 With **ble-shepherd**, you can get rid of such networking things and focus on your application logics. It opens another way of implementing IoT applications with BLE devices. With node.js, you can build your own application console(or dashboard) and design your own RESTful APIs in seconds. It's easy to make your BLE devices happy on the cloud.  
   
 **Note**:  
