@@ -32,7 +32,7 @@ With **ble-shepherd**, you can get rid of such networking things and focus on yo
 peripheral.read('0x1800', '0x2a00', functional (err, value) {
     // value is remotely read from the peripheral device
 });
-peripheral.write('0x1800', '0x2a02', { Flag: false }, functional (err) {
+peripheral.write('0x1800', '0x2a02', { flag: false }, functional (err) {
     // value is remotely write to the peripheral device
 });
 ```
@@ -50,7 +50,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 - Controlling the network with no pain, i.e., auto reconnection, permission of device joining, built-in database and many more.  
 - Creating BLE IoT apps is simple and quick.  
 - Allows you to define _Services_ and _Characteritics_ on **ble-shepherd** itself to make it a BLE gadget. **ble-shepherd** not just plays as a network controller.  
-- Based-on node.js. It's easy to integrate BLE apps with other services or font-end frameworks, e.g., http server, express, React.js, Angular.js.
+- Based-on node.js. It's easy to integrate BLE apps with other services or frameworks, e.g., http server, express, React.js, Angular.js.
 
 <br />
 <a name="Installation"></a>
@@ -61,10 +61,8 @@ Available via [npm](http://npmjs.org/package/ble-shepherd):
 <br />
 <a name="Usage"></a>
 ## Usage
-**ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application by **ble-shepherd** with CC254X network processor. Fisrtly, set up your serial-port configuration to connect to CC254X network processor(BNP). Next, bring the central up by calling the method `start()` with your configuration `spCfg` and application function `app`. The application is an callback that will run after the success of serial connection to BNP. In addition, you can override the method `appInit()` if you like to tackle something prior to the loading of your app, e.g., registering custom GATT definitions. 
-
-**Note**: 
-ble-shepherd now support CC254x network processor and CSR8510 USB dongle, so you need to fill in `cc254x` or `csr8510` when require ble-shepherd module to specify the chip that you are using now.
+**ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application with **ble-shepherd** with CC254X network processor (see [central.start()](#API_start) if you like to use CSR BLE USB dongle).  
+Fisrtly, set up your serial-port configuration to connect to CC254X network processor(BNP). Next, bring the central up by calling the method `start()` with your configuration `spCfg` and application function `app`. The `app` will run after connected to BNP. In addition, you can override the method `appInit()` if you like to tackle something prior to your app loading, e.g., registering custom GATT definitions.  
   
 ```javascript
 var central = require('ble-shepherd')('cc254x');
@@ -84,7 +82,7 @@ function app() {
 }
 
 central.appInit = function () {
-    // do something before start application
+    // do something before app starting
     // usually register GATT definition by calling regGattDefs() here
 }
 ```
@@ -94,7 +92,7 @@ central.appInit = function () {
 ## APIs and Events
 
 ####1. Control the Network 
->**central** is a singleton exported by `require('ble-shepherd')(chipName)`, chipName is used to specify the chip that you are using, we support `cc254x` and `csr8510` now.
+>**central** is a singleton exported by `require('ble-shepherd')(chipName)`. Use `chipName` that accepts `cc254x` or `csr8510` to specify the chip.  
 
 * [central.start()](#API_start)
 * [central.setNwkParams()](#API_setNwkParams)
@@ -106,7 +104,7 @@ central.appInit = function () {
 * ['IND' event](#EVT_ind)
 
 ####2. Monitor and Control the Peripherals
->**peripheral** is a software endpoint that represents the remote BLE device. The connected _pheripheral_ device can be found by `central.find()`.
+>**peripheral** is a software endpoint representing the remote BLE device. You can use `central.find()` to find a connected _pheripheral_ device with its address or connection handle. Once you get the endpoint, you can call its read()/write() methods to operate the remote _pheripheral_.  
 
 * [peripheral.connect()](#API_connect)
 * [peripheral.disconnect()](#API_disconnect)
@@ -121,34 +119,34 @@ central.appInit = function () {
 * [peripheral.write()](#API_write)
 * [peripheral.regCharHdlr()](#API_regCharHdlr)
 
-The following table shows the support of ble-shepherd APIs on different SoC.
+Some APIs are not supported for CSR8510, they are listed in this table. (O: valid, X: invalid)
 
 | Interface                             | API               | CC254x BNP      |  CSR8510 dongle |
 | --------------------------------------| ------------------| --------------- | --------------- |
-| Control the Network                   | start             | V               | V               |
-|                                       | setNwkParams      | V               | V               |
-|                                       | permitJoin        | V               | V               |
-|                                       | command           | V               | X               |
-|                                       | find              | V               | V               |
-|                                       | regGattDefs       | V               | V               |
-|                                       | addLocalServ      | V               | X               |
-| Monitor and Control the Peripherals   | connect           | V               | V               |
-|                                       | disconnect        | V               | V               |
-|                                       | remove            | V               | V               |
-|                                       | updateLinkParam   | V               | V               |     
-|                                       | encrypt           | V               | X               |
-|                                       | passPasskey       | V               | X               |
-|                                       | readDesc          | V               | V               |
-|                                       | setNotify         | V               | V               |
-|                                       | update            | V               | V               |
-|                                       | read              | V               | V               |
-|                                       | write             | V               | V               |
-|                                       | regCharHdlr       | V               | V               |
+| Control the Network                   | start             | O               | O               |
+|                                       | setNwkParams      | O               | O               |
+|                                       | permitJoin        | O               | O               |
+|                                       | command           | O               | X               |
+|                                       | find              | O               | O               |
+|                                       | regGattDefs       | O               | O               |
+|                                       | addLocalServ      | O               | X               |
+| Monitor and Control the Peripherals   | connect           | O               | O               |
+|                                       | disconnect        | O               | O               |
+|                                       | remove            | O               | O               |
+|                                       | updateLinkParam   | O               | O               |
+|                                       | encrypt           | O               | X               |
+|                                       | passPasskey       | O               | X               |
+|                                       | readDesc          | O               | O               |
+|                                       | setNotify         | O               | O               |
+|                                       | update            | O               | O               |
+|                                       | read              | O               | O               |
+|                                       | write             | O               | O               |
+|                                       | regCharHdlr       | O               | O               |
 
 <br />
 *************************************************
 ## BleShepherd Class  
-`require('ble-shepherd')(chipName)` exports the singleton of this class. This singleton is denoted as `central` in this document.  
+`require('ble-shepherd')(chipName)` exports the singleton of this class. This singleton instance is denoted as `central` in this document.  
 <br />
 
 <a name="API_start"></a>  
@@ -157,12 +155,12 @@ The following table shows the support of ble-shepherd APIs on different SoC.
 
 **Arguments**  
 
-1. `app` (*Function*): The application function that will be called after initialization completes. 
+1. `app` (*Function*): The application function that will be called after initialization completes.  
 2. `spCfg` (*Object*): This value-object has two properties `path` and `options` for configuring the serial port.  
     - `path`: a string that refers to the system path of the serial port, e.g., `'/dev/ttyUSB0'`  
-    - `options`: an object for setting up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The default value of `options` is shown in the following example.   
+    - `options`: an object for setting up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The default value of `options` is shown in the following example.  
 
-Note: You do not need to fill `spCfg` field if you are using CSR8510 SoC.
+Note: There is no need to fill `spCfg` field if you are using CSR8510 SoC.
 
 **Returns**  
 
@@ -170,7 +168,8 @@ Note: You do not need to fill `spCfg` field if you are using CSR8510 SoC.
 
 **Example**  
 
-using CC254X SoC
+* using CC254X SoC  
+
 ```javascript
 var central = require('ble-shepherd')('cc254x');
 var app,
@@ -184,19 +183,18 @@ var app,
     };
 
 app = function () {
-    //your application
+    // your application
 };
 
 central.start(app, spCfg);
 ```
 
-using CSR8510 SoC
+* using CSR8510 SoC  
+
 ```javascript
 var central = require('ble-shepherd')('csr8510');
-var app;
-
-app = function () {
-    //your application
+var app = function () {
+    // your application
 };
 
 central.start(app);
@@ -209,26 +207,24 @@ central.start(app);
 
 **Arguments**  
 
-1. `type` (*String*): The type can be `'scan'` or `'link'`. It is used to indicate which type of parameter will be set.  
-2. `setting` (*Object*): The following table shows the object according to the given `type`.  
+1. `type` (*String*): Can be `'scan'` or `'link'` to indicate which type of parameter you like to set.  
+2. `setting` (*Object*): The following table shows the `setting` properties according to the given `type`.  
     - When `type === 'scan'`  
-    
-    | Property | Type | Mandatory | Description | Default value |
-    |------------|------------|------------|------------|------------|
-    | interval | Number | optional | Scan interval(mSec) | 0x0010 |
-    | window | Number | optional | Scan window(mSec) | 0x0010 |
+        
+    | Property | Type   | Mandatory | Description       | Default value |
+    |----------|--------|-----------|-------------------|---------------|
+    | interval | Number | optional  | Scan interval(ms) | 0x0010        |
+    | window   | Number | optional  | Scan window(ms)   | 0x0010        |
 
     - When `type === 'link'`
-    
-    | Property | Type | Mandatory | Description | Default value |
-    |------------|------------|------------|------------|------------|
-    | interval | Number | optional | Connection interval(mSec) | 0x0018 |
-    | latency | Number | optional | Connection slave latency(mSec) | 0x0000 |
-    | timeout | Number | optional | Connection supervision timeout(mSec) | 0x00c8 |
+        
+    | Property | Type   | Mandatory | Description                                                                | Default value |
+    |----------|--------|-----------|----------------------------------------------------------------------------|---------------|
+    | interval | Number | optional  | Connection interval(ms). This affects the transmission rate of connection. | 0x0018        |
+    | latency  | Number | optional  | Connection slave latency(ms)                                               | 0x0000        |
+    | timeout  | Number | optional  | Connection supervision timeout(ms)                                         | 0x00c8        |
 
-- `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
-
-Note: Property `interval` of the link parameter affects the transmission rate of the connection.  
+3. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
 
 **Returns**  
 
@@ -259,11 +255,11 @@ central.setNwkParams('link', { interval: 5000 }, function (err) {
 *************************************************
 <a name="API_permitJoin"></a>  
 ###.permitJoin(time)  
-> Open for devices to join the network.
+> Open for devices to join the network.  
 
 **Arguments**  
 
-1. `time` (*Number*): Interval in seconds for central openning for devices to join the network. Set time to 0 can immediately close the admission.
+1. `time` (*Number*): Time in seconds for the central to allow devices joining. Set it to 0 will immediately close the admission.  
 
 **Returns**  
 
@@ -272,22 +268,24 @@ central.setNwkParams('link', { interval: 5000 }, function (err) {
 **Example**  
 
 ```javascript
-//permit devices to join for 60 seconds 
+// permit devices to join for 60 seconds 
 central.permitJoin(60);
 ```
 
 *************************************************
 <a name="API_command"></a>  
 ###.command(subGroup, cmd, argInst, callback)  
-> Calling TI BLE Vendor-Specific HCI Command, please refer to the sections [Calling the TI BLE Vendor-Specific HCI Command APIs](https://github.com/hedywings/ccBnp#calling-the-ti-ble-vendor-specific-hci-command-apis) and [Vendor-Specific HCI Command Reference Tables](https://github.com/hedywings/ccBnp#vendor-specific-hci-command-reference-tables) in ccBnp document for details.
+> Calling TI BLE Vendor-Specific HCI Command, please refer to cc-bnp document for details.
+> - [Calling the TI BLE Vendor-Specific HCI Command APIs](https://github.com/hedywings/cc-bnp#calling-the-ti-ble-vendor-specific-hci-command-apis)
+> - [Vendor-Specific HCI Command Reference Tables](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables)
 
-Note: This command only supports CC254X SoC
+Note: This API only supports CC254X SoC
 
 **Arguments**  
 
 1. `subGroup` (*String*): Sub-group name. It can be `hci`, `l2cap`, `att`, `gatt`, `gap`, or `util`.  
-2. `cmd` (*String*): Function name of Vendor-Specific HCI Command API. You can find the function name from the column **ccBnp Cmd-API** in this [table](https://github.com/hedywings/ccBnp#vendor-specific-hci-command-reference-tables).  
-3. `args` (_Object_): An argument object passing to the command. The keys of this value-object should be named according to the column **Arguments** in this [table](https://github.com/hedywings/ccBnp#vendor-specific-hci-command-reference-tables).  
+2. `cmd` (*String*): Function name of Vendor-Specific HCI Command API. You can find the function name from the column **cc-bnp Cmd-API** in this [table](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables).  
+3. `args` (_Object_): An argument object along with the command. The accepted keys of this value-object are listed in **Arguments** in this [table](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables).  
 4. `callback` (*Function*): `function (err, result) {}`. Get called with the result of execution.
 
 **Returns**  
@@ -310,11 +308,11 @@ Note: This command only supports CC254X SoC
 *************************************************
 <a name="API_find"></a>  
 ###.find(addrOrHdl)  
-> Find the peripheral that maintained by central.  
+> Find a peripheral maintained by the central.  
 
 **Arguments**  
 
-1. `addrOrHdl` (*String* | *Number*): The address or connection handle of a peripheral.
+1. `addrOrHdl` (*String* | *Number*): The address or connection handle of a peripheral.  
 
 **Returns**  
 
@@ -340,7 +338,7 @@ var peripheral = central.find(0);
 1. `type` (*String*): The type of definition to register. It can be `'service'` or `'characteristic'`.  
 2. `regObjs` (*Array*): It should be given with an array of the _Service information object_ or _Characteristic information object_.  
 
-Note: You can see more detail in [How to define your own Service and Characteristic](#addDefinition) of Advanced topics section.
+Note: See [How to define your own Service and Characteristic](#addDefinition) in the **Advanced topics** section to learn more.
 
 **Returns**  
 
@@ -351,16 +349,16 @@ Note: You can see more detail in [How to define your own Service and Characteris
 ```javascript
 // register service definition
 central.regGattDefs('service', [
-    { name: 'SimpleKeys', uuid: '0xffe0' },
-    { name: 'Accelerometer', uuid: '0xffa0' }
+    { name: 'simpleKeys', uuid: '0xffe0' },
+    { name: 'accelerometer', uuid: '0xffa0' }
 ]);
 
 // register characteristic definition
 central.regGattDefs('characteristic', [
-    { name: 'KeyPressState', uuid: '0xffe1', params: [ 'Enable' ], types: [ 'uint8' ] }, 
-    { name: 'AccelerometerX', uuid: '0xffa3', params: [ 'X' ], types: [ 'uint8' ] }, 
-    { name: 'AccelerometerY', uuid: '0xffa4', params: [ 'Y' ], types: [ 'uint8' ] }, 
-    { name: 'AccelerometerZ', uuid: '0xffa5', params: [ 'Z' ], types: [ 'uint8' ] }, 
+    { name: 'keyPressState', uuid: '0xffe1', params: [ 'enable' ], types: [ 'uint8' ] }, 
+    { name: 'accelerometerX', uuid: '0xffa3', params: [ 'x' ], types: [ 'uint8' ] }, 
+    { name: 'accelerometerY', uuid: '0xffa4', params: [ 'y' ], types: [ 'uint8' ] }, 
+    { name: 'accelerometerZ', uuid: '0xffa5', params: [ 'z' ], types: [ 'uint8' ] }, 
 ]);
 ```
   
@@ -373,11 +371,11 @@ Note: This command only supports CC254X SoC.
 
 **Arguments**  
 
-1. `servInfo` (*Object*): This is an object that contains properties of `uuid`, `name` and `charsInfo` to describe the information about the Service.
+1. `servInfo` (*Object*): An object that contains properties of `uuid`, `name` and `charsInfo` to describe the information about the Service.  
 
-2. `callback` (*Function*) : `function (err, service) {}`, Get called when service register to BNP success. 
+2. `callback` (*Function*) : `function (err, service) {}`, Get called when service successfully register to the BNP. 
 
-Note: You can see more detail in [How to add Services to central](#addService) of Advanced topics section. 
+Note: See [How to add Services to central](#addService) of **Advanced topics** section to learn more.  
 
 **Returns**  
 
@@ -390,7 +388,7 @@ Note: You can see more detail in [How to add Services to central](#addService) o
 var charsInfo = [
         { uuid: '0x2a00', permit: [ 'Read' ], prop: [ 'Read' ], val: { name: "BLE Shepherd" } },
         { uuid: '0x2a28', permit: [ 'Read' ], prop: [ 'Read' ], val: { softwareRev: '0.0.1' } },
-        { uuid: '0x2a29', permit: [ 'Read '], prop: [ 'Read '], val: { manufacturerName: 'sivann' } }
+        { uuid: '0x2a29', permit: [ 'Read' ], prop: [ 'Read '], val: { manufacturerName: 'sivann' } }
     ],
     servInfo = {
         uuid: '0x1800',
@@ -412,9 +410,9 @@ central.addLocalServ(servInfo, function (err, result) {
 ##Event: 'IND'    
 Event Handler: `function(msg) { }`  
 
-The central will fire an `IND` event upon receiving an indication from a peripheral. An incoming message will be typed in `msg.type` with either one of `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `PASSKEY_NEED` and `LOCAL_SERV_ERR` according to its purpose.
+The central will fire an `IND` event upon receiving an indication from a peripheral. Incoming messages will be classified by `msg.type` along with some data `msg.data`. The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
 
-- **DEV_ONLINE**
+- **DEV_ONLINE**  
     A peripheral join the network.
 
     - `msg.type` (*String*): `'DEV_ONLINE'`
@@ -747,7 +745,7 @@ peripheral.read('0x1800', '0x2a00', function (err, value) {
 
 ```javascript
 //characteristic is public
-peripheral.write('0x1800', '0x2a02', { Flag: true }, function (err) {
+peripheral.write('0x1800', '0x2a02', { flag: true }, function (err) {
     if (err)
         console.log(err);
 });
