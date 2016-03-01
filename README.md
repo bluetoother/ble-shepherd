@@ -63,10 +63,10 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 
 <a name="Usage"></a>
 ## Usage
+
 **ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application with **ble-shepherd** with CC254X BLE network processor(BNP) (see [central.start()](#API_start) if you like to use CSR BLE USB dongle).  
 
 Fisrtly, set up your serial-port configuration to connect to BNP. Next, call method `start()` with your configuration `spCfg` and application function `app` to bring the `central` up. Your `app` will run right after connected to BNP. If you like to tackle something prior to your app loading, e.g., registering custom GATT definitions, just override the method `appInit()` to suit your needs.  
-  
   
 ```javascript
 var central = require('ble-shepherd')('cc254x');
@@ -153,6 +153,7 @@ Some methods are not supported for CSR8510, they are listed in this table. (X: u
 *************************************************
 ## BleShepherd Class  
 `require('ble-shepherd')(chipName)` exports the singleton of this class. This singleton instance is denoted as `central` in this document.  
+
 *************************************************
 
 <br />
