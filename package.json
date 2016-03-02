@@ -27,13 +27,13 @@
   },
   "dependencies": {
     "async-kit": "^0.6.8",
-    "cc-bnp": "0.0.9",
+    "cc-bnp": "^0.1.1",
     "concentrate": "^0.2.3",
     "dissolve-chunks": "^1.0.1",
     "enum": "^2.2.0",
     "lodash": "^3.10.1",
     "nedb": "^1.2.1",
-    "noble": "^1.3.0",
+    "noble": "hedywings/noble#hci-socket",
     "q": "^1.4.1"
   },
   "bugs": {

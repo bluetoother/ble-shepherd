@@ -54,52 +54,12 @@ describe('Signature Check', function () {
     var errMsg = 'setting must be an object.',
         passkeyErrMsg = 'passkey must be number and should not exceed six numbers';
 
-    // it('setParam(param, val) - no arg', function () {
-    //     return secmdl.setParam().should.be.rejectedWith('Bad Arguments.');
-    // });
-
-    // it('setParam(param, val) - bad param type', function () {
-    //     return secmdl.setParam([], 1).should.be.rejectedWith('param must be a number or string');
-    // });
-
-    // it('setParam(param, val) - bad val type', function () {
-    //     return secmdl.setParam(0x0400, '1').should.be.rejectedWith('val must be a number');
-    // });
-
-    // it('setParam(param, val) - error param id', function () {
-    //     return secmdl.setParam(1, 1).should.be.rejectedWith('Param input error.');
-    // });
-
     it('setParam(param, val)', function () {
         (function () { secmdl.setParam(); }).should.throw();
         (function () { secmdl.setParam([], 1); }).should.throw();
         (function () { secmdl.setParam(0x0400, '1'); }).should.throw();
         (function () { secmdl.setParam(1, 1); }).should.throw();
     });
-
-    // it('passPasskey(passkey) - no arg', function () {
-    //     return secmdl.passPasskey().should.be.rejectedWith(passkeyErrMsg);
-    // });
-
-    // it('passPasskey(passkey) - string', function () {
-    //     return secmdl.passPasskey('xxx').should.be.rejectedWith(passkeyErrMsg);
-    // });
-
-    // it('passPasskey(passkey) - object', function () {
-    //     return secmdl.passPasskey({}).should.be.rejectedWith(passkeyErrMsg);
-    // });
-
-    // it('passPasskey(passkey) - array', function () {
-    //     return secmdl.passPasskey([]).should.be.rejectedWith(passkeyErrMsg);
-    // });
-
-    // it('passPasskey(passkey) - boolean', function () {
-    //     return secmdl.passPasskey(false).should.be.rejectedWith(passkeyErrMsg);
-    // });
-
-    // it('passPasskey(passkey) - number with error lenth', function () {
-    //     return secmdl.passPasskey(1234567).should.be.rejectedWith(passkeyErrMsg);
-    // });
 
     it('passPasskey(passkey)', function () {
         (function () { secmdl.passPasskey(); }).should.throw();

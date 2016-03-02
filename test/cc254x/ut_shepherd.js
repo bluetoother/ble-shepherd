@@ -55,57 +55,6 @@ describe('Signature Check', function () {
     var addServErrMsg = 'servInfo must be an object',
         charsInfoErrMsg = 'servInfo.charsInfo must be an array.',
         uuidErrMsg = 'servInfo.uuid must be a string and start with 0x';
-    /*it('addLocalServ(servInfo) - bad servInfo Type(arr)', function () {
-        return bShepherd.addLocalServ([]).should.be.rejectedWith(addServErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo Type(str)', function () {
-        return bShepherd.addLocalServ('xxx').should.be.rejectedWith(addServErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo Type(bool)', function () {
-        return bShepherd.addLocalServ(true).should.be.rejectedWith(addServErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo Type(null)', function () {
-        return bShepherd.addLocalServ(null).should.be.rejectedWith(addServErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo.uuid Type(obj)', function () {
-        return bShepherd.addLocalServ({uuid: {},charsInfo: []}).should.be.rejectedWith(uuidErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo.uuid Type(arr)', function () {
-        return bShepherd.addLocalServ({uuid: [],charsInfo: []}).should.be.rejectedWith(uuidErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo.uuid Type(bool)', function () {
-        return bShepherd.addLocalServ({uuid: true,charsInfo: []}).should.be.rejectedWith(uuidErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo.uuid Type(str)', function () {
-        return bShepherd.addLocalServ({uuid: 'xxx',charsInfo: []}).should.be.rejectedWith(uuidErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo.uuid Type(obj)', function () {
-        return bShepherd.addLocalServ({uuid: {},charsInfo: []}).should.be.rejectedWith(uuidErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo.charsInfo Type(obj)', function () {
-        return bShepherd.addLocalServ({uuid: '0x1800',charsInfo: {}}).should.be.rejectedWith(charsInfoErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo.charsInfo Type(bool)', function () {
-        return bShepherd.addLocalServ({uuid: '0x1800',charsInfo: false}).should.be.rejectedWith(charsInfoErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo.charsInfo Type(str)', function () {
-        return bShepherd.addLocalServ({uuid: '0x1800',charsInfo: 'xxx'}).should.be.rejectedWith(charsInfoErrMsg);
-    });
-
-    it('addLocalServ(servInfo) - bad servInfo.charsInfo Type(null)', function () {
-        return bShepherd.addLocalServ({uuid: '0x1800',charsInfo: null}).should.be.rejectedWith(charsInfoErrMsg);
-    });*/
 
     it('addLocalServ(servInfo)', function () {
         (function () { bShepherd.addLocalServ([]); }).should.throw();
@@ -124,29 +73,6 @@ describe('Signature Check', function () {
     });
 
     var setErrMsg = 'type must be a string of scan or link';
-    /*it('setNwkParams(type, setting) - bad type(obj)', function () {
-        return bShepherd.setNwkParams({} ,{}).should.be.rejectedWith(setErrMsg);
-    });
-
-    it('setNwkParams(type, setting) - bad type(arr)', function () {
-        return bShepherd.setNwkParams([] ,{}).should.be.rejectedWith(setErrMsg);
-    });
-
-    it('setNwkParams(type, setting) - bad type(str)', function () {
-        return bShepherd.setNwkParams('xxx' ,{}).should.be.rejectedWith(setErrMsg);
-    });
-
-    it('setNwkParams(type, setting) - bad type(num)', function () {
-        return bShepherd.setNwkParams(123 ,{}).should.be.rejectedWith(setErrMsg);
-    });
-
-    it('setNwkParams(type, setting) - bad type(bool)', function () {
-        return bShepherd.setNwkParams(true ,{}).should.be.rejectedWith(setErrMsg);
-    });
-
-    it('setNwkParams(type, setting) - bad type(null)', function () {
-        return bShepherd.setNwkParams(null ,{}).should.be.rejectedWith(setErrMsg);
-    });*/
 
     it('setNwkParams(type, setting)', function () {
         (function () { bShepherd.setNwkParams({} ,{}); }).should.throw();
