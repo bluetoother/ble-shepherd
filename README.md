@@ -65,7 +65,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 **ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application with **ble-shepherd** with CC254X BLE network processor(BNP) (see [central.start()](#API_start) if you like to use CSR BLE USB dongle).  
 
 Fisrtly, set up your serial-port configuration to connect to BNP. Next, call method `start()` with your configuration `spCfg` and application function `app` to bring the `central` up. Your `app` will run right after connected to BNP. If you like to tackle something prior to your app loading, e.g., registering custom GATT definitions, just override the method `appInit()` to suit your needs.  
-..
+  
   
 ```javascript
 var central = require('ble-shepherd')('cc254x');
@@ -424,9 +424,11 @@ central.addLocalServ(servInfo, function (err, result) {
 
 <a name = "EVT_ind"></a>  
 ##Event: 'IND'    
-Event Handler: `function(msg) { }`  
+> The central will fire an `IND` event upon receiving an indication from a peripheral. Incoming messages will be classified by `msg.type` along with some data `msg.data`.  
+>   
+> Event Handler: `function(msg) { }`  
 
-The central will fire an `IND` event upon receiving an indication from a peripheral. Incoming messages will be classified by `msg.type` along with some data `msg.data`. The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
+ The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
 
 - **DEV_ONLINE**  
     A peripheral has just joined the network, but not yet synchronized (services re-discovery).  
@@ -516,10 +518,8 @@ The central will fire an `IND` event upon receiving an indication from a periphe
 
 ***********************************************
 
-<br />  
-
 ## BlePeripheral Class  
-`central.find(addrOrHdl)` return a instance of this class, otherwise return `undefined`. This instance is denoted as `peripheral` in this document.  
+`central.find(addrOrHdl)` returns a instance of this class, otherwise returns `undefined` if not found. The instance, which is denoted as `peripheral` in this document, represents a remote peripheral in the server.  
 
 <br />
 
@@ -527,42 +527,43 @@ The central will fire an `IND` event upon receiving an indication from a periphe
 
 <a name="API_connect"></a>
 ###.connect([callback])
-> Connect to the remote BLE peripheral. Central will fire a `IND` event with message type `DEV_ONLINE` when connection is established and fire a `IND` event with message type `DEV_INCOMING` when the procedure of synchronize peripheral information is finished.
+> Connect to a remote BLE peripheral. The central will fire an `IND` event with message type `DEV_ONLINE` when connection is established and will fire an `IND` event with message type `DEV_INCOMING` when peripheral information synchronization accomplished.
 
 **Arguments**
-- `callback` (*Function*): `function (err) {}`. Get called when the connection between central and remote peripheral is established.
+- `callback` (*Function*): `function (err) { }`. Get called when the connection between central and remote peripheral is established.  
 
 **Returns**
-- (*none*)
+- (*none*)  
 
 **Example**
+
 ```javascript
 central.on('IND', function (msg) {
-    if (msg.type === 'DEV_ONLINE') {
+    if (msg.type === 'DEV_ONLINE')
         console.log(msg);
-    }
 });
 
 central.on('IND', function (msg) {
-    if (msg.type === 'DEV_INCOMING') {
+    if (msg.type === 'DEV_INCOMING')
         console.log(msg);
-    }
 });
 
-peripheral.connect(function (err) {
-    if (err) {
-        console.log(err);
-    }
-});
+var peripheral = central.find('0x78c5e570796e');
+if (peripheral) {
+    peripheral.connect(function (err) {
+        if (err)
+            console.log(err);
+    });
+}
 ```
 
 *************************************************
 <a name="API_disconnect"></a>
 ###.disconnect([callback])
-> Disconnect to the remote BLE peripheral. Central will fire a `IND` event with meaasge type `DEV_LEAVING` when the procedure of disconnecting is completed. 
+> Disconnect from the remote BLE peripheral. The central will fire an `IND` event with meaasge type `DEV_LEAVING` when the procedure of disconnecting accomplished.  
 
 **Arguments**
-- `callack` (*Function*): `function (err) {}`. Get called when the connection between central and remote peripheral is disconnected.
+- `callack` (*Function*): `function (err) { }`. Get called when the connection between central and remote peripheral is disconnected.  
 
 **Returns**
 - (*none*)
@@ -570,25 +571,23 @@ peripheral.connect(function (err) {
 **Example**
 ```javascript
 central.on('IND', function (msg) {
-    if (msg.type === 'DEV_LEAVING') {
+    if (msg.type === 'DEV_LEAVING')
         console.log(msg);
-    }
 });
 
 peripheral.disconnect(function (err) {
-    if (err) {
+    if (err)
         console.log(err);
-    }
 });
 ```
 
 *************************************************
 <a name="API_remove"></a>
 ###.remove([callback])
-> Disconnect to the remote BLE peripheral and remove peripheral record from database. Central will fire a `IND` event with meaasge type `DEV_LEAVING` when the procedure of disconnecting is completed. 
+> Disconnect from the remote BLE peripheral and remove its record from the database. The central will fire an `IND` event with meaasge type `DEV_LEAVING` when the procedure of disconnecting accomplished. 
 
 **Arguments**
-- `callack` (*Function*): `function (err) {}`. Get called when the connection between central and remote peripheral is disconnected and peripheral record is removed.
+- `callack` (*Function*): `function (err) { }`. Get called when the connection between central and remote peripheral is disconnected and peripheral record is removed.  
 
 **Returns**
 - (*none*)
@@ -596,15 +595,13 @@ peripheral.disconnect(function (err) {
 **Example**
 ```javascript
 central.on('IND', function (msg) {
-    if (msg.type === 'DEV_LEAVING') {
+    if (msg.type === 'DEV_LEAVING')
         console.log(msg);
-    }
 });
 
 peripheral.remove(function (err) {
-    if (err) {
+    if (err)
         console.log(err);
-    }
 });
 ```
 
@@ -636,23 +633,23 @@ peripheral.updateLinkParam(80, 0, 2000, function (err) {
 *************************************************
 <a name="API_encrypt"></a>  
 ###.encrypt([setting][, callback])  
-> Encrypt the connection between the central and peripheral. Central will fire an `IND` event along with a message typed as `PASSKEY_NEED` if it requires a passkey during the encryption procedure for MITM protection.  
+> Encrypt the connection between the central and peripheral. The central will fire an `IND` event along with message type `PASSKEY_NEED` if it requires a passkey during the encryption procedure for MITM protection.  
 
-Note: This command only supports CC254X SoC.
+Note: This command is CC254X only.
 
 **Arguments**  
 
 1. `setting` (*Object*): Peripheral security setting. The following table shows the details of each property.  
 2. `callback` (*Function*): `function (err) { }`. Get called when encryption completes.  
 
-| Property | Type | Mandatory | Description | Default value |
-|----------|----------|----------|----------|----------|
-| pairMode | Number | Optional | pairing mode | 0x01 |
-| ioCap | Number | Optional | io capabilities | 0x04 |
-| mitm | Boolean | Optional | MITM protection | true |
-| bond | Boolean | Optional | bonding enable | true |
+| Property | Type     | Mandatory | Description     | Default value |
+|----------|----------|-----------|-----------------|---------------|
+| pairMode | Number   | Optional  | pairing mode    | 0x01          |
+| ioCap    | Number   | Optional  | io capabilities | 0x04          |
+| mitm     | Boolean  | Optional  | MITM protection | true          |
+| bond     | Boolean  | Optional  | bonding enable  | true          |
 
-Note: Please refer to the document [TI BLE Vendor Specific HCI Guide.pdf (P77)](https://github.com/hedywings/ccBnp/raw/master/documents/TI_BLE_Vendor_Specific_HCI_Guide.pdf) for the description of `pairMode` and `ioCap`.  
+Note: Please refer to the document [TI BLE Vendor Specific HCI Guide.pdf (P77)](https://github.com/hedywings/ccBnp/raw/master/documents/TI_BLE_Vendor_Specific_HCI_Guide.pdf) for `pairMode` and `ioCap` descriptions.  
 
 **Returns**  
 
@@ -662,15 +659,15 @@ Note: Please refer to the document [TI BLE Vendor Specific HCI Guide.pdf (P77)](
 
 ```javascript
 var setting = {
-    pairMode: 0x01, //WaitForReq
-    ioCap: 0x04,    //KeyboardDisplay
+    pairMode: 0x01, // WaitForReq
+    ioCap: 0x04,    // KeyboardDisplay
     mitm: true,
     bond: true
 }
 
 central.on('IND', function (msg) {
     if (msg.type === 'PASSKEY_NEED') {
-        //finding the peripheral and send passkey by calling passPasskey() here
+        // find the peripheral and send passkey to it by calling passPasskey() here
         console.log(msg);
     }
 });
@@ -686,12 +683,12 @@ peripheral.encrypt(setting, function (err) {
 ###.passPasskey(passkey[, callback])  
 > Send the passkey required by the encryption procedure.  
 
-Note: This command only supports CC254X SoC.
+Note: This command is CC254X only.
 
 **Arguments**  
 
-1. `passkey` (*Number*): 6 character ASCII string of numbers (ex. '019655')
-2. `callback` (*Function*): `function (err) { }`. Get called when passkey transmit to the remote peripheral success.  
+1. `passkey` (*String*): 6 character ASCII string of numbers (ex. '019655')
+2. `callback` (*Function*): `function (err) { }`. Get called when passkey successfuly transmitted to the remote peripheral.  
 
 **Returns**  
 
@@ -709,11 +706,11 @@ peripheral.passPasskey('123456', function (err) {
 *************************************************
 <a name="API_update"></a>  
 ###.update([callback])  
-> Remotely read all characteristics value from the peripheral device to update peripheral instance on the central.
+> Update the `peripheral` instance with the lastest characteristics value reading from the remote device.  
 
 **Arguments**  
 
-1. `callback`(*Function*): `function (err) { }`. Get called when updating complete.
+1. `callback`(*Function*): `function (err) { }`. Get called when updated.  
 
 **Returns**  
 
@@ -731,13 +728,13 @@ peripheral.update(function (err) {
 *************************************************
 <a name="API_read"></a>  
 ###.read(uuidServ, uuidChar, callback)
-> Remotely read a value from the allocated Characteristic.  
+> Read the value of an allocated Characteristic from the remote device.  
 
 **Arguments**  
 
 1. `uuidServ` (*String*): Service uuid.  
 2. `uuidChar` (*String*): Characteristic uuid.  
-3. `callback` (*Function*): `function (err, value) { }`. Get called along with a read value when the reading completes.  
+3. `callback` (*Function*): `function (err, value) { }`. Get called along with the read value.  
 
 **Returns**  
 
@@ -757,14 +754,14 @@ peripheral.read('0x1800', '0x2a00', function (err, value) {
 *************************************************
 <a name="API_write"></a>  
 ###.write(uuidServ, uuidChar, value[, callback])  
-> Remotely write a value to the allocated Characteristic.  
+> Write a value to the allocated Characteristic on the remote device.  
 
 **Arguments**  
 
 1. `uuidServ` (*String*): Service uuid.  
 2. `uuidChar` (*String*): Characteristic uuid.  
-3. `value` (*Object* | *Buffer*): Characteristic value. If the Characteristic is not a public one or is not registered by calling `central.regGattDefs()`, characteristic value must be a buffer.  
-4. `callback` (*Function*): `function (err) { }`. Get called when the writing completes.  
+3. `value` (*Object* | *Buffer*): Characteristic value. If the Characteristic is not a public one or is not registered through `central.regGattDefs()`, the `value` must be given with a buffer.  
+4. `callback` (*Function*): `function (err) { }`. Get called when written.  
 
 **Returns**  
 
@@ -773,13 +770,13 @@ peripheral.read('0x1800', '0x2a00', function (err, value) {
 **Example**  
 
 ```javascript
-//characteristic is public
+// characteristic is public
 peripheral.write('0x1800', '0x2a02', { flag: true }, function (err) {
     if (err)
         console.log(err);
 });
 
-//characteristic is private and not register its definition
+// characteristic is private and its definition is not registered  
 peripheral.write('0xfff0', '0xfff3', new Buffer([ 1 ]), function (err) {
     if (err)
         console.log(err);
@@ -796,7 +793,6 @@ peripheral.write('0xfff0', '0xfff3', new Buffer([ 1 ]), function (err) {
 1. `uuidServ` (*String*): Service uuid.  
 2. `uuidChar` (*String*): Characteristic uuid.  
 3. `callback` (*Function*): `function (err, description) { }`. Get called along with a characteristic description when the reading completes.  
-
 
 **Returns**  
 
@@ -871,20 +867,20 @@ Use the `central.regGattDefs(type, regObjs)` method to register private service 
 * `regObjs` format will vary according to the register type
     * If `type === 'service'`, `regObjs` should be given with an array of the _Service information object_ having the following properties.
 
-        | Property | Type | Mandatory | Description |
-        |----------|----------|----------|----------|
-        | uuid | String | required | characteristic uuid |
-        | name | String | required | characteristic name |
+        | Property | Type     | Mandatory | Description         |
+        |----------|----------|-----------|---------------------|
+        | uuid     | String   | required  | characteristic uuid |
+        | name     | String   | required  | characteristic name |
         (Note: Neither name nor uuid conflict with a public Service or a registered Service.)
 
     * If `type === 'characteristic'`, `regObjs` should be given with an array of the _Characteristic information object_ having the following properties. 
     
-        | Property | Type | Mandatory | Description |
-        |----------|----------|----------|----------|
-        | uuid | String | required | characteristic uuid |
-        | name | String | required | characteristic name |
-        | params | Array | required | characteristic parameters |
-        | types | Array | required | characteristic parameters type |
+        | Property | Type   | Mandatory | Description                    |
+        |----------|--------|-----------|--------------------------------|
+        | uuid     | String | required  | characteristic uuid            |
+        | name     | String | required  | characteristic name            |
+        | params   | Array  | required  | characteristic parameters      |
+        | types    | Array  | required  | characteristic parameters type |
         * `params`: The Characteristic value will be parsed into an object with keys given in this array. The built-in parser will parse the payload according to the given keys in order.
         * `types`: An array used to type each data in the params array. The order of entries in types and params array should be exactly matched.
         
@@ -916,22 +912,22 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
     
 * The following table shows the details of each property within `servInfo`.
 
-    | Property | Type | Mandatory | Description |
-    |----------|----------|----------|----------|
-    | uuid | String | required | service uuid |
-    | name | String | optional | service name |
-    | charsInfo | Array | required | including lots of characteristic information objects |
+    | Property  | Type   | Mandatory | Description                                          |
+    |-----------|--------|-----------|------------------------------------------------------|
+    | uuid      | String | required  | service uuid                                         |
+    | name      | String | optional  | service name                                         |
+    | charsInfo | Array  | required  | including lots of characteristic information objects |
 
 * Each entry in `charsInfo` array should be an object having the following preoperties:
 
-    | Property | Type | Mandatory | Description |
-    |----------|----------|----------|----------|
-    | uuid | String | required | characteristic uuid |
-    | name | String | optional | characteristic name |
-    | permit | Array | required | characteristic permission |
-    | prop | Array | required | characteristic property |
-    | val | Object or Buffer | required | characteristic value |
-    | desc | String | optional | characteristic description |
+    | Property | Type             | Mandatory | Description                |
+    |----------|------------------|-----------|----------------------------|
+    | uuid     | String           | required  | characteristic uuid        |
+    | name     | String           | optional  | characteristic name        |
+    | permit   | Array            | required  | characteristic permission  |
+    | prop     | Array            | required  | characteristic property    |
+    | val      | Object or Buffer | required  | characteristic value       |
+    | desc     | String           | optional  | characteristic description |
     - Allowed Characteristic property: 'Broadcast', 'Read', 'WriteWithoutResponse', 'Write', 'Notify', 'Indicate', 'AuthenticatedSignedWrites', 'ExtendedProperties'
     - Allowed Characteristic permission: 'Read', 'Write', 'AuthenRead', 'AuthenWrite', 'AuthorRead', 'AuthorWrite', 'EncryptRead', 'EncryptWrite'
 
