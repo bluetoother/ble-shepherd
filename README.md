@@ -24,9 +24,9 @@
 ##Overview
 **ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.  
   
-**ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating the BLE *pheripheral* devices. Many essentials of network management has been done by this controller, e.g., auto scanning for *pheripheral* devices, storing connected devices records to and reloading them from the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
+**ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating BLE *pheripheral* devices. This controller has done many network managing things for you, i.e., auto scanning for *pheripheral* devices, storing(/reloading) connected devices records to(/from) the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
 
-With **ble-shepherd**, you can get rid of such networking things and focus on your application logics. It is easy to set and receive notifications from remote *peripherals*. Furthermore, reading resources from and writing values to *periphrals* is also a simple task, here is an example:
+It is easy to set and receive notifications from remote *peripherals*. Furthermore, reading resources from and writing values to *periphrals* is also simple, here is an example:
 
 ``` js
 peripheral.read('0x1800', '0x2a00', functional (err, value) {
@@ -36,33 +36,36 @@ peripheral.write('0x1800', '0x2a02', { flag: false }, functional (err) {
     // value is remotely write to the peripheral device
 });
 ```
-
-**ble-shepherd** opens another way of implementing IoT applications with BLE devices. With node.js, you can build your own application console and design your own RESTful APIs in seconds. It is easy to make your BLE devices happy onto the cloud.  
+With **ble-shepherd**, you can get rid of such networking things and focus on your application logics. It opens another way of implementing IoT applications with BLE devices. With node.js, you can build your own application console(or dashboard) and design your own RESTful APIs in seconds. It's easy to make your BLE devices happy on the cloud.  
   
 **Note**:  
-At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/hedywings/ccBnp) and [noble]() libraries. They are targeting on TI [CC254X BLE Network Processor](http://processors.wiki.ti.com/index.php/CC254X_WITH_EXT_MCU#Network_Processor) and CSR8510 BLE4.0 USB Adapter, respectively. This project may support TI [CC264X](http://processors.wiki.ti.com/index.php/CC2640_BLE_Network_Processor) BLE Network Processor in the near future (if I can get the development tools). Please let me know if you have any suggestions about the BLE SoC solutions.  
+At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/hedywings/ccBnp) and [noble]() libraries. They are targeting on TI [CC254X BLE Network Processor](http://processors.wiki.ti.com/index.php/CC254X_WITH_EXT_MCU#Network_Processor) and CSR8510 BLE4.0 USB adapter, respectively. This project may support TI [CC264X](http://processors.wiki.ti.com/index.php/CC2640_BLE_Network_Processor) in the near future (if I can get the development tools). Please let me know if you have any suggestions about the BLE SoC solutions.  
 
 <br />
+
 <a name="Features"></a>
 ##Features
 
 - Building your machine network with BLE devices.  
-- Controlling the network with no pain, i.e., auto reconnection, permission of device joining, built-in database and many more.  
+- Controlling the network with no pain. Features of auto reconnection, permission of device joining, built-in database and many more are off-the-shelf.  
 - Creating BLE IoT apps is simple and quick.  
 - Allows you to define _Services_ and _Characteritics_ on **ble-shepherd** itself to make it a BLE gadget. **ble-shepherd** not just plays as a network controller.  
-- Based-on node.js. It's easy to integrate BLE apps with other services or frameworks, e.g., http server, express, React.js, Angular.js.
+- Based-on node.js. It's easy to integrate BLE apps with other services or frameworks, e.g., http server, express, React.js, Angular.js.  
 
 <br />
+
 <a name="Installation"></a>
 ##Installation
-Available via [npm](http://npmjs.org/package/ble-shepherd): 
 > $ npm install ble-shepherd --save
 
 <br />
+
 <a name="Usage"></a>
 ## Usage
-**ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application with **ble-shepherd** with CC254X network processor (see [central.start()](#API_start) if you like to use CSR BLE USB dongle).  
-Fisrtly, set up your serial-port configuration to connect to CC254X network processor(BNP). Next, bring the central up by calling the method `start()` with your configuration `spCfg` and application function `app`. The `app` will run after connected to BNP. In addition, you can override the method `appInit()` if you like to tackle something prior to your app loading, e.g., registering custom GATT definitions.  
+**ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application with **ble-shepherd** with CC254X BLE network processor(BNP) (see [central.start()](#API_start) if you like to use CSR BLE USB dongle).  
+
+Fisrtly, set up your serial-port configuration to connect to BNP. Next, call method `start()` with your configuration `spCfg` and application function `app` to bring the `central` up. Your `app` will run right after connected to BNP. If you like to tackle something prior to your app loading, e.g., registering custom GATT definitions, just override the method `appInit()` to suit your needs.  
+..
   
 ```javascript
 var central = require('ble-shepherd')('cc254x');
@@ -75,24 +78,25 @@ var spCfg = {
         }
     };
 
+central.appInit = function () {
+    // do something before app starting
+    // usually register GATT definition by calling regGattDefs() here
+}
+
 central.start(app, spCfg);
 
 function app() {
     // your application
 }
-
-central.appInit = function () {
-    // do something before app starting
-    // usually register GATT definition by calling regGattDefs() here
-}
 ```
 
 <br />
+
 <a name="APIs"></a>
 ## APIs and Events
 
 ####1. Control the Network 
->**central** is a singleton exported by `require('ble-shepherd')(chipName)`. Use `chipName` that accepts `cc254x` or `csr8510` to specify the chip.  
+>**central** is a singleton exported by `require('ble-shepherd')(chipName)`, where `chipName` can be either a string of `'cc254x'` or `'csr8510'` to specify the chip.  
 
 * [central.start()](#API_start)
 * [central.setNwkParams()](#API_setNwkParams)
@@ -104,7 +108,7 @@ central.appInit = function () {
 * ['IND' event](#EVT_ind)
 
 ####2. Monitor and Control the Peripherals
->**peripheral** is a software endpoint representing the remote BLE device. You can use `central.find()` to find a connected _pheripheral_ device with its address or connection handle. Once you get the endpoint, you can call its read()/write() methods to operate the remote _pheripheral_.  
+>**peripheral** is a software endpoint to represent a remote BLE device. You can use `central.find()` to find a connected _pheripheral_ device with its address or connection handle. Once you get the endpoint, you can invoke its read()/write() methods to operate the remote device.  
 
 * [peripheral.connect()](#API_connect)
 * [peripheral.disconnect()](#API_disconnect)
@@ -119,9 +123,9 @@ central.appInit = function () {
 * [peripheral.write()](#API_write)
 * [peripheral.regCharHdlr()](#API_regCharHdlr)
 
-Some APIs are not supported for CSR8510, they are listed in this table. (O: valid, X: invalid)
+Some methods are not supported for CSR8510, they are listed in this table. (X: unsupported)
 
-| Interface                             | API               | CC254x BNP      |  CSR8510 dongle |
+| Interface                             | Method            | CC254x BNP      |  CSR8510 dongle |
 | --------------------------------------| ------------------| --------------- | --------------- |
 | Control the Network                   | start             | O               | O               |
 |                                       | setNwkParams      | O               | O               |
@@ -144,23 +148,26 @@ Some APIs are not supported for CSR8510, they are listed in this table. (O: vali
 |                                       | regCharHdlr       | O               | O               |
 
 <br />
+
 *************************************************
 ## BleShepherd Class  
 `require('ble-shepherd')(chipName)` exports the singleton of this class. This singleton instance is denoted as `central` in this document.  
+*************************************************
+
 <br />
 
 <a name="API_start"></a>  
-### .start(app, spCfg)  
+### .start(app[, spCfg])  
 > Connects to the SoC and starts to run the app.  
 
 **Arguments**  
 
-1. `app` (*Function*): The application function that will be called after initialization completes.  
-2. `spCfg` (*Object*): This value-object has two properties `path` and `options` for configuring the serial port.  
-    - `path`: a string that refers to the system path of the serial port, e.g., `'/dev/ttyUSB0'`  
-    - `options`: an object for setting up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The default value of `options` is shown in the following example.  
+1. `app` (*Function*): App which will be called after initialization completes.  
+2. `spCfg` (*Object*): This value-object has two properties `path` and `options` to configure the serial port.  
+    - `path`: a string that refers to the serial port system path, e.g., `'/dev/ttyUSB0'`  
+    - `options`: an object to set up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The following example shows the `options` with its default value.  
 
-Note: There is no need to fill `spCfg` field if you are using CSR8510 SoC.
+Note: If you are using the CSR8510 USB adapter, `spCfg` can be ignored.
 
 **Returns**  
 
@@ -168,7 +175,7 @@ Note: There is no need to fill `spCfg` field if you are using CSR8510 SoC.
 
 **Example**  
 
-* using CC254X SoC  
+* Using CC254X SoC  
 
 ```javascript
 var central = require('ble-shepherd')('cc254x');
@@ -189,7 +196,7 @@ app = function () {
 central.start(app, spCfg);
 ```
 
-* using CSR8510 SoC  
+* Using CSR8510 SoC  
 
 ```javascript
 var central = require('ble-shepherd')('csr8510');
@@ -197,7 +204,7 @@ var app = function () {
     // your application
 };
 
-central.start(app);
+central.start(app); // spCfg is not required
 ```
 
 *************************************************
@@ -209,15 +216,16 @@ central.start(app);
 
 1. `type` (*String*): Can be `'scan'` or `'link'` to indicate which type of parameter you like to set.  
 2. `setting` (*Object*): The following table shows the `setting` properties according to the given `type`.  
-    - When `type === 'scan'`  
-        
+
+    - When `type === 'scan'`, the setting object should be with the keys:  
+            
     | Property | Type   | Mandatory | Description       | Default value |
     |----------|--------|-----------|-------------------|---------------|
     | interval | Number | optional  | Scan interval(ms) | 0x0010        |
     | window   | Number | optional  | Scan window(ms)   | 0x0010        |
 
-    - When `type === 'link'`
-        
+    - When `type === 'link'`, the setting object should be with the keys:
+            
     | Property | Type   | Mandatory | Description                                                                | Default value |
     |----------|--------|-----------|----------------------------------------------------------------------------|---------------|
     | interval | Number | optional  | Connection interval(ms). This affects the transmission rate of connection. | 0x0018        |
@@ -233,13 +241,13 @@ central.start(app);
 **Example**  
 
 ```javascript
-// setting scan parameter
+// setting scan parameters
 central.setNwkParams('scan', { interval: 16, window: 16 }, function (err) {
     if (err)
         console.log(err);
 });
 
-// setting link parameter
+// setting link parameters
 central.setNwkParams('link', { interval: 10240, latency: 0, timeout: 1000 }, function (err) {
     if (err)
         console.log(err);
@@ -254,12 +262,13 @@ central.setNwkParams('link', { interval: 5000 }, function (err) {
 
 *************************************************
 <a name="API_permitJoin"></a>  
-###.permitJoin(time)  
-> Open for devices to join the network.  
+###.permitJoin(time[, callback])  
+> Open the network for devices to join in.  
 
 **Arguments**  
 
-1. `time` (*Number*): Time in seconds for the central to allow devices joining. Set it to 0 will immediately close the admission.  
+1. `time` (*Number*): Time in seconds for the central to allow devices to join in the network. Set it to 0 will immediately close the admission.  
+2. `callback` (*Function*): `function (err) { }`. Get called if any error or timeout occurs.  
 
 **Returns**  
 
@@ -269,24 +278,29 @@ central.setNwkParams('link', { interval: 5000 }, function (err) {
 
 ```javascript
 // permit devices to join for 60 seconds 
-central.permitJoin(60);
+central.permitJoin(60, function (err) {
+    if (err)
+        console.log(err);
+    else
+        console.log('From now on, devices cannot join in.');
+});
 ```
 
 *************************************************
 <a name="API_command"></a>  
 ###.command(subGroup, cmd, argInst, callback)  
-> Calling TI BLE Vendor-Specific HCI Command, please refer to cc-bnp document for details.
+> Calls TI BLE Vendor-Specific HCI Commands. Please refer to **cc-bnp** document for details.
 > - [Calling the TI BLE Vendor-Specific HCI Command APIs](https://github.com/hedywings/cc-bnp#calling-the-ti-ble-vendor-specific-hci-command-apis)
 > - [Vendor-Specific HCI Command Reference Tables](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables)
 
-Note: This API only supports CC254X SoC
+Note: This API is CC254X only.
 
 **Arguments**  
 
-1. `subGroup` (*String*): Sub-group name. It can be `hci`, `l2cap`, `att`, `gatt`, `gap`, or `util`.  
-2. `cmd` (*String*): Function name of Vendor-Specific HCI Command API. You can find the function name from the column **cc-bnp Cmd-API** in this [table](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables).  
-3. `args` (_Object_): An argument object along with the command. The accepted keys of this value-object are listed in **Arguments** in this [table](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables).  
-4. `callback` (*Function*): `function (err, result) {}`. Get called with the result of execution.
+1. `subGroup` (*String*): Sub-group name. Can be `hci`, `l2cap`, `att`, `gatt`, `gap`, or `util`.  
+2. `cmd` (*String*): Function name of Vendor-Specific HCI Command API. You can find the function name from column **cc-bnp Cmd-API** in this [table](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables).  
+3. `args` (_Object_): An argument object along with the specified command. The accepted keys are listed in **Arguments** in this [table](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables).  
+4. `callback` (*Function*): `function (err, result) { }`. Get called with the result of execution.  
 
 **Returns**  
 
@@ -321,22 +335,22 @@ Note: This API only supports CC254X SoC
 **Example**  
 
 ```javascript
-// using address
+// find() by address
 var peripheral = central.find('0x78c5e570796e');
 
-// using connection handle
+// find() by connection handle
 var peripheral = central.find(0);
 ```
 
 *************************************************
 <a name="API_regGattDefs"></a>  
 ###.regGattDefs(type, regObjs)  
-> The method allows you to register your private Services or Characteristic definitions.  
+> Allows you to register private Services or Characteristic definitions.  
 
 **Arguments**  
 
-1. `type` (*String*): The type of definition to register. It can be `'service'` or `'characteristic'`.  
-2. `regObjs` (*Array*): It should be given with an array of the _Service information object_ or _Characteristic information object_.  
+1. `type` (*String*): Can be `'service'` or `'characteristic'` to specofy which type of definition to register with.  
+2. `regObjs` (*Array*): An array of the _Service information object_ or _Characteristic information object_ according to the given `type`.  
 
 Note: See [How to define your own Service and Characteristic](#addDefinition) in the **Advanced topics** section to learn more.
 
@@ -367,13 +381,13 @@ central.regGattDefs('characteristic', [
 ### .addLocalServ(servInfo[, callback])  
 > Register a Service to the BLE central.  
  
-Note: This command only supports CC254X SoC.
+Note: This command is CC254X only.
 
 **Arguments**  
 
-1. `servInfo` (*Object*): An object that contains properties of `uuid`, `name` and `charsInfo` to describe the information about the Service.  
+1. `servInfo` (*Object*): An object that contains properties of `uuid`, `name` and `charsInfo` to describe information about the Service.  
 
-2. `callback` (*Function*) : `function (err, service) {}`, Get called when service successfully register to the BNP. 
+2. `callback` (*Function*) : `function (err, service) { }`, Get called when service successfully register to BNP. 
 
 Note: See [How to add Services to central](#addService) of **Advanced topics** section to learn more.  
 
@@ -405,7 +419,9 @@ central.addLocalServ(servInfo, function (err, result) {
 ```
 
 *************************************************
+
 <br />
+
 <a name = "EVT_ind"></a>  
 ##Event: 'IND'    
 Event Handler: `function(msg) { }`  
@@ -413,7 +429,7 @@ Event Handler: `function(msg) { }`
 The central will fire an `IND` event upon receiving an indication from a peripheral. Incoming messages will be classified by `msg.type` along with some data `msg.data`. The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
 
 - **DEV_ONLINE**  
-    A peripheral join the network.
+    A peripheral has just joined the network, but not yet synchronized (services re-discovery).  
 
     - `msg.type` (*String*): `'DEV_ONLINE'`
     - `msg.data` (*String*): Device address  
@@ -423,9 +439,11 @@ The central will fire an `IND` event upon receiving an indication from a periphe
         data: '0x78c5e570796e',
     }
     ```
+
 <br />
+
 - **DEV_INCOMING**  
-    A peripheral join the network and the procedure of synchronize peripheral information is complete.
+    A peripheral has joined the network and synchronized.  
 
     - `msg.type` (*String*): `'DEV_INCOMING'`
     - `msg.data` (*String*): Device address  
@@ -435,9 +453,11 @@ The central will fire an `IND` event upon receiving an indication from a periphe
         data: '0x78c5e570796e',
     }
     ```
+
 <br />
+
 - **DEV_LEAVING**  
-    A peripheral leave the network.
+    A peripheral has just left the network.  
 
     - `msg.type` (*String*): `'DEV_LEAVING'`
     - `msg.data` (*String*): Device address  
@@ -447,9 +467,11 @@ The central will fire an `IND` event upon receiving an indication from a periphe
         data: '0x78c5e570796e',
     }
     ```
+
 <br />
+
 - **PASSKEY_NEED**  
-    The encryption process of connection requires a passkey. This event only support CC254X SoC.
+    The encryption process of connection is requesting for a passkey. This event is CC254X only.
 
     - `msg.type` (*String*): `'PASSKEY_NEED'`
     - `msg.data` (*Object*): This object has fileds of `devAddr`, `connHandle`, `uiInput`, and `uiOutput`.  
@@ -464,12 +486,14 @@ The central will fire an `IND` event upon receiving an indication from a periphe
         }
     }
     ```
+
 <br />
+
 - **LOCAL_SERV_ERR**  
-    An error occurs while processing an incoming peripheral ATT event. This event only support CC254X SoC.
+    An error occurs while processing an incoming peripheral ATT event. This event is CC254X only.
 
     - `msg.type` (*String*): `'LOCAL_SERV_ERR'`
-    - `msg.data` (*Object*): This object has fileds of `evtData` and `err`. `evtData` is a request message emit from remote peripheral, `err` is an error object describing the reason of why the request could not be processed.
+    - `msg.data` (*Object*): This object has fileds of `evtData` and `err`. `evtData` is the request message emitted from a remote peripheral, `err` is an error object describing the reason why the request cannot be processed.  
     ```js
     {
         type: 'LOCAL_SERV_ERR',
@@ -487,15 +511,20 @@ The central will fire an `IND` event upon receiving an indication from a periphe
         }
     }
     ```
+
 <br />
 
 ***********************************************
+
 <br />  
+
 ## BlePeripheral Class  
-`central.find(addrOrHdl)` return the instance of this class. This instance is denoted as `peripheral` in this document.
+`central.find(addrOrHdl)` return a instance of this class, otherwise return `undefined`. This instance is denoted as `peripheral` in this document.  
 
 <br />
+
 *************************************************
+
 <a name="API_connect"></a>
 ###.connect([callback])
 > Connect to the remote BLE peripheral. Central will fire a `IND` event with message type `DEV_ONLINE` when connection is established and fire a `IND` event with message type `DEV_INCOMING` when the procedure of synchronize peripheral information is finished.
