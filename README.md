@@ -786,7 +786,7 @@ peripheral.write('0xfff0', '0xfff3', new Buffer([ 1 ]), function (err) {
 *************************************************
 <a name="API_readDesc"></a>  
 ###.readDesc(uuidServ, uuidChar, callback)  
-> Remotely read the description from the allocated Characteristic.  
+> Read the description from an allocated Characteristic on the remote device.  
 
 **Arguments**  
 
@@ -837,12 +837,12 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
 *************************************************
 <a name="API_regCharHdlr"></a>
 ###.regCharHdlr(uuidServ, uuidChar, fn)
-> Register handler to handle notification or indication of characteristic.
+> Register a handler to handle notification or indication of a Characteristic.
 
 **Arguments**
-- `servUuid` (*String*): Service uuid
-- `charUuid` (*String*): Characteristic uuid
-- `fn` (*Function*): Handler function
+- `servUuid` (*String*): Service uuid  
+- `charUuid` (*String*): Characteristic uuid  
+- `fn` (*Function*): Handler function  
 
 **Returns**
 - (*object*): peripheral
@@ -862,18 +862,18 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
 
 <a name="addDefinition"></a>
 ###How to define your own Service and Characteristic
-Use the `central.regGattDefs(type, regObjs)` method to register private service or characteristic definations. Register private characteristic defination can helps you parse and build characteristic value.
+In order to let **ble-shepherd** parse and build the packet of your private services and characteristics, you should first register the private definitions to **ble-shepherd** by `central.regGattDefs(type, regObjs)` method.  
 
-* `regObjs` format will vary according to the register type
-    * If `type === 'service'`, `regObjs` should be given with an array of the _Service information object_ having the following properties.
+* `regObjs` contains the registration information depending on which type you want to register.
+    * If `type === 'service'`, `regObjs` should be given with an array of the _Service information object_. Each entry is an object with properties shown in the table:
 
         | Property | Type     | Mandatory | Description         |
         |----------|----------|-----------|---------------------|
         | uuid     | String   | required  | characteristic uuid |
         | name     | String   | required  | characteristic name |
-        (Note: Neither name nor uuid conflict with a public Service or a registered Service.)
+        (Note: Make sure that your `name` and `uuid` won't conflict with a public Service or a registered Service.)
 
-    * If `type === 'characteristic'`, `regObjs` should be given with an array of the _Characteristic information object_ having the following properties. 
+    * If `type === 'characteristic'`, `regObjs` should be given with an array of the _Characteristic information object_. Each entry is an object with properties shown in the table:  
     
         | Property | Type   | Mandatory | Description                    |
         |----------|--------|-----------|--------------------------------|
@@ -881,16 +881,16 @@ Use the `central.regGattDefs(type, regObjs)` method to register private service 
         | name     | String | required  | characteristic name            |
         | params   | Array  | required  | characteristic parameters      |
         | types    | Array  | required  | characteristic parameters type |
-        * `params`: The Characteristic value will be parsed into an object with keys given in this array. The built-in parser will parse the payload according to the given keys in order.
-        * `types`: An array used to type each data in the params array. The order of entries in types and params array should be exactly matched.
+        * `params`: The Characteristic value will be parsed into an object according to the keys orderly given in this array.  
+        * `types`: An array to indicate the data type of each entry in `params` array. The order of entries in `types` and `params` array should be exactly matched.  
         
-        (Note: Neither name nor uuid conflict with a public Characteristic or a registered Characteristic.)
+        (Note: Make sure that your `name` and `uuid` won't conflict with a public Characteristic or a registered Characteristic.)
 
 * Example
     * Register service definations
     ```js
     central.regGattDefs('service', [
-        { name: 'SimpleKeys', uuid: '0xffe0' },
+        { name: 'SimpleKeys', uuid: '0xffe0' },     // 'SimpleKeys' is any string you like to name your Service
         { name: 'Accelerometer', uuid: '0xffa0' }
     ]);
     ```
@@ -908,9 +908,9 @@ Use the `central.regGattDefs(type, regObjs)` method to register private service 
 *************************************************
 <a name="addService"></a>
 ###How to add services to central
-Use the `central.addLocalServ(servInfo, callback)` method to create a local service to the central and register to the CC254X BNP. 
+Use the `central.addLocalServ(servInfo, callback)` method to create a local service on the central and register it to the CC254X BNP.  
     
-* The following table shows the details of each property within `servInfo`.
+* The following table shows the details of each property within the object `servInfo`.  
 
     | Property  | Type   | Mandatory | Description                                          |
     |-----------|--------|-----------|------------------------------------------------------|
@@ -928,18 +928,20 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
     | prop     | Array            | required  | characteristic property    |
     | val      | Object or Buffer | required  | characteristic value       |
     | desc     | String           | optional  | characteristic description |
-    - Allowed Characteristic property: 'Broadcast', 'Read', 'WriteWithoutResponse', 'Write', 'Notify', 'Indicate', 'AuthenticatedSignedWrites', 'ExtendedProperties'
-    - Allowed Characteristic permission: 'Read', 'Write', 'AuthenRead', 'AuthenWrite', 'AuthorRead', 'AuthorWrite', 'EncryptRead', 'EncryptWrite'
 
-* Differences between Prop and Permit
-    - Each characteristic have lots of attributes, including characteristic value and many option information about the value, such as Characteristic User Description.
-        - `permit`: Each attribute of characteristic has its own permission, `permit` parameter used to define the permission of characteristic value attribute
-        - `prop`: `prop` parameter is a attribute of characteristic which is used to describe the permission of characteristic value, it has read permission to let all GATT clients know they can do what operation on characteristic value.
+    - Allowed Characteristic permission `permit`: 'Read', 'Write', 'AuthenRead', 'AuthenWrite', 'AuthorRead', 'AuthorWrite', 'EncryptRead', 'EncryptWrite'
+    - Allowed Characteristic property `prop`: 'Broadcast', 'Read', 'WriteWithoutResponse', 'Write', 'Notify', 'Indicate', 'AuthenticatedSignedWrites', 'ExtendedProperties'
+
+* Differences between **prop** and **permit**
+    - Each Characteristic has a lot of attributes, including Characteristic value and many optional information about the value, such as _Characteristic User Description_.
+        - `permit`: Each attribute in a Characteristic has its own permission, and `permit` is used to define its permission.  
+        - `prop`: `prop` is an attribute in a Characteristic to describe the permission of Characteristic value. Having a read permission can let GATT clients know what operations they can perform upon the Characteristic value.  
         
-    Note: `prop` must be compatible with `permit`, otherwise GATT clients will be misled.
+    Note: `prop` must be compatible with `permit`, otherwise GATT clients will be misled.  
 
 * Example
-    * Add public service, if characteristic is public , property `val` of charInfo object must ba an object and format must follow [public characteristic definition](https://github.com/hedywings/ccBnp#3characteristics) of ccBnp.
+    * Add Characteristics into a public Service
+        - If the Characteristic is a public-defined one, charInfo `val` should be an object with keys list in the _Field Name_ of the [public UUID table](https://github.com/hedywings/cc-bnp#3-characteristics).  
     ```js
     var charsInfo = [
         { uuid: '0x2a00', permit: [ 'Read' ], prop: [ 'Read' ], val: { name: "BLE Shepherd" } },
@@ -959,14 +961,15 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
     });
     ```
 
-    * Add private service, if characteristic is not a public one, you need to register characteristic definition by refer to the section [How to define your own Service and Characteristic](#addDefinition), or you will need to process raw buffer of characteristic value by yourself.
+    * Add Characteristics into a private  
+        - If the Characteristic is not a public-defined one, you need to register its definition first[(see section "How to define your own Service and Characteristic")](#addDefinition). You can also parse/build raw packet of a Characteristic value on your own without doing the registration of your private definitions.  
 
     ```js
-    // if characteristic definition is not registered, type of characteristic value must be buffer
+    // if Characteristic definition is not registered, type of a Characteristic value can only be a buffer
     var charsInfo = [
-        { uuid: 'aa11', name: 'data', permit: [ 'Read' ], prop: [ 'Read' ], val: new Buffer([10, 20, 30]) },
-        { uuid: 'aa12', name: 'config', permit: [ 'Write' ], prop: [ 'Write' ], val: new Buffer([1]) },
-        { uuid: 'aa13', name: 'period', permit: [ 'Write '], prop: [ 'Write '], val: new Buffer([100]) }
+        { uuid: 'aa11', name: 'data', permit: [ 'Read' ], prop: [ 'Read' ], val: new Buffer([ 10, 20, 30 ) },
+        { uuid: 'aa12', name: 'config', permit: [ 'Write' ], prop: [ 'Write' ], val: new Buffer([ 1 ]) },
+        { uuid: 'aa13', name: 'period', permit: [ 'Write '], prop: [ 'Write '], val: new Buffer([ 100 ]) }
     ],
     servInfo = {
         uuid: '0xaa10',
@@ -981,11 +984,11 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
             console.log(service);
     });
 
-    // if characteristic definition is registered, type of characteristic value must be object and follow the format you have registered 
+    // if Characteristic definition is registered, characteristic value should be an object with keys according to `params` you've registered  
     var charsInfo = [
-        { uuid: '0xaa11', name: 'data', permit: [ 'Read' ], prop: [ 'Read' ], val: {x: 10, y: 10, z: 10} },
-        { uuid: '0xaa12', name: 'config', permit: [ 'Write' ], prop: [ 'Write' ], val: {range: 1} },
-        { uuid: '0xaa13', name: 'period', permit: [ 'Write '], prop: [ 'Write '], val: {period: 100} }
+        { uuid: '0xaa11', name: 'data', permit: [ 'Read' ], prop: [ 'Read' ], val: { x: 10, y: 10, z: 10 } },
+        { uuid: '0xaa12', name: 'config', permit: [ 'Write' ], prop: [ 'Write' ], val: { range: 1 } },
+        { uuid: '0xaa13', name: 'period', permit: [ 'Write '], prop: [ 'Write '], val: { period: 100 } }
     ],
     servInfo = {
         uuid: '0xaa10',
@@ -1010,7 +1013,9 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
 <br />
 <a name="Demo"></a>
 ##Demo
-Through ble-shepherd, a network of BLE peripheral devices can be easily organized, and it can be quick and easy to implement many IoT applications based on ble-shepherd. Of course, ble-shepherd can be integrated with other font-end frameworks, such as ExpressJS, to display the device information, monitor sensing data, and operate peripheral devices via web pages and web applications.
+With **ble-shepherd**, you can easily organize your BLE peripheral devices into a network. Implementing IoT applications with BLE is quick and easy. 
+
+**ble-shepherd** works well with a framework like ExpressJS, to display the device information, monitor sensing data, and operate peripheral devices via web pages and web applications.
 
 The following figure shows a simple ble-shepherd demo web page which is created by the [ExpressJS](#http://expressjs.com/), and [socket.io](#http://socket.io/) is used to communicate between the client side and the server side. This demo is developed based on CSR8510 BLE USB dongle, and the maximum number of connections of CC254X chipset is 5. If you want to connect more peripherals, the implementation of a polling mechanism is required. The following four steps will guide you through the implementation of ble-shepherd demo.
 - Running the server with ble-shepherd
