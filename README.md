@@ -1011,13 +1011,18 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
     ```
 
 <br />
+
 <a name="Demo"></a>
-##Demo
-With **ble-shepherd**, you can easily organize your BLE peripheral devices into a network. Implementing IoT applications with BLE is quick and easy. 
+##Demo  
 
-**ble-shepherd** works well with a framework like ExpressJS, to display the device information, monitor sensing data, and operate peripheral devices via web pages and web applications.
+With **ble-shepherd**, it is easy and quick to implement BLE IoT apps as well as manage your BLE peripherals.  
 
-The following figure shows a simple ble-shepherd demo web page which is created by the [ExpressJS](#http://expressjs.com/), and [socket.io](#http://socket.io/) is used to communicate between the client side and the server side. This demo is developed based on CSR8510 BLE USB dongle, and the maximum number of connections of CC254X chipset is 5. If you want to connect more peripherals, the implementation of a polling mechanism is required. The following four steps will guide you through the implementation of ble-shepherd demo.
+**ble-shepherd** works well with web frameworks like [ExpressJS](#http://expressjs.com/), it's very convenient for front-end developers to build graphic user interfaces for displaying device information, monitoring sensing data and operating peripherals. Making your own RESTful APIs with ExpressJS is also a great idea.  
+
+Here is a simple ble-shepherd webapp buit up with ExpressJS and [socket.io](#http://socket.io/). ExpressJS provides web sevices and socket.io passes messages back and forth between the client and server, especially passes those asynchronous indications from remote devices to web client to avoid regularly polling.  
+
+[TODO]
+This demo is based on CSR8510 BLE USB dongle. Its maximum number of simultaneous connections is 5, a polling mechanism is required if you want to connect to more peripherals. The following four steps will guide you through the implementation of ble-shepherd demo.
 - Running the server with ble-shepherd
 - Processing device online and offline states
 - Processing characteristic notifications
