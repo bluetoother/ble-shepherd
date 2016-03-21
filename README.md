@@ -159,6 +159,8 @@ Some methods are not supported for CSR8510, they are listed in this table. (X: u
 ## BleShepherd Class  
 `require('ble-shepherd')(chipName)` exports the singleton of this class. This singleton instance is denoted as `central` in this document.  
 
+*************************************************
+
 <br />
 
 *************************************************
@@ -1022,7 +1024,6 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
 <br />
 
 *************************************************
-
 <a name="Demo"></a>
 ##Demo  
 
