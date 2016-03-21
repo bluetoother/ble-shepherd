@@ -15,11 +15,13 @@
     * [Running the server with ble-shepherd](#runServer)
     * [Processing device online and offline](#devOnlineOffline)
     * [Process characteristic notification](#charNotif)
-    * [Control the device via website](#ctrlDev)
+    * [Control devices on the webapp GUI](#ctrlDev)
 * [Example](#Example)
 * [License](#License)
 
 <br />
+
+*************************************************
 <a name="Overiew"></a>
 ##Overview
 **ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.  
@@ -43,6 +45,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 
 <br />
 
+*************************************************
 <a name="Features"></a>
 ##Features
 
@@ -54,12 +57,14 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 
 <br />
 
+*************************************************
 <a name="Installation"></a>
 ##Installation
 > $ npm install ble-shepherd --save
 
 <br />
 
+*************************************************
 <a name="Usage"></a>
 ## Usage
 **ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application with **ble-shepherd** with CC254X BLE network processor(BNP) (see [central.start()](#API_start) if you like to use CSR BLE USB dongle).  
@@ -92,6 +97,7 @@ function app() {
 
 <br />
 
+*************************************************
 <a name="APIs"></a>
 ## APIs and Events
 
@@ -152,10 +158,10 @@ Some methods are not supported for CSR8510, they are listed in this table. (X: u
 *************************************************
 ## BleShepherd Class  
 `require('ble-shepherd')(chipName)` exports the singleton of this class. This singleton instance is denoted as `central` in this document.  
-*************************************************
 
 <br />
 
+*************************************************
 <a name="API_start"></a>  
 ### .start(app[, spCfg])  
 > Connects to the SoC and starts to run the app.  
@@ -857,6 +863,9 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
 ```
 
 <br />
+
+*************************************************
+
 <a name="Advanced"></a>
 ## Advanced topics
 
@@ -1012,42 +1021,46 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
 
 <br />
 
+*************************************************
+
 <a name="Demo"></a>
 ##Demo  
 
 With **ble-shepherd**, it is easy and quick to implement BLE IoT apps as well as manage your BLE peripherals.  
 
-**ble-shepherd** works well with web frameworks like [ExpressJS](#http://expressjs.com/), it's very convenient for front-end developers to build graphic user interfaces for displaying device information, monitoring sensing data and operating peripherals. Making your own RESTful APIs with ExpressJS is also a great idea.  
+**ble-shepherd** works well with web frameworks like [ExpressJS](#http://expressjs.com/), it's very convenient for developers to build their own RESTful services or to build graphic user interfaces for displaying device information, monitoring sensing data and operating peripherals.  
 
-Here is a simple ble-shepherd webapp buit up with ExpressJS and [socket.io](#http://socket.io/). ExpressJS provides web sevices and socket.io passes messages back and forth between the client and server, especially passes those asynchronous indications from remote devices to web client to avoid regularly polling.  
+Here is a simple ble-shepherd webapp built up with ExpressJS and [socket.io](#http://socket.io/). ExpressJS provides web sevices and socket.io passes messages back and forth between the web client and server, especially passes those asynchronous indications from remote devices to web client to avoid regularly polling.  
 
-[TODO]
-This demo is based on CSR8510 BLE USB dongle. Its maximum number of simultaneous connections is 5, a polling mechanism is required if you want to connect to more peripherals. The following four steps will guide you through the implementation of ble-shepherd demo.
-- Running the server with ble-shepherd
-- Processing device online and offline states
-- Processing characteristic notifications
-- Controlling devices via a web page
+This demo uses a CSR8510 BLE USB dongle with 5 simultaneous connections. A polling mechanism is required if you want to connect to peripherals more than 5. The following four steps guides you through the implementation of this demo.  
+- Run the webapp with ble-shepherd  
+- Deal with device online and offline states  
+- Deal with characteristic notifications  
+- Control devices by the webapp  
+    
+    Note: A preliminary understanding of socket.io and ExpressJS is required.  
+  
+![ble-shepherd webapp](https://raw.githubusercontent.com/hedywings/ble-shepherd/develop/documents/bShepherdWeb.png)
 
-![ble-shepherd web](https://raw.githubusercontent.com/hedywings/ble-shepherd/develop/documents/bShepherdWeb.png)
-
-Note: A preliminary understanding of socket.io and ExpressJS is required.
+<br />
 
 *************************************************
 <a name="runServer"></a>
-#### 1. Running the server with ble-shepherd
-First, a server is created by ExpressJS in app.js and a module named bleSocket.js is established. The bleSocket.js module is responsible for passing the server to socket.io to perform bidirectional communication with the client and running the ble-shepherd. ble-shepherd events can now be emitted to the client-side via the socket and listened from the client-side. The sample code is as following,
+#### 1. Run the webapp with ble-shepherd
 
+First, create a module named bleSocket.js and start the server in webapp(app.js). The bleSocket.js is responsible for initializing the websocket between the web client and server. Thanks to the event facilities of socket.io, now ble-shepherd can emit events to client-side through the socket. Here is the sample code:  
+  
 ```js 
 // app.js
 
-var bleSockets = require('./routes/bleSocket');
+var bleSocket = require('./routes/bleSocket');
 
 app.set('port', process.env.PORT || 3000);
 server = app.listen(app.get('port'));
 
-bleSockets.initialize(server);
+bleSocket.initialize(server);
 ```
-
+  
 ```js
 // bleSocket.js
 
@@ -1065,100 +1078,147 @@ exports.initialize = function(server) {
         bleSocket = socket;
         
         if (connFlag) {
-            //start running ble-shepherd
+            // start running ble-shepherd
             central.start(bleApp);
             connFlag = false;
         }
 
-        //listening 'req' event from client-side
+        // listening 'req' event from client-side
         socket.on('req', socketReqHdlr);
     });
 };
 
-// bleApp listening all types of 'IND' event emitted by ble-shepherd, and assign the corresponding handler for those event.
+// bleApp listens all types of 'IND' event emitted by ble-shepherd, 
+// and assign the corresponding handler for those event.
 function bleApp () {
-    central.on('IND', manaIndHdlr);
+    central.on('IND', indicationHdlr);
 }
 ```
-
+  
 *************************************************
 <a name="devOnlineOffline"></a>
-#### 2. Processing device online and offline states
-Different types of [`'IND'` events](#EVT_ind) can be received and processed in one's applications, in this demo, we only process `'IND'` events with `'DEV_INCOMING'` and `'DEV_LEAVING'` types. The sample code is as following,
+#### 2. Deal with device online and offline states
+
+Let's deal with the received [`'IND'` events](#EVT_ind) in our app. This demo only shows how to tackle the types of `'DEV_INCOMING'` and `'DEV_LEAVING'` indcations. Here is the example:  
+
 ```js
 // bleSocket.js
 
-function manaIndHdlr (msg) {
+function indicationHdlr (msg) {
     var dev;
 
     switch (msg.type) {
         case 'DEV_INCOMING':
-            dev = central.find(msg.data);
-            if (dev) { processDevIncome(dev); }
+            dev = central.find(msg.data);   // msg.data is the device address
+            if (dev)
+                devIncomingHdlr(dev);       // dispatch to device incoming handler
             break;
+
         case 'DEV_LEAVING':
-            dev = central.find(msg.data);
-            if (dev) {
-                dev.state = 'offline';
-                io.sockets.emit('rsp', {type: 'devLeaving', data: msg.data});
-            }
+            dev = central.find(msg.data);   // msg.data is the device address
+            if (dev)
+                devLeavingHdlr(dev);        // dispatch to device leaving handler
             break;
     }
 }
 ```
-- When the `'DEV_INCOMING'` type event is received, different processes based on different devices are performed, and then the socket broadcasts the 'rsp' event with the 'devIncoming' type to inform all clients that certain devices have joined the network.
-    - For example, when a device with an address of 0x9059af0b8159 joins the network, handlers are registered to handle characteristics notification, and notification of those characteristics are enabled.
+
+- When received an indication of `'DEV_INCOMING'` type, check what kind of the device is and register handlers to tackle the characteristic changes. Then, broadcast the 'bleInd' event along with a 'devIncoming' type of indication to tell all web clients that a device has joined the network.  
+
+    - Here is an example, assume that a device with an address of '0x9059af0b8159' joins the network. We can register handlers corresponding to each characteristic notification, and enable those characteristics to start notifying their changes.  
+
     ```js
     // bleSocket.js
 
-    function processDevIncome (dev) {
+    function devIncomingHdlr(dev) {
         var emitFlag = true,
             newDev;
     
+        // This demo uses device addresses to identify "_what a device is_".  
+        // You can identify a device by its services, manufacturer name, 
+        // product id, or something you tagged in the remote device.  
+
         switch (dev.addr) {
             case '0x9059af0b8159':
                 sensorTag = dev;
                 // register characteristics handler
-                sensorTag.regCharHdlr('0xaa00', '0xaa01', callbackTemp);
-                sensorTag.regCharHdlr('0xaa10', '0xaa11', callbackAccelerometer);
-                sensorTag.regCharHdlr('0xaa20', '0xaa21', callbackHumid);
-                sensorTag.regCharHdlr('0xffe0', '0xffe1', callbackSimpleKey);
+                // signature: regCharHdlr(uuidServ, uuidChar, fn)
+                sensorTag.regCharHdlr('0xaa00', '0xaa01', tempCharHdlr);
+                sensorTag.regCharHdlr('0xaa10', '0xaa11', accelerometerCharHdlr);
+                sensorTag.regCharHdlr('0xaa20', '0xaa21', humidCharHdlr);
+                sensorTag.regCharHdlr('0xffe0', '0xffe1', simpleKeyCharHdlr);
     
                 // enable characteristics notification
+                // signature: setNotify(uuidServ, uuidChar, config[, callback])
                 sensorTag.setNotify('0xffe0', '0xffe1', true);
                 sensorTag.setNotify('0xaa00', '0xaa01', true);
                 sensorTag.setNotify('0xaa10', '0xaa11', true);
                 sensorTag.setNotify('0xaa20', '0xaa21', true);
                 break;
             case '0x00188c37b65c':
-                // ...
+                // ... 
                 break;
             case '0x544a165e1f53':
                 // ...
                 break;
-            // ...
+
+            // ... other cases
+
             default:
-                // if the device is not required for application, then remove immediately.
+                // the device is not a valid one in our app, remove it immediately
+                // note: 
+                //    Since the max simultaneous connections is 5 and we didn't implement 
+                //    a polling mechanism in this simple demo, thus our app does not accept 
+                //    any unrecognized pheriperal.  
+
                 dev.remove();
-                emitFlag = false;
+                emitFlag = false;   // No need to tell the web client about this unrecognized device
                 break;
         }
     
-        if(emitFlag) {
-            io.sockets.emit('rsp', {type: 'devIncoming', data: {addr: dev.addr, name: dev.findChar('0x1800', '0x2a00')}});
+        if (emitFlag) {
+            io.sockets.emit('bleInd', { // tell the client someone is coming
+                type: 'devIncoming',
+                data: {
+                    addr: dev.addr,
+                    name: dev.findChar('0x1800', '0x2a00')
+                }
+            });
         }
     }
     ```
-- When the `'DEV_LEAVING'` type event is received, the socket broadcasts the 'rsp' event with the 'devLeaving' type to inform all clients that one device have left the network. 
+- When received an indication of `'DEV_LEAVING'` type, broadcast the 'bleInd' event with a 'devLeaving' type of indication to tell all web clients that a device has left the network.  
+
+```js
+    // bleSocket.js
+
+    function devIncomingHdlr(dev) {
+        // ...
+    }
+
+    // ...
+
+    function devLeavingHdlr(dev) {
+        dev.state = 'offline';
+        io.sockets.emit('bleInd', { // tell the client someone is leaving
+            type: 'devLeaving',
+            data: msg.data
+        });
+    }
+```
 
 *************************************************
 <a name="charNotif"></a>
-#### 3. Processing characteristic notifications
-If one wants to process notifications of a particular characteristic, regCharHdlr() can be called to register handler. We have done a demonstration in the previous section. In the handler, you can do anything you need to deal with, such as collecting received data for data analysis or send data to the cloud. For example, in the function of `tempNotifHdlr` the received sensing data is converted to Celsius scale, broadcasted to all clients via the socket, and passed to the cloud.
+#### 3. Deal with characteristic notifications
 
-On server-side
+Register a handler via regCharHdlr() to help you with tackling the notification of a particular characteristic. You can do anything upon receiving the characteristic notification in the handler, such as collecting data for further analysis or sending data to the cloud.  
+  
+Let me show you an example. In `tempNotifHdlr` function, I'll convert the received temperature value to Celsius within function tempConverter(), and broadcast the sensed temperature to all web clients through the websocket as well as pass it to the cloud. Please refer to [Texas Instruments SensorTag User Guide](http://processors.wiki.ti.com/index.php/SensorTag_User_Guide#IR_Temperature_Sensor) for how to convert the sensed raw data to temperature in Cel.  
+
+* At server-side  
+
 ```js
-//bleSocket.js
+// bleSocket.js
 
 // cloud setting
 var XivelyClient = require('../models/xively.js'),
@@ -1166,56 +1226,64 @@ var XivelyClient = require('../models/xively.js'),
 
 // ...
 
-function tempNotifHdlr (data) {
-    var rawT1, rawT2, m_tmpAmb, Vobj2, Tdie2,  
-        Tref = 298.15, 
-        S, Vos, fObj, tempVal,
-        emitObj = {
+function tempNotifHdlr(data) {
+    var tempVal = tempConverter(data),
+        tempInfo = {
             devAddr: sensorTag.addr,
             sensorType: '0xaa00',
-            value: null
+            value: tempVal
         };
 
-    rawT1 = data.rawT1;
-    rawT2 = data.rawT2;
-    
-    if(rawT2 > 32768) {
-        rawT2 = rawT2 - 65536;
-    }
-
-    //convert data to Celsius temperature
-    m_tmpAmb = (rawT1)/128.0;
-    Vobj2 = rawT2 * 0.00000015625;
-    Tdie2 = m_tmpAmb + 273.15;
-    S = (6.4E-14) * (1 + (1.75E-3) * (Tdie2 - Tref) + (-1.678E-5) * Math.pow((Tdie2 - Tref), 2));
-    Vos = -2.94E-5 + (-5.7E-7) * (Tdie2 - Tref) + (4.63E-9) * Math.pow((Tdie2 - Tref), 2);
-    fObj = (Vobj2 - Vos) + 13.4 * Math.pow((Vobj2 - Vos), 2);
-    tempVal = Math.pow(Math.pow(Tdie2, 4) + (fObj/S), 0.25);
-    tempVal = _.ceil((tempVal - 273.15), 2);
-
-    console.log('Temperature:   ' +  tempVal);
-    emitObj.value = tempVal;
-
     // broadcast value to all client-side
-    io.sockets.emit('rsp', {type: 'attrInd', data: emitObj});
+    io.sockets.emit('bleInd', {
+        type: 'attrInd',
+        data: tempInfo
+    });
 
-    // pass value to the cloud
+    // send the value to the cloud
     client.feed.new('99703785', 'temperature', tempVal);
 
-    // if temperature too high, switch the relay on to open fan
+    // if temperature is too high, turn on the fan
     if (tempVal > 30 && relay && relay.switch === 'off') {
         connAndSwitchRelay('on');
     }
 }
+
+function tempConverter(data) {
+    var rawT1, rawT2, m_tmpAmb, Vobj2, Tdie2,  
+        Tref = 298.15, 
+        S, Vos, fObj, tempVal;
+
+    rawT1 = data.rawT1;
+    rawT2 = data.rawT2;
+    
+    if (rawT2 > 32768)
+        rawT2 = rawT2 - 65536;
+
+    // convert temperature to Celsius 
+    m_tmpAmb = rawT1 / 128.0;
+    Vobj2 = rawT2 * 0.00000015625;
+    Tdie2 = m_tmpAmb + 273.15;
+
+    S = (6.4E-14) * (1 + (1.75E-3) * (Tdie2 - Tref) + (-1.678E-5) * Math.pow((Tdie2 - Tref), 2));
+    Vos = -2.94E-5 + (-5.7E-7) * (Tdie2 - Tref) + (4.63E-9) * Math.pow((Tdie2 - Tref), 2);
+    fObj = (Vobj2 - Vos) + 13.4 * Math.pow((Vobj2 - Vos), 2);
+    tempVal = Math.pow(Math.pow(Tdie2, 4) + (fObj/S), 0.25);
+    tempVal = Number((tempVal - 273.15).toFixed(2));
+
+    console.log('Temperature:   ' +  tempVal);
+    return tempVal;
+}
 ```
 
-On client-side
+* At client-side  
+
 ```js
-//client.js
+// client.js
 
 var socket = io.connect('http://192.168.1.109:3000/');
 
-socket.on('rsp', function (msg) {
+socket.on('bleInd', function (msg) {
     var data = msg.data;
     
     switch (msg.type) {
@@ -1237,12 +1305,16 @@ socket.on('rsp', function (msg) {
 
 *************************************************
 <a name="ctrlDev"></a>
-#### 4. Controlling devices via a web page
-Real devices can be controlled via web page. For example, when one presses `On` button on the web page, the client looks for related information from this button and then emits an event to notify the server, and the server-side then performs a corresponding process for the received messages. Please refer to the following sample code,
+#### 4. Control devices on the webapp GUI
 
-On client-side
+For practical applications, we'd like a graphic user interface to control and monitor devices. For example, press an `On` button on the screen to turn on a physical fan. In our demo app, the web client will find out the related information when button pressed. Then, the client will emit an event along with the necessary data to ask the server to perform the corresponding procedure. Here is the sample code.  
+
+* At client-side  
+
+**[Client Demo TBD]**
+
 ```js
-//client.js
+// client.js
 
 $('.switchOn').click(function () {
     var devId = $(this).parent().parent().parent().parent().prev().parent().attr('id'),
@@ -1257,27 +1329,32 @@ $('.switchOn').click(function () {
                 val: 'on'
             }
         };
-    // emit 'req' event with type 'write' to notify server-side 
-    socket.emit('req', emitObj);
+    // emit 'cmd' event with type 'write' to ask the server to write a value to the remote device.  
+    socket.emit('cmd', emitObj);
 });
 ```
 
-On the server-side, when the server receives an event which the `On` button of a relay is pressed, the server calls the write() command to turn on the relay.
-```js
-//bleSocket.js
+* At server-side  
 
-exports.initialize = function(server) {
+**[Server Demo TBD]** relay->fan, plug->light
+
+When the server receives an event fired by user pressing the `On` button at client-side, the server will invoke write() method on the fan to remotely turn it on.  
+
+```js
+// bleSocket.js
+
+exports.initialize = function (server) {
     io = io(server);
 
     io.on('connection', function (socket) {
         // ...
-        socket.on('req', socketReqHdlr);
+        socket.on('req', clientCmdHdlr);
     });
 };
 
 // ...
 
-function socketReqHdlr (msg) {
+function clientCmdHdlr(msg) {
     var data = msg.data;
 
     switch (msg.type) {
@@ -1289,26 +1366,30 @@ function socketReqHdlr (msg) {
             } else if (data.devId === healBracelet.addr) {
                 // ...
             } else if (data.devId === relay.addr) {
-                if (data.val === 'on') {
-                    // open fan
-                    relay.write(data.uuidServ, data.uuidChar, new Buffer([0x01]));
-                } else {
-                    // close fan
-                    relay.write(data.uuidServ, data.uuidChar, new Buffer([0x00]));
-                }
+                if (data.val === 'on')
+                    relay.write(data.uuidServ, data.uuidChar, new Buffer([0x01]));  // turn on the fan
+                else
+                    relay.write(data.uuidServ, data.uuidChar, new Buffer([0x00]));  // turn off the fan
             }
             break;
+
+        // ...
     }
 }
 ```
 
 <br />
+
+*************************************************
 <a name="Example"></a>
 ##Example
-Please refer to [sensorTagApp.js](https://github.com/hedywings/ble-shepherd/blob/develop/examples/sensorTagApp.js).It is a very simple application, implemented by sensorTag and keyFob. 
+[sensorTagApp.js](https://github.com/hedywings/ble-shepherd/blob/develop/examples/sensorTagApp.js) is a very simple application with a sensorTag and a keyFob.  
 
 <br />
+
+*************************************************
 <a name="License"></a>
+
 ##License
 The MIT License (MIT)
 
@@ -1331,3 +1412,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
