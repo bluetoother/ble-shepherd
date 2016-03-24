@@ -272,13 +272,12 @@ central.setNwkParams('link', { interval: 5000 }, function (err) {
 
 *************************************************
 <a name="API_permitJoin"></a>  
-###.permitJoin(time[, callback])  
-> Open the network for devices to join in.  
+###.permitJoin(duration)  
+> Open the network for devices to join in. The central will fire an IND event with meaasge type NWK_PERMITJOIN when central opened or closed for devices to join the network.
 
 **Arguments**  
 
-1. `time` (*Number*): Time in seconds for the central to allow devices to join in the network. Set it to 0 will immediately close the admission.  
-2. `callback` (*Function*): `function (err) { }`. Get called if any error or timeout occurs.  
+1. `duration` (*Number*): Time in seconds for the central to allow devices to join in the network. Set it to 0 will immediately close the admission.  
 
 **Returns**  
 
@@ -288,12 +287,7 @@ central.setNwkParams('link', { interval: 5000 }, function (err) {
 
 ```javascript
 // permit devices to join for 60 seconds 
-central.permitJoin(60, function (err) {
-    if (err)
-        console.log(err);
-    else
-        console.log('From now on, devices cannot join in.');
-});
+central.permitJoin(60);
 ```
 
 *************************************************
@@ -438,7 +432,7 @@ central.addLocalServ(servInfo, function (err, result) {
 >   
 > Event Handler: `function(msg) { }`  
 
- The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
+ The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `NWK_PERMITJOIN`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
 
 - **DEV_ONLINE** 
 
@@ -480,6 +474,21 @@ central.addLocalServ(servInfo, function (err, result) {
     {
         type: 'DEV_LEAVING',
         data: '0x78c5e570796e',
+    }
+    ```
+
+<br />
+
+- **NWK_PERMITJOIN**  
+
+    Central opened or closed for devices to join the network. 
+
+    - `msg.type` (*String*): `'NWK_PERMITJOIN'`
+    - `msg.data` (*Number*): This number means the left time of central open the network join permission. It will be 0 if permission is closed.
+    ```js
+    {
+        type: 'NWK_PERMITJOIN',
+        data: 60,
     }
     ```
 
