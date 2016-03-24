@@ -24,6 +24,7 @@
 *************************************************
 <a name="Overiew"></a>
 ##Overview
+
 **ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.  
   
 **ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating BLE *pheripheral* devices. This controller has done many network managing things for you, i.e., auto scanning for *pheripheral* devices, storing(/reloading) connected devices records to(/from) the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
@@ -61,6 +62,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 *************************************************
 <a name="Installation"></a>
 ##Installation
+
 > $ npm install ble-shepherd --save
 
 <br />
@@ -158,9 +160,8 @@ Some methods are not supported for CSR8510, they are listed in this table. (X: u
 
 *************************************************
 ## BleShepherd Class  
-`require('ble-shepherd')(chipName)` exports the singleton of this class. This singleton instance is denoted as `central` in this document.  
 
-*************************************************
+`require('ble-shepherd')(chipName)` exports the singleton of this class. This singleton instance is denoted as `central` in this document.  
 
 <br />
 
@@ -439,7 +440,8 @@ central.addLocalServ(servInfo, function (err, result) {
 
  The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
 
-- **DEV_ONLINE**  
+- **DEV_ONLINE** 
+
     A peripheral has just joined the network, but not yet synchronized (services re-discovery).  
 
     - `msg.type` (*String*): `'DEV_ONLINE'`
@@ -454,6 +456,7 @@ central.addLocalServ(servInfo, function (err, result) {
 <br />
 
 - **DEV_INCOMING**  
+
     A peripheral has joined the network and synchronized.  
 
     - `msg.type` (*String*): `'DEV_INCOMING'`
@@ -468,6 +471,7 @@ central.addLocalServ(servInfo, function (err, result) {
 <br />
 
 - **DEV_LEAVING**  
+
     A peripheral has just left the network.  
 
     - `msg.type` (*String*): `'DEV_LEAVING'`
@@ -482,6 +486,7 @@ central.addLocalServ(servInfo, function (err, result) {
 <br />
 
 - **PASSKEY_NEED**  
+
     The encryption process of connection is requesting for a passkey. This event is CC254X only.
 
     - `msg.type` (*String*): `'PASSKEY_NEED'`
@@ -501,6 +506,7 @@ central.addLocalServ(servInfo, function (err, result) {
 <br />
 
 - **LOCAL_SERV_ERR**  
+
     An error occurs while processing an incoming peripheral ATT event. This event is CC254X only.
 
     - `msg.type` (*String*): `'LOCAL_SERV_ERR'`
@@ -528,6 +534,7 @@ central.addLocalServ(servInfo, function (err, result) {
 ***********************************************
 
 ## BlePeripheral Class  
+
 `central.find(addrOrHdl)` returns a instance of this class, otherwise returns `undefined` if not found. The instance, which is denoted as `peripheral` in this document, represents a remote peripheral in the server.  
 
 <br />
@@ -874,6 +881,7 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
 
 <a name="addDefinition"></a>
 ###How to define your own Service and Characteristic
+
 In order to let **ble-shepherd** parse and build the packet of your private services and characteristics, you should first register the private definitions to **ble-shepherd** by `central.regGattDefs(type, regObjs)` method.  
 
 * `regObjs` contains the registration information depending on which type you want to register.
@@ -920,6 +928,7 @@ In order to let **ble-shepherd** parse and build the packet of your private serv
 *************************************************
 <a name="addService"></a>
 ###How to add services to central
+
 Use the `central.addLocalServ(servInfo, callback)` method to create a local service on the central and register it to the CC254X BNP.  
     
 * The following table shows the details of each property within the object `servInfo`.  
@@ -1135,14 +1144,15 @@ function indicationHdlr (msg) {
 
     function devIncomingHdlr(dev) {
         var emitFlag = true,
+			devName = dev.findChar('0x1800', '0x2a00').val.name,
             newDev;
     
-        // This demo uses device addresses to identify "_what a device is_".  
+        // This demo uses device name to identify "_what a device is_".  
         // You can identify a device by its services, manufacturer name, 
         // product id, or something you tagged in the remote device.  
 
-        switch (dev.addr) {
-            case '0x9059af0b8159':
+        switch (devName) {
+            case 'TI BLE Sensor Tag':
                 sensorTag = dev;
                 // register characteristics handler
                 // signature: regCharHdlr(uuidServ, uuidChar, fn)
@@ -1158,10 +1168,10 @@ function indicationHdlr (msg) {
                 sensorTag.setNotify('0xaa10', '0xaa11', true);
                 sensorTag.setNotify('0xaa20', '0xaa21', true);
                 break;
-            case '0x00188c37b65c':
+            case 'Wristband X':
                 // ... 
                 break;
-            case '0x544a165e1f53':
+            case 'TI BLE Keyfob':
                 // ...
                 break;
 
@@ -1184,7 +1194,7 @@ function indicationHdlr (msg) {
                 type: 'devIncoming',
                 data: {
                     addr: dev.addr,
-                    name: dev.findChar('0x1800', '0x2a00')
+                    name: devName
                 }
             });
         }
@@ -1216,7 +1226,7 @@ function indicationHdlr (msg) {
 
 Register a handler via regCharHdlr() to help you with tackling the notification of a particular characteristic. You can do anything upon receiving the characteristic notification in the handler, such as collecting data for further analysis or sending data to the cloud.  
   
-Let me show you an example. In `tempNotifHdlr` function, I'll convert the received temperature value to Celsius within function tempConverter(), and broadcast the sensed temperature to all web clients through the websocket as well as pass it to the cloud. Please refer to [Texas Instruments SensorTag User Guide](http://processors.wiki.ti.com/index.php/SensorTag_User_Guide#IR_Temperature_Sensor) for how to convert the sensed raw data to temperature in Cel.  
+Let me show you an example. In `tempCharHdlr` function, I'll convert the received temperature value to Celsius within function tempConverter(), and broadcast the sensed temperature to all web clients through the websocket as well as pass it to the cloud. Please refer to [Texas Instruments SensorTag User Guide](http://processors.wiki.ti.com/index.php/SensorTag_User_Guide#IR_Temperature_Sensor) for how to convert the sensed raw data to temperature in Cel.  
 
 * At server-side  
 
@@ -1229,7 +1239,7 @@ var XivelyClient = require('../models/xively.js'),
 
 // ...
 
-function tempNotifHdlr(data) {
+function tempCharHdlr(data) {
     var tempVal = tempConverter(data),
         tempInfo = {
             devAddr: sensorTag.addr,
@@ -1248,7 +1258,7 @@ function tempNotifHdlr(data) {
 
     // if temperature is too high, turn on the fan
     if (tempVal > 30 && relay && relay.switch === 'off') {
-        connAndSwitchRelay('on');
+        switchFan('on');
     }
 }
 
@@ -1314,14 +1324,12 @@ For practical applications, we'd like a graphic user interface to control and mo
 
 * At client-side  
 
-**[Client Demo TBD]**
-
 ```js
 // client.js
 
 $('.switchOn').click(function () {
-    var devId = $(this).parent().parent().parent().parent().prev().parent().attr('id'),
-        servId = $(this).parent().attr('id'),
+    var devId = $(this).parent().attr('devId'),
+        servId = $(this).parent().attr('servId'),
         charId = '0x' + (parseInt(servId) + 1).toString(16),
         emitObj = {
             type: 'write',
@@ -1338,8 +1346,6 @@ $('.switchOn').click(function () {
 ```
 
 * At server-side  
-
-**[Server Demo TBD]** relay->fan, plug->light
 
 When the server receives an event fired by user pressing the `On` button at client-side, the server will invoke write() method on the fan to remotely turn it on.  
 
@@ -1364,15 +1370,15 @@ function clientCmdHdlr(msg) {
         //...
 
         case 'write':
-            if (data.devId === plug.addr) {
+            if (data.devId === light.addr) {
                 // ...
             } else if (data.devId === healBracelet.addr) {
                 // ...
-            } else if (data.devId === relay.addr) {
+            } else if (data.devId === fan.addr) {
                 if (data.val === 'on')
-                    relay.write(data.uuidServ, data.uuidChar, new Buffer([0x01]));  // turn on the fan
+                    fan.write(data.uuidServ, data.uuidChar, new Buffer([0x01]));  // turn on the fan
                 else
-                    relay.write(data.uuidServ, data.uuidChar, new Buffer([0x00]));  // turn off the fan
+                    fan.write(data.uuidServ, data.uuidChar, new Buffer([0x00]));  // turn off the fan
             }
             break;
 
@@ -1386,14 +1392,15 @@ function clientCmdHdlr(msg) {
 *************************************************
 <a name="Example"></a>
 ##Example
+
 [sensorTagApp.js](https://github.com/hedywings/ble-shepherd/blob/develop/examples/sensorTagApp.js) is a very simple application with a sensorTag and a keyFob.  
 
 <br />
 
 *************************************************
 <a name="License"></a>
-
 ##License
+
 The MIT License (MIT)
 
 Copyright (c) 2016 Hedy Wang <hedywings@gmail.com>
@@ -1415,4 +1422,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
