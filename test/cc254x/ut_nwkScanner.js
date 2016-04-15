@@ -81,7 +81,6 @@ describe('Functional Check', function () {
         nwkScanner.setLinkParams({interval: 40, latency: 2}).then(function () {
             linkParams.interval = 40;
             linkParams.latency = 2;
-            console.log(nwkScanner.linkParams);
             if (_.isEqual(nwkScanner.linkParams, linkParams))
                 done();
         });

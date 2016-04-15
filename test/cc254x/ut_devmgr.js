@@ -444,10 +444,6 @@ describe('Functional Check', function () {
                     done();
             });
         });
-
-        it('disconnect()', function () {
-            return blePeri.disconnect().should.be.fulfilled();
-        });
     });
 
     describe('central', function () {
