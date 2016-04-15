@@ -108,7 +108,7 @@ describe('Functional Check', function () {
         });
     });
 
-    this.timeout(3000);
+    this.timeout(6000);
     it('pairing()', function (done) {
         secmdl.pairing().then(function () {
             done();

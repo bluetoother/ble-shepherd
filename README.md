@@ -175,7 +175,7 @@ Some methods are not supported for CSR8510, they are listed in this table. (X: u
 1. `app` (*Function*): App which will be called after initialization completes.  
 2. `spCfg` (*Object*): This value-object has two properties `path` and `options` to configure the serial port.  
     - `path`: a string that refers to the serial port system path, e.g., `'/dev/ttyUSB0'`  
-    - `options`: an object to set up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The following example shows the `options` with its default value.  
+    - `options`: an object to set up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The following example shows the `options` with its example value.  
 
 Note: If you are using the CSR8510 USB adapter, `spCfg` can be ignored.
 
@@ -432,7 +432,7 @@ central.addLocalServ(servInfo, function (err, result) {
 >   
 > Event Handler: `function(msg) { }`  
 
- The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `NWK_PERMITJOIN`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
+ The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `DEV_PAUSE`, `NWK_PERMITJOIN`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
 
 - **DEV_ONLINE** 
 
@@ -461,6 +461,20 @@ central.addLocalServ(servInfo, function (err, result) {
         data: '0x78c5e570796e',
     }
     ```
+
+<br />
+
+- **DEV_PAUSE**
+
+    A peripheral has just paused the connection for other peripheral to join the network. (Due to the limitation of the number of connections)  
+    
+    - `msg.type` (*String*): `'DEV_PAUSE'`
+    - `msg.data` (*String*): Device address  
+    ```js
+    {
+        type: 'DEV_PAUSE',
+        data: '0x78c5e570796e',
+    }
 
 <br />
 
