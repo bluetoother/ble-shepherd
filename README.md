@@ -475,6 +475,7 @@ central.addLocalServ(servInfo, function (err, result) {
         type: 'DEV_PAUSE',
         data: '0x78c5e570796e',
     }
+    ```
 
 <br />
 
