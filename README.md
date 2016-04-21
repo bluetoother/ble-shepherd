@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-1. [Overiew](#Overiew)    
+1. [Overview](#Overview)    
     1.1 [Features](#Features)  
     1.2 [Installation](#Installation)  
     1.3 [Usage](#Usage)  
@@ -11,13 +11,13 @@
 2. [APIs and Events](#APIs)  
 
 3. [Advanced topics](#Advanced)  
-    3.1 [How to define your own Service and Characteristic](#addDefinition)  
-    3.2 [How to add Services to central](#addService)  
+    3.1 [How to define your own Services and Characteristics](#addDefinition)  
+    3.2 [How to add your own Services to central](#addService)  
 
 4. [Demo](#Demo)  
-    4.1 [Running the server with ble-shepherd](#runServer)  
-    4.2 [Processing device online and offline](#devOnlineOffline)  
-    4.3 [Process characteristic notification](#charNotif)  
+    4.1 [Run the webapp with ble-shepherd](#runServer)  
+    4.2 [Deal with device online and offline status](#devOnlineOffline)  
+    4.3 [Deal with characteristic notifications](#charNotif)  
     4.4 [Control devices on the webapp GUI](#ctrlDev)  
 
 5. [Example](#Example)  
@@ -28,7 +28,7 @@
 
 <br />
 
-<a name="Overiew"></a>
+<a name="Overview"></a>
 ## 1. Overview
 
 **ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.  
@@ -58,7 +58,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 - Building your machine network with BLE devices.  
 - Controlling the network with no pain. Features of auto reconnection, permission of device joining, built-in database and many more are off-the-shelf.  
 - Creating BLE IoT apps is simple and quick.  
-- Allows you to define _Services_ and _Characteritics_ on **ble-shepherd** itself to make it a BLE gadget. **ble-shepherd** not just plays as a network controller.  
+- Allowing you to define _Services_ and _Characteritics_ on **ble-shepherd** itself to make it a BLE gadget. **ble-shepherd** not just plays as a network controller.  
 - Based-on node.js. It's easy to integrate BLE apps with other services or frameworks, e.g., http server, express, React.js, Angular.js.  
 
 <br />
@@ -75,7 +75,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 
 **ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application with **ble-shepherd** with CC254X BLE network processor(BNP) (see [central.start()](#API_start) if you like to use CSR BLE USB dongle).  
 
-Fisrtly, set up your serial-port configuration to connect to BNP. Next, call method `start()` with your configuration `spCfg` and application function `app` to bring the `central` up. Your `app` will run right after connected to BNP. If you like to tackle something prior to your app loading, e.g., registering custom GATT definitions, just override the method `appInit()` to suit your needs.  
+Firstly, set up your serial-port configuration to connect to BNP. Next, call method `start()` with your configuration `spCfg` and application function `app` to bring the `central` up. Your `app` will run right after central connected to BNP. If you like to tackle something prior to your app loading, e.g., registering custom GATT definitions, just override the method `appInit()` to suit your needs.  
   
   
 ```javascript
@@ -357,10 +357,10 @@ var peripheral = central.find(0);
 
 **Arguments**  
 
-1. `type` (*String*): Can be `'service'` or `'characteristic'` to specofy which type of definition to register with.  
+1. `type` (*String*): Can be `'service'` or `'characteristic'` to specify which type of definition to register with.  
 2. `regObjs` (*Array*): An array of the _Service information object_ or _Characteristic information object_ according to the given `type`.  
 
-Note: See [How to define your own Service and Characteristic](#addDefinition) in the **Advanced topics** section to learn more.
+Note: See [How to define your own Services and Characteristics](#addDefinition) in the **Advanced topics** section to learn more.
 
 **Returns**  
 
@@ -397,7 +397,7 @@ Note: This command is CC254X only.
 
 2. `callback` (*Function*) : `function (err, service) { }`, Get called when service successfully register to BNP. 
 
-Note: See [How to add Services to central](#addService) of **Advanced topics** section to learn more.  
+Note: See [How to add your own Services to central](#addService) of **Advanced topics** section to learn more.  
 
 **Returns**  
 
@@ -750,7 +750,7 @@ peripheral.passPasskey('123456', function (err) {
 *************************************************
 <a name="API_update"></a>  
 ###.update([callback])  
-> Update the `peripheral` instance with the lastest characteristics value reading from the remote device.  
+> Update the `peripheral` instance with the latest characteristics value reading from the remote device.  
 
 **Arguments**  
 
@@ -908,7 +908,7 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
 ## 3. Advanced topics
 
 <a name="addDefinition"></a>
-### 3.1 How to define your own Service and Characteristic
+### 3.1 How to define your own Services and Characteristics
 
 In order to let **ble-shepherd** parse and build the packet of your private services and characteristics, you should first register the private definitions to **ble-shepherd** by calling `central.regGattDefs(type, regObjs)` method.  
 
@@ -955,7 +955,7 @@ In order to let **ble-shepherd** parse and build the packet of your private serv
 
 *************************************************
 <a name="addService"></a>
-### 3.2 How to add services to central
+### 3.2 How to add your own Services to central
 
 Use the `central.addLocalServ(servInfo, callback)` method to create a local service on the central and register it to the CC254X BNP.  
     
@@ -967,7 +967,7 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
     | name      | String | optional  | service name                                         |
     | charsInfo | Array  | required  | including lots of characteristic information objects |
 
-* Each entry in `charsInfo` array should be an object having the following preoperties:
+* Each entry in `charsInfo` array should be an object having the following properties:
 
     | Property | Type             | Mandatory | Description                |
     |----------|------------------|-----------|----------------------------|
@@ -1011,7 +1011,7 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
     ```
 
     * Add Characteristics into a private  
-        - If the Characteristic is not a public-defined one, you need to register its definition first[(see section "How to define your own Service and Characteristic")](#addDefinition). You can also parse/build raw packet of a Characteristic value on your own without doing the registration of your private definitions.  
+        - If the Characteristic is not a public-defined one, you need to register its definition first[(see section "How to define your own Services and Characteristics")](#addDefinition). You can also parse/build raw packet of a Characteristic value on your own without doing the registration of your private definitions.  
 
     ```js
     // if Characteristic definition is not registered, type of a Characteristic value can only be a buffer
@@ -1068,16 +1068,16 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
 
 With **ble-shepherd**, it is easy and quick to implement BLE IoT apps as well as manage your BLE peripherals.  
 
-**ble-shepherd** works well with web frameworks like [ExpressJS](#http://expressjs.com/), it's very convenient for developers to build their own RESTful services or to build graphic user interfaces for displaying device information, monitoring sensing data and operating peripherals.  
+**ble-shepherd** works well with web frameworks like [ExpressJS](#http://expressjs.com/), it's very convenient for developers to build their own RESTful services or to build graphic user interfaces for displaying device information, monitoring sensing data, and operating peripherals.  
 
 Here is a simple ble-shepherd webapp built up with ExpressJS and [socket.io](#http://socket.io/). ExpressJS provides web sevices and socket.io passes messages back and forth between the web client and server, especially passes those asynchronous indications from remote devices to web client to avoid regularly polling.  
 
 This demo uses a CSR8510 BLE USB dongle with 5 simultaneous connections. A polling mechanism is required if you want to connect to peripherals more than 5. The following four steps guides you through the implementation of this demo.  
 
 - [Run the webapp with ble-shepherd](#runServer)  
-- [Deal with device online and offline states](#devOnlineOffline)  
+- [Deal with device online and offline status](#devOnlineOffline)  
 - [Deal with characteristic notifications](#charNotif)  
-- [Control devices by the webapp](#ctrlDev)  
+- [Control devices on the webapp GUI](#ctrlDev)  
     
     Note: A preliminary understanding of socket.io and ExpressJS is required.  
   
@@ -1138,7 +1138,7 @@ function bleApp () {
   
 *************************************************
 <a name="devOnlineOffline"></a>
-### 4.2 Deal with device online and offline states
+### 4.2 Deal with device online and offline status
 
 Let's deal with the received [`'IND'` events](#EVT_ind) in our app. This demo only shows how to tackle the types of `'DEV_INCOMING'` and `'DEV_LEAVING'` indcations. Here is the example:  
 
@@ -1241,7 +1241,7 @@ function indicationHdlr (msg) {
     // ...
 
     function devLeavingHdlr(dev) {
-        dev.state = 'offline';
+        dev.status = 'offline';
         io.sockets.emit('bleInd', { // tell the client someone is leaving
             type: 'devLeaving',
             data: msg.data
@@ -1426,7 +1426,7 @@ function clientCmdHdlr(msg) {
 <br />
 
 <a name="Contributors"></a>
-## 6 Contributors
+## 6. Contributors
   
 * [Hedy Wang](https://www.npmjs.com/~hedywings)  
 * [Peter Yi](https://www.npmjs.com/~petereb9)
@@ -1435,7 +1435,7 @@ function clientCmdHdlr(msg) {
 <br />
 
 <a name="License"></a>
-## 7 License
+## 7. License
   
 The MIT License (MIT)
 
