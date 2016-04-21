@@ -179,7 +179,7 @@ Some methods are not supported for CSR8510, they are listed in this table. (X: u
 1. `app` (*Function*): App which will be called after initialization completes.  
 2. `spCfg` (*Object*): This value-object has two properties `path` and `options` to configure the serial port.  
     - `path`: a string that refers to the serial port system path, e.g., `'/dev/ttyUSB0'`  
-    - `options`: an object to set up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The following example shows the `options` with its example value.  
+    - `options`: an object to set up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The following example shows the `options` with its default value.  
 
 Note: If you are using the CSR8510 USB adapter, `spCfg` can be ignored.
 
