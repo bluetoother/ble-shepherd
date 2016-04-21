@@ -3,27 +3,27 @@
 
 ## Table of Contents
 
-* [Overiew](#Overiew)    
-* [Features](#Features) 
-* [Installation](#Installation) 
-* [Usage](#Usage)
-* [APIs and Events](#APIs) 
-* [Advanced topics](#Advanced)
-    * [How to define your own Service and Characteristic](#addDefinition)
-    * [How to add Services to central](#addService)
-* [Demo](#Demo)
-    * [Running the server with ble-shepherd](#runServer)
-    * [Processing device online and offline](#devOnlineOffline)
-    * [Process characteristic notification](#charNotif)
-    * [Control devices on the webapp GUI](#ctrlDev)
-* [Example](#Example)
-* [License](#License)
+1. [Overiew](#Overiew)    
+    1.1 [Features](#Features) 
+    1.2 [Installation](#Installation) 
+    1.3 [Usage](#Usage)
+2. [APIs and Events](#APIs) 
+3. [Advanced topics](#Advanced)
+    3.1 [How to define your own Service and Characteristic](#addDefinition)
+    3.2 [How to add Services to central](#addService)
+4. [Demo](#Demo)
+    4.1 [Running the server with ble-shepherd](#runServer)
+    4.2 [Processing device online and offline](#devOnlineOffline)
+    4.3 [Process characteristic notification](#charNotif)
+    4.4 [Control devices on the webapp GUI](#ctrlDev)
+5. [Example](#Example)
+6. [Contributors](#Contributors)  
+7. [License](#License)
 
 <br />
 
-*************************************************
 <a name="Overiew"></a>
-##Overview
+## 1. Overview
 
 **ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.  
   
@@ -46,9 +46,8 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 
 <br />
 
-*************************************************
 <a name="Features"></a>
-##Features
+### 1.1 Features
 
 - Building your machine network with BLE devices.  
 - Controlling the network with no pain. Features of auto reconnection, permission of device joining, built-in database and many more are off-the-shelf.  
@@ -58,17 +57,15 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 
 <br />
 
-*************************************************
 <a name="Installation"></a>
-##Installation
+### 1.2 Installation
 
 > $ npm install ble-shepherd --save
 
 <br />
 
-*************************************************
 <a name="Usage"></a>
-## Usage
+### 1.3 Usage
 
 **ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application with **ble-shepherd** with CC254X BLE network processor(BNP) (see [central.start()](#API_start) if you like to use CSR BLE USB dongle).  
 
@@ -98,11 +95,12 @@ function app() {
 }
 ```
 
+*************************************************
+
 <br />
 
-*************************************************
 <a name="APIs"></a>
-## APIs and Events
+## 2. APIs and Events
 
 ####1. Control the Network 
 >**central** is a singleton exported by `require('ble-shepherd')(chipName)`, where `chipName` can be either a string of `'cc254x'` or `'csr8510'` to specify the chip.  
@@ -294,16 +292,16 @@ central.permitJoin(60);
 <a name="API_command"></a>  
 ###.command(subGroup, cmd, argInst, callback)  
 > Calls TI BLE Vendor-Specific HCI Commands. Please refer to **cc-bnp** document for details.
-> - [Calling the TI BLE Vendor-Specific HCI Command APIs](https://github.com/hedywings/cc-bnp#calling-the-ti-ble-vendor-specific-hci-command-apis)
-> - [Vendor-Specific HCI Command Reference Tables](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables)
+> - [TI's BLE Vendor-Specific HCI Command APIs](https://github.com/hedywings/cc-bnp#vendorHci)
+> - [Vendor-Specific HCI Command Reference Tables](https://github.com/hedywings/cc-bnp#cmdTables)
 
 Note: This API is CC254X only.
 
 **Arguments**  
 
 1. `subGroup` (*String*): Sub-group name. Can be `hci`, `l2cap`, `att`, `gatt`, `gap`, or `util`.  
-2. `cmd` (*String*): Function name of Vendor-Specific HCI Command API. You can find the function name from column **cc-bnp Cmd-API** in this [table](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables).  
-3. `args` (_Object_): An argument object along with the specified command. The accepted keys are listed in **Arguments** in this [table](https://github.com/hedywings/cc-bnp#vendor-specific-hci-command-reference-tables).  
+2. `cmd` (*String*): Function name of Vendor-Specific HCI Command API. You can find the function name from column **Cmd-API** in this [table](https://github.com/hedywings/cc-bnp#cmdTables).  
+3. `args` (_Object_): An argument object along with the specified command. The accepted keys are listed in **Arguments** in this [table](https://github.com/hedywings/cc-bnp#cmdTables).  
 4. `callback` (*Function*): `function (err, result) { }`. Get called with the result of execution.  
 
 **Returns**  
@@ -402,7 +400,7 @@ Note: See [How to add Services to central](#addService) of **Advanced topics** s
 **Example**  
 
 ```javascript
-// Step1: prepare characteristic information
+// Step1: prepare characteristic and service information
 var charsInfo = [
         { uuid: '0x2a00', permit: [ 'Read' ], prop: [ 'Read' ], val: { name: "BLE Shepherd" } },
         { uuid: '0x2a28', permit: [ 'Read' ], prop: [ 'Read' ], val: { softwareRev: '0.0.1' } },
@@ -466,7 +464,7 @@ central.addLocalServ(servInfo, function (err, result) {
 
 - **DEV_PAUSE**
 
-    A peripheral has just paused the connection for other peripheral to join the network. (Due to the limitation of the number of connections)  
+    A peripheral has just paused its connection in order to allow other peripheral can join the network. (Due to the limitation of the number of connections)  
     
     - `msg.type` (*String*): `'DEV_PAUSE'`
     - `msg.data` (*String*): Device address  
@@ -896,17 +894,17 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
     }
 ```
 
-<br />
-
 *************************************************
 
+<br />
+
 <a name="Advanced"></a>
-## Advanced topics
+## 3. Advanced topics
 
 <a name="addDefinition"></a>
-###How to define your own Service and Characteristic
+### 3.1 How to define your own Service and Characteristic
 
-In order to let **ble-shepherd** parse and build the packet of your private services and characteristics, you should first register the private definitions to **ble-shepherd** by `central.regGattDefs(type, regObjs)` method.  
+In order to let **ble-shepherd** parse and build the packet of your private services and characteristics, you should first register the private definitions to **ble-shepherd** by calling `central.regGattDefs(type, regObjs)` method.  
 
 * `regObjs` contains the registration information depending on which type you want to register.
     * If `type === 'service'`, `regObjs` should be given with an array of the _Service information object_. Each entry is an object with properties shown in the table:
@@ -951,7 +949,7 @@ In order to let **ble-shepherd** parse and build the packet of your private serv
 
 *************************************************
 <a name="addService"></a>
-###How to add services to central
+### 3.2 How to add services to central
 
 Use the `central.addLocalServ(servInfo, callback)` method to create a local service on the central and register it to the CC254X BNP.  
     
@@ -979,14 +977,14 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
 
 * Differences between **prop** and **permit**
     - Each Characteristic has a lot of attributes, including Characteristic value and many optional information about the value, such as _Characteristic User Description_.
-        - `permit`: Each attribute in a Characteristic has its own permission, and `permit` is used to define its permission.  
+        - `permit`: Each attribute in a Characteristic has its own permission, and `permit` is used to define the permission of Characteristic value attribute.  
         - `prop`: `prop` is an attribute in a Characteristic to describe the permission of Characteristic value. Having a read permission can let GATT clients know what operations they can perform upon the Characteristic value.  
         
     Note: `prop` must be compatible with `permit`, otherwise GATT clients will be misled.  
 
 * Example
     * Add Characteristics into a public Service
-        - If the Characteristic is a public-defined one, charInfo `val` should be an object with keys list in the _Field Name_ of the [public UUID table](https://github.com/hedywings/cc-bnp#3-characteristics).  
+        - If the Characteristic is a public-defined one, charInfo `val` should be an object with keys list in the _Field Names_ of the [public UUID table](https://github.com/hedywings/cc-bnp#323-characteristics).  
     ```js
     var charsInfo = [
         { uuid: '0x2a00', permit: [ 'Read' ], prop: [ 'Read' ], val: { name: "BLE Shepherd" } },
@@ -1055,11 +1053,12 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
     });
     ```
 
+*************************************************
+
 <br />
 
-*************************************************
 <a name="Demo"></a>
-##Demo  
+## 4. Demo  
 
 With **ble-shepherd**, it is easy and quick to implement BLE IoT apps as well as manage your BLE peripherals.  
 
@@ -1068,10 +1067,11 @@ With **ble-shepherd**, it is easy and quick to implement BLE IoT apps as well as
 Here is a simple ble-shepherd webapp built up with ExpressJS and [socket.io](#http://socket.io/). ExpressJS provides web sevices and socket.io passes messages back and forth between the web client and server, especially passes those asynchronous indications from remote devices to web client to avoid regularly polling.  
 
 This demo uses a CSR8510 BLE USB dongle with 5 simultaneous connections. A polling mechanism is required if you want to connect to peripherals more than 5. The following four steps guides you through the implementation of this demo.  
-- Run the webapp with ble-shepherd  
-- Deal with device online and offline states  
-- Deal with characteristic notifications  
-- Control devices by the webapp  
+
+- [Run the webapp with ble-shepherd](#runServer)  
+- [Deal with device online and offline states](#devOnlineOffline)  
+- [Deal with characteristic notifications](#charNotif)  
+- [Control devices by the webapp](#ctrlDev)  
     
     Note: A preliminary understanding of socket.io and ExpressJS is required.  
   
@@ -1081,7 +1081,7 @@ This demo uses a CSR8510 BLE USB dongle with 5 simultaneous connections. A polli
 
 *************************************************
 <a name="runServer"></a>
-#### 1. Run the webapp with ble-shepherd
+### 4.1 Run the webapp with ble-shepherd
 
 First, create a module named bleSocket.js and start the server in webapp(app.js). The bleSocket.js is responsible for initializing the websocket between the web client and server. Thanks to the event facilities of socket.io, now ble-shepherd can emit events to client-side through the socket. Here is the sample code:  
   
@@ -1119,7 +1119,7 @@ exports.initialize = function(server) {
         }
 
         // listening 'req' event from client-side
-        socket.on('req', socketReqHdlr);
+        socket.on('cmd', clientCmdHdlr);
     });
 };
 
@@ -1132,7 +1132,7 @@ function bleApp () {
   
 *************************************************
 <a name="devOnlineOffline"></a>
-#### 2. Deal with device online and offline states
+### 4.2 Deal with device online and offline states
 
 Let's deal with the received [`'IND'` events](#EVT_ind) in our app. This demo only shows how to tackle the types of `'DEV_INCOMING'` and `'DEV_LEAVING'` indcations. Here is the example:  
 
@@ -1245,7 +1245,7 @@ function indicationHdlr (msg) {
 
 *************************************************
 <a name="charNotif"></a>
-#### 3. Deal with characteristic notifications
+### 4.3 Deal with characteristic notifications
 
 Register a handler via regCharHdlr() to help you with tackling the notification of a particular characteristic. You can do anything upon receiving the characteristic notification in the handler, such as collecting data for further analysis or sending data to the cloud.  
   
@@ -1341,7 +1341,7 @@ socket.on('bleInd', function (msg) {
 
 *************************************************
 <a name="ctrlDev"></a>
-#### 4. Control devices on the webapp GUI
+### 4.4 Control devices on the webapp GUI
 
 For practical applications, we'd like a graphic user interface to control and monitor devices. For example, press an `On` button on the screen to turn on a physical fan. In our demo app, the web client will find out the related information when button pressed. Then, the client will emit an event along with the necessary data to ask the server to perform the corresponding procedure. Here is the sample code.  
 
@@ -1380,7 +1380,7 @@ exports.initialize = function (server) {
 
     io.on('connection', function (socket) {
         // ...
-        socket.on('req', clientCmdHdlr);
+        socket.on('cmd', clientCmdHdlr);
     });
 };
 
@@ -1412,28 +1412,36 @@ function clientCmdHdlr(msg) {
 
 <br />
 
-*************************************************
 <a name="Example"></a>
-##Example
+## 5. Example
 
 [sensorTagApp.js](https://github.com/hedywings/ble-shepherd/blob/develop/examples/sensorTagApp.js) is a very simple application with a sensorTag and a keyFob.  
 
 <br />
 
-*************************************************
-<a name="License"></a>
-##License
+<a name="Contributors"></a>
+## 6 Contributors
+  
+* [Hedy Wang](https://www.npmjs.com/~hedywings)  
+* [Peter Yi](https://www.npmjs.com/~petereb9)
+* [Simen Li](https://www.npmjs.com/~simenkid)
 
+<br />
+
+<a name="License"></a>
+## 7 License
+  
 The MIT License (MIT)
 
-Copyright (c) 2016 Hedy Wang <hedywings@gmail.com>
+Copyright (c) 2016
+Hedy Wang <hedywings@gmail.com>, Peter Yi <peter.eb9@gmail.com>, and Simen Li <simenkid@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+furnished to do so, subject to the following conditions:  
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
