@@ -4,21 +4,27 @@
 ## Table of Contents
 
 1. [Overiew](#Overiew)    
-    1.1 [Features](#Features) 
-    1.2 [Installation](#Installation) 
-    1.3 [Usage](#Usage)
-2. [APIs and Events](#APIs) 
-3. [Advanced topics](#Advanced)
-    3.1 [How to define your own Service and Characteristic](#addDefinition)
-    3.2 [How to add Services to central](#addService)
-4. [Demo](#Demo)
-    4.1 [Running the server with ble-shepherd](#runServer)
-    4.2 [Processing device online and offline](#devOnlineOffline)
-    4.3 [Process characteristic notification](#charNotif)
-    4.4 [Control devices on the webapp GUI](#ctrlDev)
-5. [Example](#Example)
+    1.1 [Features](#Features)  
+    1.2 [Installation](#Installation)  
+    1.3 [Usage](#Usage)  
+
+2. [APIs and Events](#APIs)  
+
+3. [Advanced topics](#Advanced)  
+    3.1 [How to define your own Service and Characteristic](#addDefinition)  
+    3.2 [How to add Services to central](#addService)  
+
+4. [Demo](#Demo)  
+    4.1 [Running the server with ble-shepherd](#runServer)  
+    4.2 [Processing device online and offline](#devOnlineOffline)  
+    4.3 [Process characteristic notification](#charNotif)  
+    4.4 [Control devices on the webapp GUI](#ctrlDev)  
+
+5. [Example](#Example)  
+
 6. [Contributors](#Contributors)  
-7. [License](#License)
+
+7. [License](#License)  
 
 <br />
 
