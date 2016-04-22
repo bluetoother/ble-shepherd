@@ -232,14 +232,16 @@ central.start(app); // spCfg is not required
 2. `setting` (*Object*): The following table shows the `setting` properties according to the given `type`.  
 
     - When `type === 'scan'`, the setting object should be with keys:  
-            
+    
+
     | Property | Type   | Mandatory | Description       | Default value |
     |----------|--------|-----------|-------------------|---------------|
     | interval | Number | optional  | Scan interval(ms) | 0x0010        |
     | window   | Number | optional  | Scan window(ms)   | 0x0010        |
 
     - When `type === 'link'`, the setting object should be with keys:
-            
+    
+
     | Property | Type   | Mandatory | Description                                                                | Default value |
     |----------|--------|-----------|----------------------------------------------------------------------------|---------------|
     | interval | Number | optional  | Connection interval(ms). This affects the transmission rate of connection. | 0x0018        |
@@ -917,10 +919,10 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
 <a name="addDefinition"></a>
 ### 3.1 How to define your own Services and Characteristics
 
-In order to let **ble-shepherd** parse and build the packet of your private services and characteristics, you should first register the private definitions to **ble-shepherd** by calling `central.regGattDefs(type, regObjs)` method.  
+To let **ble-shepherd** parse and build the packet of your private Services and Characteristics, you should first register the private definitions to **ble-shepherd** by `central.regGattDefs(type, regObjs)` method.  
 
-* `regObjs` contains the registration information depending on which type you want to register.
-    * If `type === 'service'`, `regObjs` should be given with an array of the _Service information object_. Each entry is an object with properties shown in the table:
+* `regObjs` contains the registration information depending on which type, Service or Characteristic, you like to register to **ble-shepherd**.  
+    * If `type === 'service'`, `regObjs` should be given with an array of the _Service information object_. Each entry in this array should be an object with properties listed in the table:
 
         | Property | Type     | Mandatory | Description         |
         |----------|----------|-----------|---------------------|
@@ -928,7 +930,7 @@ In order to let **ble-shepherd** parse and build the packet of your private serv
         | name     | String   | required  | characteristic name |
         (Note: Make sure that your `name` and `uuid` won't conflict with a public Service or a registered Service.)
 
-    * If `type === 'characteristic'`, `regObjs` should be given with an array of the _Characteristic information object_. Each entry is an object with properties shown in the table:  
+    * If `type === 'characteristic'`, `regObjs` should be given with an array of the _Characteristic information object_. Each entry in this array should be an object with properties shown in the table:  
     
         | Property | Type   | Mandatory | Description                    |
         |----------|--------|-----------|--------------------------------|
@@ -936,7 +938,7 @@ In order to let **ble-shepherd** parse and build the packet of your private serv
         | name     | String | required  | characteristic name            |
         | params   | Array  | required  | characteristic parameters      |
         | types    | Array  | required  | characteristic parameters type |
-        * `params`: The Characteristic value will be parsed into an object according to the keys orderly given in this array.  
+        * `params`: The Characteristic value will be parsed into an object according to the keys given orderly in this array.  
         * `types`: An array to indicate the data type of each entry in `params` array. The order of entries in `types` and `params` array should be exactly matched.  
         
         (Note: Make sure that your `name` and `uuid` won't conflict with a public Characteristic or a registered Characteristic.)
@@ -964,9 +966,9 @@ In order to let **ble-shepherd** parse and build the packet of your private serv
 <a name="addService"></a>
 ### 3.2 How to add your own Services to central
 
-Use the `central.addLocalServ(servInfo, callback)` method to create a local service on the central and register it to the CC254X BNP.  
+Use `central.addLocalServ(servInfo, callback)` method to create a local Service on the central and register it to CC254X BNP.  
     
-* The following table shows the details of each property within the object `servInfo`.  
+* The following table shows the details of each property within `servInfo` object.  
 
     | Property  | Type   | Mandatory | Description                                          |
     |-----------|--------|-----------|------------------------------------------------------|
@@ -974,7 +976,7 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
     | name      | String | optional  | service name                                         |
     | charsInfo | Array  | required  | including lots of characteristic information objects |
 
-* Each entry in `charsInfo` array should be an object having the following properties:
+* Each entry in `charsInfo` array should be an object with the following properties:
 
     | Property | Type             | Mandatory | Description                |
     |----------|------------------|-----------|----------------------------|
@@ -985,19 +987,19 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
     | val      | Object or Buffer | required  | characteristic value       |
     | desc     | String           | optional  | characteristic description |
 
-    - Allowed Characteristic permission `permit`: 'Read', 'Write', 'AuthenRead', 'AuthenWrite', 'AuthorRead', 'AuthorWrite', 'EncryptRead', 'EncryptWrite'
-    - Allowed Characteristic property `prop`: 'Broadcast', 'Read', 'WriteWithoutResponse', 'Write', 'Notify', 'Indicate', 'AuthenticatedSignedWrites', 'ExtendedProperties'
+    - Characteristic permission, `permit` accepts: 'Read', 'Write', 'AuthenRead', 'AuthenWrite', 'AuthorRead', 'AuthorWrite', or 'EncryptRead', 'EncryptWrite'
+    - Characteristic property, `prop` accepts: 'Broadcast', 'Read', 'WriteWithoutResponse', 'Write', 'Notify', or 'Indicate', 'AuthenticatedSignedWrites', 'ExtendedProperties'
 
-* Differences between **prop** and **permit**
+* Differences between **prop** and **permit** [TODO] check if my understanding of prop and permit is correct.
     - Each Characteristic has a lot of attributes, including Characteristic value and many optional information about the value, such as _Characteristic User Description_.
-        - `permit`: Each attribute in a Characteristic has its own permission, and `permit` is used to define the permission of Characteristic value attribute.  
-        - `prop`: `prop` is an attribute in a Characteristic to describe the permission of Characteristic value. Having a read permission can let GATT clients know what operations they can perform upon the Characteristic value.  
+        - `permit`: Each attribute in a Characteristic has its own permission, and `permit` is used to define permission of the Characteristic Value, i.e., access permission, encryption, authorization.  
+        - `prop`: `prop` is an attribute in a Characteristic to describe permission of accessing the Characteristic Value. Having a read permission can let GATT clients know what operations they can perform upon the Characteristic Value.  
         
     Note: `prop` must be compatible with `permit`, otherwise GATT clients will be misled.  
 
 * Example
     * Add Characteristics into a public Service
-        - If the Characteristic is a public-defined one, charInfo `val` should be an object with keys list in the _Field Names_ of the [public UUID table](https://github.com/hedywings/cc-bnp#323-characteristics).  
+        - If the Characteristic is a public-defined one, `val` in charInfo should be an object with keys listed in column _Field Names_ of [public UUID table](https://github.com/hedywings/cc-bnp#323-characteristics).  
     ```js
     var charsInfo = [
         { uuid: '0x2a00', permit: [ 'Read' ], prop: [ 'Read' ], val: { name: "BLE Shepherd" } },
@@ -1017,11 +1019,11 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
     });
     ```
 
-    * Add Characteristics into a private  
-        - If the Characteristic is not a public-defined one, you need to register its definition first[(see section "How to define your own Services and Characteristics")](#addDefinition). You can also parse/build raw packet of a Characteristic value on your own without doing the registration of your private definitions.  
+    * Add Characteristics into a private Service 
+        - If the Characteristic is not a public-defined one, you should register its definition to **ble-shepherd**[(see section "How to define your own Services and Characteristics")](#addDefinition). You can also parse/build raw packet of a Characteristic Value on your own without registering your private definitions.  
 
     ```js
-    // if Characteristic definition is not registered, type of a Characteristic value can only be a buffer
+    // if Characteristic definition is not registered, type of a Characteristic Value must be a buffer
     var charsInfo = [
         { uuid: 'aa11', name: 'data', permit: [ 'Read' ], prop: [ 'Read' ], val: new Buffer([ 10, 20, 30 ) },
         { uuid: 'aa12', name: 'config', permit: [ 'Write' ], prop: [ 'Write' ], val: new Buffer([ 1 ]) },
@@ -1040,7 +1042,7 @@ Use the `central.addLocalServ(servInfo, callback)` method to create a local serv
             console.log(service);
     });
 
-    // if Characteristic definition is registered, characteristic value should be an object with keys according to `params` you've registered  
+    // if Characteristic definition is registered, Characteristic Value should be an object with keys according to `params` you've registered  
     var charsInfo = [
         { uuid: '0xaa11', name: 'data', permit: [ 'Read' ], prop: [ 'Read' ], val: { x: 10, y: 10, z: 10 } },
         { uuid: '0xaa12', name: 'config', permit: [ 'Write' ], prop: [ 'Write' ], val: { range: 1 } },
@@ -1087,8 +1089,8 @@ This demo uses a CSR8510 BLE USB dongle with 5 simultaneous connections. A polli
 - [Deal with device online and offline status](#devOnlineOffline)  
 - [Deal with characteristic notifications](#charNotif)  
 - [Control devices on the webapp GUI](#ctrlDev)  
-    
-    Note: A preliminary understanding of socket.io and ExpressJS is required.  
+
+Note: A preliminary understanding of socket.io and ExpressJS is required.  
   
 ![ble-shepherd webapp](https://raw.githubusercontent.com/hedywings/ble-shepherd/develop/documents/bShepherdWeb.png)
 
@@ -1149,7 +1151,7 @@ function bleApp () {
 <a name="devOnlineOffline"></a>
 ### 4.2 Deal with device online and offline status
 
-Let's deal with the received [`'IND'` events](#EVT_ind) in our app. This demo only shows how to tackle the types of `'DEV_INCOMING'` and `'DEV_LEAVING'` indcations. Here is the example:  
+Let's deal with the received [`'IND'` events](#EVT_ind) in our app. This demo only shows how to tackle types of the `'DEV_INCOMING'` and `'DEV_LEAVING'` indcations. Here is the example:  
 
 ```js
 // bleSocket.js
@@ -1173,7 +1175,7 @@ function indicationHdlr (msg) {
 }
 ```
 
-- When received an indication of `'DEV_INCOMING'` type, check what kind of the device is and register handlers to tackle the characteristic changes. Then, broadcast the 'bleInd' event along with a 'devIncoming' type of indication to tell all web clients that a device has joined the network.  
+- When received an indication of `'DEV_INCOMING'` type, check what kind of the device is and register handlers to tackle the characteristic changes. Then, broadcast the `'bleInd'` event along with a `'devIncoming'` type of indication to tell all web clients that a device has joined the network.  
 
     - Here is an example, assume that a device with an address of '0x9059af0b8159' joins the network. We can register handlers corresponding to each characteristic notification, and enable those characteristics to start notifying their changes.  
 
@@ -1182,7 +1184,7 @@ function indicationHdlr (msg) {
 
     function devIncomingHdlr(dev) {
         var emitFlag = true,
-			devName = dev.findChar('0x1800', '0x2a00').val.name,
+            devName = dev.findChar('0x1800', '0x2a00').val.name,
             newDev;
     
         // This demo uses device name to identify "_what a device is_".  
@@ -1238,7 +1240,7 @@ function indicationHdlr (msg) {
         }
     }
     ```
-- When received an indication of `'DEV_LEAVING'` type, broadcast the 'bleInd' event with a 'devLeaving' type of indication to tell all web clients that a device has left the network.  
+- When received an indication of `'DEV_LEAVING'` type, broadcast the `'bleInd'` event with a `'devLeaving'` type of indication to tell all web clients that a device has left the network.  
 
 ```js
     // bleSocket.js
@@ -1262,9 +1264,9 @@ function indicationHdlr (msg) {
 <a name="charNotif"></a>
 ### 4.3 Deal with characteristic notifications
 
-Register a handler via regCharHdlr() to help you with tackling the notification of a particular characteristic. You can do anything upon receiving the characteristic notification in the handler, such as collecting data for further analysis or sending data to the cloud.  
+Register a handler via regCharHdlr() to help you with tackling the notification of a particular characteristic. You can do anything upon receiving the characteristic notification in the handler, such as collecting data for further analysis or pushing data to cloud.  
   
-Let me show you an example. In `tempCharHdlr` function, I'll convert the received temperature value to Celsius within function tempConverter(), and broadcast the sensed temperature to all web clients through the websocket as well as pass it to the cloud. Please refer to [Texas Instruments SensorTag User Guide](http://processors.wiki.ti.com/index.php/SensorTag_User_Guide#IR_Temperature_Sensor) for how to convert the sensed raw data to temperature in Cel.  
+Let me show you an example. In `tempCharHdlr` function, I'll convert the received temperature value to Celsius within function tempConverter(), and broadcast the sensed temperature to all web clients through the websocket as well as push it to cloud. Please refer to [Texas Instruments SensorTag User Guide](http://processors.wiki.ti.com/index.php/SensorTag_User_Guide#IR_Temperature_Sensor) for how to convert the sensed raw data to temperature in Cel.  
 
 * At server-side  
 
@@ -1358,7 +1360,7 @@ socket.on('bleInd', function (msg) {
 <a name="ctrlDev"></a>
 ### 4.4 Control devices on the webapp GUI
 
-For practical applications, we'd like a graphic user interface to control and monitor devices. For example, press an `On` button on the screen to turn on a physical fan. In our demo app, the web client will find out the related information when button pressed. Then, the client will emit an event along with the necessary data to ask the server to perform the corresponding procedure. Here is the sample code.  
+For practical applications, we'd like a graphic user interface to control and monitor devices. For example, press an **ON** button on the screen to turn on a physical fan. In our demo app, the web client will find out the related information when button pressed. Then, the client will emit an event along with necessary data to ask the server to perform a corresponding procedure. Here is the sample code.  
 
 * At client-side  
 
@@ -1385,7 +1387,7 @@ $('.switchOn').click(function () {
 
 * At server-side  
 
-When the server receives an event fired by user pressing the `On` button at client-side, the server will invoke write() method on the fan to remotely turn it on.  
+When the server receives an event fired by user pressing the **ON** button at client-side, the server will invoke write() method on the fan to remotely turn it on.  
 
 ```js
 // bleSocket.js
