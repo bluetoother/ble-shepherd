@@ -33,7 +33,7 @@
 
 **ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.  
   
-**ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating BLE *pheripheral* devices. This controller has done many network managing things for you, i.e., auto scanning for *pheripheral* devices, storing(/reloading) connected devices records to(/from) the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
+**ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating BLE *pheripheral* devices. This controller has carried many network managing things for you, i.e., auto scanning for *pheripheral* devices, storing(/reloading) connected devices records to(/from) the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
 
 It is easy to set and receive notifications from remote *peripherals*. Furthermore, reading resources from and writing values to *periphrals* is also simple, here is an example:
 
@@ -56,7 +56,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 ### 1.1 Features
 
 - Building your machine network with BLE devices.  
-- Controlling the network with no pain. Features of auto reconnection, permission of device joining, built-in database and many more are off-the-shelf.  
+- Controlling the network with no pain. Features of auto reconnection, permission of device joining, built-in database, and many more are off-the-shelf.  
 - Creating BLE IoT apps is simple and quick.  
 - Allowing you to define _Services_ and _Characteritics_ on **ble-shepherd** itself to make it a BLE gadget. **ble-shepherd** not just plays as a network controller.  
 - Based-on node.js. It's easy to integrate BLE apps with other services or frameworks, e.g., http server, express, React.js, Angular.js.  
@@ -75,7 +75,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 
 **ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application with **ble-shepherd** with CC254X BLE network processor(BNP) (see [central.start()](#API_start) if you like to use CSR BLE USB dongle).  
 
-Firstly, set up your serial-port configuration to connect to BNP. Next, call method `start()` with your configuration `spCfg` and application function `app` to bring the `central` up. Your `app` will run right after central connected to BNP. If you like to tackle something prior to your app loading, e.g., registering custom GATT definitions, just override the method `appInit()` to suit your needs.  
+Firstly, set up your serial-port configuration to connect to BNP. Next, call method `start()` with your configuration `spCfg` and application `app()` to bring the `central` up. Your `app()` will run right after the central connected to BNP. If you like to tackle something prior to your app loading, e.g., registering custom GATT definitions, just override the method `appInit()` to suit your needs.  
   
   
 ```javascript
@@ -121,7 +121,7 @@ function app() {
 * ['IND' event](#EVT_ind)
 
 ####2. Monitor and Control the Peripherals
->**peripheral** is a software endpoint to represent a remote BLE device. You can use `central.find()` to find a connected _pheripheral_ device with its address or connection handle. Once you get the endpoint, you can invoke its read()/write() methods to operate the remote device.  
+>**peripheral** is a software endpoint, which represents a remote BLE device, in **ble-shepherd**. You can use `central.find()` to find a connected _pheripheral_ device with its address or connection handle. Once you get the endpoint, you can invoke its read()/write() methods to operate the remote device.  
 
 * [peripheral.connect()](#API_connect)
 * [peripheral.disconnect()](#API_disconnect)
@@ -172,14 +172,14 @@ Some methods are not supported for CSR8510, they are listed in this table. (X: u
 *************************************************
 <a name="API_start"></a>  
 ### .start(app[, spCfg])  
-> Connects to the SoC and starts to run the app.  
+> Connect to the SoC and start to run the app.  
 
 **Arguments**  
 
 1. `app` (*Function*): App which will be called after initialization completes.  
 2. `spCfg` (*Object*): This value-object has two properties `path` and `options` to configure the serial port.  
-    - `path`: a string that refers to the serial port system path, e.g., `'/dev/ttyUSB0'`  
-    - `options`: an object to set up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The following example shows the `options` with its default value.  
+    - `path`: A string that refers to the serial port system path, e.g., `'/dev/ttyUSB0'`  
+    - `options`: An object to set up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The following example shows the `options` with its default value.  
 
 Note: If you are using the CSR8510 USB adapter, `spCfg` can be ignored.
 
@@ -231,14 +231,14 @@ central.start(app); // spCfg is not required
 1. `type` (*String*): Can be `'scan'` or `'link'` to indicate which type of parameter you like to set.  
 2. `setting` (*Object*): The following table shows the `setting` properties according to the given `type`.  
 
-    - When `type === 'scan'`, the setting object should be with the keys:  
+    - When `type === 'scan'`, the setting object should be with keys:  
             
     | Property | Type   | Mandatory | Description       | Default value |
     |----------|--------|-----------|-------------------|---------------|
     | interval | Number | optional  | Scan interval(ms) | 0x0010        |
     | window   | Number | optional  | Scan window(ms)   | 0x0010        |
 
-    - When `type === 'link'`, the setting object should be with the keys:
+    - When `type === 'link'`, the setting object should be with keys:
             
     | Property | Type   | Mandatory | Description                                                                | Default value |
     |----------|--------|-----------|----------------------------------------------------------------------------|---------------|
@@ -277,7 +277,7 @@ central.setNwkParams('link', { interval: 5000 }, function (err) {
 *************************************************
 <a name="API_permitJoin"></a>  
 ###.permitJoin(duration)  
-> Open the network for devices to join in. The central will fire an IND event with meaasge type NWK_PERMITJOIN when central opened or closed for devices to join the network.
+> Allow or disallow devices to join the network. The central will fire an `'IND'` event with message type `'NWK_PERMITJOIN'` when central is opened or closed for devices to join the network.
 
 **Arguments**  
 
@@ -297,7 +297,7 @@ central.permitJoin(60);
 *************************************************
 <a name="API_command"></a>  
 ###.command(subGroup, cmd, argInst, callback)  
-> Calls TI BLE Vendor-Specific HCI Commands. Please refer to **cc-bnp** document for details.
+> Invoke TI BLE Vendor-Specific HCI Commands. Please refer to [**cc-bnp**](https://github.com/hedywings/cc-bnp) document for details.
 > - [TI's BLE Vendor-Specific HCI Command APIs](https://github.com/hedywings/cc-bnp#vendorHci)
 > - [Vendor-Specific HCI Command Reference Tables](https://github.com/hedywings/cc-bnp#cmdTables)
 
@@ -307,7 +307,7 @@ Note: This API is CC254X only.
 
 1. `subGroup` (*String*): Sub-group name. Can be `hci`, `l2cap`, `att`, `gatt`, `gap`, or `util`.  
 2. `cmd` (*String*): Function name of Vendor-Specific HCI Command API. You can find the function name from column **Cmd-API** in this [table](https://github.com/hedywings/cc-bnp#cmdTables).  
-3. `args` (_Object_): An argument object along with the specified command. The accepted keys are listed in **Arguments** in this [table](https://github.com/hedywings/cc-bnp#cmdTables).  
+3. `args` (_Object_): An argument object passes with the specified command. The accepted keys are listed in column **Arguments** in this [table](https://github.com/hedywings/cc-bnp#cmdTables).  
 4. `callback` (*Function*): `function (err, result) { }`. Get called with the result of execution.  
 
 **Returns**  
@@ -343,10 +343,10 @@ Note: This API is CC254X only.
 **Example**  
 
 ```javascript
-// find() by address
+// find() by address - use a string as the argument
 var peripheral = central.find('0x78c5e570796e');
 
-// find() by connection handle
+// find() by connection handle - use a number as the argument
 var peripheral = central.find(0);
 ```
 
@@ -360,7 +360,7 @@ var peripheral = central.find(0);
 1. `type` (*String*): Can be `'service'` or `'characteristic'` to specify which type of definition to register with.  
 2. `regObjs` (*Array*): An array of the _Service information object_ or _Characteristic information object_ according to the given `type`.  
 
-Note: See [How to define your own Services and Characteristics](#addDefinition) in the **Advanced topics** section to learn more.
+Note: Learn more in section **Advanced topics**: [How to define your own Services and Characteristics](#addDefinition).
 
 **Returns**  
 
@@ -393,11 +393,11 @@ Note: This command is CC254X only.
 
 **Arguments**  
 
-1. `servInfo` (*Object*): An object that contains properties of `uuid`, `name` and `charsInfo` to describe information about the Service.  
+1. `servInfo` (*Object*): An object that contains properties of `uuid`, `name`, and `charsInfo` to describe information about the Service.  
 
 2. `callback` (*Function*) : `function (err, service) { }`, Get called when service successfully register to BNP. 
 
-Note: See [How to add your own Services to central](#addService) of **Advanced topics** section to learn more.  
+Note: Learn more in section **Advanced topics**: [How to add your own Services to central](#addService).
 
 **Returns**  
 
@@ -440,10 +440,11 @@ central.addLocalServ(servInfo, function (err, result) {
 
 - **DEV_ONLINE** 
 
-    A peripheral has just joined the network, but not yet synchronized (services re-discovery).  
-
+    A peripheral has just joined the network, but not yet synchronized with the remote device (services re-discovery will run in background).  
+  
     - `msg.type` (*String*): `'DEV_ONLINE'`
     - `msg.data` (*String*): Device address  
+
     ```js
     {
         type: 'DEV_ONLINE',
@@ -455,10 +456,11 @@ central.addLocalServ(servInfo, function (err, result) {
 
 - **DEV_INCOMING**  
 
-    A peripheral has joined the network and synchronized.  
+    A peripheral has joined the network and synchronized with the remote.  
 
     - `msg.type` (*String*): `'DEV_INCOMING'`
     - `msg.data` (*String*): Device address  
+
     ```js
     {
         type: 'DEV_INCOMING',
@@ -470,10 +472,11 @@ central.addLocalServ(servInfo, function (err, result) {
 
 - **DEV_PAUSE**
 
-    A peripheral has just paused its connection in order to allow other peripheral can join the network. (Due to the limitation of the number of connections)  
+    A peripheral has just paused its connection in order to allow other peripheral to join the network. (Due to limitation of the number of connections)  
     
     - `msg.type` (*String*): `'DEV_PAUSE'`
     - `msg.data` (*String*): Device address  
+
     ```js
     {
         type: 'DEV_PAUSE',
@@ -489,6 +492,7 @@ central.addLocalServ(servInfo, function (err, result) {
 
     - `msg.type` (*String*): `'DEV_LEAVING'`
     - `msg.data` (*String*): Device address  
+
     ```js
     {
         type: 'DEV_LEAVING',
@@ -500,10 +504,11 @@ central.addLocalServ(servInfo, function (err, result) {
 
 - **NWK_PERMITJOIN**  
 
-    Central opened or closed for devices to join the network. 
+    Central is now allowing or disallowing devices to join the network.  
 
     - `msg.type` (*String*): `'NWK_PERMITJOIN'`
-    - `msg.data` (*Number*): This number means the left time of central open the network join permission. It will be 0 if permission is closed.
+    - `msg.data` (*Number*): Time left for devices to join the network. Permission denied when it is 0.  
+
     ```js
     {
         type: 'NWK_PERMITJOIN',
@@ -515,18 +520,19 @@ central.addLocalServ(servInfo, function (err, result) {
 
 - **PASSKEY_NEED**  
 
-    The encryption process of connection is requesting for a passkey. This event is CC254X only.
+    A connection is requesting for a passkey in encryption process. This event is CC254X only.
 
     - `msg.type` (*String*): `'PASSKEY_NEED'`
     - `msg.data` (*Object*): This object has fileds of `devAddr`, `connHandle`, `uiInput`, and `uiOutput`.  
+
     ```js
     { 
         type: 'PASSKEY_NEED', 
         data: {
             devAddr: '0x78c5e570796e',
             connHandle: 0,
-            uiInput: 1,
-            uiOutput: 0 
+            uiInput: 1,     // [TODO] supported input interface?
+            uiOutput: 0     // [TODO] supported output interface?
         }
     }
     ```
@@ -538,7 +544,8 @@ central.addLocalServ(servInfo, function (err, result) {
     An error occurs while processing an incoming peripheral ATT event. This event is CC254X only.
 
     - `msg.type` (*String*): `'LOCAL_SERV_ERR'`
-    - `msg.data` (*Object*): This object has fileds of `evtData` and `err`. `evtData` is the request message emitted from a remote peripheral, `err` is an error object describing the reason why the request cannot be processed.  
+    - `msg.data` (*Object*): This object has fileds of `evtData` and `err`. `evtData` is the request message emitted from a remote peripheral, `err` is an error object describing the reason why this request cannot be processed.  
+
     ```js
     {
         type: 'LOCAL_SERV_ERR',
@@ -552,7 +559,7 @@ central.addLocalServ(servInfo, function (err, result) {
                     handle: 3 
                 }
             },
-            err: new Error('Characteristic: 0xfe00 not register.')
+            err: new Error('Characteristic: 0xfe00 not register.')  // [TODO] new Error()?
         }
     }
     ```
@@ -563,7 +570,7 @@ central.addLocalServ(servInfo, function (err, result) {
 
 ## BlePeripheral Class  
 
-`central.find(addrOrHdl)` returns a instance of this class, otherwise returns `undefined` if not found. The instance, which is denoted as `peripheral` in this document, represents a remote peripheral in the server.  
+`central.find(addrOrHdl)` returns an instance of this class, otherwise returns `undefined` if not found. The instance, which is denoted as `peripheral` in this document, represents a remote peripheral in the server.  
 
 <br />
 
@@ -571,10 +578,10 @@ central.addLocalServ(servInfo, function (err, result) {
 
 <a name="API_connect"></a>
 ###.connect([callback])
-> Connect to a remote BLE peripheral. The central will fire an `IND` event with message type `DEV_ONLINE` when connection is established and will fire an `IND` event with message type `DEV_INCOMING` when peripheral information synchronization accomplished.
+> Connect to a remote BLE peripheral. The central will fire an `'IND'` event with message type `'DEV_ONLINE'` when connection is established and will fire an `'IND'` event with message type `'DEV_INCOMING'` when peripheral synchronization accomplished.
 
 **Arguments**
-- `callback` (*Function*): `function (err) { }`. Get called when the connection between central and remote peripheral is established.  
+- `callback` (*Function*): `function (err) { }`. Get called when connection between central and remote peripheral is established.  
 
 **Returns**
 - (*none*)  
@@ -604,10 +611,10 @@ if (peripheral) {
 *************************************************
 <a name="API_disconnect"></a>
 ###.disconnect([callback])
-> Disconnect from the remote BLE peripheral. The central will fire an `IND` event with meaasge type `DEV_LEAVING` when the procedure of disconnecting accomplished.  
+> Disconnect from the remote BLE peripheral. The central will fire an `'IND'` event with meaasge type `'DEV_LEAVING'` when procedure of disconnecting accomplished.  
 
 **Arguments**
-- `callack` (*Function*): `function (err) { }`. Get called when the connection between central and remote peripheral is disconnected.  
+- `callack` (*Function*): `function (err) { }`. Get called when connection between central and remote peripheral is disconnected.  
 
 **Returns**
 - (*none*)
@@ -628,10 +635,10 @@ peripheral.disconnect(function (err) {
 *************************************************
 <a name="API_remove"></a>
 ###.remove([callback])
-> Disconnect from the remote BLE peripheral and remove its record from the database. The central will fire an `IND` event with meaasge type `DEV_LEAVING` when the procedure of disconnecting accomplished. 
+> Disconnect from the remote BLE peripheral and remove its record from database. The central will fire an `'IND'` event with meaasge type `'DEV_LEAVING'` when procedure of disconnecting accomplished. 
 
 **Arguments**
-- `callack` (*Function*): `function (err) { }`. Get called when the connection between central and remote peripheral is disconnected and peripheral record is removed.  
+- `callack` (*Function*): `function (err) { }`. Get called when connection between central and remote peripheral is disconnected and peripheral record is removed.  
 
 **Returns**
 - (*none*)
@@ -659,7 +666,7 @@ peripheral.remove(function (err) {
 1. `interval` (*Number*): Connection interval.  
 2. `latency` (*Number*): Slave latency.  
 3. `timeout` (*Number*): Connection supervision timeout.  
-4. `callback` (*Function*): `function (err) { }`. Get called when parameters are setting complete.  
+4. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
 
 **Returns**  
 
@@ -677,7 +684,7 @@ peripheral.updateLinkParam(80, 0, 2000, function (err) {
 *************************************************
 <a name="API_encrypt"></a>  
 ###.encrypt([setting][, callback])  
-> Encrypt the connection between the central and peripheral. The central will fire an `IND` event along with message type `PASSKEY_NEED` if it requires a passkey during the encryption procedure for MITM protection.  
+> Encrypt the connection between central and peripheral. The central will fire an `'IND'` event along with message type `'PASSKEY_NEED'` if it requires a passkey during encryption procedure for MITM protection.  
 
 Note: This command is CC254X only.
 
@@ -693,7 +700,7 @@ Note: This command is CC254X only.
 | mitm     | Boolean  | Optional  | MITM protection | true          |
 | bond     | Boolean  | Optional  | bonding enable  | true          |
 
-Note: Please refer to the document [TI BLE Vendor Specific HCI Guide.pdf (P77)](https://github.com/hedywings/ccBnp/raw/master/documents/TI_BLE_Vendor_Specific_HCI_Guide.pdf) for `pairMode` and `ioCap` descriptions.  
+Note: Please refer to document [TI BLE Vendor Specific HCI Guide.pdf (P77)](https://github.com/hedywings/ccBnp/raw/master/documents/TI_BLE_Vendor_Specific_HCI_Guide.pdf) for `pairMode` and `ioCap` descriptions.  
 
 **Returns**  
 
@@ -750,7 +757,7 @@ peripheral.passPasskey('123456', function (err) {
 *************************************************
 <a name="API_update"></a>  
 ###.update([callback])  
-> Update the `peripheral` instance with the latest characteristics value reading from the remote device.  
+> Update the `peripheral` instance with latest Characteristic Values reading from the remote device.  
 
 **Arguments**  
 
@@ -862,8 +869,8 @@ peripheral.readDesc('0xfff0', '0xfff1', function (err, description) {
 
 1. `uuidServ` (*String*): Service uuid.  
 2. `uuidChar` (*String*): Characteristic uuid.  
-3. `config` (*Boolean*): `true` to enable and `false` to disable the indication/notification of characteristic. 
-4. `callback` (*Function*): `function (err) { }`. Get called when the configuration sets up.  
+3. `config` (*Boolean*): `true` to enable and `false` to disable indication/notification of the characteristic. 
+4. `callback` (*Function*): `function (err) { }`. Get called when the configuration is set.  
 
 **Returns**  
 
@@ -881,7 +888,7 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
 *************************************************
 <a name="API_regCharHdlr"></a>
 ###.regCharHdlr(uuidServ, uuidChar, fn)
-> Register a handler to handle notification or indication of a Characteristic.
+> Register a handler to handle notification or indication of the Characteristic.
 
 **Arguments**
 - `servUuid` (*String*): Service uuid  
