@@ -41,7 +41,7 @@ It is easy to set and receive notifications from remote *peripherals*. Furthermo
 peripheral.read('0x1800', '0x2a00', function (err, value) {
     // value is remotely read from the peripheral device
 });
-peripheral.write('0x1800', '0x2a02', { flag: false }, functionScan interval(ms) (err) {
+peripheral.write('0x1800', '0x2a02', { flag: false }, function (err) {
     // value is remotely write to the peripheral device
 });
 ```
