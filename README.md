@@ -38,10 +38,10 @@
 It is easy to set and receive notifications from remote *peripherals*. Furthermore, reading resources from and writing values to *periphrals* is also simple, here is an example:
 
 ``` js
-peripheral.read('0x1800', '0x2a00', functional (err, value) {
+peripheral.read('0x1800', '0x2a00', function (err, value) {
     // value is remotely read from the peripheral device
 });
-peripheral.write('0x1800', '0x2a02', { flag: false }, functional (err) {
+peripheral.write('0x1800', '0x2a02', { flag: false }, functionScan interval(ms) (err) {
     // value is remotely write to the peripheral device
 });
 ```
@@ -236,17 +236,17 @@ central.start(app); // spCfg is not required
 
     | Property | Type   | Mandatory | Description       | Default value |
     |----------|--------|-----------|-------------------|---------------|
-    | interval | Number | optional  | Scan interval(ms) | 0x0010        |
-    | window   | Number | optional  | Scan window(ms)   | 0x0010        |
+    | interval | Number | optional  | Scan interval(0.625ms) | 0x0010        |
+    | window   | Number | optional  | Scan window(0.625ms)   | 0x0010        |
 
     - When `type === 'link'`, the setting object should be with keys:
     
 
-    | Property | Type   | Mandatory | Description                                                                | Default value |
-    |----------|--------|-----------|----------------------------------------------------------------------------|---------------|
-    | interval | Number | optional  | Connection interval(ms). This affects the transmission rate of connection. | 0x0018        |
-    | latency  | Number | optional  | Connection slave latency(ms)                                               | 0x0000        |
-    | timeout  | Number | optional  | Connection supervision timeout(ms)                                         | 0x00c8        |
+    | Property | Type   | Mandatory | Description                                                                    | Default value |
+    |----------|--------|-----------|--------------------------------------------------------------------------------|---------------|
+    | interval | Number | optional  | Connection interval(1.25ms). This affects the transmission rate of connection. | 0x0018        |
+    | latency  | Number | optional  | Connection slave latency(in number of connection events)                       | 0x0000        |
+    | timeout  | Number | optional  | Connection supervision timeout(10ms)                                           | 0x00c8        |
 
 3. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
 
@@ -264,13 +264,13 @@ central.setNwkParams('scan', { interval: 16, window: 16 }, function (err) {
 });
 
 // setting link parameters
-central.setNwkParams('link', { interval: 10240, latency: 0, timeout: 1000 }, function (err) {
+central.setNwkParams('link', { interval: 8192, latency: 0, timeout: 1000 }, function (err) {
     if (err)
         console.log(err);
 });
 
 // just setting interval property of link parameter
-central.setNwkParams('link', { interval: 5000 }, function (err) {
+central.setNwkParams('link', { interval: 4000 }, function (err) {
     if (err)
         console.log(err);
 });
@@ -533,8 +533,8 @@ central.addLocalServ(servInfo, function (err, result) {
         data: {
             devAddr: '0x78c5e570796e',
             connHandle: 0,
-            uiInput: 1,     // [TODO] supported input interface?
-            uiOutput: 0     // [TODO] supported output interface?
+            uiInput: 1,     // Whether to ask user to input a passcode, 0 or 1 means no or yes
+            uiOutput: 0     // Whether to display a passcode, 0 or 1 means no or yes
         }
     }
     ```
@@ -561,7 +561,7 @@ central.addLocalServ(servInfo, function (err, result) {
                     handle: 3 
                 }
             },
-            err: new Error('Characteristic: 0xfe00 not register.')  // [TODO] new Error()?
+            err: [Error: Characteristic: 0xfe00 not register.]
         }
     }
     ```
@@ -665,9 +665,9 @@ peripheral.remove(function (err) {
 
 **Arguments**  
 
-1. `interval` (*Number*): Connection interval.  
+1. `interval` (*Number*): Connection interval (1.25ms).  
 2. `latency` (*Number*): Slave latency.  
-3. `timeout` (*Number*): Connection supervision timeout.  
+3. `timeout` (*Number*): Connection supervision timeout (10ms).  
 4. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
 
 **Returns**  
@@ -990,7 +990,7 @@ Use `central.addLocalServ(servInfo, callback)` method to create a local Service 
     - Characteristic permission, `permit` accepts: 'Read', 'Write', 'AuthenRead', 'AuthenWrite', 'AuthorRead', 'AuthorWrite', or 'EncryptRead', 'EncryptWrite'
     - Characteristic property, `prop` accepts: 'Broadcast', 'Read', 'WriteWithoutResponse', 'Write', 'Notify', or 'Indicate', 'AuthenticatedSignedWrites', 'ExtendedProperties'
 
-* Differences between **prop** and **permit** [TODO] check if my understanding of prop and permit is correct.
+* Differences between **prop** and **permit**  
     - Each Characteristic has a lot of attributes, including Characteristic value and many optional information about the value, such as _Characteristic User Description_.
         - `permit`: Each attribute in a Characteristic has its own permission, and `permit` is used to define permission of the Characteristic Value, i.e., access permission, encryption, authorization.  
         - `prop`: `prop` is an attribute in a Characteristic to describe permission of accessing the Characteristic Value. Having a read permission can let GATT clients know what operations they can perform upon the Characteristic Value.  
@@ -1104,6 +1104,8 @@ First, create a module named bleSocket.js and start the server in webapp(app.js)
 // app.js
 
 var bleSocket = require('./routes/bleSocket');
+
+// ...
 
 app.set('port', process.env.PORT || 3000);
 server = app.listen(app.get('port'));
@@ -1295,7 +1297,7 @@ function tempCharHdlr(data) {
     client.feed.new('99703785', 'temperature', tempVal);
 
     // if temperature is too high, turn on the fan
-    if (tempVal > 30 && relay && relay.switch === 'off') {
+    if (tempVal > 30 && fan && fan.switch === 'off') {
         switchFan('on');
     }
 }
