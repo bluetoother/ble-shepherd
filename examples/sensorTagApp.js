@@ -1,7 +1,7 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/cc254x/ble-shepherd'),
+var bShepherd = require('../lib/csr8510/ble-shepherd'),
     spCfg = {
         path: '/dev/ttyACM0',
         options: {
@@ -16,7 +16,9 @@ var sensorTag, keyFob,
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(bleApp, spCfg);
+bShepherd.start(bleApp/*, spCfg*/, function () {
+    console.log('starting over');
+});
 
 function appInit () {
      bShepherd.regGattDefs('characteristic', [
@@ -28,6 +30,7 @@ function appInit () {
 
 function bleApp () {
     bShepherd.on('IND', function(msg) {
+        // console.log(msg);
         switch (msg.type) {
             case 'DEV_INCOMING':
                 if (msg.data === '0x9059af0b8159') {
@@ -54,7 +57,19 @@ function bleApp () {
                 break;
         }
     });
+
+    setTimeout(function () {
+        bShepherd.stop(function () {
+            console.log('stop running!');
+            setTimeout(function () {
+                console.log('start running again!');
+                bShepherd.start();
+            }, 8000);
+        });
+    }, 3000);
 }
+
+
 
 
 /*****************************************************
