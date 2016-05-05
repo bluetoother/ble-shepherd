@@ -52,21 +52,22 @@ function bleApp () {
                 console.log('Pause device: ' + msg.data);
                 break;
             case 'ATT_IND':
+                console.log(msg);
                 break;
             case 'PASSKEY_NEED':
                 break;
         }
     });
 
-    setTimeout(function () {
-        bShepherd.stop(function () {
-            console.log('stop running!');
-            setTimeout(function () {
-                console.log('start running again!');
-                bShepherd.start();
-            }, 8000);
-        });
-    }, 3000);
+    // setTimeout(function () {
+    //     bShepherd.stop(function () {
+    //         console.log('stop running!');
+    //         setTimeout(function () {
+    //             console.log('start running again!');
+    //             bShepherd.start(null, spCfg);
+    //         }, 8000);
+    //     });
+    // }, 3000);
 }
 
 
