@@ -1,7 +1,7 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/csr8510/ble-shepherd'),
+var bShepherd = require('../lib/cc254x/ble-shepherd'),
     spCfg = {
         path: '/dev/ttyACM0',
         options: {
@@ -16,7 +16,7 @@ var sensorTag, keyFob,
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(bleApp/*, spCfg*/, function () {
+bShepherd.start(bleApp, spCfg, function () {
     console.log('starting over');
 });
 
@@ -30,7 +30,6 @@ function appInit () {
 
 function bleApp () {
     bShepherd.on('IND', function(msg) {
-        // console.log(msg);
         switch (msg.type) {
             case 'DEV_INCOMING':
                 if (msg.data === '0x9059af0b8159') {
@@ -59,15 +58,26 @@ function bleApp () {
         }
     });
 
-    // setTimeout(function () {
-    //     bShepherd.stop(function () {
-    //         console.log('stop running!');
-    //         setTimeout(function () {
-    //             console.log('start running again!');
-    //             bShepherd.start(null, spCfg);
-    //         }, 8000);
-    //     });
-    // }, 3000);
+/*setInterval(function () {
+    console.log('hi');
+}, 1000);*/
+
+    setTimeout(function () {
+        // bShepherd.stop(function () {
+        //     console.log('stop running!');
+        //     setTimeout(function () {
+        //         console.log('start running again!');
+        //         bShepherd.start(null, spCfg);
+        //     }, 8000);
+        // });
+        bShepherd.reset(function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('reset success');
+            }
+        });
+    }, 3000);
 }
 
 
