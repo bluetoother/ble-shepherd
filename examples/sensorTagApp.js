@@ -58,18 +58,21 @@ function bleApp () {
         }
     });
 
-/*setInterval(function () {
+setInterval(function () {
     console.log('hi');
-}, 1000);*/
+}, 1000);
 
     setTimeout(function () {
-        // bShepherd.stop(function () {
-        //     console.log('stop running!');
-        //     setTimeout(function () {
-        //         console.log('start running again!');
-        //         bShepherd.start(null, spCfg);
-        //     }, 8000);
-        // });
+    /*    bShepherd.stop(function (err) {
+            if (err)
+                return;
+
+            console.log('stop running!');
+            setTimeout(function () {
+                console.log('start running again!');
+                bShepherd.start(null, spCfg);
+            }, 1000);
+        });*/
         bShepherd.reset(function (err) {
             if (err) {
                 console.log(err);
@@ -178,6 +181,7 @@ function keyFobSimpleKey (keyFob, value) {
 
     keyFob.setNotify('0xffe0', '0xffe1', config, function (err) {
         if (err) {
+            console.log('**************')
             console.log(err);
         } else {
             console.log('keyFob SimpleKey set to ' + config);
