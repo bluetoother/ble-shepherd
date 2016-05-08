@@ -16,9 +16,7 @@ var sensorTag, keyFob,
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(bleApp, spCfg, function () {
-    console.log('starting over');
-});
+bShepherd.start(bleApp, spCfg, function () {});
 
 function appInit () {
      bShepherd.regGattDefs('characteristic', [
@@ -57,30 +55,6 @@ function bleApp () {
                 break;
         }
     });
-
-setInterval(function () {
-    console.log('hi');
-}, 1000);
-
-    setTimeout(function () {
-    /*    bShepherd.stop(function (err) {
-            if (err)
-                return;
-
-            console.log('stop running!');
-            setTimeout(function () {
-                console.log('start running again!');
-                bShepherd.start(null, spCfg);
-            }, 1000);
-        });*/
-        bShepherd.reset(function (err) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('reset success');
-            }
-        });
-    }, 3000);
 }
 
 
@@ -181,7 +155,6 @@ function keyFobSimpleKey (keyFob, value) {
 
     keyFob.setNotify('0xffe0', '0xffe1', config, function (err) {
         if (err) {
-            console.log('**************')
             console.log(err);
         } else {
             console.log('keyFob SimpleKey set to ' + config);
