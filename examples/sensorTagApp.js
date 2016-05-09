@@ -1,7 +1,7 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/cc254x/ble-shepherd'),
+var bShepherd = require('../lib/csr8510/ble-shepherd'),
     spCfg = {
         path: '/dev/ttyACM0',
         options: {
@@ -16,7 +16,7 @@ var sensorTag, keyFob,
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(bleApp, spCfg, function () {});
+bShepherd.start(bleApp/*, spCfg*/, function () {});
 
 function appInit () {
      bShepherd.regGattDefs('characteristic', [
@@ -38,6 +38,8 @@ function bleApp () {
                     sensorTag.regCharHdlr('0xaa50', '0xaa51', callbackGyroscope);
                 } else if (msg.data === '0x544a165e1f53') { //0x9059af0b7722
                     keyFob = bShepherd.find('0x544a165e1f53');
+
+    console.log(keyFob.servs['0x180a'].chars['0x2a29'].val.manufacturerName);
 
                     keyFob.regCharHdlr('0xffe0', '0xffe1', callbackSimpleKey);
                     keyFobSimpleKey(keyFob, 1);
