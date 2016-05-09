@@ -1,6 +1,5 @@
 //TODO, update()
-var _ = require('lodash'),
-    should = require('should'),
+var should = require('should'),
     shouldP = require('should-promised'),
     ccBnp = require('cc-bnp'),
     Secmdl = require('../../lib/cc254x/management/secmdl'),

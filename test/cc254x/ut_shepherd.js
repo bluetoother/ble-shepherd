@@ -1,5 +1,4 @@
-var _ = require('lodash'),
-    should = require('should'),
+var should = require('should'),
     shouldd = require('should-promised'),
     ccBnp = require('cc-bnp'),
     fs = require('fs'),
