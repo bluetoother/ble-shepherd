@@ -39,8 +39,6 @@ function bleApp () {
                 } else if (msg.data === '0x544a165e1f53') { //0x9059af0b7722
                     keyFob = bShepherd.find('0x544a165e1f53');
 
-    console.log(keyFob.servs['0x180a'].chars['0x2a29'].val.manufacturerName);
-
                     keyFob.regCharHdlr('0xffe0', '0xffe1', callbackSimpleKey);
                     keyFobSimpleKey(keyFob, 1);
                 }
@@ -56,6 +54,15 @@ function bleApp () {
             case 'PASSKEY_NEED':
                 break;
         }
+    });
+
+    bShepherd.reset(function () {
+        // setTimeout(function () {
+        //     bShepherd.start(function () {},function () {
+        //         console.log('done!');
+        //     });
+        // }, 1000);
+        
     });
 }
 
