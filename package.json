@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "async-kit": "^0.6.8",
+    "ble-char-packet": "0.0.2",
     "cc-bnp": "^0.1.1",
     "concentrate": "^0.2.3",
     "dissolve-chunks": "^1.0.1",
