@@ -1,7 +1,7 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/cc254x/ble-shepherd'),
+var bShepherd = require('../lib/csr8510/ble-shepherd'),
     spCfg = {
         path: '/dev/ttyACM0',
         options: {
@@ -16,7 +16,7 @@ var sensorTag, keyFob,
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(bleApp, spCfg, function () {});
+bShepherd.start(bleApp/*, spCfg*/, function () {});
 
 function appInit () {
      bShepherd.regGattDefs('characteristic', [
@@ -41,8 +41,9 @@ function bleApp () {
 
                     keyFob.regCharHdlr('0xffe0', '0xffe1', callbackSimpleKey);
                     keyFobSimpleKey(keyFob, 1);
-                } else if (msg.data === '0x5c313e2bfb34') {
-                    bShepherd.find('0x5c313e2bfb34').write('0xbb10', '0xbb12', new Buffer([1]));
+                } else if (msg.data === '0xd05fb820cc84') {
+                    console.log(bShepherd.find('0xd05fb820cc84'))
+                    bShepherd.find('0xd05fb820cc84').write('0xbb80', '0xcc0a', {"flags":8,"onOff":true,"appType":"WeatherStation"});
                 }
                 break;
             case 'DEV_LEAVING':
@@ -58,8 +59,6 @@ function bleApp () {
         }
     });
 }
-
-
 
 
 /*****************************************************
