@@ -1,129 +1,35 @@
-{"id":"5c313e2bfb08","address":"5c:31:3e:2b:fb:08","addressType":"public","advertisement":{"localName":"WeatherStation","txPowerLevel":0,"serviceData":[],"serviceUuids":[]},"rssi":-59,"services":["1800","1801","180a","bb00","bb10","bb80"],"_id":"66ZfnJ6bht4lJkrE"}
-{"owner":"5c313e2bfb08","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"33VFva9nPFECzo8V"}
-{"owner":"5c313e2bfb08","uuid":"1801","chars":["2a05"],"_id":"nCKsd8ipByZQXIE0"}
-{"owner":"5c313e2bfb08","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"kDcDGwTwcFH1V88r"}
-{"owner":"5c313e2bfb08","uuid":"bb00","chars":["cc00"],"_id":"fHOWN9iCtVKVbw8E"}
-{"owner":"5c313e2bfb08","uuid":"bb10","chars":["cc02","cc0a","bb11"],"_id":"YaJeCR5vnMuX2aJO"}
-{"owner":"5c313e2bfb08","uuid":"bb80","chars":["cc11","cc07","cc08","cc05","cc04","cc1a","cc0a","bb81"],"_id":"chOLczlyWjstdSdm"}
-{"ancestor":"5c313e2bfb08","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"Weather Station"},"_id":"PL8WyymkBOe6nzDN"}
-{"ancestor":"5c313e2bfb08","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"lps5Z7qWlzT6liOt"}
-{"ancestor":"5c313e2bfb08","owner":"1800","uuid":"2a02","properties":["read","write"],"value":{"flag":false},"_id":"Ss0GRAo8x2fMXFp8"}
-{"ancestor":"5c313e2bfb08","owner":"1800","uuid":"2a03","properties":["write"],"value":null,"_id":"6pqDy1hkqkD8BVNR"}
-{"ancestor":"5c313e2bfb08","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"3BT3XVIGhDZEeFQz"}
-{"ancestor":"5c313e2bfb08","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"Dn3ZfURkMwcGmCcJ"}
-{"ancestor":"5c313e2bfb08","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x00002bfb08","organizationallyUID":"0x5c313e"},"_id":"gFOfSFmcGseAzSlL"}
-{"ancestor":"5c313e2bfb08","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"WeatherStation"},"_id":"r54K09g1cptcF4w0"}
-{"ancestor":"5c313e2bfb08","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"2016-05-17-01"},"_id":"P2AJIHXqr9Q5Hhjw"}
-{"ancestor":"5c313e2bfb08","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"v1.0.0"},"_id":"NsDW2lfyD7fTbRjo"}
-{"ancestor":"5c313e2bfb08","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"v1.0.0"},"_id":"02QAFzk4RpAsM49T"}
-{"ancestor":"5c313e2bfb08","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"v1.0.0"},"_id":"CPNIAEt36Tjt8Glm"}
-{"ancestor":"5c313e2bfb08","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"sivann"},"_id":"LgfjU43uSKRTuTV7"}
-{"ancestor":"5c313e2bfb08","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"0":254,"1":0,"2":101,"3":120,"4":112,"5":101,"6":114,"7":105,"8":109,"9":101,"10":110,"11":116,"12":97,"13":108},"_id":"87Kh8uVYnyJP9qZQ"}
-{"ancestor":"5c313e2bfb08","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"dL5xpyBqd7rPm25H"}
-{"ancestor":"5c313e2bfb08","owner":"bb00","uuid":"cc00","properties":["read","notify"],"value":{"flags":0,"dInState":false},"_id":"d0dEUMqiiVvc6hJD"}
-{"ancestor":"5c313e2bfb08","owner":"bb10","uuid":"cc02","properties":["read","notify"],"value":{"flags":64,"aInCurrValue":0,"sensorType":"Voltage mV"},"_id":"UFkC3jWE5h8cwIuf"}
-{"ancestor":"5c313e2bfb08","owner":"bb10","uuid":"cc0a","properties":["read","write"],"value":{"flags":8,"onOff":false,"appType":"VoltageMeas"},"_id":"IOiMc8vi0MMMtNk4"}
-{"ancestor":"5c313e2bfb08","owner":"bb10","uuid":"bb11","properties":["read","write"],"value":{"0":200},"_id":"r55u9Qrj6XSloMgZ"}
-{"ancestor":"5c313e2bfb08","owner":"bb80","uuid":"cc11","properties":["read","notify"],"value":{"flags":1,"sensorValue":0,"units":"hPa"},"_id":"pAmUrnPf56Tu5mzv"}
-{"ancestor":"5c313e2bfb08","owner":"bb80","uuid":"cc07","properties":["read","notify"],"value":{"flags":1,"sensorValue":0,"units":"0.01C"},"_id":"Toy9mOokJ0Tf8D2i"}
-{"ancestor":"5c313e2bfb08","owner":"bb80","uuid":"cc08","properties":["read","notify"],"value":{"flags":1,"sensorValue":0,"units":"0.01%RH"},"_id":"93H7YFzuC1kJ7xOI"}
-{"ancestor":"5c313e2bfb08","owner":"bb80","uuid":"cc05","properties":["read","notify"],"value":{"flags":1,"sensorValue":0,"units":"lux"},"_id":"3jeBPltiPmmwCEF7"}
-{"ancestor":"5c313e2bfb08","owner":"bb80","uuid":"cc04","properties":["read","notify"],"value":{"flags":129,"sensorValue":0,"units":"ppm","sensorType":"MQ7"},"_id":"MbZAkwYZ7joZvr2O"}
-{"ancestor":"5c313e2bfb08","owner":"bb80","uuid":"cc1a","properties":["read","notify"],"value":{"flags":1,"sensorValue":0,"units":"dB-SPL"},"_id":"2AmPihpMTqKNZjvm"}
-{"ancestor":"5c313e2bfb08","owner":"bb80","uuid":"cc0a","properties":["read","write"],"value":{"flags":8,"onOff":false,"appType":"WeatherStation"},"_id":"7eqECYDkgJ7ctmn5"}
-{"ancestor":"5c313e2bfb08","owner":"bb80","uuid":"bb81","properties":["read","write"],"value":{"0":200},"_id":"9wgaropgdtkOSZHh"}
-{"id":"5c313e2bfb34","address":"5c:31:3e:2b:fb:34","addressType":"public","advertisement":{"localName":"GasShtSensor","txPowerLevel":0,"serviceData":[],"serviceUuids":[]},"rssi":-52,"services":["1800","1801","180a","bb00","bb10","bb50","bb60"],"_id":"ouSd1ogaxmqAgbci"}
-{"owner":"5c313e2bfb34","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"C6t295oaPJc2KUSy"}
-{"owner":"5c313e2bfb34","uuid":"1801","chars":["2a05"],"_id":"o5ECOVEin9FamJD9"}
-{"owner":"5c313e2bfb34","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"uOACl6W3Mpz9Zbnm"}
-{"owner":"5c313e2bfb34","uuid":"bb00","chars":["cc00"],"_id":"DAvaUSdz2w4QwXhm"}
-{"owner":"5c313e2bfb34","uuid":"bb10","chars":["cc02","cc0a","bb11"],"_id":"uSdjgpe2smqV5gL4"}
-{"owner":"5c313e2bfb34","uuid":"bb50","chars":["cc07","cc08","cc04","cc0a","bb51"],"_id":"yZcOjtNcKCrCGLzg"}
-{"owner":"5c313e2bfb34","uuid":"bb60","chars":["cc28"],"_id":"Qag5Qrxtc2iAq89h"}
-{"ancestor":"5c313e2bfb34","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"Gas Sht Sensor"},"_id":"SJ2EJLRmSluNzxZM"}
-{"ancestor":"5c313e2bfb34","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"aXf8m7HWOwr8Ywhm"}
-{"ancestor":"5c313e2bfb34","owner":"1800","uuid":"2a02","properties":["read","write"],"value":{"flag":false},"_id":"Qrp0Ru0Blc3iWUhb"}
-{"ancestor":"5c313e2bfb34","owner":"1800","uuid":"2a03","properties":["write"],"value":null,"_id":"W18vvFeGOdNjXIh6"}
-{"ancestor":"5c313e2bfb34","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"Nbm3Cj3RGiaxjHRk"}
-{"ancestor":"5c313e2bfb34","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"NLPNgzl064jt0Eyf"}
-{"ancestor":"5c313e2bfb34","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x00002bfb34","organizationallyUID":"0x5c313e"},"_id":"rdRXte8jfamHNpKF"}
-{"ancestor":"5c313e2bfb34","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"GasShtSensor"},"_id":"xuILjVLhOr4oXGpD"}
-{"ancestor":"5c313e2bfb34","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"2016-05-18-01"},"_id":"cAXrxNeWJ50Vqdah"}
-{"ancestor":"5c313e2bfb34","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"v1.0.0"},"_id":"cZOTZ6dSHWHdmiSO"}
-{"ancestor":"5c313e2bfb34","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"v1.0.0"},"_id":"zxJ3XMcrvbHoHdBs"}
-{"ancestor":"5c313e2bfb34","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"v1.0.0"},"_id":"o4lQXckCCMx9xUYD"}
-{"ancestor":"5c313e2bfb34","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"sivann"},"_id":"UJGMEjtt2zyl7lZV"}
-{"ancestor":"5c313e2bfb34","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"0":254,"1":0,"2":101,"3":120,"4":112,"5":101,"6":114,"7":105,"8":109,"9":101,"10":110,"11":116,"12":97,"13":108},"_id":"DD9GS7pJ0U3aDo0V"}
-{"ancestor":"5c313e2bfb34","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"NNkC1twSoOcIQ5UJ"}
-{"ancestor":"5c313e2bfb34","owner":"bb00","uuid":"cc00","properties":["read","notify"],"value":{"flags":0,"dInState":false},"_id":"P2Wa3o0OHVoRE0U8"}
-{"ancestor":"5c313e2bfb34","owner":"bb10","uuid":"cc02","properties":["read","notify"],"value":{"flags":64,"aInCurrValue":0,"sensorType":"Voltage mV"},"_id":"efNp9oeiSbazUtrj"}
-{"ancestor":"5c313e2bfb34","owner":"bb10","uuid":"cc0a","properties":["read","write"],"value":{"flags":8,"onOff":false,"appType":"VoltageMeas"},"_id":"6krjzNsAcsXzlHNn"}
-{"ancestor":"5c313e2bfb34","owner":"bb10","uuid":"bb11","properties":["read","write"],"value":{"0":200},"_id":"sjZUHXVZFzesJ698"}
-{"ancestor":"5c313e2bfb34","owner":"bb50","uuid":"cc07","properties":["read","notify"],"value":{"flags":1,"sensorValue":0,"units":"0.01C"},"_id":"UZAbIBO4Opab18jW"}
-{"ancestor":"5c313e2bfb34","owner":"bb50","uuid":"cc08","properties":["read","notify"],"value":{"flags":1,"sensorValue":0,"units":"0.01%RH"},"_id":"AtVxNnqtd9jIpkqz"}
-{"ancestor":"5c313e2bfb34","owner":"bb50","uuid":"cc04","properties":["read","notify"],"value":{"flags":129,"sensorValue":0,"units":"ppm","sensorType":"MQ2"},"_id":"rPhqI52BfC6jyPJv"}
-{"ancestor":"5c313e2bfb34","owner":"bb50","uuid":"cc0a","properties":["read","write"],"value":{"flags":8,"onOff":false,"appType":"GasShtSensor"},"_id":"eM266jj2L7eugSoq"}
-{"ancestor":"5c313e2bfb34","owner":"bb50","uuid":"bb51","properties":["read","write"],"value":{"0":200},"_id":"AWITSwF0DUnBgYKS"}
-{"ancestor":"5c313e2bfb34","owner":"bb60","uuid":"cc28","properties":["read","write","notify"],"value":{"flags":0,"onOff":false,"minOffTime":0},"_id":"4kWc4znJ3cNNbMF2"}
-{"id":"d05fb820cc84","address":"d0:5f:b8:20:cc:84","addressType":"public","advertisement":{"localName":"RelayModule","txPowerLevel":0,"serviceData":[],"serviceUuids":[]},"rssi":-62,"services":["1800","1801","180a","bb00","bb10","bb30","bb40"],"_id":"FglIytMIOsxluZkE"}
-{"owner":"d05fb820cc84","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"5yq4qBs8KdCqHG8M"}
-{"owner":"d05fb820cc84","uuid":"1801","chars":["2a05"],"_id":"toAJg3Je2d4kSY0W"}
-{"owner":"d05fb820cc84","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"uinf0V2xywo6ALVE"}
-{"owner":"d05fb820cc84","uuid":"bb00","chars":["cc00"],"_id":"Km9AUu7zhKCblEap"}
-{"owner":"d05fb820cc84","uuid":"bb10","chars":["cc02","cc0a","bb11"],"_id":"8aJEs2X4sFY0DaRN"}
-{"owner":"d05fb820cc84","uuid":"bb30","chars":["cc1e","cc13","cc0a","bb31"],"_id":"fLRl0lh0CUsz6i9c"}
-{"owner":"d05fb820cc84","uuid":"bb40","chars":["cc0e"],"_id":"Qeh3yEORxTVAdNQK"}
-{"ancestor":"d05fb820cc84","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"Relay Module"},"_id":"dajcdUT1nA2c4AhF"}
-{"ancestor":"d05fb820cc84","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"vreDUN4DsQtBsGaY"}
-{"ancestor":"d05fb820cc84","owner":"1800","uuid":"2a02","properties":["read","write"],"value":{"flag":false},"_id":"Xd8YH1dJ9LnDFqcK"}
-{"ancestor":"d05fb820cc84","owner":"1800","uuid":"2a03","properties":["write"],"value":null,"_id":"lEiOKZ2ByYW5VKoe"}
-{"ancestor":"d05fb820cc84","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"R80VA4pCLIYHYzpm"}
-{"ancestor":"d05fb820cc84","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"5BfvwHmMUo2oBWMM"}
-{"ancestor":"d05fb820cc84","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x000020cc84","organizationallyUID":"0xd05fb8"},"_id":"EBFrhXkhshjPstO7"}
-{"ancestor":"d05fb820cc84","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"WeatherStation"},"_id":"VkWHrBnY8Yl81p5w"}
-{"ancestor":"d05fb820cc84","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"2016-05-17-01"},"_id":"DvlP10DOfbR7wZlD"}
-{"ancestor":"d05fb820cc84","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"v1.0.0"},"_id":"zzpJk8QkHDBYRL5N"}
-{"ancestor":"d05fb820cc84","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"v1.0.0"},"_id":"MjRJZNFJv7N6b7hd"}
-{"ancestor":"d05fb820cc84","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"v1.0.0"},"_id":"X0YDQs0H2B1QR9W9"}
-{"ancestor":"d05fb820cc84","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"sivann"},"_id":"yJTmh4sOoP102pKg"}
-{"ancestor":"d05fb820cc84","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"0":254,"1":0,"2":101,"3":120,"4":112,"5":101,"6":114,"7":105,"8":109,"9":101,"10":110,"11":116,"12":97,"13":108},"_id":"F7KIc8DvmYNQBv4s"}
-{"ancestor":"d05fb820cc84","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"lYRmEoq0ePZZWoSb"}
-{"ancestor":"d05fb820cc84","owner":"bb00","uuid":"cc00","properties":["read","notify"],"value":{"flags":0,"dInState":false},"_id":"bteDgcrYVu71cnYI"}
-{"ancestor":"d05fb820cc84","owner":"bb10","uuid":"cc02","properties":["read","notify"],"value":{"flags":64,"aInCurrValue":0,"sensorType":"Voltage mV"},"_id":"YgNUR9YeC2PjViiZ"}
-{"ancestor":"d05fb820cc84","owner":"bb10","uuid":"cc0a","properties":["read","write"],"value":{"flags":8,"onOff":false,"appType":"VoltageMeas"},"_id":"c3uy9bjtVnhDUbPw"}
-{"ancestor":"d05fb820cc84","owner":"bb10","uuid":"bb11","properties":["read","write"],"value":{"0":200},"_id":"mbKFXPjh5knxYJeu"}
-{"ancestor":"d05fb820cc84","owner":"bb30","uuid":"cc1e","properties":["read","notify"],"value":{"flags":1,"sensorValue":0,"units":"mW"},"_id":"ARE8k8tAuhRhpbHv"}
-{"ancestor":"d05fb820cc84","owner":"bb30","uuid":"cc13","properties":["read","notify"],"value":{"flags":1,"sensorValue":0,"units":"mA"},"_id":"iK2tHiZGFDWhZsMe"}
-{"ancestor":"d05fb820cc84","owner":"bb30","uuid":"cc0a","properties":["read","write"],"value":{"flags":8,"onOff":false,"appType":"RelayModule"},"_id":"ROHPPi4ZSSX6DW9O"}
-{"ancestor":"d05fb820cc84","owner":"bb30","uuid":"bb31","properties":["read","write"],"value":{"0":200},"_id":"vMfFTVoghh5nhwkL"}
-{"ancestor":"d05fb820cc84","owner":"bb40","uuid":"cc0e","properties":["read","write","notify"],"value":{"flags":0,"onOff":false},"_id":"hR4aZc3Ana8CTxtg"}
-{"ancestor":"5c313e2bfb34","owner":"bb00","uuid":"cc00","properties":["read","notify"],"value":{"flags":0,"dInState":true},"_id":"P2Wa3o0OHVoRE0U8"}
-{"ancestor":"d05fb820cc84","owner":"bb40","uuid":"cc0e","properties":["read","write","notify"],"value":{"flags":0,"onOff":true},"_id":"hR4aZc3Ana8CTxtg"}
-{"id":"d05fb820e4eb","address":"d0:5f:b8:20:e4:eb","addressType":"public","advertisement":{"localName":"RemoteControl","txPowerLevel":0,"serviceData":[],"serviceUuids":[]},"rssi":-53,"services":["1800","1801","180a","bb00","bb10","bb70"],"_id":"nUPhHjvSyjv0p53H"}
-{"owner":"d05fb820e4eb","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"BHPm8vQRM8WAeJwV"}
-{"owner":"d05fb820e4eb","uuid":"1801","chars":["2a05"],"_id":"j3vSPsWj0hCw5InU"}
-{"owner":"d05fb820e4eb","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"5B5OYZaSgmqSV6qJ"}
-{"owner":"d05fb820e4eb","uuid":"bb00","chars":["cc00"],"_id":"66hQtkkBmarS1zb7"}
-{"owner":"d05fb820e4eb","uuid":"bb10","chars":["cc02","cc0a","bb11"],"_id":"g7IrRB8yNUajglhj"}
-{"owner":"d05fb820e4eb","uuid":"bb70","chars":["cc32"],"_id":"TnrEMPTRh2rMdjMC"}
-{"ancestor":"d05fb820e4eb","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"Remote Control"},"_id":"1SIohG0C2Cl5xtgK"}
-{"ancestor":"d05fb820e4eb","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"kT7cUhbMUiEyz4Lh"}
-{"ancestor":"d05fb820e4eb","owner":"1800","uuid":"2a02","properties":["read","write"],"value":{"flag":false},"_id":"8Upgufmx7b0NT9Zk"}
-{"ancestor":"d05fb820e4eb","owner":"1800","uuid":"2a03","properties":["write"],"value":null,"_id":"z0UzVQIf2CsXOlJL"}
-{"ancestor":"d05fb820e4eb","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"ljr7A1fVuOGWyHCY"}
-{"ancestor":"d05fb820e4eb","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"kVfb3L6OB9YFEGHs"}
-{"ancestor":"d05fb820e4eb","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x000020e4eb","organizationallyUID":"0xd05fb8"},"_id":"8LWxcNdopNmfJzUJ"}
-{"ancestor":"d05fb820e4eb","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"RemoteControl"},"_id":"RWzFpQikuRjDKloG"}
-{"ancestor":"d05fb820e4eb","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"2016-05-19-01"},"_id":"e5rUBE3KVDqFKz0x"}
-{"ancestor":"d05fb820e4eb","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"v1.0.0"},"_id":"oW7xxVUY5UZwOiD0"}
-{"ancestor":"d05fb820e4eb","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"v1.0.0"},"_id":"sQxaSWw6J3EgdagO"}
-{"ancestor":"d05fb820e4eb","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"v1.0.0"},"_id":"fJ2cfQ0FEaUA2rfY"}
-{"ancestor":"d05fb820e4eb","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"sivann"},"_id":"U1sjeYRrHSpfIElv"}
-{"ancestor":"d05fb820e4eb","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"0":254,"1":0,"2":101,"3":120,"4":112,"5":101,"6":114,"7":105,"8":109,"9":101,"10":110,"11":116,"12":97,"13":108},"_id":"MZkXqgkGseU3VZFW"}
-{"ancestor":"d05fb820e4eb","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"M7XU5T7gdsO7N8MU"}
-{"ancestor":"d05fb820e4eb","owner":"bb00","uuid":"cc00","properties":["read","notify"],"value":{"flags":0,"dInState":false},"_id":"B7kaHJ4T65HR4fsj"}
-{"ancestor":"d05fb820e4eb","owner":"bb10","uuid":"cc02","properties":["read","notify"],"value":{"flags":64,"aInCurrValue":0,"sensorType":"Voltage mV"},"_id":"0gdCMqrEGXP7Iolf"}
-{"ancestor":"d05fb820e4eb","owner":"bb10","uuid":"cc0a","properties":["read","write"],"value":{"flags":8,"onOff":false,"appType":"VoltageMeas"},"_id":"O6nGN6YWrwHWLPfZ"}
-{"ancestor":"d05fb820e4eb","owner":"bb10","uuid":"bb11","properties":["read","write"],"value":{"0":200},"_id":"MsozoHM70AqEkrSz"}
-{"ancestor":"d05fb820e4eb","owner":"bb70","uuid":"cc32","properties":["notify"],"value":null,"_id":"6DAovMReU3VQogNW"}
-{"ancestor":"5c313e2bfb34","owner":"bb00","uuid":"cc00","properties":["read","notify"],"value":{"flags":0,"dInState":false},"_id":"P2Wa3o0OHVoRE0U8"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa4","properties":["notify"],"value":null,"_id":"00k72No4Dv937Ih0"}
+{"owner":"544a165e1f53","uuid":"ffe0","chars":["ffe1"],"_id":"0BqKsJTANOD45fU7"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a26","properties":["read"],"value":{"firmwareRev":"Firmware Revision"},"_id":"0UDt8WSdRNZ1209v"}
+{"owner":"544a165e1f53","uuid":"1801","chars":["2a05"],"_id":"1JKlYhcqU0pp8Mk4"}
+{"owner":"544a165e1f53","uuid":"1803","chars":["2a06"],"_id":"6KlRV1RTXZHo4fe4"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa5","properties":["notify"],"value":null,"_id":"6N6on5TO6UjAVoVY"}
+{"owner":"544a165e1f53","uuid":"ffa0","chars":["ffa1","ffa2","ffa3","ffa4","ffa5"],"_id":"BlPEGBq6JcTmwChG"}
+{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a02","properties":["read","write"],"value":{"flag":true},"_id":"GrqE1vzscjmYE7DH"}
+{"ancestor":"544a165e1f53","owner":"180f","uuid":"2a19","properties":["read","notify"],"value":{"level":21},"_id":"JVzde0a2GtJE0Ci3"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a28","properties":["read"],"value":{"softwareRev":"Software Revision"},"_id":"KHhyx15zHeikfjH8"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa2","properties":["read"],"value":{"0":20,"1":0},"_id":"LyISWDI3q4LMpST1"}
+{"owner":"544a165e1f53","uuid":"1800","chars":["2a00","2a01","2a02","2a03","2a04"],"_id":"NMjZkD1nhyHvOakn"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a23","properties":["read"],"value":{"manufacturerID":"0x00005e1f53","organizationallyUID":"0x544a16"},"_id":"Nwd2oUUvzCLGySFf"}
+{"ancestor":"544a165e1f53","owner":"1804","uuid":"2a07","properties":["read","notify"],"value":{"txPower":-6},"_id":"Ootm9GstPE10cgXx"}
+{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a04","properties":["read"],"value":{"minConnInterval":80,"maxConnInterval":160,"latency":0,"timeout":1000},"_id":"QsDjS49yIjjlDDUt"}
+{"id":"544a165e1f53","address":"54:4a:16:5e:1f:53","addressType":"public","advertisement":{"localName":"Keyfobdemo","serviceData":[],"serviceUuids":["1803","1802","1804"]},"rssi":-65,"services":["1800","1801","180a","1803","1802","1804","180f","ffa0","ffe0"],"_id":"RW9uZIYYrAczMhAd"}
+{"ancestor":"544a165e1f53","owner":"ffe0","uuid":"ffe1","properties":["notify"],"value":{"enable":0},"_id":"T72filVIBwbwHyz2"}
+{"owner":"544a165e1f53","uuid":"180f","chars":["2a19"],"_id":"TtN70ENIPwaJE2z7"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa3","properties":["notify"],"value":null,"_id":"UFTgZjvkMM1jWdoA"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a2a","properties":["read"],"value":{"0":254,"1":0,"2":101,"3":120,"4":112,"5":101,"6":114,"7":105,"8":109,"9":101,"10":110,"11":116,"12":97,"13":108},"_id":"UUliU80zDtvq039i"}
+{"ancestor":"544a165e1f53","owner":"ffa0","uuid":"ffa1","properties":["read","write"],"value":{"0":0},"_id":"YONMrQJ8K8yIgQSW"}
+{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a03","properties":["read","write"],"value":{"addr":"0x000000000000"},"_id":"c4FprpTHvtVRHy5Z"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a25","properties":["read"],"value":{"serialNum":"Serial Number"},"_id":"c5P8IL86jk27W86O"}
+{"owner":"544a165e1f53","uuid":"180a","chars":["2a23","2a24","2a25","2a26","2a27","2a28","2a29","2a2a","2a50"],"_id":"c9793pmLfnnwRpTq"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a24","properties":["read"],"value":{"modelNum":"Model Number"},"_id":"cKouEdppadU5XVzG"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a27","properties":["read"],"value":{"hardwareRev":"Hardware Revision"},"_id":"dTr63gXtUb4K08GK"}
+{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a00","properties":["read"],"value":{"name":"TI BLE Keyfob"},"_id":"e5Tf4GF7c8olTWaQ"}
+{"ancestor":"544a165e1f53","owner":"1800","uuid":"2a01","properties":["read"],"value":{"category":0},"_id":"j9Rbn9alqVJBzV2Q"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a29","properties":["read"],"value":{"manufacturerName":"Manufacturer Name"},"_id":"jIrJmp4PSW3jvppd"}
+{"owner":"544a165e1f53","uuid":"1802","chars":["2a06"],"_id":"jedbMpTfcvK5wMqf"}
+{"ancestor":"544a165e1f53","owner":"1801","uuid":"2a05","properties":["indicate"],"value":null,"_id":"keqDHCmEM2FxCpm9"}
+{"ancestor":"544a165e1f53","owner":"1802","uuid":"2a06","properties":["writeWithoutResponse"],"value":null,"_id":"lPnMi660qHxwfiap"}
+{"ancestor":"544a165e1f53","owner":"180a","uuid":"2a50","properties":["read"],"value":{"vendorIDSource":1,"vendorID":13,"productID":0,"productVersion":272},"_id":"rpw0NyiqwrzAlQ1y"}
+{"owner":"544a165e1f53","uuid":"1804","chars":["2a07"],"_id":"uldBnt8DSPipG0I0"}
+{"ancestor":"544a165e1f53","owner":"1803","uuid":"2a06","properties":["read","write"],"value":{"alertLevel":0},"_id":"zT4Xo0wkpE2CmU7w"}

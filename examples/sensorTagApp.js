@@ -1,9 +1,9 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/csr8510/ble-shepherd'),
+var bShepherd = require('../lib/cc254x/ble-shepherd'),
     spCfg = {
-        path: '/dev/ttyACM0',
+        path: '/dev/ttyACM1',
         options: {
             baudRate: 115200,
             rtscts: true,
@@ -16,7 +16,7 @@ var sensorTag, keyFob,
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(bleApp/*, spCfg*/, function () {});
+bShepherd.start(bleApp, spCfg, function () {});
 
 function appInit () {
      bShepherd.regGattDefs('characteristic', [

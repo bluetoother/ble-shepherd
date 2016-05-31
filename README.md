@@ -48,7 +48,7 @@ peripheral.write('0x1800', '0x2a02', { flag: false }, function (err) {
 With **ble-shepherd**, you can get rid of such networking things and focus on your application logics. It opens another way of implementing IoT applications with BLE devices. With node.js, you can build your own application console(or dashboard) and design your own RESTful APIs in seconds. It's easy to make your BLE devices happy on the cloud.  
   
 **Note**:  
-At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/hedywings/ccBnp) and [noble]() libraries. They are targeting on TI [CC254X BLE Network Processor](http://processors.wiki.ti.com/index.php/CC254X_WITH_EXT_MCU#Network_Processor) and CSR8510 BLE4.0 USB adapter, respectively. This project may support TI [CC264X](http://processors.wiki.ti.com/index.php/CC2640_BLE_Network_Processor) in the near future (if I can get the development tools). Please let me know if you have any suggestions about the BLE SoC solutions.  
+At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/hedywings/ccBnp) and [noble](https://github.com/hedywings/noble) libraries. They are targeting on TI [CC254X BLE Network Processor](http://processors.wiki.ti.com/index.php/CC254X_WITH_EXT_MCU#Network_Processor) and CSR8510 BLE4.0 USB adapter, respectively. This project may support TI [CC264X](http://processors.wiki.ti.com/index.php/CC2640_BLE_Network_Processor) in the near future (if I can get the development tools). Please let me know if you have any suggestions about the BLE SoC solutions.  
 
 <br />
 
@@ -79,7 +79,7 @@ Firstly, set up your serial-port configuration to connect to BNP. Next, call met
   
   
 ```javascript
-var central = require('ble-shepherd')('cc254x');
+var central = require('ble-shepherd')('cc-bnp');
 var spCfg = {
         path: '/dev/ttyUSB0',
         options: {
@@ -109,9 +109,11 @@ function app() {
 ## 2. APIs and Events
 
 ####1. Control the Network 
->**central** is a singleton exported by `require('ble-shepherd')(chipName)`, where `chipName` can be either a string of `'cc254x'` or `'csr8510'` to specify the chip.  
+>**central** is a singleton exported by `require('ble-shepherd')(submodule)`, where `subModule` can be either a string of `'cc-bnp'` or `'noble'` to specify the submodule.  
 
 * [central.start()](#API_start)
+* [central.stop()](#API_stop)
+* [central.reset()](#API_reset)
 * [central.setNwkParams()](#API_setNwkParams)
 * [central.permitJoin()](#API_permitJoin)
 * [central.command()](#API_command)
@@ -136,11 +138,13 @@ function app() {
 * [peripheral.write()](#API_write)
 * [peripheral.regCharHdlr()](#API_regCharHdlr)
 
-Some methods are not supported for CSR8510, they are listed in this table. (X: unsupported)
+Some methods are not supported for noble submodule, they are listed in this table. (X: unsupported)
 
-| Interface                             | Method            | CC254x BNP      |  CSR8510 dongle |
+| Interface                             | Method            | cc-bnp          |  noble          |
 | --------------------------------------| ------------------| --------------- | --------------- |
 | Control the Network                   | start             | O               | O               |
+|                                       | stop              | O               | O               |
+|                                       | reset             | O               | O               |
 |                                       | setNwkParams      | O               | O               |
 |                                       | permitJoin        | O               | O               |
 |                                       | command           | O               | X               |
@@ -165,13 +169,13 @@ Some methods are not supported for CSR8510, they are listed in this table. (X: u
 *************************************************
 ## BleShepherd Class  
 
-`require('ble-shepherd')(chipName)` exports the singleton of this class. This singleton instance is denoted as `central` in this document.  
+`require('ble-shepherd')(submodule)` exports the singleton of this class. This singleton instance is denoted as `central` in this document.  
 
 <br />
 
 *************************************************
 <a name="API_start"></a>  
-### .start(app[, spCfg])  
+### .start(app[, spCfg][, callback])  
 > Connect to the SoC and start to run the app.  
 
 **Arguments**  
@@ -180,19 +184,20 @@ Some methods are not supported for CSR8510, they are listed in this table. (X: u
 2. `spCfg` (*Object*): This value-object has two properties `path` and `options` to configure the serial port.  
     - `path`: A string that refers to the serial port system path, e.g., `'/dev/ttyUSB0'`  
     - `options`: An object to set up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The following example shows the `options` with its default value.  
+3. `callback` (*Function*): `function (err) { }`. Get called when start to running.
 
-Note: If you are using the CSR8510 USB adapter, `spCfg` can be ignored.
+Note: If you are using the noble as a submodule, `spCfg` can be ignored.
 
 **Returns**  
 
-- (*Object*): central  
+- (*None*)
 
 **Example**  
 
-* Using CC254X SoC  
+* Using cc-bnp as a submodule
 
 ```javascript
-var central = require('ble-shepherd')('cc254x');
+var central = require('ble-shepherd')('cc-bnp');
 var app,
     spCfg = {
         path: '/dev/ttyUSB0',
@@ -210,15 +215,59 @@ app = function () {
 central.start(app, spCfg);
 ```
 
-* Using CSR8510 SoC  
+* Using noble as a submodule
 
 ```javascript
-var central = require('ble-shepherd')('csr8510');
+var central = require('ble-shepherd')('noble');
 var app = function () {
     // your application
 };
 
 central.start(app); // spCfg is not required
+```
+
+*************************************************
+<a name="API_stop"></a>  
+### .stop([callback])  
+> Disconnect to the SoC and stop to run the app.  
+
+**Arguments**  
+
+1. `callback` (*Function*): `function (err) { }`. Get called when stop to running.
+
+**Returns**  
+
+- (*None*)
+
+**Example**  
+
+```javascript
+central.stop(function (err) {
+    if (err)
+        console.log(err);
+});
+```
+
+*************************************************
+<a name="API_reset"></a>  
+### .reset([callback])  
+> Reset the network.  
+
+**Arguments**  
+
+1. `callback` (*Function*): `function (err) { }`. Get called when reset completes.
+
+**Returns**  
+
+- (*None*)
+
+**Example**  
+
+```javascript
+central.reset(function (err) {
+    if (err)
+        console.log(err);
+});
 ```
 
 *************************************************
@@ -303,7 +352,7 @@ central.permitJoin(60);
 > - [TI's BLE Vendor-Specific HCI Command APIs](https://github.com/hedywings/cc-bnp#vendorHci)
 > - [Vendor-Specific HCI Command Reference Tables](https://github.com/hedywings/cc-bnp#cmdTables)
 
-Note: This API is CC254X only.
+Note: This API is cc-bnp only.
 
 **Arguments**  
 
@@ -391,7 +440,7 @@ central.regGattDefs('characteristic', [
 ### .addLocalServ(servInfo[, callback])  
 > Register a Service to the BLE central.  
  
-Note: This command is CC254X only.
+Note: This command is cc-bnp only.
 
 **Arguments**  
 
@@ -438,7 +487,7 @@ central.addLocalServ(servInfo, function (err, result) {
 >   
 > Event Handler: `function(msg) { }`  
 
- The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `DEV_PAUSE`, `NWK_PERMITJOIN`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
+ The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `DEV_PAUSE`, `NWK_PERMITJOIN`, `ATT_IND`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
 
 - **DEV_ONLINE** 
 
@@ -520,9 +569,30 @@ central.addLocalServ(servInfo, function (err, result) {
 
 <br />
 
+- **ATT_IND**  
+
+    Characteristic value indication or notification.  
+
+    - `msg.type` (*String*): `'ATT_IND'`
+    - `msg.data` (*Number*): This object has fileds of `addr`, `servUuid`, `charUuid`, and `value`.  
+
+    ```js
+    {
+        type: 'ATT_IND',
+        data: {
+            addr: '0x78c5e570796e',
+            servUuid: '0xffe0',
+            charUuid: '0xffe1',
+            value: { enable: 0 }
+        }
+    }
+    ```
+
+<br />
+
 - **PASSKEY_NEED**  
 
-    A connection is requesting for a passkey in encryption process. This event is CC254X only.
+    A connection is requesting for a passkey in encryption process. This event is cc-bnp only.
 
     - `msg.type` (*String*): `'PASSKEY_NEED'`
     - `msg.data` (*Object*): This object has fileds of `devAddr`, `connHandle`, `uiInput`, and `uiOutput`.  
@@ -543,7 +613,7 @@ central.addLocalServ(servInfo, function (err, result) {
 
 - **LOCAL_SERV_ERR**  
 
-    An error occurs while processing an incoming peripheral ATT event. This event is CC254X only.
+    An error occurs while processing an incoming peripheral ATT event. This event is cc-bnp only.
 
     - `msg.type` (*String*): `'LOCAL_SERV_ERR'`
     - `msg.data` (*Object*): This object has fileds of `evtData` and `err`. `evtData` is the request message emitted from a remote peripheral, `err` is an error object describing the reason why this request cannot be processed.  
@@ -688,7 +758,7 @@ peripheral.updateLinkParam(80, 0, 2000, function (err) {
 ###.encrypt([setting][, callback])  
 > Encrypt the connection between central and peripheral. The central will fire an `'IND'` event along with message type `'PASSKEY_NEED'` if it requires a passkey during encryption procedure for MITM protection.  
 
-Note: This command is CC254X only.
+Note: This command is cc-bnp only.
 
 **Arguments**  
 
@@ -736,7 +806,7 @@ peripheral.encrypt(setting, function (err) {
 ###.passPasskey(passkey[, callback])  
 > Send the passkey required by the encryption procedure.  
 
-Note: This command is CC254X only.
+Note: This command is cc-bnp only.
 
 **Arguments**  
 
@@ -1117,7 +1187,7 @@ bleSocket.initialize(server);
 // bleSocket.js
 
 var io = require('socket.io'),
-    central = require('ble-shepherd')('csr8510');
+    central = require('ble-shepherd')('noble');
 
 var connFlag = true,
     bleSocket;
