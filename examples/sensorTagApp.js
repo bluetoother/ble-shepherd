@@ -3,7 +3,7 @@ var Q = require('q'),
 
 var bShepherd = require('../lib/cc254x/ble-shepherd'),
     spCfg = {
-        path: '/dev/ttyACM1',
+        path: '/dev/ttyACM0',
         options: {
             baudRate: 115200,
             rtscts: true,
@@ -58,6 +58,14 @@ function bleApp () {
                 break;
         }
     });
+
+
+    setTimeout(function () {
+        bShepherd.reset(function (err) {
+            console.log(err);
+            console.log('reset success');
+        });
+    }, 3000);
 }
 
 
