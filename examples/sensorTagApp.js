@@ -1,7 +1,7 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/cc254x/ble-shepherd'),
+var bShepherd = require('../lib/csr8510/ble-shepherd'),
     spCfg = {
         path: '/dev/ttyACM0',
         options: {
@@ -11,39 +11,41 @@ var bShepherd = require('../lib/cc254x/ble-shepherd'),
         }
     };
 
+var sensorTagPlg = require('../../bshep-plugins/bshep-plugin-ti-sensortag1'),
+    keyFobPlg = require('../../bshep-plugins/bshep-plugin-ti-keyfob');
+
 var sensorTag, keyFob, 
     sensorTemp = 0, 
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(bleApp, spCfg, function () {});
+bShepherd.start(bleApp/*, spCfg*/, function () {});
 
 function appInit () {
-     bShepherd.regGattDefs('characteristic', [
-        {name: 'KeyPressState', uuid: '0xffe1', params: ['enable'], types: ['uint8']}, 
-        {name: 'Temp', uuid: '0xaa01', params: ['rawT2', 'rawT1'], types: ['uint16', 'uint16']}, 
-        {name: 'Accelerometer', uuid: '0xaa11', params: ['x', 'y', 'z'], types: ['uint8', 'uint8', 'uint8']},
-        {name: 'Gyroscope', uuid: '0xaa51', params: ['x', 'y', 'z'], types: ['uint16', 'uint16', 'uint16']}]);
+    bShepherd.registerPlugin('sensorTag', sensorTagPlg);
+    bShepherd.registerPlugin('keyFob', keyFobPlg);
 }
 
-function bleApp () {
-    bShepherd.on('IND', function(msg) {
+function bleApp (central) {
+    var dev;
+
+    central.permitJoin(60);
+    central.on('IND', function(msg) {
         switch (msg.type) {
             case 'DEV_INCOMING':
-                if (msg.data === '0x9059af0b8159') {
-                    sensorTag = bShepherd.find('0x9059af0b8159');
+                dev = msg.data;
+
+                if (dev.name === 'sensorTag') {
+                    sensorTag = dev;
 
                     sensorTag.regCharHdlr('0xaa00', '0xaa01', callbackTemp);
                     sensorTag.regCharHdlr('0xaa10', '0xaa11', callbackAccelerometer);
                     sensorTag.regCharHdlr('0xaa50', '0xaa51', callbackGyroscope);
-                } else if (msg.data === '0x544a165e1f53') { //0x9059af0b7722
-                    keyFob = bShepherd.find('0x544a165e1f53');
+                } else if (dev.name === 'keyFob') {
+                    keyFob = dev;
 
                     keyFob.regCharHdlr('0xffe0', '0xffe1', callbackSimpleKey);
                     keyFobSimpleKey(keyFob, 1);
-                } else if (msg.data === '0xd05fb820cc84') {
-                    console.log(bShepherd.find('0xd05fb820cc84'))
-                    bShepherd.find('0xd05fb820cc84').write('0xbb80', '0xcc0a', {"flags":8,"onOff":true,"appType":"WeatherStation"});
                 }
                 break;
             case 'DEV_LEAVING':
@@ -52,22 +54,12 @@ function bleApp () {
                 console.log('Pause device: ' + msg.data);
                 break;
             case 'ATT_IND':
-                console.log(msg);
                 break;
             case 'PASSKEY_NEED':
                 break;
         }
     });
-
-
-    setTimeout(function () {
-        bShepherd.reset(function (err) {
-            console.log(err);
-            console.log('reset success');
-        });
-    }, 3000);
 }
-
 
 /*****************************************************
  *    sensorTag   API                                *
@@ -182,7 +174,7 @@ function keyFobAlert (keyFob, value) {
 }
 
 /*****************************************************
- *    callback                                       *
+ *    Characteristic Handlers                        *
  *****************************************************/
 function callbackTemp (data) {
     var rawT1, rawT2, m_tmpAmb, Vobj2, Tdie2,  
@@ -279,3 +271,4 @@ function callbackSimpleKey (data) {
         keyFobAlert(keyFob, 0);
     }
 }
+

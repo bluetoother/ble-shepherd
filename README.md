@@ -117,6 +117,7 @@ function app() {
 * [central.setNwkParams()](#API_setNwkParams)
 * [central.permitJoin()](#API_permitJoin)
 * [central.command()](#API_command)
+* [central.listDevices()](#API_listDevices)
 * [central.find()](#API_find)
 * [central.regGattDefs()](#API_regGattDefs)
 * [central.addLocalServ()](#API_addLocalServ)
@@ -148,6 +149,7 @@ Some methods are not supported for noble submodule, they are listed in this tabl
 |                                       | setNwkParams      | O               | O               |
 |                                       | permitJoin        | O               | O               |
 |                                       | command           | O               | X               |
+|                                       | listDevices       | O               | O               |
 |                                       | find              | O               | O               |
 |                                       | regGattDefs       | O               | O               |
 |                                       | addLocalServ      | O               | X               |
@@ -180,7 +182,7 @@ Some methods are not supported for noble submodule, they are listed in this tabl
 
 **Arguments**  
 
-1. `app` (*Function*): App which will be called after initialization completes.  
+1. `app` (*Function*): `function (central) { }`. App which will be called after initialization completes.  
 2. `spCfg` (*Object*): This value-object has two properties `path` and `options` to configure the serial port.  
     - `path`: A string that refers to the serial port system path, e.g., `'/dev/ttyUSB0'`  
     - `options`: An object to set up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The following example shows the `options` with its default value.  
@@ -376,7 +378,74 @@ Note: This API is cc-bnp only.
             console.log(result);
     });
 ```
-  
+
+*************************************************
+<a name="API_listDevices"></a>  
+###.listDevices()  
+> List records of the Peripheral Devices maintained by central.  
+
+**Arguments**  
+
+1. (*none*)
+
+**Returns**  
+
+- (*Array*): Information of Peripheral Devices. Each record in the array is an object with the properties shown in the following table.  
+
+| Property | Type   | Description                                                                                                                               |
+|----------|--------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| addr     | String | Address of the peripheral device                                                                                                          |
+| addrType | String | Address type of the peripheral device                                                                                                     |
+| state    | String | `online` or `offline` or `idle`                                                                                                           |
+| connHdl  | Numbet | Connection handle. If state is not `online`, it should be null.                                                                           |
+| servList | Object | Service and Characteristic list. Each key in `servList` is the `servUuid` and each value is an array of `charUuid` under the `servUuid`.  |
+
+**Example**  
+
+```javascript
+var devRecords = central.listDevices()
+
+// devRecords equal to 
+// [
+//     {
+//         addr: ''0x544a165e1f53',
+//         addrType: 'public',
+//         state: 'online',
+//         connHdl: 70,
+//         servs: {
+//             '0x1800': [ '0x2a00', '0x2a01', '0x2a02', '0x2a03', '0x2a04' ],
+//             '0x1801': [ '0x2a05' ],
+//             '0x180a': [ '0x2a23', '0x2a24', '0x2a25', '0x2a26', '0x2a27', '0x2a28', '0x2a29', '0x2a2a', '0x2a50' ],
+//             '0x1803': [ '0x2a06' ],
+//             '0x1802': [ '0x2a06' ],
+//             '0x1804': [ '0x2a07' ],
+//             '0x180f': [ '0x2a19' ],
+//             '0xffa0': [ '0xffa1', '0xffa2', '0xffa3', '0xffa4', '0xffa5' ],
+//             '0xffe0': [ '0xffe1' ]
+//         }
+//     },
+//     {
+//         addr: ''0x9059af0b8159',
+//         addrType: 'public',
+//         state: 'online',
+//         connHdl: 65,
+//         servs: {
+//             '0x1800': [ '0x2a00', '0x2a01', '0x2a02', '0x2a03', '0x2a04' ],
+//             '0x1801': [ '0x2a05' ],
+//             '0x180a': [ '0x2a23', '0x2a24', '0x2a25', '0x2a26', '0x2a27', '0x2a28', '0x2a29', '0x2a2a', '0x2a50' ],
+//             '0xaa00': [ '0xaa01', '0xaa02' ],
+//             '0xaa10': [ '0xaa11', '0xaa12', '0xaa13' ],
+//             '0xaa20': [ '0xaa21', '0xaa22' ],
+//             '0xaa30': [ '0xaa31', '0xaa32', '0xaa33' ],
+//             '0xaa40': [ '0xaa41', '0xaa42', '0xaa43' ],
+//             '0xaa50': [ '0xaa51', '0xaa52' ],
+//             '0xffe0': [ '0xffe1' ],
+//             '0xaa60': [ '0xaa61', '0xaa62' ],
+//             '0xffc0': [ '0xffc1', '0xffc2' ]
+//         }
+//     }
+// ]
+```
 
 *************************************************
 <a name="API_find"></a>  
