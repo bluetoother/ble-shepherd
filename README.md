@@ -120,6 +120,7 @@ function app() {
 * [central.listDevices()](#API_listDevices)
 * [central.find()](#API_find)
 * [central.regGattDefs()](#API_regGattDefs)
+* [central.registerPlugin()](#API_registerPlugin)
 * [central.addLocalServ()](#API_addLocalServ)
 * ['IND' event](#EVT_ind)
 
@@ -152,6 +153,7 @@ Some methods are not supported for noble submodule, they are listed in this tabl
 |                                       | listDevices       | O               | O               |
 |                                       | find              | O               | O               |
 |                                       | regGattDefs       | O               | O               |
+|                                       | registerPlugin    | O               | O               |
 |                                       | addLocalServ      | O               | X               |
 | Monitor and Control the Peripherals   | connect           | O               | O               |
 |                                       | disconnect        | O               | O               |
@@ -485,6 +487,40 @@ Note: Learn more in section **Advanced topics**: [How to define your own Service
 **Returns**  
 
 - (*Object*): central   
+  
+**Example**  
+  
+```javascript
+// register service definition
+central.regGattDefs('service', [
+    { name: 'simpleKeys', uuid: '0xffe0' },
+    { name: 'accelerometer', uuid: '0xffa0' }
+]);
+
+// register characteristic definition
+central.regGattDefs('characteristic', [
+    { name: 'keyPressState', uuid: '0xffe1', params: [ 'enable' ], types: [ 'uint8' ] }, 
+    { name: 'accelerometerX', uuid: '0xffa3', params: [ 'x' ], types: [ 'uint8' ] }, 
+    { name: 'accelerometerY', uuid: '0xffa4', params: [ 'y' ], types: [ 'uint8' ] }, 
+    { name: 'accelerometerZ', uuid: '0xffa5', params: [ 'z' ], types: [ 'uint8' ] }, 
+]);
+```
+
+*************************************************
+<a name="API_registerPlugin"></a>  
+###.registerPlugin(devName, plugin)  
+> Allows you to register plugin to identify third party module.  
+
+**Arguments**  
+
+1. `devName` (*String*): Can be `'service'` or `'characteristic'` to specify which type of definition to register with.  
+2. `plugin` (*Object*): An array of the _Service information object_ or _Characteristic information object_ according to the given `type`.  
+
+Note: Learn more in section **Advanced topics**: [How to define your own Services and Characteristics](#addDefinition).
+
+**Returns**  
+
+- (*Boolean*): Indicate register is success or fail.   
   
 **Example**  
   
