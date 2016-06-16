@@ -1267,7 +1267,7 @@ This demo uses a CSR8510 BLE USB dongle with 5 simultaneous connections. A polli
 
 Note: A preliminary understanding of socket.io and ExpressJS is required.  
   
-![ble-shepherd webapp](https://raw.githubusercontent.com/hedywings/ble-shepherd/develop/documents/bShepherdWeb.png)
+![ble-shepherd webapp](https://github.com/bluetoother/documents/blob/master/ble-shepherd/bShepherdWeb.png)
 
 <br />
 
