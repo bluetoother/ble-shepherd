@@ -1187,9 +1187,9 @@ peripheral.setNotify('0xfff0', '0xfff4', true, function (err) {
 
 Here is a [tutorial of some advanced topics](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced%20topics.md) to illustrate how to do further settings in ble-shepherd, e.g., register private definitions. 
     
-    - How to define your own Services and Characteristics
-    - How to add your own Services to central
-    - How to create a Plugin belong your own device
+- How to define your own Services and Characteristics
+- How to add your own Services to central
+- How to create a Plugin belong your own device
 
 <br />
 
