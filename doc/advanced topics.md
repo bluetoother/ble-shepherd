@@ -1,11 +1,11 @@
 ## Advanced topics
 
-    * 1. [How to define your own Services and Characteristics](#addDefinition)  
-    * 2. [How to add your own Services to central](#addService)  
-    * 3. [How to create a Plugin belong your own device](#addPlugin)
+    - 1. [How to define your own Services and Characteristics](#addDefinition)  
+    - 2. [How to add your own Services to central](#addService)  
+    - 3. [How to create a Plugin belong your own device](#addPlugin)
 
 <a name="addDefinition"></a>
-### 1 How to define your own Services and Characteristics
+### 1. How to define your own Services and Characteristics
 
 To let **ble-shepherd** parse and build the packet of your private Services and Characteristics, you should first register the private definitions to **ble-shepherd** by `central.regGattDefs(type, regObjs)` method.  
 
@@ -52,7 +52,7 @@ To let **ble-shepherd** parse and build the packet of your private Services and 
 
 *************************************************
 <a name="addService"></a>
-### 2 How to add your own Services to central
+### 2. How to add your own Services to central
 
 Use `central.addLocalServ(servInfo, callback)` method to create a local Service on the central and register it to CC254X BNP.  
     
@@ -158,29 +158,29 @@ Use `central.addLocalServ(servInfo, callback)` method to create a local Service 
 
 *************************************************
 <a name="addPlugin"></a>
-### 2 How to create a Plugin belong your own device
+### 3. How to create a Plugin belong your own device
 
 You can create a plugin for your Bluetooth device, and provided to developers to register, so they can determine what kind of device join the network.
 
 * `plugin` is an object and contains two properties, respectively `analysis` and `gattDefs`, `analysis` is mandatory and `gattDefs` is optional.
     * `analysis` (*Function*): `function (peripheral, basicInfo) {}`. **ble-shepherd** will give you an instance and basic information of peripheral, in accordance with the information, you need to judge whether the peripheral is developed by you, and return `true` or `false` to let **ble-shepherd** know. All information contained in basicInfo listed in the table below. 
 
-    | Property     | Type   | Description                                                       |
-    |--------------|--------|-------------------------------------------------------------------|
-    | devName      | String | Device nane. It is the value of Characteristic UUID 0x2a00.       |
-    | manufacturer | String | Manufacturer name. It is the value of Characteristic UUID 0x2a29. |
-    | model        | String | Model Number. It is the value of Characteristic UUID 0x2a24.      |
-    | serial       | String | Serial Number. It is the value of Characteristic UUID 0x2a25.     |
-    | fwRev        | String | Firmware revision. It is the value of Characteristic UUID 0x2a26. |
-    | hwRev        | String | Hardware revision. It is the value of Characteristic UUID 0x2a27. |
-    | swRev        | String | Software revision. It is the value of Characteristic UUID 0x2a28. |
+        | Property     | Type   | Description                                                       |
+        |--------------|--------|-------------------------------------------------------------------|
+        | devName      | String | Device nane. It is the value of Characteristic UUID 0x2a00.       |
+        | manufacturer | String | Manufacturer name. It is the value of Characteristic UUID 0x2a29. |
+        | model        | String | Model Number. It is the value of Characteristic UUID 0x2a24.      |
+        | serial       | String | Serial Number. It is the value of Characteristic UUID 0x2a25.     |
+        | fwRev        | String | Firmware revision. It is the value of Characteristic UUID 0x2a26. |
+        | hwRev        | String | Hardware revision. It is the value of Characteristic UUID 0x2a27. |
+        | swRev        | String | Software revision. It is the value of Characteristic UUID 0x2a28. |
 
     * `gattDefs` (*Object*): If your BLE device have some private GATT definitions, you can provide here, and it will be registered automatic when developer register your plugin to **ble-shepherd**. Each property of `gattDefs` list in following table.
 
-    | Property       | Type  | Description                                         |
-    |----------------|-------|-----------------------------------------------------|
-    | service        | Array | An array of the _Service information object_        |
-    | characteristic | Array | An array of the _Characteristic information object_ |
+        | Property       | Type  | Description                                         |
+        |----------------|-------|-----------------------------------------------------|
+        | service        | Array | An array of the _Service information object_        |
+        | characteristic | Array | An array of the _Characteristic information object_ |
 
     **Note**: You can see more detail about _Service information object_ and _Characteristic information object_ in section [How to define your own Services and Characteristics](#addDefinition).
 
