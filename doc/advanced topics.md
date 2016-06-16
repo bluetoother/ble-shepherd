@@ -1,8 +1,8 @@
 ## Advanced topics
 
-    - 1. [How to define your own Services and Characteristics](#addDefinition)  
-    - 2. [How to add your own Services to central](#addService)  
-    - 3. [How to create a Plugin belong your own device](#addPlugin)
+1. [How to define your own Services and Characteristics](#addDefinition)  
+2. [How to add your own Services to central](#addService)  
+3. [How to create a Plugin belong your own device](#addPlugin)
 
 <a name="addDefinition"></a>
 ### 1. How to define your own Services and Characteristics
