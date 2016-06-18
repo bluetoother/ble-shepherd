@@ -160,10 +160,10 @@ Use `central.addLocalServ(servInfo, callback)` method to create a local Service 
 <a name="addPlugin"></a>
 ### 3. How to create a Plugin belong your own device
 
-You can create a plugin for your Bluetooth device, and provided to developers to register, so they can determine what kind of device join the network.
+You can create a plugin for your Bluetooth device, and provide it to developers to register, so they can determine what kind of device join the network. We recommend that you use 'bshep-plugin' as the beginning of your plugin name, so that developers can enter this keyword to find all plugin of ble-shepherd.
 
 * `plugin` is an object and contains two properties, respectively `analysis` and `gattDefs`, `analysis` is mandatory and `gattDefs` is optional.
-    * `analysis` (*Function*): `function (peripheral, basicInfo) {}`. **ble-shepherd** will give you an instance and basic information of peripheral, in accordance with the information, you need to judge whether the peripheral is developed by you, and return `true` or `false` to let **ble-shepherd** know. All information contained in basicInfo listed in the table below. 
+    * `analysis` (*Function*): `function (peripheral, basicInfo) {}`. **ble-shepherd** will give you an instance and basic information of peripheral, in accordance with the information, you need to judge whether the `peripheral` is developed by you, and return `true` or `false` to let **ble-shepherd** know. All information contained in basicInfo listed in the table below. 
 
         | Property     | Type   | Description                                                       |
         |--------------|--------|-------------------------------------------------------------------|
@@ -175,7 +175,7 @@ You can create a plugin for your Bluetooth device, and provided to developers to
         | hwRev        | String | Hardware revision. It is the value of Characteristic UUID 0x2a27. |
         | swRev        | String | Software revision. It is the value of Characteristic UUID 0x2a28. |
 
-    * `gattDefs` (*Object*): If your BLE device have some private GATT definitions, you can provide here, and it will be registered automatic when developer register your plugin to **ble-shepherd**. Each property of `gattDefs` list in following table.
+    * `gattDefs` (*Object*): If your BLE device have some private GATT definitions, you can provide here, and it will be registered automatically when developer register your plugin to **ble-shepherd**. Each property of `gattDefs` list in following table.
 
         | Property       | Type  | Description                                         |
         |----------------|-------|-----------------------------------------------------|
