@@ -449,7 +449,7 @@ var peripheral = central.find(0);
 1. `type` (*String*): Can be `'service'` or `'characteristic'` to specify which type of definition to register with.  
 2. `regObjs` (*Array*): An array of the _Service information object_ or _Characteristic information object_ according to the given `type`.  
 
-Note: Learn more in section **Advanced topics**: [How to define your own Services and Characteristics](#Advanced).
+Note: Learn more in section **Advanced topics**: [How to define your own Services and Characteristics](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced%20topics.md#1-how-to-define-your-own-services-and-characteristics).
 
 **Returns**  
 
@@ -483,7 +483,7 @@ central.regGattDefs('characteristic', [
 1. `devName` (*String*): Name property of peripheral will be designated as `devName` if peripheral device is produced by the manufacturer who provide a `plugin`.
 2. `plugin` (*Object*): An plugin object provided by the device manufacturer that contains an analysis function and some private GATT definitions.  
 
-Note: Learn more in section **Advanced topics**: [How to create a Plugin belong your own device.](#Advanced).
+Note: Learn more in section **Advanced topics**: [How to create a Plugin belong your own device.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced%20topics.md#3-how-to-create-a-plugin-belong-your-own-device).
 
 **Returns**  
 
@@ -525,7 +525,7 @@ Note: This command is cc-bnp only.
 
 2. `callback` (*Function*) : `function (err, service) { }`, Get called when service successfully register to BNP. 
 
-Note: Learn more in section **Advanced topics**: [How to add your own Services to central](#Advanced).
+Note: Learn more in section **Advanced topics**: [How to add your own Services to central](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced%20topics.md#2-how-to-add-your-own-services-to-central).
 
 **Returns**  
 
