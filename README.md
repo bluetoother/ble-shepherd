@@ -351,7 +351,7 @@ central.permitJoin(60);
 *************************************************
 <a name="API_listDevices"></a>  
 ###.listDevices()  
-> List records of the Peripheral Devices maintained by central.  
+> List records of all Peripheral Devices maintained by central.  
 
 **Arguments**  
 
@@ -359,7 +359,7 @@ central.permitJoin(60);
 
 **Returns**  
 
-- (*Array*): Information of Peripheral Devices. Each record in the array is an object with the properties shown in the following table.  
+- (*Array*): Information of Peripheral Devices. Each record in the array is an object with properties shown in the following table.  
 
 | Property | Type   | Description                                                                                                                               |
 |----------|--------|-------------------------------------------------------------------------------------------------------------------------------------------|
@@ -374,7 +374,7 @@ central.permitJoin(60);
 ```javascript
 var devRecords = central.listDevices()
 
-// devRecords equal to 
+// devRecords equals to
 // [
 //     {
 //         addr: ''0x544a165e1f53',
@@ -480,7 +480,7 @@ central.regGattDefs('characteristic', [
 
 **Arguments**  
 
-1. `devName` (*String*): Attached to the name property of peripheral.  
+1. `devName` (*String*): Name property of peripheral will be designated as `devName` if peripheral device is produced by the manufacturer who provide a `plugin`.
 2. `plugin` (*Object*): An plugin object provided by the device manufacturer that contains an analysis function and some private GATT definitions.  
 
 Note: Learn more in section **Advanced topics**: [How to create a Plugin belong your own device.](#Advanced).
@@ -556,14 +556,14 @@ central.addLocalServ(servInfo, function (err, result) {
 
 *************************************************
 <a name="API_enableBlackOrWhite"></a>  
-### .enableBlackOrWhite(onOff, type)  
-> Enable blacklist or whitelist. Because black and white lists will conflict with each other, so you can only enable one of them.
+### .enableBlackOrWhite(onOff[, type])  
+> Enable blacklist or whitelist. Because blacklist and whitelist will conflict with each other, so you can only enable one of them at one time.
 
 **Arguments**  
 
 1. `onoff` (*Boolean*): Set to `true` for enable blacklist or whitelist, otherwise set to `false`.  
 
-2. `type` (*String*) : `black` or `white` mean you want to enable the blacklist or whitelist. 
+2. `type` (*String*) : `black` or `white` means you want to enable the blacklist or whitelist. It can be ignored if you disable this feature.
 
 **Returns**  
 
@@ -582,7 +582,7 @@ central.enableBlackOrWhite(true, 'white');
 *************************************************
 <a name="API_ban"></a>  
 ### .ban(addr)  
-> Ban a device from the network.  
+> Ban a device from the network. It is only valid if you enable blacklist.  
 
 **Arguments**  
 
@@ -601,7 +601,7 @@ central.ban('0xd05fb820a6bd');
 *************************************************
 <a name="API_unban"></a>  
 ### .unban(addr)  
-> Unban a device from the network.  
+> Unban a device from the network. It is only valid if you enable blacklist.  
 
 **Arguments**  
 
@@ -619,8 +619,8 @@ central.unban('0xd05fb820a6bd');
 
 *************************************************
 <a name="API_permit"></a>  
-### .permit(addr)  
-> Permit a device from the network.  
+### .permit(addr)   
+> Permit a device from the network. It is only valid if you enable whitelist.  
 
 **Arguments**  
 
@@ -639,7 +639,7 @@ central.permit('0xd05fb820a6bd');
 *************************************************
 <a name="API_unpermit"></a>  
 ### .unpermit(addr)  
-> Unpermit a device from the network.  
+> Unpermit a device from the network. It is only valid if you enable whitelist.  
 
 **Arguments**  
 
