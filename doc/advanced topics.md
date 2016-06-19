@@ -158,12 +158,12 @@ Use `central.addLocalServ(servInfo, callback)` method to create a local Service 
 
 *************************************************
 <a name="addPlugin"></a>
-### 3. How to create a Plugin belong your own device
+### 3. How to create a Plugin belong your own device  
 
-You can create a plugin for your Bluetooth device, and provide it to developers to register, so they can determine what kind of device join the network. We recommend that you use 'bshep-plugin' as the beginning of your plugin name, so that developers can enter this keyword to find all plugin of ble-shepherd.
+You can create a plugin for your Bluetooth device, and provide it to developers to register, so they can determine what kind of device join the network. We recommend that you use 'bshep-plugin' as the beginning of your plugin name, so that developers can enter this keyword to find all plugin of ble-shepherd.  
 
-* `plugin` is an object and contains two properties, respectively `analysis` and `gattDefs`, `analysis` is mandatory and `gattDefs` is optional.
-    * `analysis` (*Function*): `function (peripheral, basicInfo) {}`. **ble-shepherd** will give you an instance and basic information of peripheral, in accordance with the information, you need to judge whether the `peripheral` is developed by you, and return `true` or `false` to let **ble-shepherd** know. All information contained in basicInfo listed in the table below. 
+* `plugin` is an object and contains two properties, respectively `analysis` and `gattDefs`, `analysis` is mandatory and `gattDefs` is optional.  
+    * `analysis` (*Function*): `function (peripheral, basicInfo) {}`. **ble-shepherd** will give you an instance and basic information of peripheral, in accordance with the information, you need to judge whether the `peripheral` is developed by you, and return `true` or `false` to let **ble-shepherd** know. All information contained in basicInfo listed in the table below.  
 
         | Property     | Type   | Description                                                       |
         |--------------|--------|-------------------------------------------------------------------|
@@ -175,16 +175,16 @@ You can create a plugin for your Bluetooth device, and provide it to developers 
         | hwRev        | String | Hardware revision. It is the value of Characteristic UUID 0x2a27. |
         | swRev        | String | Software revision. It is the value of Characteristic UUID 0x2a28. |
 
-    * `gattDefs` (*Object*): If your BLE device have some private GATT definitions, you can provide here, and it will be registered automatically when developer register your plugin to **ble-shepherd**. Each property of `gattDefs` list in following table.
+    * `gattDefs` (*Object*): If your BLE device have some private GATT definitions, you can provide here, and it will be registered automatically when developer register your plugin to **ble-shepherd**. Each property of `gattDefs` list in following table.  
 
         | Property       | Type  | Description                                         |
         |----------------|-------|-----------------------------------------------------|
         | service        | Array | An array of the _Service information object_        |
         | characteristic | Array | An array of the _Characteristic information object_ |
 
-    **Note**: You can see more detail about _Service information object_ and _Characteristic information object_ in section [How to define your own Services and Characteristics](#addDefinition).
+    **Note**: You can see more detail about _Service information object_ and _Characteristic information object_ in section [How to define your own Services and Characteristics](#addDefinition).  
 
-* Example
+* Example  
 
 ```js
 var relayPlugin = {
@@ -202,9 +202,9 @@ var relayPlugin = {
 
         if (basicInfo.manufacturer === 'sivann' &&
             basicInfo.model === 'RelayModule' &&
-            basicInfo.version.fw === 'v1.0.0' && 
-            basicInfo.version.hw === 'v1.0.0' &&
-            basicInfo.version.sw === 'v1.0.0')
+            basicInfo.fwRev === 'v1.0.0' &&
+            basicInfo.hwRev === 'v1.0.0' &&
+            basicInfo.swRev === 'v1.0.0')
             checkFlag = true;
 
         return checkFlag;
