@@ -110,11 +110,11 @@ function app() {
 * [central.regGattDefs()](#API_regGattDefs)
 * [central.registerPlugin()](#API_registerPlugin)
 * [central.addLocalServ()](#API_addLocalServ)
-* [central.enableBlackOrWhite()](#API_enableBlackOrWhite)
+* [central.blocker()](#API_blocker)
 * [central.ban()](#API_ban)
 * [central.unban()](#API_unban)
-* [central.permit()](#API_permit)
-* [central.unpermit()](#API_unpermit)
+* [central.allow()](#API_allow)
+* [central.disallow()](#API_disallow)
 * ['IND' event](#EVT_ind)
 
 ####2. Monitor and Control the Peripherals
@@ -148,11 +148,11 @@ Some methods are not supported for noble submodule, they are listed in this tabl
 |                                       | regGattDefs           | O               | O               |
 |                                       | registerPlugin        | O               | O               |
 |                                       | addLocalServ          | O               | X               |
-|                                       | enableBlackOrWhite    | O               | X               |
+|                                       | blocker               | O               | X               |
 |                                       | ban                   | O               | O               |
 |                                       | unban                 | O               | O               |
-|                                       | permit                | O               | O               |
-|                                       | unpermit              | O               | O               |
+|                                       | allow                 | O               | O               |
+|                                       | disallow              | O               | O               |
 | Monitor and Control the Peripherals   | connect               | O               | O               |
 |                                       | disconnect            | O               | O               |
 |                                       | remove                | O               | O               |
@@ -351,7 +351,7 @@ central.permitJoin(60);
 *************************************************
 <a name="API_listDevices"></a>  
 ###.listDevices()  
-List records of all Peripheral Devices maintained by central.  
+List records of all Peripheral Devices managed by central.  
 
 **Arguments**  
 
@@ -365,8 +365,8 @@ List records of all Peripheral Devices maintained by central.
 |----------|--------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | addr     | String | Address of the peripheral device                                                                                                          |
 | addrType | String | Address type of the peripheral device                                                                                                     |
-| state    | String | `online` or `offline` or `idle`                                                                                                           |
-| connHdl  | Numbet | Connection handle. If state is not `online`, it should be null.                                                                           |
+| state    | String | Device state can be `online`, `offline`, or `idle`                                                                                        |
+| connHdl  | Number | Connection handle. It will be `null` if device state is not `online`.                                                                     |
 | servList | Object | Service and Characteristic list. Each key in `servList` is the `servUuid` and each value is an array of `charUuid` under the `servUuid`.  |
 
 **Example**  
@@ -374,7 +374,7 @@ List records of all Peripheral Devices maintained by central.
 ```javascript
 var devRecords = central.listDevices()
 
-// devRecords equals to
+// devRecords is an array with records to show each Peripheral's information
 // [
 //     {
 //         addr: '0x544a165e1f53',
@@ -449,7 +449,7 @@ Allows you to register private Services or Characteristic definitions.
 1. `type` (*String*): Can be `'service'` or `'characteristic'` to specify which type of definition to register with.  
 2. `regObjs` (*Array*): An array of the _Service information object_ or _Characteristic information object_ according to the given `type`.  
 
-Note: Learn more in section **Advanced topics**: [How to define your own Services and Characteristics](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced%20topics.md#1-how-to-define-your-own-services-and-characteristics).  
+Note: Learn more in section **Advanced topics**: [How to define your own Services and Characteristics](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#1-how-to-define-your-own-services-and-characteristics).  
 
 **Returns**  
 
@@ -476,37 +476,50 @@ central.regGattDefs('characteristic', [
 *************************************************
 <a name="API_registerPlugin"></a>  
 ###.registerPlugin(devName, plugin)  
-Allows you to register plugin to identify third-party module.  
+Register a plugin provided by the third-party module. The plugin tells **ble-shepherd** of how to recognize a third-party BLE module/product.  
 
 **Arguments**  
 
-1. `devName` (*String*): Name property of peripheral will be designated as `devName` if peripheral device is produced by the manufacturer who provide a `plugin`.
-2. `plugin` (*Object*): An plugin object provided by the device manufacturer that contains an analysis function and some private GATT definitions.  
+1. `devName` (*String*): The name you'd like to use for the peripherals recognized by this plugin.  
+2. `plugin` (*Object*): An plugin object provided by the device manufacturer.  
 
-Note: Learn more in section **Advanced topics**: [How to create a Plugin belong your own device.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced%20topics.md#3-how-to-create-a-plugin-belong-your-own-device).
+Note: Learn more in section **Advanced topics**: [How to create a Plugin for your own device.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addPlugin).  
 
 **Returns**  
 
-- (*Boolean*): `true` if register success, otherwise `false`.  
+- (*Boolean*): `true` if registration succeeds, otherwise `false`.  
   
 **Example**  
   
 ```javascript
-var sivannRelayPlg = require('bshep-plugin-sivann-relay');
+// Require the plugin 'bshep-plugin-sivann-relay' for relay modules manufactured by sivann  
+var sivannRelayPlugin = require('bshep-plugin-sivann-relay'); 
 
-central.registerPlugin('relay', sivannRelayPlg);
+central.registerPlugin('sivann-relay', sivannRelayPlugin);
 central.start(app);
 
 function app (central) {
     central.on('IND', function (msg) {
         var dev;
 
-        if (msg.type === 'DEV_INCOMING') {
-            dev = msg.data;
+        switch (msg.type) {
+            case 'DEV_INCOMING':
+                dev = msg.data;
 
-            if(dev.name === 'relay') {
-                // operate relay here
-            }
+                if (dev.name === 'sivann-relay') {
+                    // Do what you'd like to do with your 'sivann-relay' here,  
+                    // such as attaching your notification handler or doing something magic to it  
+                }
+                break;
+
+            case 'DEV_LEAVING':
+                // ...
+                break;
+            case 'DEV_ONLINE':
+                // ...
+                break;
+            
+            // ...
         }
     });
 }
@@ -525,7 +538,7 @@ Note: This command is cc-bnp only.
 
 2. `callback` (*Function*) : `function (err, service) { }`, Get called when service successfully register to BNP.  
 
-Note: Learn more in section **Advanced topics**: [How to add your own Services to central](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced%20topics.md#2-how-to-add-your-own-services-to-central).  
+Note: Learn more in section **Advanced topics**: [How to add your own Services to central](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#2-how-to-add-your-own-services-to-central).  
 
 **Returns**  
 
@@ -555,15 +568,15 @@ central.addLocalServ(servInfo, function (err, result) {
 ```
 
 *************************************************
-<a name="API_enableBlackOrWhite"></a>  
-### .enableBlackOrWhite(onOff[, type])  
-Enable blacklist or whitelist. Because blacklist and whitelist will conflict with each other, so you can only enable one of them at one time.  
+<a name="API_blocker"></a>  
+### .blocker(onOff[, type])  
+Enable the blocker to ban unauthorized devices according to the blacklist or the whitelist. You cannot use the blacklist and the whitelist simultaneously, so pick one you like to use.  
 
 **Arguments**  
 
-1. `onoff` (*Boolean*): Set to `true` for enable blacklist or whitelist, otherwise set to `false`.  
+1. `onoff` (*Boolean*): Set to `true` to enable blocker. Set to `false` to disable the blocker.  
 
-2. `type` (*String*) : `black` or `white` means you want to enable the blacklist or whitelist. It can be ignored if you disable this feature.  
+2. `type` (*String*) : Can be `'black'` or `'white'` to enable the block with the blacklist or the whitelist. The blacklist will be used if not given.  
 
 **Returns**  
 
@@ -572,17 +585,20 @@ Enable blacklist or whitelist. Because blacklist and whitelist will conflict wit
 **Example**  
 
 ```javascript
-// enable blacklist
-central.enableBlackOrWhite(true, 'black');
+// enable with the blacklist
+central.blocker(true, 'black');
 
-// enable whitelist
-central.enableBlackOrWhite(true, 'white');
+// disable the blocker
+central.blocker(false);
+
+// enable with the whitelist
+central.blocker(true, 'white');
 ```
 
 *************************************************
 <a name="API_ban"></a>  
 ### .ban(addr)  
-Ban a device from the network. It is only valid if you enable blacklist.  
+Ban a device from the network. You **must** have the blocker enabled with the blacklist, or this method will not function properly.  
 
 **Arguments**  
 
@@ -601,7 +617,7 @@ central.ban('0xd05fb820a6bd');
 *************************************************
 <a name="API_unban"></a>  
 ### .unban(addr)  
-Unban a device from the network. It is only valid if you enable blacklist.  
+Unban a device from the network. You **must** have the blocker enabled with the blacklist, or this method will not function properly.  
 
 **Arguments**  
 
@@ -618,9 +634,9 @@ central.unban('0xd05fb820a6bd');
 ```
 
 *************************************************
-<a name="API_permit"></a>  
-### .permit(addr)  
-Permit a device from the network. It is only valid if you enable whitelist.  
+<a name="API_allow"></a>  
+### .allow(addr)  
+Allow a specific device from the network. You **must** have the blocker enabled with the whitelist, or this method will not function properly.  
 
 **Arguments**  
 
@@ -633,13 +649,13 @@ Permit a device from the network. It is only valid if you enable whitelist.
 **Example**  
 
 ```javascript
-central.permit('0xd05fb820a6bd');
+central.allow('0xd05fb820a6bd');
 ```
 
 *************************************************
-<a name="API_unpermit"></a>  
-### .unpermit(addr)  
-Unpermit a device from the network. It is only valid if you enable whitelist.  
+<a name="disallow"></a>  
+### .disallow(addr)  
+Disallow a specific device to join the network. You **must** have the blocker enabled with the whitelist, or this method will not function properly.  
 
 **Arguments**  
 
@@ -652,7 +668,7 @@ Unpermit a device from the network. It is only valid if you enable whitelist.
 **Example**  
 
 ```javascript
-central.unpermit('0xd05fb820a6bd');
+central.disallow('0xd05fb820a6bd');
 ```
 
 *************************************************
@@ -1029,7 +1045,7 @@ peripheral.update(function (err) {
 *************************************************
 <a name="API_findChar"></a>  
 ###.findChar(uuidServ, uuidChar)  
-Find a characteristic endpoint maintained by the peripheral.  
+Find a characteristic endpoint on the peripheral.  
 
 **Arguments**  
 
@@ -1187,7 +1203,7 @@ Register a handler to handle notification or indication of the Characteristic.
 <a name="Advanced"></a>
 ## 3. Advanced topics  
 
-Here is a [tutorial of some advanced topics](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced%20topics.md) to illustrate how to do further settings in ble-shepherd, e.g., register private definitions.  
+Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md) to illustrate how to do further settings in ble-shepherd, e.g., register private definitions.  
 
 - How to define your own Services and Characteristics.  
 - How to add your own Services to central.  
