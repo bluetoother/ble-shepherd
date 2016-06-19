@@ -2,7 +2,7 @@
 
 1. [How to define your own Services and Characteristics](#addDefinition)  
 2. [How to add your own Services to central](#addService)  
-3. [How to create a Plugin belong your own device](#addPlugin)
+3. [How to create a Plugin for your own device](#addPlugin)
 
 <a name="addDefinition"></a>
 ### 1. How to define your own Services and Characteristics
@@ -158,16 +158,52 @@ Use `central.addLocalServ(servInfo, callback)` method to create a local Service 
 
 *************************************************
 <a name="addPlugin"></a>
-### 3. How to create a Plugin belong your own device  
+### 3. How to create a Plugin for your own device  
 
-You can create a plugin for your Bluetooth device, and provide it to developers to register, so they can determine what kind of device join the network. We recommend that you use 'bshep-plugin' as the beginning of your plugin name, so that developers can enter this keyword to find all plugin of ble-shepherd.  
+## What is a plugin for?  
 
-* `plugin` is an object and contains two properties, respectively `analysis` and `gattDefs`, `analysis` is mandatory and `gattDefs` is optional.  
-    * `analysis` (*Function*): `function (peripheral, basicInfo) {}`. **ble-shepherd** will give you an instance and basic information of peripheral, in accordance with the information, you need to judge whether the `peripheral` is developed by you, and return `true` or `false` to let **ble-shepherd** know. All information contained in basicInfo listed in the table below.  
+To help developers with identifying what kinds of BLE devices are joining to the network, **ble-shepherd** allows manufacturers to provide plugins to register to **ble-shepherd** for their own products. Once a developer use such a plugin, he/she can easily tell what a device is coming to his/her application. That's cool, isn't it.  
+
+Let me show you an example. Assuming that I have a BLE relay module designed by the company **sivann**, and sivann provides me with a plugin `bshep-plugin-sivann-relay` to help me with identifying this relay. All I have to do is to require this plugin and register it to **ble-shepherd** like this:  
+
+```javascript
+var sivannRelayPlugin = require('bshep-plugin-sivann-relay'); 
+central.registerPlugin('hello-my-relay', sivannRelayPlugin);
+```
+
+And in my application, I can easily tell if an incoming device is my `'hello-my-relay'`  
+
+```javascript
+central.on('IND', function (msg) {
+    var dev;
+
+    switch (msg.type) {
+        case 'DEV_INCOMING':
+            dev = msg.data;
+
+            if (dev.name === 'hello-my-relay') {
+                // Ok, if I am here, I know my lovely relay is coming to the network,   
+                // and then I can attach my notification handler or do something magic to it
+            }
+            break;
+
+            // ...
+    }
+});
+```
+
+## Design yours  
+
+First of all, it is recommended to name your plugin with the prefix `'bshep-plugin-'` to help developers to search **ble-shepherd** plugins on npm or github.  
+
+To have your own plugin is simple, just follow the description here to create one:  
+
+* The **plugin** is an object which has two properties, `examine` and `gattDefs`, respectively. Where `examine` is a function and is mandatory, and `gattDefs` a meta-data object and is optional.  
+    * `examine` (*Function*): `function (peripheral, basicInfo) {}`. After a successful registration of your plugin, **ble-shepherd** will invoke this function when it needs the plugin. **ble-shepherd** will pass a `peripheral` instance and basic information `basicInfo` about the peripheral to this function. In your implementation, grab the object `basicInfo` to help you to tell whether this `peripheral` is yours. You should return `true` if it is, else return `false`. The object `basicInfo` will give you with the following properties, use them to examine and tell **ble-shepherd** if this `peripheral` is yours.  
 
         | Property     | Type   | Description                                                       |
         |--------------|--------|-------------------------------------------------------------------|
-        | devName      | String | Device nane. It is the value of Characteristic UUID 0x2a00.       |
+        | devName      | String | Device name. It is the value of Characteristic UUID 0x2a00.       |
         | manufacturer | String | Manufacturer name. It is the value of Characteristic UUID 0x2a29. |
         | model        | String | Model Number. It is the value of Characteristic UUID 0x2a24.      |
         | serial       | String | Serial Number. It is the value of Characteristic UUID 0x2a25.     |
@@ -175,16 +211,16 @@ You can create a plugin for your Bluetooth device, and provide it to developers 
         | hwRev        | String | Hardware revision. It is the value of Characteristic UUID 0x2a27. |
         | swRev        | String | Software revision. It is the value of Characteristic UUID 0x2a28. |
 
-    * `gattDefs` (*Object*): If your BLE device have some private GATT definitions, you can provide here, and it will be registered automatically when developer register your plugin to **ble-shepherd**. Each property of `gattDefs` list in following table.  
+    * `gattDefs` (*Object*): This property is a meta-data object and is optional. If you have some private GATT definitions on your BLE device, tell **ble-shepherd** with this property. When developers register the plugin, the definitions will be registered as well. The meta-data object `gattDefs` should contain the following two properties:  
 
         | Property       | Type  | Description                                         |
         |----------------|-------|-----------------------------------------------------|
         | service        | Array | An array of the _Service information object_        |
         | characteristic | Array | An array of the _Characteristic information object_ |
 
-    **Note**: You can see more detail about _Service information object_ and _Characteristic information object_ in section [How to define your own Services and Characteristics](#addDefinition).  
+    **Note**: Lear more about the _Service information object_ and _Characteristic information object_ in section [How to define your own Services and Characteristics](#addDefinition).  
 
-* Example  
+* The Relay Example of `bshep-plugin-sivann-relay`  
 
 ```js
 var relayPlugin = {
@@ -194,20 +230,24 @@ var relayPlugin = {
             { name: 'relayServ', uuid: '0xbb40' }
         ],
         characteristic: [
-            { name: 'pwrAndCurrMeasPeriod', uuid: '0xbb31', params: ['period'], types: ['uint8'] }
+            { name: 'pwrAndCurrMeasPeriod', uuid: '0xbb31', params: [ 'period' ], types: [ 'uint8' ] }
         ]
      },
-     analysis: function (periph, basicInfo) {
-        var checkFlag = false;
+     examine: function (periph, basicInfo) {
+        var isMine = false;
 
         if (basicInfo.manufacturer === 'sivann' &&
             basicInfo.model === 'RelayModule' &&
             basicInfo.fwRev === 'v1.0.0' &&
             basicInfo.hwRev === 'v1.0.0' &&
             basicInfo.swRev === 'v1.0.0')
-            checkFlag = true;
+            isMine = true;
 
-        return checkFlag;
+        return isMine;
     }
 };
+
+module.exports = relayPlugin;
 ```
+
+At the very last step, don't forget to publish your plugin to [npm](https://www.npmjs.com/).  
