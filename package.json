@@ -3,6 +3,9 @@
   "version": "0.1.6",
   "description": "ble-shepherd is a network controller for BLE devices. It aims to help you build a BLE machine network with less effort on node.js",
   "main": "index.js",
+  "scripts": {
+    "test": "make test-all"
+  },
   "directories": {
     "example": "examples"
   },
@@ -22,6 +25,8 @@
   "license": "MIT",
   "homepage": "https://github.com/bluetoother/ble-shepherd",
   "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3",
     "should": "^7.1.1",
     "should-promised": "^0.3.1"
   },

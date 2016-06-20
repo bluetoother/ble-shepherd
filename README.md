@@ -148,7 +148,7 @@ Some methods are not supported for noble submodule, they are listed in this tabl
 |                                       | regGattDefs           | O               | O               |
 |                                       | registerPlugin        | O               | O               |
 |                                       | addLocalServ          | O               | X               |
-|                                       | blocker               | O               | X               |
+|                                       | blocker               | O               | O               |
 |                                       | ban                   | O               | O               |
 |                                       | unban                 | O               | O               |
 |                                       | allow                 | O               | O               |
@@ -597,16 +597,17 @@ central.blocker(true, 'white');
 
 *************************************************
 <a name="API_ban"></a>  
-### .ban(addr)  
+### .ban(addr[, callback])  
 Ban a device from the network. You **must** have the blocker enabled with the blacklist, or this method will not function properly.  
 
 **Arguments**  
 
 1. `addr` (*String*): Address of the peripheral device.  
+2. `callback` (*Function*): `function (err) {}`. Get called when device successfully ban from the network.  
 
 **Returns**  
 
-- (*object*): central  
+- (*None*)
 
 **Example**  
 
@@ -616,16 +617,17 @@ central.ban('0xd05fb820a6bd');
 
 *************************************************
 <a name="API_unban"></a>  
-### .unban(addr)  
+### .unban(addr[, callback])  
 Unban a device from the network. You **must** have the blocker enabled with the blacklist, or this method will not function properly.  
 
 **Arguments**  
 
 1. `addr` (*String*): Address of the peripheral device.  
+2. `callback` (*Function*): `function (err) {}`. Get called when device successfully unban from the network.  
 
 **Returns**  
 
-- (*object*): central  
+- (*None*)
 
 **Example**  
 
@@ -635,16 +637,17 @@ central.unban('0xd05fb820a6bd');
 
 *************************************************
 <a name="API_allow"></a>  
-### .allow(addr)  
+### .allow(addr[, callback])  
 Allow a specific device from the network. You **must** have the blocker enabled with the whitelist, or this method will not function properly.  
 
 **Arguments**  
 
 1. `addr` (*String*): Address of the peripheral device.  
+2. `callback` (*Function*): `function (err) {}`. Get called when device successfully allow from the network.  
 
 **Returns**  
 
-- (*object*): central  
+- (*None*)
 
 **Example**  
 
@@ -654,16 +657,17 @@ central.allow('0xd05fb820a6bd');
 
 *************************************************
 <a name="disallow"></a>  
-### .disallow(addr)  
+### .disallow(addr[, callback])  
 Disallow a specific device to join the network. You **must** have the blocker enabled with the whitelist, or this method will not function properly.  
 
 **Arguments**  
 
 1. `addr` (*String*): Address of the peripheral device.  
+2. `callback` (*Function*): `function (err) {}`. Get called when device successfully disallow from the network.  
 
 **Returns**  
 
-- (*object*): central  
+- (*None*)
 
 **Example**  
 
@@ -1214,7 +1218,7 @@ Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-s
 <a name="Demo"></a>
 ## 4. Demo  
 
-[Here is the document](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/demo.md)that show you a simple ble-shepherd webapp built up with ExpressJS and [socket.io](#http://socket.io/).  
+[Here is the document](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/demo.md) that show you a simple ble-shepherd webapp built up with ExpressJS and [socket.io](#http://socket.io/).  
 
 ![ble-shepherd webapp](https://github.com/bluetoother/documents/blob/master/ble-shepherd/bShepherdWeb.png)
 
