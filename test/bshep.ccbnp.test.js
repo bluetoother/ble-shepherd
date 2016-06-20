@@ -1,7 +1,11 @@
-var expect = require('chai').expect,
+var _ = require('lodash'),
+    expect = require('chai').expect,
+    Q = require('q'),
+    ccbnp = require('cc-bnp'),
     GATTDEFS = require('../lib/defs/gattdefs'),
     central = require('../lib/cc254x/ble-shepherd'),
-    devmgr = require('../lib/cc254x/management/devmgr');
+    devmgr = require('../lib/cc254x/management/devmgr'),
+    Char = require('../lib/cc254x/management/characteristic');
 
 var peripheral = devmgr.newDevice('peripheral', '0x123456789012', 0);
 
@@ -196,5 +200,229 @@ describe('Signature Check', function() {
         expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', undefined); }).to.throw('fn must be a function');
         expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', null); }).to.throw('fn must be a function');
 
+    });
+});
+
+describe('Functional Check', function () {
+    this.timeout(5000);
+
+    describe('central', function () {
+        // it('permitJoin()', function (done) {
+        //     var checkCount = 0,
+        //         duration = 2;
+
+        //     central.on('IND', function (msg) {
+        //         if (msg.type === 'NWK_PERMITJOIN') {
+        //             if (msg.data === 0 | msg.data === duration)
+        //                 checkCount += 1;
+
+        //             if (checkCount === 3) done();
+        //         }
+        //     });
+
+        //     central.permitJoin(duration);
+        //     if (central._permitState === 'on') checkCount += 1;
+        // });
+
+        it('listDevices()', function () {
+            var devList,
+                result,
+                periph1 = devmgr.newDevice('peripheral', '0x123456789012', 0),
+                periph2 = devmgr.newDevice('peripheral', '0x112233445566', 1),
+                periph3 = devmgr.newDevice('peripheral', '0x665544332211', 2);
+
+            result = central.listDevices();
+            devList = [periph1.dump(), periph2.dump(), periph3.dump()];
+
+            expect(result).to.be.deep.equal(devList);
+        });
+
+        it('find()', function () {
+            var result,
+                periph1 = devmgr.newDevice('peripheral', '0x123456789012', 0),
+                periph2 = devmgr.newDevice('peripheral', '0x112233445566', 1),
+                periph3 = devmgr.newDevice('peripheral', '0x665544332211', 2);
+
+            result = central.find(periph1.addr);
+
+            expect(result).to.be.deep.equal(periph1);
+        });
+
+        it('regGattDefs()', function () {
+            var toRegServ = [{name: 'Test', uuid: '0xFFF0'}];
+
+            expect(central.regGattDefs('service', toRegServ)).to.be.deep.equal(central);
+            expect(GATTDEFS.ServUuid.get(0xfff0)).to.be.a('object');
+        });
+
+        it('registerPlugin()', function () {
+            var plugin = {
+                examine: function () {
+
+                },
+                gattDefs: {
+                    service: [{name: 'Test2', uuid: '0xFFF1'}]
+                }
+            };
+
+            expect(central.registerPlugin('xxx', plugin)).to.be.true;
+            expect(central._plugins['xxx']).to.be.deep.equal(plugin.examine);
+            expect(GATTDEFS.ServUuid.get(0xfff1)).to.be.a('object');
+        });
+
+        it('blocker()', function () {
+            expect(central.blocker(true)).to.be.deep.equal(central);
+            expect(central._blackOrWhite).to.be.equal('black');
+
+            expect(central.blocker(true, 'white')).to.be.deep.equal(central);
+            expect(central._blackOrWhite).to.be.equal('white');
+
+            expect(central.blocker(false)).to.be.deep.equal(central);
+            expect(central._blackOrWhite).to.be.null;
+        });
+
+        it('ban()', function (done) {
+            var addr = '0x111111111111';
+
+            central.blocker(true);
+            central.ban(addr, function (err) {
+                if (!err && central.isBlackListed(addr)) done();
+            });
+        });
+
+        it('unban()', function (done) {
+            central.unban('0x111111111111', function (err) {
+                if (!err && !central.isBlackListed('0x111111111111')) done();
+            });
+        });
+
+        it('allow()', function (done) {
+            var addr = '0x111111111111';
+
+            central.blocker(true, 'white');
+            central.allow(addr, function (err) {
+                if (!err && central.isWhiteListed(addr)) done();
+            });
+        });
+
+        it('disallow()', function (done) {
+            central.disallow('0x111111111111', function (err) {
+                if (!err && !central.isBlackListed('0x111111111111')) done();
+            });
+        });
+    });
+
+    var periph = devmgr.newDevice('peripheral', '0x123456789012', 0),
+        generalFunc = function () {
+            var deferred = Q.defer();
+
+            deferred.resolve();
+            return deferred.promise;
+        };
+    describe('peripheral', function () {
+        it('connect()', function (done) {
+            var originalEstLinkReq = ccbnp.gap.estLinkReq,
+                originalDiscCancel = ccbnp.gap.deviceDiscCancel();
+
+            ccbnp.gap.estLinkReq = function (dutyCycle, whiteList, addrType, addr) {
+                var deferred = Q.defer();
+
+                ccbnp.emit('ind', { type: 'linkEstablished', data: { addr: '0x123456789012', connHandle: 0, connInterval: 10, connLatency: 20, connTimeout: 30 }});
+
+                deferred.resolve({collector: {GapLinkEstablished: [{addr: '0x123456789012'}]}});
+                return deferred.promise;
+            };
+
+            ccbnp.gap.deviceDiscCancel = generalFunc;
+
+            periph.state = 'pause';
+            periph.connect(function (err) {
+                if (!err) {
+                    ccbnp.gap.estLinkReq = originalEstLinkReq;
+                    ccbnp.gap.deviceDiscCancel = originalDiscCancel;
+                    done();
+                }
+            });
+        });
+
+        it('disconnect()', function (done) {
+            var originalDiscCancel = ccbnp.gap.deviceDiscCancel,
+                originalTermLink = ccbnp.gap.terminateLink;
+            
+            ccbnp.gap.deviceDiscCancel = ccbnp.gap.terminateLink = generalFunc;
+
+            setTimeout(function () {
+                periph.disconnect(function (err) {
+                    if (!err && !periph.connHdl && periph.state === 'offline') {
+                        ccbnp.gap.deviceDiscCancel = originalDiscCancel;
+                        ccbnp.gap.terminateLink = originalTermLink;
+                        done();
+                    }
+                });
+            }, 100);
+            
+        });
+
+        it('updateLinkParam()', function (done) {
+            var originalUpdateLinkParamReq = ccbnp.gap.updateLinkParamReq;
+
+            ccbnp.gap.updateLinkParamReq = function () {
+                var deferred = Q.defer();
+
+                ccbnp.emit('ind', {type: 'linkParamUpdate', data: {connHandle: 0, connInterval: 20, connLatency: 40, connTimeout: 60}});
+                deferred.resolve();
+
+                return deferred.promise;
+            };
+
+            periph.state = 'online';
+            periph.connHdl = 0;
+            periph.updateLinkParam(20, 40, 60, function (err) {
+                if (!err) {
+                    if (_.isEqual(periph.linkParams, { interval: 20, latency: 40, timeout: 60 })); 
+                        done();
+                }
+            });
+        });
+
+        it('findChar()', function () {
+            var chars = {
+                    '0x2a00': { uuid: '0x2a00' },
+                    '0x2a01': { uuid: '0x2a01' },
+                    '0x2a02': { uuid: '0x2a02' }
+                };
+
+            _.set(periph.servs, '0x1800.chars', chars);
+
+            expect(periph.findChar('0x1800', '0x2a00')).to.be.deep.equal(chars['0x2a00']);
+            expect(periph.findChar('0x1800', '0x2a01')).to.be.deep.equal(chars['0x2a01']);
+
+        });
+
+        it('regCharHdlr()', function () {
+            var hdlr = function () {};
+
+            expect(periph.regCharHdlr('0x1800', '0x2a02', hdlr)).to.be.deep.equal(periph);
+            expect(periph.servs['0x1800'].chars['0x2a02'].processInd).to.be.equal(hdlr);
+        });
+
+        it('readDesc()', function () {
+            var originalReadChar = ccbnp.gatt.readUsingCharUuid;
+            _.set(periph, 'servs.0x1800.chars.0x2a03', new Char({ uuid: '0x2a03', hdl: 25, prop: ['read', 'write', 'notify'] }));
+
+
+        });
+
+        it('setNotify()', function () {
+        // - char.setConfig
+        });
+
+        it('read()', function () {
+        // - char.read
+        });
+
+        it('write()', function () {
+        // - char.write
+        });
     });
 });
