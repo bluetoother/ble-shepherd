@@ -3,7 +3,7 @@
 
 [![NPM](https://nodei.co/npm/ble-shepherd.png?downloads=true)](https://nodei.co/npm/objectbox/)  
 
-[![Travis branch](https://img.shields.io/travis/hedywings/ble-shepherd/master.svg?maxAge=2592000)](https://travis-ci.org/hedywings/objectbox)
+[![Travis branch](https://img.shields.io/travis/bluetoother/ble-shepherd/master.svg?maxAge=2592000)](https://travis-ci.org/bluetoother/ble-shepherd)
 [![npm](https://img.shields.io/npm/v/ble-shepherd.svg?maxAge=2592000)](https://www.npmjs.com/package/objectbox)
 [![npm](https://img.shields.io/npm/l/ble-shepherd.svg?maxAge=2592000)](https://www.npmjs.com/package/objectbox)
 
