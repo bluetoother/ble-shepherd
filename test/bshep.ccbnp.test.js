@@ -207,22 +207,22 @@ describe('Functional Check', function () {
     this.timeout(5000);
 
     describe('central', function () {
-        // it('permitJoin()', function (done) {
-        //     var checkCount = 0,
-        //         duration = 2;
+        it('permitJoin()', function (done) {
+            var checkCount = 0,
+                duration = 2;
 
-        //     central.on('IND', function (msg) {
-        //         if (msg.type === 'NWK_PERMITJOIN') {
-        //             if (msg.data === 0 | msg.data === duration)
-        //                 checkCount += 1;
+            central.on('IND', function (msg) {
+                if (msg.type === 'NWK_PERMITJOIN') {
+                    if (msg.data === 0 | msg.data === duration)
+                        checkCount += 1;
 
-        //             if (checkCount === 3) done();
-        //         }
-        //     });
+                    if (checkCount === 3) done();
+                }
+            });
 
-        //     central.permitJoin(duration);
-        //     if (central._permitState === 'on') checkCount += 1;
-        // });
+            central.permitJoin(duration);
+            if (central._permitState === 'on') checkCount += 1;
+        });
 
         it('listDevices()', function () {
             var devList,
@@ -406,23 +406,130 @@ describe('Functional Check', function () {
             expect(periph.servs['0x1800'].chars['0x2a02'].processInd).to.be.equal(hdlr);
         });
 
-        it('readDesc()', function () {
-            var originalReadChar = ccbnp.gatt.readUsingCharUuid;
-            _.set(periph, 'servs.0x1800.chars.0x2a03', new Char({ uuid: '0x2a03', hdl: 25, prop: ['read', 'write', 'notify'] }));
+        it('readDesc()', function (done) {
+            var originalReadChar = ccbnp.gatt.readUsingCharUuid,
+                newChar = new Char({ uuid: '0x2a03', hdl: 25, prop: ['read', 'write', 'notify'] });
 
+            _.set(periph, 'servs.0x1800.chars.0x2a03', newChar);
+            _.set(newChar, '_ownerServ', periph.servs['0x1800']);
+            _.set(newChar, '_ownerServ._ownerDev', periph);
 
+            ccbnp.gatt.readUsingCharUuid = function () {
+                var deferred = Q.defer();
+
+                deferred.resolve({collector: {AttReadByTypeRsp: [{data: {attrVal0: 'testChar'}}]}});
+
+                return deferred.promise;
+            };
+
+            periph.readDesc('0x1800', '0x2a03', function (err, result) {
+                if (result === 'testChar' && newChar.desc === 'testChar') {
+                    ccbnp.gatt.readUsingCharUuid = originalReadChar;
+                    done();
+                }
+            });
         });
 
-        it('setNotify()', function () {
-        // - char.setConfig
+        it('setNotify() - unable to set', function (done) {
+            var newChar = new Char({ uuid: '0x2a04', hdl: 28, prop: [] });
+
+            _.set(periph, 'servs.0x1800.chars.0x2a04', newChar);
+            _.set(newChar, '_ownerServ', periph.servs['0x1800']);
+            _.set(newChar, '_ownerServ._ownerDev', periph);
+
+            periph.setNotify('0x1800', '0x2a04', true, function (err) {
+                if (err.message === 'Characteristic can\'t Notif or Ind') 
+                    done();
+            });
         });
 
-        it('read()', function () {
-        // - char.read
+        it('setNotify()', function (done) {
+            var originalReadCfg = ccbnp.gatt.readUsingCharUuid,
+                originalWriteChar = ccbnp.gatt.writeCharValue,
+                flag;
+
+            ccbnp.gatt.readUsingCharUuid = function () {
+                var deferred = Q.defer();
+
+                deferred.resolve({collector: {AttReadByTypeRsp: [{data: {attrHandle0: 15}}]}});
+
+                return deferred.promise;
+            };
+
+            ccbnp.gatt.writeCharValue = function () {
+                var deferred = Q.defer();
+
+                if (arguments[0] === 0 && arguments[1] === 15 && _.isEqual(arguments[2], {properties: 0x0001}) )
+                    flag = true;
+                deferred.resolve();
+
+                return deferred.promise;
+            };
+
+            periph.setNotify('0x1800', '0x2a03', true, function (err) {
+                if (!err && flag) {
+                    ccbnp.gatt.readUsingCharUuid = originalReadCfg;
+                    ccbnp.gatt.writeCharValue = originalWriteChar;
+                    done();
+                }
+            });
         });
 
-        it('write()', function () {
-        // - char.write
+        it('read() - unable to set', function (done) {
+            periph.read('0x1800', '0x2a04', function (err) {
+                if (err.message === 'Characteristic value not allowed to read.')
+                    done();
+            });
+        });
+
+        it('read()', function (done) {
+            var originalRead = ccbnp.gatt.readCharValue,
+                char = periph.findChar('0x1800', '0x2a03'),
+                flag;
+
+            ccbnp.gatt.readCharValue = function () {
+                var deferred = Q.defer();
+
+                if (arguments[0] === 0 && arguments[1] === 25 && arguments[2] === '0x2a03')
+                    flag = true;
+
+                deferred.resolve({collector: {AttReadRsp: [{value: 'readVal'}]}});
+
+                return deferred.promise;
+            };
+
+            periph.read('0x1800', '0x2a03', function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else if (result === 'readVal' && char.val === 'readVal') {
+                    ccbnp.gatt.readCharValue = originalRead;
+                    done();
+                }
+            });
+        });
+
+        it('write() - unable to write', function (done) {
+            periph.write('0x1800', '0x2a04', new Buffer([0]), function (err) {
+                if (err.message === 'Characteristic value not allowed to write.')
+                    done();
+            });
+        });
+
+        it('write()', function (done) {
+            var originalWrite = ccbnp.gatt.writeCharValue,
+                char = periph.findChar('0x1800', '0x2a03'),
+                writeVal = { onOff: true };
+
+            ccbnp.gatt.writeCharValue = generalFunc;
+
+            periph.write('0x1800', '0x2a03', writeVal, function (err) {
+                if (err) {
+                    console.log(err);
+                } else if (char.val === writeVal) {
+                    ccbnp.gatt.writeCharValue = originalWrite;
+                    done();
+                }
+            });
         });
     });
 });
