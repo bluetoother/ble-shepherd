@@ -307,7 +307,7 @@ describe('Functional Check', function () {
 
         it('disallow()', function (done) {
             central.disallow('0x111111111111', function (err) {
-                if (!err && !central.isBlackListed('0x111111111111')) done();
+                if (!err && !central.isWhiteListed('0x111111111111')) done();
             });
         });
     });
