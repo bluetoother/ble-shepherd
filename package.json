@@ -1,6 +1,6 @@
 {
   "name": "ble-shepherd",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "ble-shepherd is a network controller for BLE devices. It aims to help you build a BLE machine network with less effort on node.js",
   "main": "index.js",
   "scripts": {

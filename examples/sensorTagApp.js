@@ -1,7 +1,7 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/cc254x/ble-shepherd'),
+var bShepherd = require('../lib/csr8510/ble-shepherd'),
     spCfg = {
         path: '/dev/ttyACM0',
         options: {
@@ -11,27 +11,30 @@ var bShepherd = require('../lib/cc254x/ble-shepherd'),
         }
     };
 
-var sensorTagPlg = require('../../bshep-plugins/bshep-plugin-ti-sensortag1'),
-    keyFobPlg = require('../../bshep-plugins/bshep-plugin-ti-keyfob');
+// var sensorTagPlg = require('../../bshep-plugins/bshep-plugin-ti-sensortag1'),
+//     keyFobPlg = require('../../bshep-plugins/bshep-plugin-ti-keyfob');
 
 var sensorTag, keyFob, 
     sensorTemp = 0, 
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(bleApp, spCfg, function () {});
+bShepherd.start(bleApp/*, spCfg*/, function () {});
 
 function appInit () {
-    bShepherd.registerPlugin('sensorTag', sensorTagPlg);
-    bShepherd.registerPlugin('keyFob', keyFobPlg);
+    // bShepherd.registerPlugin('sensorTag', sensorTagPlg);
+    // bShepherd.registerPlugin('keyFob', keyFobPlg);
 }
 
 function bleApp (central) {
     var dev;
 
-    central.permitJoin(60);
+    central.permitJoin(3000);
     central.on('IND', function(msg) {
         switch (msg.type) {
+            case 'DEV_ONLINE':
+                console.log('dev online ' + msg.data);
+                break;
             case 'DEV_INCOMING':
                 dev = msg.data;
 
