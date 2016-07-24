@@ -26,20 +26,16 @@
   "homepage": "https://github.com/bluetoother/ble-shepherd",
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.5.3",
-    "should": "^7.1.1",
-    "should-promised": "^0.3.1"
+    "mocha": "^2.5.3"
   },
   "dependencies": {
-    "async-kit": "^0.6.8",
+    "async-kit": "^2.1.3",
     "ble-char-packet": "0.0.3",
-    "cc-bnp": "^0.1.2",
-    "concentrate": "^0.2.3",
-    "dissolve-chunks": "^1.0.1",
-    "enum": "^2.2.0",
-    "lodash": "^3.10.1",
-    "nedb": "^1.2.1",
-    "noble": "hedywings/noble#hci-socket",
+    "busyman": "^0.1.2",
+    "cc-bnp": "^0.1.3",
+    "enum": "^2.3.0",
+    "noble": "github:hedywings/noble#hci-socket",
+    "objectbox": "0.0.9",
     "q": "^1.4.1"
   },
   "bugs": {

@@ -54,7 +54,7 @@ To let **ble-shepherd** parse and build the packet of your private Services and 
 <a name="addService"></a>
 ### 2. How to add your own Services to central
 
-Use `central.addLocalServ(servInfo, callback)` method to create a local Service on the central and register it to CC254X BNP.  
+Use `central.regLocalServ(servInfo, callback)` method to create a local Service on the central and register it to CC254X BNP.  
     
 * The following table shows the details of each property within `servInfo` object.  
 
@@ -99,7 +99,7 @@ Use `central.addLocalServ(servInfo, callback)` method to create a local Service 
         charsInfo : charsInfo
     };
 
-    central.addLocalServ(servInfo, function (err, service) {
+    central.regLocalServ(servInfo, function (err, service) {
         if (err)
             console.log(err);
         else
@@ -123,7 +123,7 @@ Use `central.addLocalServ(servInfo, callback)` method to create a local Service 
         charsInfo : charsInfo
     };
 
-    central.addLocalServ(servInfo, function (err, service) {
+    central.regLocalServ(servInfo, function (err, service) {
         if (err)
             console.log(err);
         else
@@ -148,7 +148,7 @@ Use `central.addLocalServ(servInfo, callback)` method to create a local Service 
         { name: 'period', uuid: '0xaa13', params: [ 'period' ], types: [ 'uint8' ] }
     ]);
 
-    central.addLocalServ(servInfo, function (err, service) {
+    central.regLocalServ(servInfo, function (err, service) {
         if (err)
             console.log(err);
         else
@@ -168,7 +168,7 @@ Let me show you an example. Assuming that I have a BLE relay module designed by 
 
 ```javascript
 var sivannRelayPlugin = require('bshep-plugin-sivann-relay'); 
-central.registerPlugin('hello-my-relay', sivannRelayPlugin);
+central.regPlugin('hello-my-relay', sivannRelayPlugin);
 ```
 
 And in my application, I can easily tell if an incoming device is my `'hello-my-relay'`  
