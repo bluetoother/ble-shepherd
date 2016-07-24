@@ -1,13 +1,17 @@
-var _ = require('lodash'),
+var _ = require('busyman'),
     expect = require('chai').expect,
     Q = require('q'),
     ccbnp = require('cc-bnp'),
     GATTDEFS = require('../lib/defs/gattdefs'),
-    central = require('../lib/cc254x/ble-shepherd'),
-    devmgr = require('../lib/cc254x/management/devmgr'),
-    Char = require('../lib/cc254x/management/characteristic');
+    Central = require('../lib/shepherd'),
+    Periph = require('../lib/model/peripheral'),
+    Serv = require('../lib/model/service'),
+    Char = require('../lib/model/characteristic');
 
-var peripheral = devmgr.newDevice('peripheral', '0x123456789012', 0);
+var central = new Central('cc-bnp'),
+    peripheral = new Periph({ addr: '0x123456789012', addrType: 0 });
+
+peripheral._controller = central._controller;
 
 describe('Signature Check', function() {
     // central
@@ -28,7 +32,6 @@ describe('Signature Check', function() {
         expect(function () { central.start(function () {}, 123); }).to.throw('spConfig must be an object and should have path property');
         expect(function () { central.start(function () {}, false); }).to.throw('spConfig must be an object and should have path property');
         expect(function () { central.start(function () {}, undefined); }).to.throw('spConfig must be an object and should have path property');
-        expect(function () { central.start(function () {}, null); }).to.throw('spConfig must be an object and should have path property');
     });
 
     it('central.setNwkParams(type, setting[, callback])', function () {
@@ -91,45 +94,45 @@ describe('Signature Check', function() {
     });
 
     it('central.registerPlugin(devName, plugin)', function () {
-        expect(function () { central.registerPlugin('relay', { examine: function() {} }); }).to.not.throw();
+        expect(function () { central.regPlugin('relay', { examine: function() {} }); }).to.not.throw();
 
-        expect(function () { central.registerPlugin({}, { examine: function() {} }); }).to.throw('devName should be a string');
-        expect(function () { central.registerPlugin([], { examine: function() {} }); }).to.throw('devName should be a string');
-        expect(function () { central.registerPlugin(123, { examine: function() {} }); }).to.throw('devName should be a string');
-        expect(function () { central.registerPlugin(true, { examine: function() {} }); }).to.throw('devName should be a string');
-        expect(function () { central.registerPlugin(undefined, { examine: function() {} }); }).to.throw('devName should be a string');
-        expect(function () { central.registerPlugin(null, { examine: function() {} }); }).to.throw('devName should be a string');
+        expect(function () { central.regPlugin({}, { examine: function() {} }); }).to.throw('devName should be a string');
+        expect(function () { central.regPlugin([], { examine: function() {} }); }).to.throw('devName should be a string');
+        expect(function () { central.regPlugin(123, { examine: function() {} }); }).to.throw('devName should be a string');
+        expect(function () { central.regPlugin(true, { examine: function() {} }); }).to.throw('devName should be a string');
+        expect(function () { central.regPlugin(undefined, { examine: function() {} }); }).to.throw('devName should be a string');
+        expect(function () { central.regPlugin(null, { examine: function() {} }); }).to.throw('devName should be a string');
 
-        expect(function () { central.registerPlugin('switch', {}); }).to.throw('You should provide examine function');
-        expect(function () { central.registerPlugin('switch', []); }).to.throw('plugin should be an object');
-        expect(function () { central.registerPlugin('switch', 'xxx'); }).to.throw('plugin should be an object');
-        expect(function () { central.registerPlugin('switch', 123); }).to.throw('plugin should be an object');
-        expect(function () { central.registerPlugin('switch', true); }).to.throw('plugin should be an object');
-        expect(function () { central.registerPlugin('switch', undefined); }).to.throw('plugin should be an object');
-        expect(function () { central.registerPlugin('switch', null); }).to.throw('plugin should be an object');
+        expect(function () { central.regPlugin('switch', {}); }).to.throw('You should provide examine function');
+        expect(function () { central.regPlugin('switch', []); }).to.throw('plugin should be an object');
+        expect(function () { central.regPlugin('switch', 'xxx'); }).to.throw('plugin should be an object');
+        expect(function () { central.regPlugin('switch', 123); }).to.throw('plugin should be an object');
+        expect(function () { central.regPlugin('switch', true); }).to.throw('plugin should be an object');
+        expect(function () { central.regPlugin('switch', undefined); }).to.throw('plugin should be an object');
+        expect(function () { central.regPlugin('switch', null); }).to.throw('plugin should be an object');
     });
 
     it('central.addLocalServ(servInfo[, callback])', function () {
-        expect(function () { central.addLocalServ([]); }).to.throw('servInfo must be an object');
-        expect(function () { central.addLocalServ(123); }).to.throw('servInfo must be an object');
-        expect(function () { central.addLocalServ('xxx'); }).to.throw('servInfo must be an object');
-        expect(function () { central.addLocalServ(true); }).to.throw('servInfo must be an object');
-        expect(function () { central.addLocalServ(undefined); }).to.throw('servInfo must be an object');
-        expect(function () { central.addLocalServ(null); }).to.throw('servInfo must be an object');
+        expect(function () { central.regLocalServ([]); }).to.throw('servInfo must be an object');
+        expect(function () { central.regLocalServ(123); }).to.throw('servInfo must be an object');
+        expect(function () { central.regLocalServ('xxx'); }).to.throw('servInfo must be an object');
+        expect(function () { central.regLocalServ(true); }).to.throw('servInfo must be an object');
+        expect(function () { central.regLocalServ(undefined); }).to.throw('servInfo must be an object');
+        expect(function () { central.regLocalServ(null); }).to.throw('servInfo must be an object');
 
-        expect(function () { central.addLocalServ({ charsInfo: {} }); }).to.throw('servInfo.charsInfo must be an array.');
-        expect(function () { central.addLocalServ({ charsInfo: 123 }); }).to.throw('servInfo.charsInfo must be an array.');
-        expect(function () { central.addLocalServ({ charsInfo: 'xxx' }); }).to.throw('servInfo.charsInfo must be an array.');
-        expect(function () { central.addLocalServ({ charsInfo: true }); }).to.throw('servInfo.charsInfo must be an array.');
-        expect(function () { central.addLocalServ({ charsInfo: undefined }); }).to.throw('servInfo.charsInfo must be an array.');
-        expect(function () { central.addLocalServ({ charsInfo: null }); }).to.throw('servInfo.charsInfo must be an array.');
+        expect(function () { central.regLocalServ({ charsInfo: {} }); }).to.throw('servInfo.charsInfo must be an array.');
+        expect(function () { central.regLocalServ({ charsInfo: 123 }); }).to.throw('servInfo.charsInfo must be an array.');
+        expect(function () { central.regLocalServ({ charsInfo: 'xxx' }); }).to.throw('servInfo.charsInfo must be an array.');
+        expect(function () { central.regLocalServ({ charsInfo: true }); }).to.throw('servInfo.charsInfo must be an array.');
+        expect(function () { central.regLocalServ({ charsInfo: undefined }); }).to.throw('servInfo.charsInfo must be an array.');
+        expect(function () { central.regLocalServ({ charsInfo: null }); }).to.throw('servInfo.charsInfo must be an array.');
 
-        expect(function () { central.addLocalServ({ charsInfo: [], uuid: {} }); }).to.throw('servInfo.uuid must be a string and start with 0x');
-        expect(function () { central.addLocalServ({ charsInfo: [], uuid: [] }); }).to.throw('servInfo.uuid must be a string and start with 0x');
-        expect(function () { central.addLocalServ({ charsInfo: [], uuid: 123 }); }).to.throw('servInfo.uuid must be a string and start with 0x');
-        expect(function () { central.addLocalServ({ charsInfo: [], uuid: true }); }).to.throw('servInfo.uuid must be a string and start with 0x');
-        expect(function () { central.addLocalServ({ charsInfo: [], uuid: undefined }); }).to.throw('servInfo.uuid must be a string and start with 0x');
-        expect(function () { central.addLocalServ({ charsInfo: [], uuid: null }); }).to.throw('servInfo.uuid must be a string and start with 0x');
+        expect(function () { central.regLocalServ({ charsInfo: [], uuid: {} }); }).to.throw('servInfo.uuid must be a string and start with 0x');
+        expect(function () { central.regLocalServ({ charsInfo: [], uuid: [] }); }).to.throw('servInfo.uuid must be a string and start with 0x');
+        expect(function () { central.regLocalServ({ charsInfo: [], uuid: 123 }); }).to.throw('servInfo.uuid must be a string and start with 0x');
+        expect(function () { central.regLocalServ({ charsInfo: [], uuid: true }); }).to.throw('servInfo.uuid must be a string and start with 0x');
+        expect(function () { central.regLocalServ({ charsInfo: [], uuid: undefined }); }).to.throw('servInfo.uuid must be a string and start with 0x');
+        expect(function () { central.regLocalServ({ charsInfo: [], uuid: null }); }).to.throw('servInfo.uuid must be a string and start with 0x');
     });
 
     // peripheral
@@ -170,6 +173,8 @@ describe('Signature Check', function() {
     });
 
     it('peripheral.findChar(uuidServ, uuidChar)', function () {
+        peripheral.servs['0x1800'] = {};
+
         expect(function () { peripheral.findChar('0x1800', '0x2a00'); }).to.not.throw();
 
         expect(function () { peripheral.findChar({}, '0x2a00'); }).to.throw('uuidServ must be a string and start with 0x');
@@ -180,13 +185,12 @@ describe('Signature Check', function() {
         expect(function () { peripheral.findChar(undefined, '0x2a00'); }).to.throw('uuidServ must be a string and start with 0x');
         expect(function () { peripheral.findChar(null, '0x2a00'); }).to.throw('uuidServ must be a string and start with 0x');
 
-        expect(function () { peripheral.findChar('0x1800', {}); }).to.throw('uuidChar must be a string and start with 0x');
-        expect(function () { peripheral.findChar('0x1800', []); }).to.throw('uuidChar must be a string and start with 0x');
-        expect(function () { peripheral.findChar('0x1800', 123); }).to.throw('uuidChar must be a string and start with 0x');
-        expect(function () { peripheral.findChar('0x1800', 'xxx'); }).to.throw('uuidChar must be a string and start with 0x');
-        expect(function () { peripheral.findChar('0x1800', undefined); }).to.throw('uuidChar must be a string and start with 0x');
-        expect(function () { peripheral.findChar('0x1800', true); }).to.throw('uuidChar must be a string and start with 0x');
-        expect(function () { peripheral.findChar('0x1800', null); }).to.throw('uuidChar must be a string and start with 0x');
+        expect(function () { peripheral.findChar('0x1800', {}); }).to.throw('uuidChar must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', []); }).to.throw('uuidChar must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', 'xxx'); }).to.throw('uuidChar must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', undefined); }).to.throw('uuidChar must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', true); }).to.throw('uuidChar must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', null); }).to.throw('uuidChar must be a number or a string start with 0x');
     });
 
     it('peripheral.regCharHdlr(uuidServ, uuidChar, fn)', function () {
@@ -206,6 +210,10 @@ describe('Signature Check', function() {
 describe('Functional Check', function () {
     this.timeout(5000);
 
+    var periph1 = new Periph({ addr: '0x123456789012', addrType: 0 }),
+        periph2 = new Periph({ addr: '0x112233445566', addrType: 1 }),
+        periph3 = new Periph({ addr: '0x665544332211', addrType: 2});
+
     describe('central', function () {
         it('permitJoin()', function (done) {
             var checkCount = 0,
@@ -216,34 +224,31 @@ describe('Functional Check', function () {
                     if (msg.data === 0 | msg.data === duration)
                         checkCount += 1;
 
-                    if (checkCount === 3) done();
+                    if (checkCount === 2) done();
                 }
             });
 
             central.permitJoin(duration);
-            if (central._permitState === 'on') checkCount += 1;
         });
 
-        it('listDevices()', function () {
-            var devList,
-                result,
-                periph1 = devmgr.newDevice('peripheral', '0x123456789012', 0),
-                periph2 = devmgr.newDevice('peripheral', '0x112233445566', 1),
-                periph3 = devmgr.newDevice('peripheral', '0x665544332211', 2);
+        it('listDevices()', function (done) {
+            var result;
 
-            result = central.listDevices();
-            devList = [periph1.dump(), periph2.dump(), periph3.dump()];
-
-            expect(result).to.be.deep.equal(devList);
+            central.regPeriph(periph1).then(function () {
+                return central.regPeriph(periph2);
+            }).then(function () {
+                return central.regPeriph(periph3);
+            }).then(function () {
+                result = central.listDevices();
+                if (result.length === 3)
+                    done();
+            }).fail(function (err) {
+                console.log(err);
+            });
         });
 
         it('find()', function () {
-            var result,
-                periph1 = devmgr.newDevice('peripheral', '0x123456789012', 0),
-                periph2 = devmgr.newDevice('peripheral', '0x112233445566', 1),
-                periph3 = devmgr.newDevice('peripheral', '0x665544332211', 2);
-
-            result = central.find(periph1.addr);
+            var result = central.find(periph1.addr);
 
             expect(result).to.be.deep.equal(periph1);
         });
@@ -265,20 +270,20 @@ describe('Functional Check', function () {
                 }
             };
 
-            expect(central.registerPlugin('xxx', plugin)).to.be.true;
+            expect(central.regPlugin('xxx', plugin)).to.be.true;
             expect(central._plugins['xxx']).to.be.deep.equal(plugin.examine);
             expect(GATTDEFS.ServUuid.get(0xfff1)).to.be.a('object');
         });
 
         it('blocker()', function () {
             expect(central.blocker(true)).to.be.deep.equal(central);
-            expect(central._blackOrWhite).to.be.equal('black');
+            expect(central._blockerState).to.be.equal('black');
 
             expect(central.blocker(true, 'white')).to.be.deep.equal(central);
-            expect(central._blackOrWhite).to.be.equal('white');
+            expect(central._blockerState).to.be.equal('white');
 
             expect(central.blocker(false)).to.be.deep.equal(central);
-            expect(central._blackOrWhite).to.be.null;
+            expect(central._blockerState).to.be.null;
         });
 
         it('ban()', function (done) {
@@ -312,7 +317,7 @@ describe('Functional Check', function () {
         });
     });
 
-    var periph = devmgr.newDevice('peripheral', '0x123456789012', 0),
+    // var periph = devmgr.newDevice('peripheral', '0x123456789012', 0),
         generalFunc = function () {
             var deferred = Q.defer();
 
@@ -320,6 +325,21 @@ describe('Functional Check', function () {
             return deferred.promise;
         };
     describe('peripheral', function () {
+        var servInfo = {
+            uuid: '0x1800',
+            startHdl: 1,
+            endHdl: 20,
+            chars: [ 
+                {
+                    uuid: '0x2a00',
+                    hdl: 2,
+                    prop: ['read']
+                }
+            ]
+        };
+
+        peripheral.servs['0x1800'] = new Serv(servInfo, peripheral);
+
         it('connect()', function (done) {
             var originalEstLinkReq = ccbnp.gap.estLinkReq,
                 originalDiscCancel = ccbnp.gap.deviceDiscCancel();
@@ -335,8 +355,8 @@ describe('Functional Check', function () {
 
             ccbnp.gap.deviceDiscCancel = generalFunc;
 
-            periph.state = 'pause';
-            periph.connect(function (err) {
+            peripheral.status = 'idle';
+            peripheral.connect(function (err) {
                 if (!err) {
                     ccbnp.gap.estLinkReq = originalEstLinkReq;
                     ccbnp.gap.deviceDiscCancel = originalDiscCancel;
@@ -352,8 +372,8 @@ describe('Functional Check', function () {
             ccbnp.gap.deviceDiscCancel = ccbnp.gap.terminateLink = generalFunc;
 
             setTimeout(function () {
-                periph.disconnect(function (err) {
-                    if (!err && !periph.connHdl && periph.state === 'offline') {
+                peripheral.disconnect(function (err) {
+                    if (!err && !peripheral.connHdl && peripheral.status === 'offline') {
                         ccbnp.gap.deviceDiscCancel = originalDiscCancel;
                         ccbnp.gap.terminateLink = originalTermLink;
                         done();
@@ -375,44 +395,36 @@ describe('Functional Check', function () {
                 return deferred.promise;
             };
 
-            periph.state = 'online';
-            periph.connHdl = 0;
-            periph.updateLinkParam(20, 40, 60, function (err) {
+            peripheral.status = 'online';
+            peripheral.connHdl = 0;
+            peripheral.updateLinkParam(20, 40, 60, function (err) {
                 if (!err) {
-                    if (_.isEqual(periph.linkParams, { interval: 20, latency: 40, timeout: 60 })); 
-                        done();
+                    setTimeout(function () {
+                        if (_.isEqual(peripheral.linkParams, { interval: 20, latency: 40, timeout: 60 })); 
+                            done();
+                    }, 50);
                 }
             });
         });
 
         it('findChar()', function () {
-            var chars = {
-                    '0x2a00': { uuid: '0x2a00' },
-                    '0x2a01': { uuid: '0x2a01' },
-                    '0x2a02': { uuid: '0x2a02' }
-                };
-
-            _.set(periph.servs, '0x1800.chars', chars);
-
-            expect(periph.findChar('0x1800', '0x2a00')).to.be.deep.equal(chars['0x2a00']);
-            expect(periph.findChar('0x1800', '0x2a01')).to.be.deep.equal(chars['0x2a01']);
+            peripheral.servs['0x1800'] = new Serv(servInfo, peripheral);
+            expect(peripheral.findChar('0x1800', '0x2a00')).to.be.deep.equal(peripheral.servs['0x1800'].chars['2']);
 
         });
 
         it('regCharHdlr()', function () {
             var hdlr = function () {};
 
-            expect(periph.regCharHdlr('0x1800', '0x2a02', hdlr)).to.be.deep.equal(periph);
-            expect(periph.servs['0x1800'].chars['0x2a02'].processInd).to.be.equal(hdlr);
+            expect(peripheral.regCharHdlr('0x1800', '0x2a00', hdlr)).to.be.deep.equal(peripheral);
+            expect(peripheral.servs['0x1800'].chars['2'].processInd).to.be.equal(hdlr);
         });
 
         it('readDesc()', function (done) {
             var originalReadChar = ccbnp.gatt.readUsingCharUuid,
-                newChar = new Char({ uuid: '0x2a03', hdl: 25, prop: ['read', 'write', 'notify'] });
+                newChar = new Char({ uuid: '0x2a03', hdl: 25, prop: ['read', 'write', 'notify'] }, peripheral.servs['0x1800']);
 
-            _.set(periph, 'servs.0x1800.chars.0x2a03', newChar);
-            _.set(newChar, '_ownerServ', periph.servs['0x1800']);
-            _.set(newChar, '_ownerServ._ownerDev', periph);
+            _.set(peripheral, 'servs.0x1800.chars.25', newChar);
 
             ccbnp.gatt.readUsingCharUuid = function () {
                 var deferred = Q.defer();
@@ -422,7 +434,7 @@ describe('Functional Check', function () {
                 return deferred.promise;
             };
 
-            periph.readDesc('0x1800', '0x2a03', function (err, result) {
+            peripheral.readDesc('0x1800', '0x2a03', function (err, result) {
                 if (result === 'testChar' && newChar.desc === 'testChar') {
                     ccbnp.gatt.readUsingCharUuid = originalReadChar;
                     done();
@@ -431,14 +443,12 @@ describe('Functional Check', function () {
         });
 
         it('setNotify() - unable to set', function (done) {
-            var newChar = new Char({ uuid: '0x2a04', hdl: 28, prop: [] });
+            var newChar = new Char({ uuid: '0x2a04', hdl: 28, prop: [] }, peripheral.servs['0x1800']);
 
-            _.set(periph, 'servs.0x1800.chars.0x2a04', newChar);
-            _.set(newChar, '_ownerServ', periph.servs['0x1800']);
-            _.set(newChar, '_ownerServ._ownerDev', periph);
+            _.set(peripheral, 'servs.0x1800.chars.28', newChar);
 
-            periph.setNotify('0x1800', '0x2a04', true, function (err) {
-                if (err.message === 'Characteristic can\'t Notif or Ind') 
+            peripheral.setNotify('0x1800', '0x2a04', true, function (err) {
+                if (err.message === 'Characteristic not allowed to notify or indication') 
                     done();
             });
         });
@@ -466,7 +476,7 @@ describe('Functional Check', function () {
                 return deferred.promise;
             };
 
-            periph.setNotify('0x1800', '0x2a03', true, function (err) {
+            peripheral.setNotify('0x1800', '0x2a03', true, function (err) {
                 if (!err && flag) {
                     ccbnp.gatt.readUsingCharUuid = originalReadCfg;
                     ccbnp.gatt.writeCharValue = originalWriteChar;
@@ -476,7 +486,7 @@ describe('Functional Check', function () {
         });
 
         it('read() - unable to set', function (done) {
-            periph.read('0x1800', '0x2a04', function (err) {
+            peripheral.read('0x1800', '0x2a04', function (err) {
                 if (err.message === 'Characteristic value not allowed to read.')
                     done();
             });
@@ -484,7 +494,7 @@ describe('Functional Check', function () {
 
         it('read()', function (done) {
             var originalRead = ccbnp.gatt.readCharValue,
-                char = periph.findChar('0x1800', '0x2a03'),
+                char = peripheral.findChar('0x1800', '0x2a03'),
                 flag;
 
             ccbnp.gatt.readCharValue = function () {
@@ -498,7 +508,7 @@ describe('Functional Check', function () {
                 return deferred.promise;
             };
 
-            periph.read('0x1800', '0x2a03', function (err, result) {
+            peripheral.read('0x1800', '0x2a03', function (err, result) {
                 if (err) {
                     console.log(err);
                 } else if (result === 'readVal' && char.val === 'readVal') {
@@ -509,7 +519,7 @@ describe('Functional Check', function () {
         });
 
         it('write() - unable to write', function (done) {
-            periph.write('0x1800', '0x2a04', new Buffer([0]), function (err) {
+            peripheral.write('0x1800', '0x2a04', new Buffer([0]), function (err) {
                 if (err.message === 'Characteristic value not allowed to write.')
                     done();
             });
@@ -517,12 +527,12 @@ describe('Functional Check', function () {
 
         it('write()', function (done) {
             var originalWrite = ccbnp.gatt.writeCharValue,
-                char = periph.findChar('0x1800', '0x2a03'),
+                char = peripheral.findChar('0x1800', '0x2a03'),
                 writeVal = { onOff: true };
 
             ccbnp.gatt.writeCharValue = generalFunc;
 
-            periph.write('0x1800', '0x2a03', writeVal, function (err) {
+            peripheral.write('0x1800', '0x2a03', writeVal, function (err) {
                 if (err) {
                     console.log(err);
                 } else if (char.val === writeVal) {

@@ -114,8 +114,8 @@ function app() {
 * [central.listDevices()](#API_listDevices)
 * [central.find()](#API_find)
 * [central.regGattDefs()](#API_regGattDefs)
-* [central.registerPlugin()](#API_registerPlugin)
-* [central.addLocalServ()](#API_addLocalServ)
+* [central.regPlugin()](#API_regPlugin)
+* [central.regLocalServ()](#API_regLocalServ)
 * [central.blocker()](#API_blocker)
 * [central.ban()](#API_ban)
 * [central.unban()](#API_unban)
@@ -152,8 +152,8 @@ Some methods are not supported for noble submodule, they are listed in this tabl
 |                                       | listDevices           | O               | O               |
 |                                       | find                  | O               | O               |
 |                                       | regGattDefs           | O               | O               |
-|                                       | registerPlugin        | O               | O               |
-|                                       | addLocalServ          | O               | X               |
+|                                       | regPlugin             | O               | O               |
+|                                       | regLocalServ          | O               | X               |
 |                                       | blocker               | O               | O               |
 |                                       | ban                   | O               | O               |
 |                                       | unban                 | O               | O               |
@@ -371,8 +371,8 @@ List records of all Peripheral Devices managed by central.
 |----------|--------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | addr     | String | Address of the peripheral device                                                                                                          |
 | addrType | String | Address type of the peripheral device                                                                                                     |
-| state    | String | Device state can be `online`, `offline`, or `idle`                                                                                        |
-| connHdl  | Number | Connection handle. It will be `null` if device state is not `online`.                                                                     |
+| status   | String | Device status can be `online`, `offline`, or `idle`                                                                                        |
+| connHdl  | Number | Connection handle. It will be `null` if device status is not `online`.                                                                     |
 | servList | Object | Service and Characteristic list. Each key in `servList` is the `servUuid` and each value is an array of `charUuid` under the `servUuid`.  |
 
 **Example**  
@@ -385,7 +385,7 @@ var devRecords = central.listDevices()
 //     {
 //         addr: '0x544a165e1f53',
 //         addrType: 'public',
-//         state: 'online',
+//         status: 'online',
 //         connHdl: 70,
 //         servs: {
 //             '0x1800': [ '0x2a00', '0x2a01', '0x2a02', '0x2a03', '0x2a04' ],
@@ -402,7 +402,7 @@ var devRecords = central.listDevices()
 //     {
 //         addr: '0x9059af0b8159',
 //         addrType: 'public',
-//         state: 'online',
+//         status: 'online',
 //         connHdl: 65,
 //         servs: {
 //             '0x1800': [ '0x2a00', '0x2a01', '0x2a02', '0x2a03', '0x2a04' ],
@@ -480,8 +480,8 @@ central.regGattDefs('characteristic', [
 ```
 
 *************************************************
-<a name="API_registerPlugin"></a>  
-###.registerPlugin(devName, plugin)  
+<a name="API_regPlugin"></a>  
+###.regPlugin(devName, plugin)  
 Register a plugin provided by the third-party module. The plugin tells **ble-shepherd** of how to recognize a third-party BLE module/product.  
 
 **Arguments**  
@@ -501,7 +501,7 @@ Note: Learn more in section **Advanced topics**: [How to create a Plugin for you
 // Require the plugin 'bshep-plugin-sivann-relay' for relay modules manufactured by sivann  
 var sivannRelayPlugin = require('bshep-plugin-sivann-relay'); 
 
-central.registerPlugin('sivann-relay', sivannRelayPlugin);
+central.regPlugin('sivann-relay', sivannRelayPlugin);
 central.start(app);
 
 function app (central) {
@@ -532,8 +532,8 @@ function app (central) {
 ```
   
 *************************************************
-<a name="API_addLocalServ"></a>  
-### .addLocalServ(servInfo[, callback])  
+<a name="API_regLocalServ"></a>  
+### .regLocalServ(servInfo[, callback])  
 Register a Service to the BLE central.  
 
 Note: This command is cc-bnp only.  
@@ -565,7 +565,7 @@ var charsInfo = [
     };
 
 // Step2: Register to central 
-central.addLocalServ(servInfo, function (err, result) {
+central.regLocalServ(servInfo, function (err, result) {
     if (err)
         console.log(err);
     else
@@ -691,7 +691,7 @@ The central will fire an `IND` event upon receiving an indication from a periphe
 
 Event Handler: `function(msg) { }`  
 
- The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `DEV_PAUSE`, `NWK_PERMITJOIN`, `ATT_IND`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
+ The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `DEV_IDLE`, `NWK_PERMITJOIN`, `ATT_IND`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
 
 - **DEV_ONLINE**  
 
@@ -725,16 +725,16 @@ Event Handler: `function(msg) { }`
 
 <br />
 
-- **DEV_PAUSE**  
+- **DEV_IDLE**  
 
-    A peripheral has just paused its connection in order to allow other peripheral to join the network. (Due to limitation of the number of connections)  
+    A peripheral has just idle in order to allow other peripheral to join the network. (Due to limitation of the number of connections)  
 
-    - `msg.type` (*String*): `'DEV_PAUSE'`  
+    - `msg.type` (*String*): `'DEV_IDLE'`  
     - `msg.data` (*String*): Device address  
 
     ```js
     {
-        type: 'DEV_PAUSE',
+        type: 'DEV_IDLE',
         data: '0x78c5e570796e'
     }
     ```

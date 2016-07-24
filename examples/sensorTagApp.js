@@ -1,7 +1,8 @@
 var Q = require('q'),
     _ = require('lodash');
 
-var bShepherd = require('../lib/csr8510/ble-shepherd'),
+var BShepherd = require('../index'),
+    bShepherd = new BShepherd('cc-bnp'),
     spCfg = {
         path: '/dev/ttyACM0',
         options: {
@@ -19,7 +20,7 @@ var sensorTag, keyFob,
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(bleApp/*, spCfg*/, function () {});
+bShepherd.start(bleApp, spCfg, function () {});
 
 function appInit () {
     // bShepherd.registerPlugin('sensorTag', sensorTagPlg);
@@ -29,7 +30,7 @@ function appInit () {
 function bleApp (central) {
     var dev;
 
-    central.permitJoin(3000);
+    central.permitJoin(60);
     central.on('IND', function(msg) {
         switch (msg.type) {
             case 'DEV_ONLINE':
@@ -53,8 +54,8 @@ function bleApp (central) {
                 break;
             case 'DEV_LEAVING':
                 break;
-            case 'DEV_PAUSE':
-                console.log('Pause device: ' + msg.data);
+            case 'DEV_IDLE':
+                console.log('Idle device: ' + msg.data);
                 break;
             case 'ATT_IND':
                 break;
