@@ -2,7 +2,7 @@ var Q = require('q'),
     _ = require('lodash');
 
 var BShepherd = require('../index'),
-    bShepherd = new BShepherd('cc-bnp'),
+    bShepherd = new BShepherd('noble'),
     spCfg = {
         path: '/dev/ttyACM0',
         options: {
