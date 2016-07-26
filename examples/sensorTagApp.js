@@ -12,8 +12,8 @@ var BShepherd = require('../index'),
         }
     };
 
-// var sensorTagPlg = require('../../bshep-plugins/bshep-plugin-ti-sensortag1'),
-//     keyFobPlg = require('../../bshep-plugins/bshep-plugin-ti-keyfob');
+var sensorTagPlg = require('../../bluetoother/bshep-plugins/bshep-plugin-ti-sensortag1'),
+    keyFobPlg = require('../../bluetoother/bshep-plugins/bshep-plugin-ti-keyfob');
 
 var sensorTag, keyFob, 
     sensorTemp = 0, 
@@ -23,12 +23,15 @@ bShepherd.appInit = appInit;
 bShepherd.start(bleApp, spCfg, function () {});
 
 function appInit () {
-    // bShepherd.registerPlugin('sensorTag', sensorTagPlg);
-    // bShepherd.registerPlugin('keyFob', keyFobPlg);
+    bShepherd.regPlugin('sensorTag', sensorTagPlg);
+    bShepherd.regPlugin('keyFob', keyFobPlg);
 }
 
 function bleApp (central) {
     var dev;
+
+    // central.blocker(true, 'white');
+    // central.allow('0x20c38ff19403');
 
     central.permitJoin(60);
     central.on('IND', function(msg) {
@@ -50,7 +53,30 @@ function bleApp (central) {
 
                     keyFob.regCharHdlr('0xffe0', '0xffe1', callbackSimpleKey);
                     keyFobSimpleKey(keyFob, 1);
-                }
+                } else if (dev.addr === '0x20c38ff19403') { //0x20c38ff19403
+                    // register handler of temperature characteristic
+                    dev.regCharHdlr('0xbb80', '0xcc07', tempHdlr);
+
+                    // register handler of humidity characteristic
+                    dev.regCharHdlr('0xbb80', '0xcc08', humidHdlr);
+
+                    // register handler of illuminance characteristic
+                    dev.regCharHdlr('0xbb80', '0xcc05', uvHdlr);
+
+                    // register handler of barometer characteristic
+                    dev.regCharHdlr('0xbb80', '0xcc11', barometerHdlr);
+
+                    var weaMeasChar = dev.findChar('0xbb80', '0xcc0a');
+
+                    weaMeasChar.val.onOff = true;
+                    dev.write('0xbb80', '0xcc0a', weaMeasChar.val).then(function () {
+                        return dev.read('0xbb80', '0xcc0a');
+                    }).then(function (result) {
+                        console.log(result);
+                    }).fail(function (err) {
+                        console.log(err);
+                    });
+                }   
                 break;
             case 'DEV_LEAVING':
                 break;
@@ -276,3 +302,23 @@ function callbackSimpleKey (data) {
     }
 }
 
+function tempHdlr(data) {
+    // show temp
+    console.log('Temperature sensed value: ' + data.sensorValue);
+}
+
+function humidHdlr(data) {
+    // show humid
+    console.log('Humidity sensed value: ' + data.sensorValue);
+    console.log('');
+}
+
+function uvHdlr(data) {
+    // show uv hdlr
+    console.log('UV sensed value: ' + data.sensorValue);
+}
+
+function barometerHdlr(data) {
+    // show barometer
+    console.log('Barometer sensed value: ' + data.sensorValue);
+}
