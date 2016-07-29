@@ -25,7 +25,7 @@ describe('Constructor Check', function () {
         expect(shepherd._resetting).to.be.false;
         expect(shepherd._blockerState).to.be.null;
         expect(shepherd._permitJoinTimer).to.be.null;
-        expect(shepherd._spCfg).to.be.deep.equal({ path: 'xxx', options: null });
+        expect(shepherd._spCfg).to.be.deep.equal({ path: 'xxx', options: undefined });
         expect(shepherd._plugins).to.be.an('object');
 
         expect(shepherd.bleCentral).to.be.null;
