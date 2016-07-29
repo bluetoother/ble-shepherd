@@ -3,37 +3,76 @@ var _ = require('busyman'),
     Q = require('q'),
     ccbnp = require('cc-bnp'),
     GATTDEFS = require('../lib/defs/gattdefs'),
-    Central = require('../lib/shepherd'),
+    BShepherd = require('../index'),
     Periph = require('../lib/model/peripheral'),
     Serv = require('../lib/model/service'),
     Char = require('../lib/model/characteristic');
 
-var central = new Central('cc-bnp'),
+var central = new BShepherd('cc-bnp', 'xxx'),
     peripheral = new Periph({ addr: '0x123456789012', addrType: 0 });
 
-peripheral._controller = central._controller;
+    peripheral._controller = central._controller;
 
-describe('Signature Check', function() {
-    // central
-    it('central.start(bleApp, spCfg[, callback])', function () {
-        expect(function () { central.start(function () {}, { path: 'ttyACM0' }); }).to.not.throw();
+describe('Constructor Check', function () {
+    it('should has all correct members after new', function () {
+        var subModule = 'cc-bnp',
+            shepherd = new BShepherd(subModule, 'xxx');
 
-        expect(function () { central.start({}, { path: 'ttyACM0' }); }).to.throw('app must be an function');
-        expect(function () { central.start([], { path: 'ttyACM0' }); }).to.throw('app must be an function');
-        expect(function () { central.start('xxx', { path: 'ttyACM0' }); }).to.throw('app must be an function');
-        expect(function () { central.start(123, { path: 'ttyACM0' }); }).to.throw('app must be an function');
-        expect(function () { central.start(false, { path: 'ttyACM0' }); }).to.throw('app must be an function');
-        expect(function () { central.start(undefined, { path: 'ttyACM0' }); }).to.throw('app must be an function');
-        expect(function () { central.start(null, { path: 'ttyACM0' }); }).to.throw('app must be an function');
+        expect(shepherd._subModule).to.be.equal(subModule);
+        expect(shepherd._controller).to.be.an('object');
+        expect(shepherd._periphBox).to.be.an('object');
+        expect(shepherd._enable).to.be.equal('pending');
+        expect(shepherd._resetting).to.be.false;
+        expect(shepherd._blockerState).to.be.null;
+        expect(shepherd._permitJoinTimer).to.be.null;
+        expect(shepherd._spCfg).to.be.deep.equal({ path: 'xxx', options: null });
+        expect(shepherd._plugins).to.be.an('object');
 
-        expect(function () { central.start(function () {}, {}); }).to.throw('spConfig must be an object and should have path property');
-        expect(function () { central.start(function () {}, []); }).to.throw('spConfig must be an object and should have path property');
-        expect(function () { central.start(function () {}, 'xxx'); }).to.throw('spConfig must be an object and should have path property');
-        expect(function () { central.start(function () {}, 123); }).to.throw('spConfig must be an object and should have path property');
-        expect(function () { central.start(function () {}, false); }).to.throw('spConfig must be an object and should have path property');
-        expect(function () { central.start(function () {}, undefined); }).to.throw('spConfig must be an object and should have path property');
+        expect(shepherd.bleCentral).to.be.null;
+        expect(shepherd.init).to.be.a('function');
+        expect(shepherd.setScanRule).to.be.a('function');
+
+        expect(shepherd.setPermitJoinTime).to.be.a('function');
+        expect(shepherd.getPermitJoinTime).to.be.a('function');
+        expect(shepherd.joinTimeCountdown).to.be.a('function');
+        expect(shepherd.isBlackListed).to.be.a('function');
+        expect(shepherd.ban).to.be.a('function');
+        expect(shepherd.unban).to.be.a('function');
+        expect(shepherd.isWhiteListed).to.be.a('function');
+        expect(shepherd.allow).to.be.a('function');
+        expect(shepherd.disallow).to.be.a('function');
+        expect(shepherd._ban).to.be.a('function');
+        expect(shepherd._unban).to.be.a('function');
+        expect(shepherd._onSignin).to.be.a('function');
+        expect(shepherd._onAsyncExit).to.be.a('function');
     });
 
+    it('should throw if subModule given with cc-bnp or noble', function () {
+        expect(function () { new BShepherd('cc-bnp', 'xxx'); }).to.not.throw();
+
+        expect(function () { new BShepherd({}); }).to.throw('subModule must be given with cc-bnp or noble');
+        expect(function () { new BShepherd([]); }).to.throw('subModule must be given with cc-bnp or noble');
+        expect(function () { new BShepherd('xxx'); }).to.throw('subModule must be given with cc-bnp or noble');
+        expect(function () { new BShepherd(123); }).to.throw('subModule must be given with cc-bnp or noble');
+        expect(function () { new BShepherd(false); }).to.throw('subModule must be given with cc-bnp or noble');
+        expect(function () { new BShepherd(undefined); }).to.throw('subModule must be given with cc-bnp or noble');
+        expect(function () { new BShepherd(null); }).to.throw('subModule must be given with cc-bnp or noble');
+    });
+
+    it('should throw if path not given with string with cc-bnp', function () {
+        expect(function () { new BShepherd('cc-bnp'); }).to.throw('path must be given in string');
+        expect(function () { new BShepherd('cc-bnp', {}); }).to.throw('path must be given in string');
+        expect(function () { new BShepherd('cc-bnp', []); }).to.throw('path must be given in string');
+        expect(function () { new BShepherd('cc-bnp', 123); }).to.throw('path must be given in string');
+        expect(function () { new BShepherd('cc-bnp', false); }).to.throw('path must be given in string');
+        expect(function () { new BShepherd('cc-bnp', undefined); }).to.throw('path must be given in string');
+        expect(function () { new BShepherd('cc-bnp', null); }).to.throw('path must be given in string');
+
+        ccbnp.removeAllListeners('ind');
+    });
+});
+
+describe('Signature Check', function() {
     it('central.setNwkParams(type, setting[, callback])', function () {
         expect(function () { central.setNwkParams('scan', {}); }).to.not.throw();
 
@@ -384,7 +423,8 @@ describe('Functional Check', function () {
         });
 
         it('updateLinkParam()', function (done) {
-            var originalUpdateLinkParamReq = ccbnp.gap.updateLinkParamReq;
+            var originalUpdateLinkParamReq = ccbnp.gap.updateLinkParamReq,
+                originalCentralFind = central.find;
 
             ccbnp.gap.updateLinkParamReq = function () {
                 var deferred = Q.defer();
@@ -395,13 +435,20 @@ describe('Functional Check', function () {
                 return deferred.promise;
             };
 
+            central.find = function () {
+                return peripheral;
+            };
+
             peripheral.status = 'online';
             peripheral.connHdl = 0;
             peripheral.updateLinkParam(20, 40, 60, function (err) {
                 if (!err) {
                     setTimeout(function () {
-                        if (_.isEqual(peripheral.linkParams, { interval: 20, latency: 40, timeout: 60 })); 
+                        if (_.isEqual(peripheral.linkParams, { interval: 20, latency: 40, timeout: 60 })) {
+                            ccbnp.gap.updateLinkParamReq = originalUpdateLinkParamReq;
+                            central.find = originalCentralFind;
                             done();
+                        }
                     }, 50);
                 }
             });
