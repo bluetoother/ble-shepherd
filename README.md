@@ -68,32 +68,44 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 <a name="Usage"></a>
 ### 1.3 Usage
 
-**ble-shepherd** exports its functionalities as a singleton denoted as `central` in this document. The following example shows how to create an application with **ble-shepherd** with CC254X BLE network processor(BNP) (see [central.start()](#API_start) if you like to use CSR BLE USB dongle).  
+The following example shows how to create a new instance of the `BleShepherd` class and call method `start()` to bring the `central` up with different sub-module.  
 
-Firstly, set up your serial-port configuration to connect to BNP. Next, call method `start()` with your configuration `spCfg` and application `app()` to bring the `central` up. Your `app()` will run right after the central connected to BNP. If you like to tackle something prior to your app loading, e.g., registering custom GATT definitions, just override the method `appInit()` to suit your needs.  
+If you like to tackle something prior to your central starting, e.g., registering custom GATT definitions, just override the method `init()` to suit your needs.  
   
+* Using `cc-bnp` as a sub-module  
   
 ```javascript
-var central = require('ble-shepherd')('cc-bnp');
-var spCfg = {
-        path: '/dev/ttyUSB0',
-        options: {
-            baudRate: 115200,
-            rtscts: true,
-            flowControl: true
-        }
+var BleShepherd = require('ble-shepherd');
+var path = '/dev/ttyUSB0',  // The system path of the serial port to connect to BNP
+    opts: {                 // Serial port configuration options.
+        baudRate: 115200,
+        rtscts: true,
+        flowControl: true
     };
 
-central.appInit = function () {
+var central = new BleShepherd('cc-bnp', path, opts);
+
+central.init = function () {
     // do something before app starting
     // usually register GATT definition by calling regGattDefs() here
 }
 
-central.start(app, spCfg);
+central.start();
+```
 
-function app() {
-    // your application
+* Using `noble` as a sub-module  
+  
+```javascript
+var BleShepherd = require('ble-shepherd');
+
+var central = new BleShepherd('noble');
+
+central.init = function () {
+    // do something before app starting
+    // usually register GATT definition by calling regGattDefs() here
 }
+
+central.start();
 ```
 
 *************************************************
@@ -104,8 +116,10 @@ function app() {
 ## 2. APIs and Events
 
 ####1. Control the Network 
-**central** is a singleton exported by `require('ble-shepherd')(submodule)`, where `subModule` can be either a string of `'cc-bnp'` or `'noble'` to specify the submodule.  
+**central** is an instance created by `new BShepherd(subModule)`, where `subModule` can be either a string of `'cc-bnp'` or `'noble'` to specify the sub-module.  
 
+* [new BShepherd()](#API_BShepherdCcbnp) with `cc-bnp` sub-module
+* [new BShepherd()](#API_BShepherdNoble) with `noble` sub-module
 * [central.start()](#API_start)
 * [central.stop()](#API_stop)
 * [central.reset()](#API_reset)
@@ -121,7 +135,7 @@ function app() {
 * [central.unban()](#API_unban)
 * [central.allow()](#API_allow)
 * [central.disallow()](#API_disallow)
-* ['IND' event](#EVT_ind)
+* Events: [READY](#EVT_ready), [IND](#EVT_ind)
 
 ####2. Monitor and Control the Peripherals
 **peripheral** is a software endpoint, which represents a remote BLE device, in **ble-shepherd**. You can use `central.find()` to find a connected _pheripheral_ device with its address or connection handle. Once you get the endpoint, you can invoke its read()/write() methods to operate the remote device.  
@@ -140,7 +154,7 @@ function app() {
 * [peripheral.write()](#API_write)
 * [peripheral.regCharHdlr()](#API_regCharHdlr)
 
-Some methods are not supported for noble submodule, they are listed in this table. (X: unsupported)
+Some methods are not supported for noble sub-module, they are listed in this table. (X: unsupported)
 
 | Interface                             | Method                | cc-bnp          |  noble          |
 | --------------------------------------| ----------------------| --------------- | --------------- |
@@ -178,24 +192,47 @@ Some methods are not supported for noble submodule, they are listed in this tabl
 *************************************************
 ## BleShepherd Class  
 
-`require('ble-shepherd')(submodule)` exports the singleton of this class. This singleton instance is denoted as `central` in this document.  
+Exposed by `require('ble-shepherd')`
 
 <br />
 
 *************************************************
-<a name="API_start"></a>  
-### .start(app[, spCfg][, callback])  
-Connect to the SoC and start to run the app.  
+<a name="API_BShepherdCcbnp"></a>  
+### new BleShepherd(subModule, path[, opts])  
+Create a new instance of the BleShepherd class with `cc-bnp` sub-module. The created instance is denoted as `central` in this document.
 
 **Arguments**  
 
-1. `app` (*Function*): `function (central) { }`. App which will be called after initialization completes.  
-2. `spCfg` (*Object*): This value-object has two properties `path` and `options` to configure the serial port.  
-    - `path`: A string that refers to the serial port system path, e.g., `'/dev/ttyUSB0'`  
-    - `options`: An object to set up the [seiralport](https://www.npmjs.com/package/serialport#to-use). The following example shows the `options` with its default value.  
-3. `callback` (*Function*): `function (err) { }`. Get called when start to running.
+1. `subModule` (*String*): `subModule` should be specified as `'cc-bnp'`.  
+2. `path` (*String*): A string that refers to the serial port system path, e.g., `'/dev/ttyUSB0'`.    
+3. `opts` (*Object*): An object to set up the [seiralport configuration options](https://www.npmjs.com/package/serialport#serialport-path-options-opencallback). The following example shows the `opts` with its default value.  
 
-Note: If you are using the noble as a submodule, `spCfg` can be ignored.
+**Returns**  
+
+- (*None*)  
+
+**Example**  
+
+```javascript
+var BleShepherd = require('ble-shepherd');
+var path = '/dev/ttyUSB0',  // The system path of the serial port to connect to BNP
+    opts: {                 // Serial port configuration options.
+        baudRate: 115200,
+        rtscts: true,
+        flowControl: true
+    };
+
+var central = new BleShepherd('cc-bnp', path, opts);
+```
+
+*************************************************
+<a name="API_BShepherdNoble"></a>  
+### new BleShepherd(subModule)  
+Create a new instance of the BleShepherd class with `noble` sub-module. The created instance is denoted as `central` in this document.  
+
+**Arguments**  
+
+1. `subModule` (*String*): `subModule` should be specified as `'noble'`.  
 
 **Returns**  
 
@@ -203,42 +240,38 @@ Note: If you are using the noble as a submodule, `spCfg` can be ignored.
 
 **Example**  
 
-* Using cc-bnp as a submodule
-
 ```javascript
-var central = require('ble-shepherd')('cc-bnp');
-var app,
-    spCfg = {
-        path: '/dev/ttyUSB0',
-        options: {
-            baudRate: 115200,
-            rtscts: true,
-            flowControl: true
-        }
-    };
+var BleShepherd = require('ble-shepherd');
 
-app = function () {
-    // your application
-};
-
-central.start(app, spCfg);
+var central = new BleShepherd('noble');
 ```
 
-* Using noble as a submodule
+*************************************************
+<a name="API_start"></a>  
+### .start([callback])  
+Connect to the SoC and start to run the central.  
+
+**Arguments**  
+
+1. `callback` (*Function*): `function (err) { }`. Get called when start to running.
+
+**Returns**  
+
+- (*None*)
+
+**Example**  
 
 ```javascript
-var central = require('ble-shepherd')('noble');
-var app = function () {
-    // your application
-};
-
-central.start(app); // spCfg is not required
+central.start(function(err) {
+    if (err)
+        console.log(err);
+});
 ```
 
 *************************************************
 <a name="API_stop"></a>  
 ### .stop([callback])  
-Disconnect to the SoC and stop to run the app.  
+Disconnect to the SoC and stop to run the central.  
 
 **Arguments**  
 
@@ -685,8 +718,16 @@ central.disallow('0xd05fb820a6bd');
 
 <br />
 
+<a name = "EVT_ready"></a>
+###Event: 'READY'  
+The central will fire an `READY` event when central is ready.  
+
+Event Handler: `function() { }`  
+
+*************************************************
+
 <a name = "EVT_ind"></a>  
-##Event: 'IND'  
+###Event: 'IND'  
 The central will fire an `IND` event upon receiving an indication from a peripheral. Incoming messages will be classified by `msg.type` along with some data `msg.data`.  
 
 Event Handler: `function(msg) { }`  

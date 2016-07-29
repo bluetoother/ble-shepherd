@@ -1,4 +1,0 @@
-{"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
-{"addr":"0x123456789012","addrType":0,"servs":{},"id":1,"_id":"DRxOFGSs7M5Ao4LG"}
-{"addr":"0x112233445566","addrType":1,"servs":{},"id":2,"_id":"cDkaoR9laApfoCuN"}
-{"addr":"0x665544332211","addrType":2,"servs":{},"id":3,"_id":"Dtkv0cSVRgzmDnR9"}
