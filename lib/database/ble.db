@@ -1,8 +1,0 @@
-{"addr":"0x112233445566","addrType":1,"servs":{},"id":2,"_id":"Tpb94zqcoF8sOjIc"}
-{"addr":"0x665544332211","addrType":2,"servs":{},"id":4,"_id":"WtF1LCLHwl4EbpFU"}
-{"addr":"0x123456789012","addrType":0,"servs":{},"id":1,"_id":"edfigjwonhMqsx5M"}
-{"addr":"0x665544332211","addrType":2,"servs":{},"id":3,"_id":"k6ltcEe282mXW2w2"}
-{"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
-{"addr":"0x123456789012","addrType":0,"servs":{},"id":1,"_id":"edfigjwonhMqsx5M"}
-{"addr":"0x112233445566","addrType":1,"servs":{},"id":2,"_id":"Tpb94zqcoF8sOjIc"}
-{"addr":"0x665544332211","addrType":2,"servs":{},"id":3,"_id":"k6ltcEe282mXW2w2"}
