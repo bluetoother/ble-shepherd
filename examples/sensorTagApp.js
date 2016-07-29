@@ -2,15 +2,15 @@ var Q = require('q'),
     _ = require('lodash');
 
 var BShepherd = require('../index'),
-    bShepherd = new BShepherd('cc-bnp'),
-    spCfg = {
-        path: '/dev/ttyACM0',
-        options: {
-            baudRate: 115200,
-            rtscts: true,
-            flowControl: true
-        }
+    path = '/dev/ttyACM0',
+    options = {
+        baudRate: 115200,
+        rtscts: true,
+        flowControl: true
     };
+
+var bShepherd = new BShepherd('cc-bnp', path, options);
+// var bShepherd = new BShepherd('noble');
 
 var sensorTagPlg = require('../../bluetoother/bshep-plugins/bshep-plugin-ti-sensortag1'),
     keyFobPlg = require('../../bluetoother/bshep-plugins/bshep-plugin-ti-keyfob');
@@ -20,7 +20,11 @@ var sensorTag, keyFob,
     sensorAcceler = 0;
 
 bShepherd.appInit = appInit;
-bShepherd.start(bleApp, spCfg, function () {});
+bShepherd.start();
+
+bShepherd.on('READY', function () {
+    bleApp(bShepherd);
+});
 
 function appInit () {
     bShepherd.regPlugin('sensorTag', sensorTagPlg);
