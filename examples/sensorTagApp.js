@@ -9,8 +9,8 @@ var BShepherd = require('../index'),
         flowControl: true
     };
 
-// var bShepherd = new BShepherd('cc-bnp', path, options);
-var bShepherd = new BShepherd('noble');
+var bShepherd = new BShepherd('cc-bnp', path, options);
+// var bShepherd = new BShepherd('noble');
 
 var sensorTagPlg = require('../../bluetoother/bshep-plugins/bshep-plugin-ti-sensortag1'),
     keyFobPlg = require('../../bluetoother/bshep-plugins/bshep-plugin-ti-keyfob');
@@ -34,8 +34,13 @@ function appInit () {
 function bleApp (central) {
     var dev;
 
-    // central.blocker(true, 'white');
-    // central.allow('0x20c38ff19403');
+    central.blocker(true, 'white');
+    // central.allow('0x20c38ff1bbf8');
+
+    central.allow('0xd05fb820a6dd');
+    central.allow('0x20c38ff19403');
+    central.allow('0x9059af0b8159');
+    central.allow('0x544a165e1f53');
 
     central.permitJoin(60);
     central.on('IND', function(msg) {
@@ -72,14 +77,14 @@ function bleApp (central) {
 
                     var weaMeasChar = dev.findChar('0xbb80', '0xcc0a');
 
-                    weaMeasChar.val.onOff = true;
-                    dev.write('0xbb80', '0xcc0a', weaMeasChar.val).then(function () {
-                        return dev.read('0xbb80', '0xcc0a');
-                    }).then(function (result) {
-                        console.log(result);
-                    }).fail(function (err) {
-                        console.log(err);
-                    });
+                    // weaMeasChar.val.onOff = true;
+                    // dev.write('0xbb80', '0xcc0a', weaMeasChar.val).then(function () {
+                    //     return dev.read('0xbb80', '0xcc0a');
+                    // }).then(function (result) {
+                    //     console.log(result);
+                    // }).fail(function (err) {
+                    //     console.log(err);
+                    // });
                 }   
                 break;
             case 'DEV_LEAVING':
@@ -93,6 +98,23 @@ function bleApp (central) {
                 break;
         }
     });
+
+//     setTimeout(function () {
+//         var periphs = central.listDevices(),
+//             idlePeriph;
+// console.log('xxxxxxxxxxxxxxxxxxxxxxx');
+//         _.forEach(periphs, function (periph) {
+//             if (periph.status === 'idle') {
+//                 idlePeriph = central.find(periph.addr);
+//                 return false;
+//             }
+//         });
+
+//         idlePeriph.read('0x1800', '0x2a00', function (err, value) {
+//             console.log(err);
+//             console.log(value);
+//         });
+//     }, 5000);
 }
 
 /*****************************************************
