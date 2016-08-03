@@ -1,7 +1,5 @@
-{"addr":"0x123456789012","addrType":0,"servs":{},"id":1,"_id":"fQCcdKDmbyJ41dbX"}
-{"addr":"0x665544332211","addrType":2,"servs":{},"id":3,"_id":"hOS8kZLg5sOeHEhv"}
-{"addr":"0x112233445566","addrType":1,"servs":{},"id":2,"_id":"tBjmNpskJMNiygOB"}
+{"addr":"0x123456789012","addrType":0,"servs":{"0x1800":{"uuid":"0x1800","startHdl":1,"endHdl":20,"chars":{"2":{"uuid":"0x2a00","hdl":2,"prop":["write"],"desc":null,"val":{"value":100}}}},"0xbb00":{"uuid":"0xbb00","startHdl":21,"endHdl":25,"chars":{"22":{"uuid":"0xcc00","hdl":22,"prop":["read"],"desc":"description","val":{"value":20}},"24":{"uuid":"0xcc01","hdl":24,"prop":["read"],"desc":null,"val":null}}}},"id":1,"_id":"3X1OQAtHLlTACj0R"}
 {"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
-{"addr":"0x123456789012","addrType":0,"servs":{},"id":1,"_id":"fQCcdKDmbyJ41dbX"}
-{"addr":"0x112233445566","addrType":1,"servs":{},"id":2,"_id":"tBjmNpskJMNiygOB"}
-{"addr":"0x665544332211","addrType":2,"servs":{},"id":3,"_id":"hOS8kZLg5sOeHEhv"}
+{"addr":"0x123456789012","addrType":0,"servs":{},"id":1,"_id":"M97Ma23Lk3Ry4jep"}
+{"addr":"0x112233445566","addrType":1,"servs":{},"id":2,"_id":"vTBtIorUsJxZhl6K"}
+{"addr":"0x665544332211","addrType":2,"servs":{},"id":3,"_id":"a49FHa5SBWWDFNtx"}

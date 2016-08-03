@@ -9,8 +9,8 @@ var BShepherd = require('../index'),
         flowControl: true
     };
 
-var bShepherd = new BShepherd('cc-bnp', path, options);
-// var bShepherd = new BShepherd('noble');
+// var bShepherd = new BShepherd('cc-bnp', path, options);
+var bShepherd = new BShepherd('noble');
 
 var sensorTagPlg = require('../../bluetoother/bshep-plugins/bshep-plugin-ti-sensortag1'),
     keyFobPlg = require('../../bluetoother/bshep-plugins/bshep-plugin-ti-keyfob');
