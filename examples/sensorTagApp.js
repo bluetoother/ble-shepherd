@@ -19,7 +19,7 @@ var sensorTag, keyFob,
     sensorTemp = 0, 
     sensorAcceler = 0;
 
-bShepherd.appInit = appInit;
+bShepherd.init = appInit;
 bShepherd.start();
 
 bShepherd.on('READY', function () {
@@ -34,14 +34,6 @@ function appInit () {
 function bleApp (central) {
     var dev;
 
-    central.blocker(true, 'white');
-    // central.allow('0x20c38ff1bbf8');
-
-    central.allow('0xd05fb820a6dd');
-    central.allow('0x20c38ff19403');
-    central.allow('0x9059af0b8159');
-    central.allow('0x544a165e1f53');
-
     central.permitJoin(60);
     central.on('IND', function(msg) {
         switch (msg.type) {
@@ -52,40 +44,21 @@ function bleApp (central) {
                 dev = msg.data;
 
                 if (dev.name === 'sensorTag') {
+                    console.log('Sensor Tag join the network');
+
                     sensorTag = dev;
 
                     sensorTag.regCharHdlr('0xaa00', '0xaa01', callbackTemp);
                     sensorTag.regCharHdlr('0xaa10', '0xaa11', callbackAccelerometer);
                     sensorTag.regCharHdlr('0xaa50', '0xaa51', callbackGyroscope);
                 } else if (dev.name === 'keyFob') {
+                    console.log('KeyFob join the network');
+
                     keyFob = dev;
 
                     keyFob.regCharHdlr('0xffe0', '0xffe1', callbackSimpleKey);
                     keyFobSimpleKey(keyFob, 1);
-                } else if (dev.addr === '0x20c38ff19403') { //0x20c38ff19403
-                    // register handler of temperature characteristic
-                    dev.regCharHdlr('0xbb80', '0xcc07', tempHdlr);
-
-                    // register handler of humidity characteristic
-                    dev.regCharHdlr('0xbb80', '0xcc08', humidHdlr);
-
-                    // register handler of illuminance characteristic
-                    dev.regCharHdlr('0xbb80', '0xcc05', uvHdlr);
-
-                    // register handler of barometer characteristic
-                    dev.regCharHdlr('0xbb80', '0xcc11', barometerHdlr);
-
-                    var weaMeasChar = dev.findChar('0xbb80', '0xcc0a');
-
-                    // weaMeasChar.val.onOff = true;
-                    // dev.write('0xbb80', '0xcc0a', weaMeasChar.val).then(function () {
-                    //     return dev.read('0xbb80', '0xcc0a');
-                    // }).then(function (result) {
-                    //     console.log(result);
-                    // }).fail(function (err) {
-                    //     console.log(err);
-                    // });
-                }   
+                } 
                 break;
             case 'DEV_LEAVING':
                 break;
@@ -98,23 +71,6 @@ function bleApp (central) {
                 break;
         }
     });
-
-//     setTimeout(function () {
-//         var periphs = central.listDevices(),
-//             idlePeriph;
-// console.log('xxxxxxxxxxxxxxxxxxxxxxx');
-//         _.forEach(periphs, function (periph) {
-//             if (periph.status === 'idle') {
-//                 idlePeriph = central.find(periph.addr);
-//                 return false;
-//             }
-//         });
-
-//         idlePeriph.read('0x1800', '0x2a00', function (err, value) {
-//             console.log(err);
-//             console.log(value);
-//         });
-//     }, 5000);
 }
 
 /*****************************************************
@@ -326,25 +282,4 @@ function callbackSimpleKey (data) {
     } else if (value === 2) {
         keyFobAlert(keyFob, 0);
     }
-}
-
-function tempHdlr(data) {
-    // show temp
-    console.log('Temperature sensed value: ' + data.sensorValue);
-}
-
-function humidHdlr(data) {
-    // show humid
-    console.log('Humidity sensed value: ' + data.sensorValue);
-    console.log('');
-}
-
-function uvHdlr(data) {
-    // show uv hdlr
-    console.log('UV sensed value: ' + data.sensorValue);
-}
-
-function barometerHdlr(data) {
-    // show barometer
-    console.log('Barometer sensed value: ' + data.sensorValue);
 }

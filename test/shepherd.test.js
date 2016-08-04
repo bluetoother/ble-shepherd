@@ -14,21 +14,18 @@ var BShepherd = require('../index'),
     Periph = require('../lib/model/peripheral'),
     GATTDEFS = require('../lib/defs/gattdefs');
 
-var central = new BShepherd('cc-bnp', 'xxx'),
-    controller = central._controller;
-
-    central._periphBox._db._db.loadDatabase();
-    
-
 try {
     fs.unlinkSync(path.resolve(__dirname + '/../lib/database/ble.db'));
 } catch (e) {
     console.log(e);
 }
 
-describe('Constructor Check', function () {
-    // var central = new BShepherd('cc-bnp', 'xxx');
+var central = new BShepherd('cc-bnp', 'xxx'),
+    controller = central._controller;
 
+central._periphBox._db._db.loadDatabase();
+
+describe('Constructor Check', function () {
     it('should has all correct members after new', function () {
         expect(central._subModule).to.be.equal('cc-bnp');
         expect(central._controller).to.be.an('object');
