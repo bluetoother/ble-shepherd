@@ -25,10 +25,24 @@ try {
 var central = new BShepherd('cc-bnp', 'xxx'),
     controller = central._controller;
 
-    // central._periphBox._db._db.loadDatabase();
+central._periphBox._db._db.loadDatabase();
+
+var generalFunc = function () {
+    var deferred = Q.defer();
+
+    deferred.resolve();
+    return deferred.promise;
+};
 
 describe('Signature Check', function() {
-    var peripheral = new Periph({ addr: '0x123456789012', addrType: 0 });
+    try {
+        fs.unlinkSync(path.resolve(__dirname + '/../lib/database/ble.db'));
+    } catch (e) {
+        console.log(e);
+    }
+
+    var peripheral = new Periph({ addr: '0x123456789012', addrType: 0 }),
+        wakeUpStub = sinon.stub(peripheral, '_wakeUp', generalFunc);
         
     peripheral._controller = controller;
 
@@ -103,6 +117,29 @@ describe('Signature Check', function() {
         expect(function () { peripheral.findChar('0x1800', null); }).to.throw('uuidChar must be a number or a string start with 0x');
     });
 
+    it('peripheral.write(uuidServ, uuidChar, value, callback)', function () {
+        expect(function () { peripheral.write('0x1800', '0x2a00', {}); }).to.not.throw();
+        expect(function () { peripheral.write('0x1800', '0x2a00', new Buffer([0])); }).to.not.throw();
+
+        expect(function () { peripheral.write('0x1800', '0x2a00', []); }).to.throw('value must be an object or a buffer');
+        expect(function () { peripheral.write('0x1800', '0x2a00', 123); }).to.throw('value must be an object or a buffer');
+        expect(function () { peripheral.write('0x1800', '0x2a00', 'xxx'); }).to.throw('value must be an object or a buffer');
+        expect(function () { peripheral.write('0x1800', '0x2a00', false); }).to.throw('value must be an object or a buffer');
+        expect(function () { peripheral.write('0x1800', '0x2a00', null); }).to.throw('value must be an object or a buffer');
+        expect(function () { peripheral.write('0x1800', '0x2a00', undefined); }).to.throw('value must be an object or a buffer');
+    });
+
+    it('peripheral.setNotify(uuidServ, uuidChar, config, callback)', function () {
+        expect(function () { peripheral.setNotify('0x1800', '0x2a00', true); }).to.not.throw();
+
+        expect(function () { peripheral.setNotify('0x1800', '0x2a00', {}); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.setNotify('0x1800', '0x2a00', []); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.setNotify('0x1800', '0x2a00', 123); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.setNotify('0x1800', '0x2a00', 'xxx'); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.setNotify('0x1800', '0x2a00', null); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.setNotify('0x1800', '0x2a00', undefined); }).to.throw('config must be a boolean');
+    });
+
     it('peripheral.regCharHdlr(uuidServ, uuidChar, fn)', function () {
         expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', function () {}); }).to.not.throw();
 
@@ -114,6 +151,7 @@ describe('Signature Check', function() {
         expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', undefined); }).to.throw('fn must be a function');
         expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', null); }).to.throw('fn must be a function');
 
+        wakeUpStub.restore();
     });
 });
 
@@ -132,52 +170,36 @@ describe('Functional Check', function () {
             ]
         };
 
-    var generalFunc = function () {
-        var deferred = Q.defer();
-
-        deferred.resolve();
-        return deferred.promise;
-    };
-
     peripheral._controller = controller;
     peripheral.servs['0x1800'] = new Serv(servInfo, peripheral);
 
 
     describe('#.connect', function () {
-        // it('should connect ok', function (done) {
-        //     var connectStub = sinon.stub(controller, 'connect', function () {
-        //         var deferred = Q.defer();
-
-        //         deferred.resolve({collector: {GapLinkEstablished: [{addr: peripheral.addr}]}});
-        //         return deferred.promise;
-        //     });
-
-        //     peripheral.connect(function (err) {
-        //         if (err)
-        //             console.log(err);
-        //         else {
-        //             connectStub.restore();
-        //             expect(connectStub).to.have.been.calledOnce;
-        //             expect(connectStub).to.have.been.calledWith(peripheral);
-        //             done();
-        //         }
-        //     });
-        // });
-
-        it('should do nothing if connHdl not equal to null or undefined', function (done) {
-            var connectStub = sinon.stub(controller, 'connect', generalFunc);
-
-            peripheral.connHdl = 0;
+        it('should connect ok', function (done) {
+            var connectStub = sinon.stub(central._periphProcessor, 'connPeriph', function () {
+                    central.emit('IND', { type: 'DEV_INCOMING', data: peripheral });
+                });
 
             peripheral.connect(function (err) {
                 if (err)
                     console.log(err);
                 else {
                     connectStub.restore();
-                    expect(connectStub).to.have.been.callCount(0);
-                    expect(peripheral.status).to.be.equal('online');
+                    expect(connectStub).to.have.been.calledOnce;
+                    expect(connectStub).to.have.been.calledWith(peripheral);
                     done();
                 }
+            });
+        });
+
+        it('should do nothing if connHdl not equal to null or undefined', function (done) {
+            peripheral.connHdl = 0;
+
+            peripheral.connect(function (err) {
+                if (err)
+                    console.log(err);
+                else 
+                    done();
             });
         });
     });
@@ -216,31 +238,31 @@ describe('Functional Check', function () {
         });
     });
 
-    // describe('#.remove', function () {
-    //     it('should disconnect to peripheral and remove from objectbox', function (done) {
-    //         var disconnectStub = sinon.stub(controller, 'disconnect', generalFunc);
+    describe('#.remove', function () {
+        it('should disconnect to peripheral and remove from objectbox', function (done) {
+            var disconnectStub = sinon.stub(controller, 'disconnect', generalFunc);;
 
-    //         peripheral.connHdl = 0;
-    //         peripheral._id = 1;
+            peripheral.connHdl = 0;
+            peripheral._id = 1;
 
-    //         central.regPeriph(peripheral, function () {
-    //             expect(central.find(peripheral.addr)).to.be.deep.equal(peripheral);
+            central.regPeriph(peripheral, function () {
+                expect(central.find(peripheral.addr)).to.be.deep.equal(peripheral);
 
-    //             peripheral.remove(function (err) {
-    //                 if(err)
-    //                     console.log(err);
-    //                 else {
-    //                     disconnectStub.restore();
-    //                     expect(disconnectStub).to.have.been.calledOnce;
-    //                     expect(disconnectStub).to.have.been.calledWith(peripheral);
-    //                     expect(central.find(peripheral.addr)).to.be.undefined;
-    //                     done();
-    //                 }
-    //             });
-    //         });
+                peripheral.remove(function (err) {
+                    if(err)
+                        console.log(err);
+                    else {
+                        disconnectStub.restore();
+                        expect(disconnectStub).to.have.been.calledOnce;
+                        expect(disconnectStub).to.have.been.calledWith(peripheral);
+                        expect(central.find(peripheral.addr)).to.be.undefined;
+                        done();
+                    }
+                });
+            });
 
-    //     });
-    // });
+        });
+    });
 
     describe('#.update', function () {
         var servInfo1 = {
@@ -515,30 +537,30 @@ describe('Functional Check', function () {
         });
     });
 
-    // describe('#.setNotify', function () {
-    //     it('should unable to set if does not have notify or indicate prop', function (done) {
-    //         peripheral.setNotify('0xbb00', '0xcc00', true, function (err) {
-    //             if (err.message === 'Characteristic not allowed to notify or indication')
-    //                 done();
-    //         });
-    //     });
+    describe('#.setNotify', function () {
+        it('should unable to set if does not have notify or indicate prop', function (done) {
+            peripheral.setNotify('0xbb00', '0xcc00', true, function (err) {
+                if (err.message === 'Characteristic not allowed to notify or indication')
+                    done();
+            });
+        });
 
-    //     it('should set ok', function (done) {
-    //         notifyStub = sinon.stub(controller, 'notify', generalFunc);
+        it('should set ok', function (done) {
+            notifyStub = sinon.stub(controller, 'notify', generalFunc);
 
-    //         peripheral.findChar('0xbb00', '0xcc00').prop.push('notify');
-    //         peripheral.setNotify('0xbb00', '0xcc00', true, function (err) {
-    //             if (err)
-    //                 console.log(err);
-    //             else {
-    //                 notifyStub.restore();
-    //                 expect(notifyStub).to.have.been.calledOnce;
-    //                 expect(notifyStub).to.have.been.calledWith(peripheral.findChar('0xbb00', '0xcc00'), true);
-    //                 done();
-    //             }
-    //         });
-    //     });
-    // });
+            peripheral.findChar('0xbb00', '0xcc00').prop.push('notify');
+            peripheral.setNotify('0xbb00', '0xcc00', true, function (err) {
+                if (err)
+                    console.log(err);
+                else {
+                    notifyStub.restore();
+                    expect(notifyStub).to.have.been.calledOnce;
+                    expect(notifyStub).to.have.been.calledWith(peripheral.findChar('0xbb00', '0xcc00'), true);
+                    done();
+                }
+            });
+        });
+    });
 
     describe('#.read', function () {
         it('should unable to read if does not have read prop', function (done) {
@@ -590,20 +612,6 @@ describe('Functional Check', function () {
     });
 
     describe('#.write', function () {
-        it('should unable to write if value type not equal to buffer or object', function (done) {
-            peripheral.write('0xbb00', '0xcc00', 'xxx', function (err) {
-                if (err.message === 'value must be an object or a buffer')
-                    done();
-            });
-        });
-
-        it('should unable to write if value type not equal to buffer or object', function (done) {
-            peripheral.write('0xbb00', '0xcc00', 123, function (err) {
-                if (err.message === 'value must be an object or a buffer')
-                    done();
-            });
-        });
-
         it('should unable to write if does not have write prop', function (done) {
             peripheral.write('0xbb00', '0xcc00', new Buffer([0]), function (err) {
                 if (err.message === 'Characteristic value not allowed to write.')
@@ -652,6 +660,12 @@ describe('Functional Check', function () {
 
             expect(peripheral.regCharHdlr('0x1800', '0x2a00', hdlr)).to.be.deep.equal(peripheral);
             expect(peripheral.servs['0x1800'].chars['2'].processInd).to.be.equal(hdlr);
+
+            try {
+                fs.unlinkSync(path.resolve(__dirname + '/../lib/database/ble.db'));
+            } catch (e) {
+                console.log(e);
+            }
         });
     });
 });
