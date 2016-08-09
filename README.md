@@ -124,36 +124,37 @@ central.start();
 * [central.start()](#API_start)
 * [central.stop()](#API_stop)
 * [central.reset()](#API_reset)
-* [central.setNwkParams()](#API_setNwkParams)
+* [central.tuneScan()](#API_tuneScan)
+* [central.tuneLink()](#API_tuneLink)
 * [central.permitJoin()](#API_permitJoin)
-* [central.listDevices()](#API_listDevices)
+* [central.list()](#API_list)
 * [central.find()](#API_find)
-* [central.regGattDefs()](#API_regGattDefs)
-* [central.regPlugin()](#API_regPlugin)
-* [central.regLocalServ()](#API_regLocalServ)
-* [central.blocker()](#API_blocker)
-* [central.ban()](#API_ban)
-* [central.unban()](#API_unban)
-* [central.allow()](#API_allow)
-* [central.disallow()](#API_disallow)
-* Events: [READY](#EVT_ready), [IND](#EVT_ind)
+* [central.remove()](#API_remove)
+* [central.declare()](#API_declare)
+* [central.support()](#API_support)
+* [central.mount()](#API_mount)
+* [central.blocker](#API_blocker)
+    * [blocker.enable()](#API_enable)
+    * [blocker.disable()](#API_disable)
+    * [blocker.isEnabled()](#API_isEnable)
+    * [blocker.block()](#API_block)
+    * [blocker.unblock()](#API_unblock)
+* Events: [ready](#EVT_ready), [error](#EVT_error), [permitJoining](#EVT_permit) and [ind](#EVT_ind)
 
 ####2. Monitor and Control the Peripherals
 **peripheral** is a software endpoint, which represents a remote BLE device, in **ble-shepherd**. You can use `central.find()` to find a connected _pheripheral_ device with its address or connection handle. Once you get the endpoint, you can invoke its read()/write() methods to operate the remote device.  
 
 * [peripheral.connect()](#API_connect)
 * [peripheral.disconnect()](#API_disconnect)
-* [peripheral.remove()](#API_remove)
-* [peripheral.updateLinkParam()](#API_updateLinkParam)
-* [peripheral.encrypt()](#API_encrypt)
-* [peripheral.passPasskey()](#API_passPasskey)
-* [peripheral.findChar()](#API_findChar)
-* [peripheral.readDesc()](#API_readDesc)
-* [peripheral.setNotify()](#API_setNotify)
-* [peripheral.update()](#API_update)
+* [peripheral.tuneLink()](#API_tuneLink)
+* [peripheral.secure()](#API_secure)
+* [peripheral.returnPasskey()](#API_returnPasskey)
+* [peripheral.maintain()](#API_maintain)
 * [peripheral.read()](#API_read)
 * [peripheral.write()](#API_write)
-* [peripheral.regCharHdlr()](#API_regCharHdlr)
+* [peripheral.readDesc()](#API_readDesc)
+* [peripheral.configNotify()](#API_configNotify)
+* [peripheral.onNotified()](#API_onNotified)
 
 Some methods are not supported for noble sub-module, they are listed in this table. (X: unsupported)
 
@@ -162,31 +163,27 @@ Some methods are not supported for noble sub-module, they are listed in this tab
 | Control the Network                   | start                 | O               | O               |
 |                                       | stop                  | O               | O               |
 |                                       | reset                 | O               | O               |
-|                                       | setNwkParams          | O               | O               |
+|                                       | tuneScan              | O               | O               |
+|                                       | tuneLink              | O               | O               |
 |                                       | permitJoin            | O               | O               |
-|                                       | listDevices           | O               | O               |
+|                                       | list                  | O               | O               |
 |                                       | find                  | O               | O               |
-|                                       | regGattDefs           | O               | O               |
-|                                       | regPlugin             | O               | O               |
-|                                       | regLocalServ          | O               | X               |
+|                                       | remove                | O               | O               |
+|                                       | declare               | O               | O               |
+|                                       | support               | O               | O               |
+|                                       | mount                 | O               | X               |
 |                                       | blocker               | O               | O               |
-|                                       | ban                   | O               | O               |
-|                                       | unban                 | O               | O               |
-|                                       | allow                 | O               | O               |
-|                                       | disallow              | O               | O               |
 | Monitor and Control the Peripherals   | connect               | O               | O               |
 |                                       | disconnect            | O               | O               |
-|                                       | remove                | O               | O               |
-|                                       | updateLinkParam       | O               | O               |
-|                                       | encrypt               | O               | X               |
-|                                       | passPasskey           | O               | X               |
-|                                       | findChar              | O               | O               |
-|                                       | readDesc              | O               | O               |
-|                                       | setNotify             | O               | O               |
-|                                       | update                | O               | O               |
+|                                       | tuneLink              | O               | O               |
+|                                       | secure                | O               | X               |
+|                                       | returnPasskey         | O               | X               |
+|                                       | maintain              | O               | O               |
 |                                       | read                  | O               | O               |
+|                                       | readDesc              | O               | O               |
 |                                       | write                 | O               | O               |
-|                                       | regCharHdlr           | O               | O               |
+|                                       | configNotify          | O               | O               |
+|                                       | onNotified            | O               | O               |
 
 <br />
 
@@ -314,25 +311,48 @@ central.reset(function (err) {
 ```
 
 *************************************************
-<a name="API_setNwkParams"></a>  
-###.setNwkParams(type, setting[, callback])  
-Set up network parameters of the BLE central.  
+<a name="API_tuneScan"></a>  
+### .tuneScan(setting, [callback])  
+Set up scan parameters of the BLE central.   
 
 **Arguments**  
 
-1. `type` (*String*): Can be `'scan'` or `'link'` to indicate which type of parameter you like to set.  
-2. `setting` (*Object*): The following table shows the `setting` properties according to the given `type`.  
+1. `setting` (*Object*): The following table shows the `setting` properties.  
 
-    - When `type === 'scan'`, the setting object should be with keys:  
-    
-
-    | Property | Type   | Mandatory | Description       | Default value |
-    |----------|--------|-----------|-------------------|---------------|
+    | Property | Type   | Mandatory | Description            | Default value |
+    |----------|--------|-----------|------------------------|---------------|
     | interval | Number | optional  | Scan interval(0.625ms) | 0x0010        |
     | window   | Number | optional  | Scan window(0.625ms)   | 0x0010        |
 
-    - When `type === 'link'`, the setting object should be with keys:
-    
+2. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
+
+**Returns**  
+
+- (*None*)
+
+**Example**  
+
+```javascript
+central.tuneScan({ interval: 16, window: 16 }, function (err) {
+    if (err)
+        console.log(err);
+});
+
+// just setting interval property of scan parameters
+central.tuneScan({ interval: 4000 }, function (err) {
+    if (err)
+        console.log(err);
+});
+```
+
+*************************************************
+<a name="API_tuneLink"></a>  
+### .tuneLink(setting, [callback])  
+Set up link parameters of the BLE central.   
+
+**Arguments**  
+
+1. `setting` (*Object*): The following table shows the `setting` properties.  
 
     | Property | Type   | Mandatory | Description                                                                    | Default value |
     |----------|--------|-----------|--------------------------------------------------------------------------------|---------------|
@@ -340,29 +360,22 @@ Set up network parameters of the BLE central.
     | latency  | Number | optional  | Connection slave latency(in number of connection events)                       | 0x0000        |
     | timeout  | Number | optional  | Connection supervision timeout(10ms)                                           | 0x00c8        |
 
-3. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
+2. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
 
 **Returns**  
 
-- (*none*)  
+- (*None*)
 
 **Example**  
 
 ```javascript
-// setting scan parameters
-central.setNwkParams('scan', { interval: 16, window: 16 }, function (err) {
+central.tuneLink({ interval: 8192, latency: 0, timeout: 1000 }, function (err) {
     if (err)
         console.log(err);
 });
 
-// setting link parameters
-central.setNwkParams('link', { interval: 8192, latency: 0, timeout: 1000 }, function (err) {
-    if (err)
-        console.log(err);
-});
-
-// just setting interval property of link parameter
-central.setNwkParams('link', { interval: 4000 }, function (err) {
+// just setting interval property of scan parameters
+central.tuneLink({ interval: 4000 }, function (err) {
     if (err)
         console.log(err);
 });
@@ -371,7 +384,7 @@ central.setNwkParams('link', { interval: 4000 }, function (err) {
 *************************************************
 <a name="API_permitJoin"></a>  
 ###.permitJoin(duration)  
-Allow or disallow devices to join the network. The central will fire an `'IND'` event with message type `'NWK_PERMITJOIN'` when central is opened or closed for devices to join the network.
+Allow or disallow devices to join the network. The central will fire an `'permitJoining'` event when central is opened or closed for devices to join the network.
 
 **Arguments**  
 
@@ -389,30 +402,43 @@ central.permitJoin(60);
 ```
 
 *************************************************
-<a name="API_listDevices"></a>  
-###.listDevices()  
+<a name="API_list"></a>  
+###.list([addrs])  
 List records of all Peripheral Devices managed by central.  
 
 **Arguments**  
 
-1. (*none*)
+1. `addrs` (*String* | *String[]*): A single peripheral address or an array of peripheral address to query for their records. All device records will be returned if addrs is not given.
 
 **Returns**  
 
 - (*Array*): Information of Peripheral Devices. Each record in the array is an object with properties shown in the following table.  
 
-| Property | Type   | Description                                                                                                                               |
-|----------|--------|-------------------------------------------------------------------------------------------------------------------------------------------|
-| addr     | String | Address of the peripheral device                                                                                                          |
-| addrType | String | Address type of the peripheral device                                                                                                     |
-| status   | String | Device status can be `online`, `offline`, or `idle`                                                                                        |
-| connHdl  | Number | Connection handle. It will be `null` if device status is not `online`.                                                                     |
-| servList | Object | Service and Characteristic list. Each key in `servList` is the `servUuid` and each value is an array of `charUuid` under the `servUuid`.  |
+    | Property    | Type   | Description                                                               |
+    |-------------|--------|---------------------------------------------------------------------------|
+    | addr        | String | Address of the peripheral device                                          |
+    | addrType    | String | Address type of the peripheral device                                     |
+    | status      | String | Device status can be `online`, `offline`, or `idle`                       |
+    | connHandle  | Number | Connection handle. It will be `null` if device status is not `online`.    |
+    | servList    | Array  | Service list. Each entry in `servList` is the `servInfo` object.          |
+    
+    - `servInfo` should be an object with the following properties
+        | Property | Type   | Description                                                             |
+        |----------|--------|-------------------------------------------------------------------------|
+        | uuid     | String | Service UUID.                                                           |
+        | handle   | Number | Service handle.                                                         |
+        | charList | Array  | Characteristic list. Each entry in `charList` is the `charInfo` object. |
+
+    - `charInfo` should be an object with the following properties
+        | Property | Type   | Description                                                             |
+        |----------|--------|-------------------------------------------------------------------------|
+        | uuid     | String | Characteristic UUID.                                                    |
+        | handle   | Number | Characteristic handle.                                                  |
 
 **Example**  
 
 ```javascript
-var devRecords = central.listDevices()
+var devRecords = central.list()
 
 // devRecords is an array with records to show each Peripheral's information
 // [
@@ -421,38 +447,54 @@ var devRecords = central.listDevices()
 //         addrType: 'public',
 //         status: 'online',
 //         connHdl: 70,
-//         servs: {
-//             '0x1800': [ '0x2a00', '0x2a01', '0x2a02', '0x2a03', '0x2a04' ],
-//             '0x1801': [ '0x2a05' ],
-//             '0x180a': [ '0x2a23', '0x2a24', '0x2a25', '0x2a26', '0x2a27', '0x2a28', '0x2a29', '0x2a2a', '0x2a50' ],
-//             '0x1803': [ '0x2a06' ],
-//             '0x1802': [ '0x2a06' ],
-//             '0x1804': [ '0x2a07' ],
-//             '0x180f': [ '0x2a19' ],
-//             '0xffa0': [ '0xffa1', '0xffa2', '0xffa3', '0xffa4', '0xffa5' ],
-//             '0xffe0': [ '0xffe1' ]
-//         }
+//         servList: [
+//             {
+//                 uuid: '0x1800',
+//                 handle: 1,
+//                 charList: [
+//                     { uuid: '0x2a00', handle: 3 },
+//                     { uuid: '0x2a01', handle: 5 },
+//                     { uuid: '0x2a02', handle: 7 },
+//                     { uuid: '0x2a03', handle: 9 },
+//                     { uuid: '0x2a04', handle: 11 }
+//                 ]
+//             },
+//             {
+//                 uuid: '0x1801',
+//                 handle: 12,
+//                 charList: [
+//                     { uuid: '0x2a05', handle: 14 }
+//                 ]
+//             },
+//             {
+//                 uuid: '0x180a',
+//                 handle: 16,
+//                 charList: [
+//                     { uuid: '0x2a23', handle: 18 },
+//                     { uuid: '0x2a24', handle: 20 },
+//                     { uuid: '0x2a25', handle: 22 },
+//                     { uuid: '0x2a26', handle: 24 },
+//                     { uuid: '0x2a27', handle: 26 },
+//                     { uuid: '0x2a28', handle: 28 },
+//                     { uuid: '0x2a29', handle: 30 },
+//                     { uuid: '0x2a2a', handle: 32 },
+//                     { uuid: '0x2a50', handle: 34 }
+//                 ]
+//             },
+//             { 
+//                 uuid: '0xffa0',
+//                 handle: 35,
+//                 charList: [ 
+//                     { uuid: '0xffa1', handle: 37 },
+//                     { uuid: '0xffa2', handle: 40 },
+//                     { uuid: '0xffa3', handle: 43 },
+//                     { uuid: '0xffa4', handle: 47 },
+//                     { uuid: '0xffa5', handle: 51 } 
+//                 ]
+//             }
+//         ]
 //     },
-//     {
-//         addr: '0x9059af0b8159',
-//         addrType: 'public',
-//         status: 'online',
-//         connHdl: 65,
-//         servs: {
-//             '0x1800': [ '0x2a00', '0x2a01', '0x2a02', '0x2a03', '0x2a04' ],
-//             '0x1801': [ '0x2a05' ],
-//             '0x180a': [ '0x2a23', '0x2a24', '0x2a25', '0x2a26', '0x2a27', '0x2a28', '0x2a29', '0x2a2a', '0x2a50' ],
-//             '0xaa00': [ '0xaa01', '0xaa02' ],
-//             '0xaa10': [ '0xaa11', '0xaa12', '0xaa13' ],
-//             '0xaa20': [ '0xaa21', '0xaa22' ],
-//             '0xaa30': [ '0xaa31', '0xaa32', '0xaa33' ],
-//             '0xaa40': [ '0xaa41', '0xaa42', '0xaa43' ],
-//             '0xaa50': [ '0xaa51', '0xaa52' ],
-//             '0xffe0': [ '0xffe1' ],
-//             '0xaa60': [ '0xaa61', '0xaa62' ],
-//             '0xffc0': [ '0xffc1', '0xffc2' ]
-//         }
-//     }
+//     ...
 // ]
 ```
 
@@ -480,9 +522,35 @@ var peripheral = central.find(0);
 ```
 
 *************************************************
-<a name="API_regGattDefs"></a>  
-###.regGattDefs(type, regObjs)  
-Allows you to register private Services or Characteristic definitions.  
+<a name="API_remove"></a>  
+###.remove(addrOrHdl, callback)  
+Disconnect from the remote BLE peripheral and remove its record from database. The central will fire an `'ind'` event with meaasge type `'devLeaving'` when procedure of disconnecting accomplished.  
+
+**Arguments**  
+
+1. `addrOrHdl` (*String* | *Number*): The address or connection handle of a peripheral which to be removed.  
+
+**Returns**  
+- (*none*)
+
+**Example**  
+
+```javascript
+central.on('ind', function (msg) {
+    if (msg.type === 'devLeaving')
+        console.log(msg);
+});
+
+central.remove(0, function (err) {
+    if (err)
+        console.log(err);
+});
+```
+
+*************************************************
+<a name="API_declare"></a>  
+###.declare(type, regObjs)  
+Allows you to declare private Services or Characteristic definitions.  
 
 **Arguments**  
 
@@ -498,14 +566,14 @@ Note: Learn more in section **Advanced topics**: [How to define your own Service
 **Example**  
 
 ```javascript
-// register service definition
-central.regGattDefs('service', [
+// declare service definition
+central.declare('service', [
     { name: 'simpleKeys', uuid: '0xffe0' },
     { name: 'accelerometer', uuid: '0xffa0' }
 ]);
 
-// register characteristic definition
-central.regGattDefs('characteristic', [
+// declare characteristic definition
+central.declare('characteristic', [
     { name: 'keyPressState', uuid: '0xffe1', params: [ 'enable' ], types: [ 'uint8' ] }, 
     { name: 'accelerometerX', uuid: '0xffa3', params: [ 'x' ], types: [ 'uint8' ] }, 
     { name: 'accelerometerY', uuid: '0xffa4', params: [ 'y' ], types: [ 'uint8' ] }, 
@@ -514,8 +582,8 @@ central.regGattDefs('characteristic', [
 ```
 
 *************************************************
-<a name="API_regPlugin"></a>  
-###.regPlugin(devName, plugin)  
+<a name="API_support"></a>  
+###.support(devName, plugin)  
 Register a plugin provided by the third-party module. The plugin tells **ble-shepherd** of how to recognize a third-party BLE module/product.  
 
 **Arguments**  
@@ -535,7 +603,7 @@ Note: Learn more in section **Advanced topics**: [How to create a Plugin for you
 // Require the plugin 'bshep-plugin-sivann-relay' for relay modules manufactured by sivann  
 var sivannRelayPlugin = require('bshep-plugin-sivann-relay'); 
 
-central.regPlugin('sivann-relay', sivannRelayPlugin);
+central.support('sivann-relay', sivannRelayPlugin);
 central.start(app);
 
 function app (central) {
@@ -563,48 +631,6 @@ function app (central) {
         }
     });
 }
-```
-  
-*************************************************
-<a name="API_regLocalServ"></a>  
-### .regLocalServ(servInfo[, callback])  
-Register a Service to the BLE central.  
-
-Note: This command is cc-bnp only.  
-
-**Arguments**  
-
-1. `servInfo` (*Object*): An object that contains properties of `uuid`, `name`, and `charsInfo` to describe information about the Service.  
-
-2. `callback` (*Function*) : `function (err, service) { }`, Get called when service successfully register to BNP.  
-
-Note: Learn more in section **Advanced topics**: [How to add your own Services to central](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#2-how-to-add-your-own-services-to-central).  
-
-**Returns**  
-
-- (*none*)  
-
-**Example**  
-
-```javascript
-// Step1: prepare characteristic and service information
-var charsInfo = [
-        { uuid: '0x2a00', permit: [ 'Read' ], prop: [ 'Read' ], val: { name: "BLE Shepherd" } },
-        { uuid: '0x2a28', permit: [ 'Read' ], prop: [ 'Read' ], val: { softwareRev: '0.0.1' } },
-        { uuid: '0x2a29', permit: [ 'Read' ], prop: [ 'Read '], val: { manufacturerName: 'sivann' } }
-    ],
-    servInfo = {
-        uuid: '0x1800',
-        charsInfo : charsInfo
-    };
-
-// Step2: Register to central 
-central.regLocalServ(servInfo, function (err, result) {
-    if (err)
-        console.log(err);
-    else
-        console.log(result);
-});
 ```
 
 *************************************************
@@ -715,23 +741,43 @@ Disallow a specific device to join the network. You **must** have the blocker en
 central.disallow('0xd05fb820a6bd');
 ```
 
-*************************************************
-
 <br />
 
+*************************************************
+
 <a name = "EVT_ready"></a>
-###Event: 'READY'  
-The central will fire an `READY` event when central is ready.  
+###Event: 'ready'  
+The central will fire an `ready` event when central is ready.  
 
 Event Handler: `function() { }`  
 
 *************************************************
 
+<a name = "EVT_error"></a>
+###Event: 'error'  
+The central will fire an `error` event when an error occurs.  
+
+Event Handler: `function(err) { }`  
+
+*************************************************
+
+<a name = "EVT_permit"></a>
+###Event: 'permitJoining'  
+The central will fire an `permitJoining` event when the central is allowing for devices to join the network. The event will be triggered at each tick of countdown. 
+
+Event Handler: `function(time) { }`  
+
+1. `time` (*Number*): seconds left to disallow devices to join the network.
+
+*************************************************
+
 <a name = "EVT_ind"></a>  
-###Event: 'IND'  
-The central will fire an `IND` event upon receiving an indication from a peripheral. Incoming messages will be classified by `msg.type` along with some data `msg.data`.  
+###Event: 'ind'  
+The central will fire an `ind` event upon receiving an indication from a peripheral. 
 
 Event Handler: `function(msg) { }`  
+
+1. 
 
  The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `DEV_IDLE`, `NWK_PERMITJOIN`, `ATT_IND`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
 
@@ -945,30 +991,6 @@ central.on('IND', function (msg) {
 });
 
 peripheral.disconnect(function (err) {
-    if (err)
-        console.log(err);
-});
-```
-
-*************************************************
-<a name="API_remove"></a>  
-###.remove([callback])  
-Disconnect from the remote BLE peripheral and remove its record from database. The central will fire an `'IND'` event with meaasge type `'DEV_LEAVING'` when procedure of disconnecting accomplished.  
-
-**Arguments**  
-- `callack` (*Function*): `function (err) { }`. Get called when connection between central and remote peripheral is disconnected and peripheral record is removed.  
-
-**Returns**  
-- (*none*)
-
-**Example**  
-```javascript
-central.on('IND', function (msg) {
-    if (msg.type === 'DEV_LEAVING')
-        console.log(msg);
-});
-
-peripheral.remove(function (err) {
     if (err)
         console.log(err);
 });

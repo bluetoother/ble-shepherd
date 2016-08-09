@@ -221,7 +221,7 @@ describe('Functional Check', function () {
 
                     deferred.resolve(centralAddr);
                     setTimeout(function () {
-                        controller.emit('ready');
+                        central.emit('ready');
                     }, 50);
                     return deferred.promise;
                 });
@@ -241,313 +241,303 @@ describe('Functional Check', function () {
         });
     });
 
-    // describe('#.tuneScan', function () {
-    //     it('should set scan params ok', function (done) {
-    //         var setting = {
-    //                 time: 3000,
-    //                 interval: 0,
-    //                 windows: 8
-    //             },
-    //             setScanParamsStub = sinon.stub(controller, 'tuneScan', generalFunc);
+    describe('#.tuneScan', function () {
+        it('should set scan params ok', function (done) {
+            var setting = {
+                    time: 3000,
+                    interval: 0,
+                    windows: 8
+                },
+                setScanParamsStub = sinon.stub(controller, 'setScanParams', generalFunc);
 
-    //         central.tuneScan(setting, function (err) {
-    //             if (err)
-    //                 console.log(err);
-    //             else {
-    //                 setScanParamsStub.restore();
-    //                 expect(setScanParamsStub).to.have.been.calledOnce;
-    //                 expect(setScanParamsStub).to.have.been.calledWith(setting);
-    //                 done();
-    //             }
-    //         });
-    //     });
-    // });
+            central.tuneScan(setting, function (err) {
+                if (err)
+                    console.log(err);
+                else {
+                    setScanParamsStub.restore();
+                    expect(setScanParamsStub).to.have.been.calledOnce;
+                    expect(setScanParamsStub).to.have.been.calledWith(setting);
+                    done();
+                }
+            });
+        });
+    });
 
-    // describe('#.tuneLink', function () {
-    //     it('should set link params ok', function (done) {
-    //         var setting = {
-    //                 interval: 0x000c,
-    //                 latency: 0x0000,
-    //                 timeout: 0x00c8
-    //             },
-    //             setLinkParamsStub = sinon.stub(controller, 'tuneLink', generalFunc);
+    describe('#.tuneLink', function () {
+        it('should set link params ok', function (done) {
+            var setting = {
+                    interval: 0x000c,
+                    latency: 0x0000,
+                    timeout: 0x00c8
+                },
+                setLinkParamsStub = sinon.stub(controller, 'setLinkParams', generalFunc);
 
-    //         central.tuneLink(setting, function (err) {
-    //             if (err)
-    //                 console.log(err);
-    //             else {
-    //                 setLinkParamsStub.restore();
-    //                 expect(setLinkParamsStub).to.have.been.calledOnce;
-    //                 expect(setLinkParamsStub).to.have.been.calledWith(setting);
-    //                 done();
-    //             }
-    //         });
-    //     });
-    // });
+            central.tuneLink(setting, function (err) {
+                if (err)
+                    console.log(err);
+                else {
+                    setLinkParamsStub.restore();
+                    expect(setLinkParamsStub).to.have.been.calledOnce;
+                    expect(setLinkParamsStub).to.have.been.calledWith(setting);
+                    done();
+                }
+            });
+        });
+    });
 
-    // describe('#.permitJoin', function () {
-    //     it('should trigger event with duration equal to 0', function (done) {
-    //         var pjHdlr = function (msg) {
-    //                 if (msg.type === 'NWK_PERMITJOIN' && msg.data === 0) {
-    //                     central.removeListener('IND', pjHdlr);
-    //                     done();
-    //                 }
-    //             };
+    describe('#.permitJoin', function () {
+        it('should trigger event with duration equal to 0', function (done) {
+            central.once('permitJoining', function (time) {
+                if (time === 0)
+                    done();
+            });
+            central.permitJoin(0);
+        });
 
-    //         central.on('IND', pjHdlr);
-    //         central.permitJoin(0);
-    //     });
+        it('should trigger event and permitJoin counter with duration not equal to 0', function (done) {
+            var duration = 10;
 
-    //     it('should trigger event and permitJoin counter with duration not equal to 0', function (done) {
-    //         var duration = 10,
-    //             pjHdlr = function (msg) {
-    //                 if (msg.type === 'NWK_PERMITJOIN' && msg.data === duration ) {
-    //                     central.removeListener('IND', pjHdlr);
-    //                     done();
-    //                 }
-    //             };
+            central.once('permitJoining', function (time) {
+                if (time === duration)
+                    done();
+            });
+            central.permitJoin(duration);
+        });
+    });
 
-    //         central.on('IND', pjHdlr);
-    //         central.permitJoin(duration);
-    //     });
-    // });
+    describe('#.list', function () {
+        it('should list all registered devices', function (done) {
+            central.regPeriph(periph1).then(function () {
+                return central.regPeriph(periph2);
+            }).then(function () {
+                return central.regPeriph(periph3);
+            }).then(function () {
+                result = central.list();
 
-    // describe('#.list', function () {
-    //     it('should list all registered devices', function (done) {
-    //         central.regPeriph(periph1).then(function () {
-    //             return central.regPeriph(periph2);
-    //         }).then(function () {
-    //             return central.regPeriph(periph3);
-    //         }).then(function () {
-    //             result = central.list();
+                expect(result.length).to.be.equal(3);
+                expect(result[0].addr).to.be.equal(periph1.addr);
+                expect(result[0].addrType).to.be.equal(periph1.addrType);
+                expect(result[0].status).to.be.equal(periph1.status);
+                expect(result[0].connHandle).to.be.equal(periph1.connHandle);
+                expect(result[0].servList).to.be.deep.equal([]);
 
-    //             expect(result.length).to.be.equal(3);
-    //             expect(result[0].addr).to.be.equal(periph1.addr);
-    //             expect(result[0].addrType).to.be.equal(periph1.addrType);
-    //             expect(result[0].status).to.be.equal(periph1.status);
-    //             expect(result[0].connHandle).to.be.equal(periph1.connHdl);
-    //             expect(result[0].servList).to.be.deep.equal({});
+                done();
+            }).fail(function (err) {
+                console.log(err);
+            });
+        });
+    });
 
-    //             done();
-    //         }).fail(function (err) {
-    //             console.log(err);
-    //         });
-    //     });
-    // });
+    describe('#.find', function () {
+        it('should find nothing', function () {
+            expect(central.find(0)).to.be.undefined;
+        });
+        it('should find peripherals', function () {
+            expect(central.find('0x123456789012')).to.be.deep.equal(periph1);
+            expect(central.find('0x112233445566')).to.be.deep.equal(periph2);
+            expect(central.find('0x665544332211')).to.be.deep.equal(periph3);
+        });
+    });
 
-    // describe('#.find', function () {
-    //     it('should find nothing', function () {
-    //         expect(central.find(0)).to.be.undefined;
-    //     });
-    //     it('should find peripherals', function () {
-    //         expect(central.find('0x123456789012')).to.be.deep.equal(periph1);
-    //         expect(central.find('0x112233445566')).to.be.deep.equal(periph2);
-    //         expect(central.find('0x665544332211')).to.be.deep.equal(periph3);
-    //     });
-    // });
+    describe('#.remove', function () {
+        it('should disconnect to peripheral and remove from objectbox', function () {
+            var disconnectStub = sinon.stub(controller, 'disconnect', generalFunc);
 
-    // describe('#.regGattDefs', function () {
-    //     it('should register success and add to GATT definitions', function () {
-    //         var toRegServ = [{name: 'Test', uuid: '0xFFF0'}];
+            periph3.connHandle = 0;
 
-    //         expect(central.regGattDefs('service', toRegServ)).to.be.deep.equal(central);
-    //         expect(GATTDEFS.ServUuid.get(0xfff0)).to.be.a('object');
-    //     });
+            expect(central.find(periph3.addr)).to.be.deep.equal(periph3);
 
-    //     it('should register success if register item equal to previous item', function () {
-    //         var toRegServ = [{name: 'Test', uuid: '0xFFF0'}];
+            central.remove(periph3.addr, function (err) {
+                if(err)
+                    console.log(err);
+                else {
+                    disconnectStub.restore();
+                    expect(disconnectStub).to.have.been.calledOnce;
+                    expect(disconnectStub).to.have.been.calledWith(periph3);
+                    expect(central.find(periph3.addr)).to.be.undefined;
+                    done();
+                }
+            });
+        });
+    });
 
-    //         expect(central.regGattDefs('service', toRegServ)).to.be.deep.equal(central);
-    //     });
+    describe('#.declare', function () {
+        it('should declare success and add to GATT definitions', function () {
+            var toRegServ = [{name: 'Test', uuid: '0xFFF0'}];
 
-    //     it('should register fail if register item not equal to previous item', function () {
-    //         var toRegServ = [{name: 'test', uuid: '0xFFF0'}];
+            expect(central.declare('service', toRegServ)).to.be.deep.equal(central);
+            expect(GATTDEFS.ServUuid.get(0xfff0)).to.be.a('object');
+        });
 
-    //         expect(function () { central.regGattDefs('service', toRegServ); }).to.throw('service uuid of 0xFFF0 is conflict with GATT specifications.');
-    //     });
-    // });
+        it('should declare success if declare item equal to previous item', function () {
+            var toRegServ = [{name: 'Test', uuid: '0xFFF0'}];
 
-    // describe('#.regPlugin', function () {
-    //     it('should register success and add plugin to _plugins property', function () {
-    //         var plugin = {
-    //                 examine: function () {
+            expect(central.declare('service', toRegServ)).to.be.deep.equal(central);
+        });
 
-    //                 },
-    //                 gattDefs: {
-    //                     service: [{name: 'Test2', uuid: '0xFFF1'}]
-    //                 }
-    //             };
+        it('should declare fail if declare item not equal to previous item', function () {
+            var toRegServ = [{name: 'test', uuid: '0xFFF0'}];
 
-    //         expect(central.regPlugin('xxx', plugin)).to.be.true;
-    //         expect(central._plugins['xxx']).to.be.deep.equal(plugin.examine);
-    //         expect(GATTDEFS.ServUuid.get(0xfff1)).to.be.a('object');
-    //     });
-    // });
+            expect(function () { central.declare('service', toRegServ); }).to.throw('service uuid of 0xFFF0 is conflict with GATT specifications.');
+        });
+    });
 
-    // describe('#.regLocalServ', function () {
-    //     it('should register success and create service instance in bleCentral', function (done) {
-    //         var addServStub = sinon.stub(ccbnp.gatt, 'addService', generalFunc),
-    //             addAttrStub = sinon.stub(ccbnp.gatt, 'addAttribute', function () {
-    //                 var deferred = Q.defer(),
-    //                     result = { 
-    //                         payload: new Buffer([0x01, 0x00, 0x05, 0x00])
-    //                     };
+    describe('#.support', function () {
+        it('should register success and add plugin to _plugins property', function () {
+            var plugin = {
+                    examine: function () {
 
-    //                 deferred.resolve(result);
-    //                 return deferred.promise;
-    //             });
+                    },
+                    gattDefs: {
+                        service: [{name: 'Test2', uuid: '0xFFF1'}]
+                    }
+                };
 
-    //         var servInfo = {
-    //                 uuid: '0x1800', 
-    //                 charsInfo: [
-    //                     // {uuid: '0x2a00', permit: ['Read'], prop: ['Read'], val: {name:"Simple BLE Central"}},
-    //                     { uuid: '0x2a01', permit: ['Read'], prop: ['Read'], val: { category:0 } },
-    //                     { uuid: '0x2a02', permit: ['Read', 'Write'], prop: ['Read', 'Write'], val: { flag: 0 } }
-    //                 ]
-    //             };
+            expect(central.support('xxx', plugin)).to.be.true;
+            expect(central._plugins['xxx']).to.be.deep.equal(plugin.examine);
+            expect(GATTDEFS.ServUuid.get(0xfff1)).to.be.a('object');
+        });
+    });
 
-    //         central.regLocalServ(servInfo, function (err, result) {
-    //             if (err)
-    //                 console.log(err);
-    //             else {
-    //                 addServStub.restore();
-    //                 addAttrStub.restore();
-    //                 expect(addServStub).to.have.been.calledOnce;
-    //                 expect(addServStub).to.have.been.calledWith('0x2800', 5);
-    //                 expect(addAttrStub).to.have.been.callCount(4);
-    //                 expect(addAttrStub).to.have.been.calledWith('0x2a01', 1);
-    //                 expect(addAttrStub).to.have.been.calledWith('0x2803', 1);
-    //                 expect(addAttrStub).to.have.been.calledWith('0x2a02', 3);
-    //                 expect(addAttrStub).to.have.been.calledWith('0x2803', 1);
-    //                 expect(result.startHdl).to.be.equal(1);
-    //                 expect(result.endHdl).to.be.equal(5);
-    //                 expect(central.bleCentral.servs[0]).to.be.deep.equal(result);
-    //                 done();
-    //             }
-    //         });
-    //     });
-    // });
+    describe('#.mount', function () {
+        it('should mount success and create service instance in bleCentral', function (done) {
+            var addServStub = sinon.stub(ccbnp.gatt, 'addService', generalFunc),
+                addAttrStub = sinon.stub(ccbnp.gatt, 'addAttribute', function () {
+                    var deferred = Q.defer(),
+                        result = { 
+                            payload: new Buffer([0x01, 0x00, 0x05, 0x00])
+                        };
 
-    // describe('#.blocker', function () {
-    //     it('should enable blocker with blacklist', function () {
-    //         expect(central.blocker(true)).to.be.deep.equal(central);
-    //         expect(central._blockerState).to.be.equal('black');
-    //     });
+                    deferred.resolve(result);
+                    return deferred.promise;
+                });
 
-    //     it('should enable blocker with blacklist', function () {
-    //         expect(central.blocker(true, 'black')).to.be.deep.equal(central);
-    //         expect(central._blockerState).to.be.equal('black');
-    //     });
+            var servInfo = {
+                    uuid: '0x1800', 
+                    charsInfo: [
+                        // {uuid: '0x2a00', permit: ['Read'], prop: ['Read'], val: {name:"Simple BLE Central"}},
+                        { uuid: '0x2a01', permit: ['Read'], prop: ['Read'], val: { category:0 } },
+                        { uuid: '0x2a02', permit: ['Read', 'Write'], prop: ['Read', 'Write'], val: { flag: 0 } }
+                    ]
+                };
 
-    //     it('should enable blocker with whitelist', function () {
-    //         expect(central.blocker(true, 'white')).to.be.deep.equal(central);
-    //         expect(central._blockerState).to.be.equal('white');
-    //     });
+            central.mount(servInfo, function (err, result) {
+                if (err)
+                    console.log(err);
+                else {
+                    addServStub.restore();
+                    addAttrStub.restore();
+                    expect(addServStub).to.have.been.calledOnce;
+                    expect(addServStub).to.have.been.calledWith('0x2800', 5);
+                    expect(addAttrStub).to.have.been.callCount(4);
+                    expect(addAttrStub).to.have.been.calledWith('0x2a01', 1);
+                    expect(addAttrStub).to.have.been.calledWith('0x2803', 1);
+                    expect(addAttrStub).to.have.been.calledWith('0x2a02', 3);
+                    expect(addAttrStub).to.have.been.calledWith('0x2803', 1);
+                    expect(result.startHandle).to.be.equal(1);
+                    expect(result.endHandle).to.be.equal(5);
+                    expect(central.bleCentral.servs[0]).to.be.deep.equal(result);
+                    done();
+                }
+            });
+        });
+    });
 
-    //     it('should disable blocker', function () {
-    //         expect(central.blocker(false)).to.be.deep.equal(central);
-    //         expect(central._blockerState).to.be.null;
-    //     });
-    // });
+    describe('#.blocker', function () {
+        var blocker = central.blocker;
 
-    // describe('#.ban', function () {
-    //     it('should ban device from network and add to blacklist', function (done) {
-    //         var removeStub = sinon.stub(periph1, 'remove', function (callback) {
-    //             callback(null);
-    //         });
+        it('should enable blocker with blacklist', function () {
+            expect(blocker.enable()).to.be.deep.equal(central.blocker);
+            expect(blocker.getType()).to.be.equal('black');
+            expect(blocker.isEnabled()).to.be.true;
+        });
 
-    //         central.blocker(true);
-    //         central.ban(periph1.addr, function (err) {
-    //             if (err)
-    //                 console.log(err);
-    //             else {
-    //                 removeStub.restore();
-    //                 expect(removeStub).to.have.been.calledOnce;
-    //                 expect(central.isBlackListed(periph1.addr)).to.be.true;
-    //                 expect(central.isWhiteListed(periph1.addr)).to.be.false;
-    //                 done();
-    //             }
-    //         });
-    //     });
-    // });
+        it('should enable blocker with blacklist', function () {
+            expect(blocker.enable('black')).to.be.deep.equal(central.blocker);
+            expect(blocker.getType()).to.be.equal('black');
+            expect(blocker.isEnabled()).to.be.true;
+        });
 
-    // describe('#.unban', function () {
-    //     it('should unban device from network and add to whitelist', function () {
-    //         central.unban(periph1.addr, function (err) {
-    //             if (err)
-    //                 console.log(err);
-    //             else {
-    //                 expect(central.isBlackListed(periph1.addr)).to.be.false;
-    //                 expect(central.isWhiteListed(periph1.addr)).to.be.true;
-    //                 done();
-    //             }
-    //         });
-    //     });
-    // });
+        it('should enable blocker with whitelist', function () {
+            expect(blocker.enable('white')).to.be.deep.equal(central.blocker);
+            expect(blocker.getType()).to.be.equal('white');
+            expect(blocker.isEnabled()).to.be.true;
+        });
 
-    // describe('#.allow', function () {
-    //     it('should allow device to network and add to whitelist', function () {
-    //         central.allow(periph1.addr, function (err) {
-    //             if (err)
-    //                 console.log(err);
-    //             else {
-    //                 expect(central.isBlackListed(periph1.addr)).to.be.false;
-    //                 expect(central.isWhiteListed(periph1.addr)).to.be.true;
-    //                 done();
-    //             }
-    //         });
-    //     });
-    // });
+        it('should disable blocker', function () {
+            expect(blocker.disable()).to.be.deep.equal(central.blocker);
+            expect(blocker.isEnabled()).to.be.false;
+        });
+    });
 
-    // describe('#.disallow', function () {
-    //     it('should disallow device to network and add to blacklist', function (done) {
-    //         var removeStub = sinon.stub(periph1, 'remove', function (callback) {
-    //             callback(null);
-    //         });
+    describe('#.block', function () {
+        var blocker = central.blocker;
 
-    //         central.blocker(true);
-    //         central.disallow(periph1.addr, function (err) {
-    //             if (err)
-    //                 console.log(err);
-    //             else {
-    //                 removeStub.restore();
-    //                 expect(removeStub).to.have.been.calledOnce;
-    //                 expect(central.isBlackListed(periph1.addr)).to.be.true;
-    //                 expect(central.isWhiteListed(periph1.addr)).to.be.false;
-    //                 done();
-    //             }
-    //         });
-    //     });
-    // });
+        it('should block device from network and add to blacklist', function (done) {
+            var removeStub = sinon.stub(central, 'remove', function (addr, callback) {
+                callback(null);
+            });
 
-    // describe('#.stop', function () {
-    //     it('should stop ok, permitJoin 0 should be fired, _enable should be false', function (done) {
-    //         var cancelScanStub = sinon.stub(controller, 'cancelScan', generalFunc),
-    //             closeStub = sinon.stub(controller, 'close', generalFunc);
+            blocker.enable();
+            blocker.block(periph1.addr, function (err) {
+                if (err)
+                    console.log(err);
+                else {
+                    removeStub.restore();
+                    expect(removeStub).to.have.been.calledOnce;
+                    expect(removeStub).to.have.been.calledWith(periph1.addr);
+                    expect(blocker.isBlacklisted(periph1.addr)).to.be.true;
+                    expect(blocker.isWhitelisted(periph1.addr)).to.be.false;
+                    done();
+                }
+            });
+        });
+    });
 
-    //         var pjFlag = false,
-    //             pjHdlr = function (msg) {
-    //                 if (msg.type === 'NWK_PERMITJOIN' && msg.data === 0) {
-    //                     pjFlag = true;
-    //                     central.removeListener('IND', pjHdlr);
-    //                 }
-    //             };
+    describe('#.unblock', function () {
+        var blocker = central.blocker;
 
-    //         central.on('IND', pjHdlr);
+        it('should unblock device from network and add to whitelist', function () {
+            blocker.unblock(periph1.addr, function (err) {
+                if (err)
+                    console.log(err);
+                else {
+                    expect(blocker.isBlacklisted(periph1.addr)).to.be.false;
+                    expect(blocker.isWhitelisted(periph1.addr)).to.be.true;
+                    done();
+                }
+            });
+        });
+    });
 
-    //         central.stop(function (err) {
-    //             if (err) 
-    //                 console.log(err);
-    //             else {
-    //                 cancelScanStub.restore();
-    //                 closeStub.restore();
-    //                 expect(pjFlag).to.be.equal(true);
-    //                 expect(central._enable).to.be.equal(false);
-    //                 expect(cancelScanStub).to.have.been.calledOnce;
-    //                 expect(closeStub).to.have.been.calledOnce;
-    //                 done();
-    //             }
-    //         });
-    //     });
-    // });
+    describe('#.stop', function () {
+        it('should stop ok, permitJoin 0 should be fired, _enable should be false', function (done) {
+            var cancelScanStub = sinon.stub(controller, 'cancelScan', generalFunc),
+                closeStub = sinon.stub(controller, 'close', generalFunc);
+
+            var pjFlag = false,
+                pjHdlr = function (time) {
+                    if (time === 0) {
+                        pjFlag = true;
+                        central.removeListener('permitJoining', pjHdlr);
+                    }
+                };
+
+            central.on('permitJoining', pjHdlr);
+
+            central.stop(function (err) {
+                if (err) 
+                    console.log(err);
+                else {
+                    cancelScanStub.restore();
+                    closeStub.restore();
+                    expect(pjFlag).to.be.equal(true);
+                    expect(central._enable).to.be.equal(false);
+                    expect(cancelScanStub).to.have.been.calledOnce;
+                    expect(closeStub).to.have.been.calledOnce;
+                    done();
+                }
+            });
+        });
+    });
 });
