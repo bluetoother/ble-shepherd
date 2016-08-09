@@ -46,78 +46,61 @@ describe('Signature Check', function() {
         
     peripheral._controller = controller;
 
-    it('peripheral.updateLinkParam(interval, latency, timeout[, callback])', function () {
-        expect(function () { peripheral.updateLinkParam(10, 20, 30); }).to.not.throw();
+    it('peripheral.tuneLink(interval, latency, timeout[, callback])', function () {
+        expect(function () { peripheral.tuneLink({}); }).to.not.throw();
 
-        expect(function () { peripheral.updateLinkParam({}, 20, 30); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam([], 20, 30); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam('xxx', 20, 30); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(true, 20, 30); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(undefined, 20, 30); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(null, 20, 30); }).to.throw('interval, latency and timeout must be number.');
-
-        expect(function () { peripheral.updateLinkParam(10, {}, 30); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(10, [], 30); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(10, 'xxx', 30); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(10, true, 30); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(10, undefined, 30); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(10, null, 30); }).to.throw('interval, latency and timeout must be number.');
-
-        expect(function () { peripheral.updateLinkParam(10, 20, {}); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(10, 20, []); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(10, 20, 'xxx'); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(10, 20, true); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(10, 20, undefined); }).to.throw('interval, latency and timeout must be number.');
-        expect(function () { peripheral.updateLinkParam(10, 20, null); }).to.throw('interval, latency and timeout must be number.');
-
+        expect(function () { peripheral.tuneLink([]); }).to.throw('setting must be an object.');
+        expect(function () { peripheral.tuneLink('xxx'); }).to.throw('setting must be an object.');
+        expect(function () { peripheral.tuneLink(123); }).to.throw('setting must be an object.');
+        expect(function () { peripheral.tuneLink(true); }).to.throw('setting must be an object.');
+        expect(function () { peripheral.tuneLink(undefined); }).to.throw('setting must be an object.');
+        expect(function () { peripheral.tuneLink(null); }).to.throw('setting must be an object.');
     });
 
-    it('peripheral.encrypt(setting[, callback])', function () {
-        expect(function () { peripheral.encrypt({}); }).to.not.throw();
-        expect(function () { peripheral.encrypt(); }).to.not.throw();
+    it('peripheral.secure(setting[, callback])', function () {
+        expect(function () { peripheral.secure({}); }).to.not.throw();
+        expect(function () { peripheral.secure(); }).to.not.throw();
 
-        expect(function () { peripheral.encrypt([]); }).to.throw('setting must be an object');
-        expect(function () { peripheral.encrypt('xxx'); }).to.throw('setting must be an object');
-        expect(function () { peripheral.encrypt(123); }).to.throw('setting must be an object');
-        expect(function () { peripheral.encrypt(true); }).to.throw('setting must be an object');
+        expect(function () { peripheral.secure([]); }).to.throw('setting must be an object');
+        expect(function () { peripheral.secure('xxx'); }).to.throw('setting must be an object');
+        expect(function () { peripheral.secure(123); }).to.throw('setting must be an object');
+        expect(function () { peripheral.secure(true); }).to.throw('setting must be an object');
     });
 
-    it('passPasskey(passkey[, callback])', function () {
-        expect(function () { peripheral.passPasskey('000000'); }).to.not.throw();
+    it('returnPasskey(passkey[, callback])', function () {
+        expect(function () { peripheral.returnPasskey('000000'); }).to.not.throw();
 
-        expect(function () { peripheral.passPasskey({}); }).to.throw('Passkey must be a string of length 6.');
-        expect(function () { peripheral.passPasskey([]); }).to.throw('Passkey must be a string of length 6.');
-        expect(function () { peripheral.passPasskey(123); }).to.throw('Passkey must be a string of length 6.');
-        expect(function () { peripheral.passPasskey('xxx'); }).to.throw('Passkey must be a string of length 6.');
-        expect(function () { peripheral.passPasskey('123'); }).to.throw('Passkey must be a string of length 6.');
-        expect(function () { peripheral.passPasskey('abcdef'); }).to.throw('Passkey must be a string of length 6.');
-        expect(function () { peripheral.passPasskey(undefined); }).to.throw('Passkey must be a string of length 6.');
-        expect(function () { peripheral.passPasskey(null); }).to.throw('Passkey must be a string of length 6.');
-
+        expect(function () { peripheral.returnPasskey({}); }).to.throw('Passkey must be a string of length 6.');
+        expect(function () { peripheral.returnPasskey([]); }).to.throw('Passkey must be a string of length 6.');
+        expect(function () { peripheral.returnPasskey(123); }).to.throw('Passkey must be a string of length 6.');
+        expect(function () { peripheral.returnPasskey('xxx'); }).to.throw('Passkey must be a string of length 6.');
+        expect(function () { peripheral.returnPasskey('123'); }).to.throw('Passkey must be a string of length 6.');
+        expect(function () { peripheral.returnPasskey('abcdef'); }).to.throw('Passkey must be a string of length 6.');
+        expect(function () { peripheral.returnPasskey(undefined); }).to.throw('Passkey must be a string of length 6.');
+        expect(function () { peripheral.returnPasskey(null); }).to.throw('Passkey must be a string of length 6.');
     });
 
-    it('peripheral.findChar(uuidServ, uuidChar)', function () {
-        peripheral.servs['0x1800'] = {};
+    it('peripheral.findChar(sid, cid)', function () {
+        peripheral.servs['0x1800'] = { uuid: '0x1800' };
 
         expect(function () { peripheral.findChar('0x1800', '0x2a00'); }).to.not.throw();
 
-        expect(function () { peripheral.findChar({}, '0x2a00'); }).to.throw('uuidServ must be a string and start with 0x');
-        expect(function () { peripheral.findChar([], '0x2a00'); }).to.throw('uuidServ must be a string and start with 0x');
-        expect(function () { peripheral.findChar(123, '0x2a00'); }).to.throw('uuidServ must be a string and start with 0x');
-        expect(function () { peripheral.findChar('xxx', '0x2a00'); }).to.throw('uuidServ must be a string and start with 0x');
-        expect(function () { peripheral.findChar(true, '0x2a00'); }).to.throw('uuidServ must be a string and start with 0x');
-        expect(function () { peripheral.findChar(undefined, '0x2a00'); }).to.throw('uuidServ must be a string and start with 0x');
-        expect(function () { peripheral.findChar(null, '0x2a00'); }).to.throw('uuidServ must be a string and start with 0x');
+        expect(function () { peripheral.findChar({}, '0x2a00'); }).to.throw('sid must be a string and start with 0x');
+        expect(function () { peripheral.findChar([], '0x2a00'); }).to.throw('sid must be a string and start with 0x');
+        expect(function () { peripheral.findChar('xxx', '0x2a00'); }).to.throw('sid must be a string and start with 0x');
+        expect(function () { peripheral.findChar(true, '0x2a00'); }).to.throw('sid must be a string and start with 0x');
+        expect(function () { peripheral.findChar(undefined, '0x2a00'); }).to.throw('sid must be a string and start with 0x');
+        expect(function () { peripheral.findChar(null, '0x2a00'); }).to.throw('sid must be a string and start with 0x');
 
-        expect(function () { peripheral.findChar('0x1800', {}); }).to.throw('uuidChar must be a number or a string start with 0x');
-        expect(function () { peripheral.findChar('0x1800', []); }).to.throw('uuidChar must be a number or a string start with 0x');
-        expect(function () { peripheral.findChar('0x1800', 'xxx'); }).to.throw('uuidChar must be a number or a string start with 0x');
-        expect(function () { peripheral.findChar('0x1800', undefined); }).to.throw('uuidChar must be a number or a string start with 0x');
-        expect(function () { peripheral.findChar('0x1800', true); }).to.throw('uuidChar must be a number or a string start with 0x');
-        expect(function () { peripheral.findChar('0x1800', null); }).to.throw('uuidChar must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', {}); }).to.throw('cid must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', []); }).to.throw('cid must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', 'xxx'); }).to.throw('cid must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', undefined); }).to.throw('cid must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', true); }).to.throw('cid must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', null); }).to.throw('cid must be a number or a string start with 0x');
     });
 
-    it('peripheral.write(uuidServ, uuidChar, value, callback)', function () {
+    it('peripheral.write(sid, cid, value, callback)', function () {
         expect(function () { peripheral.write('0x1800', '0x2a00', {}); }).to.not.throw();
         expect(function () { peripheral.write('0x1800', '0x2a00', new Buffer([0])); }).to.not.throw();
 
@@ -129,27 +112,27 @@ describe('Signature Check', function() {
         expect(function () { peripheral.write('0x1800', '0x2a00', undefined); }).to.throw('value must be an object or a buffer');
     });
 
-    it('peripheral.setNotify(uuidServ, uuidChar, config, callback)', function () {
-        expect(function () { peripheral.setNotify('0x1800', '0x2a00', true); }).to.not.throw();
+    it('peripheral.configNotify(sid, cid, config, callback)', function () {
+        expect(function () { peripheral.configNotify('0x1800', '0x2a00', true); }).to.not.throw();
 
-        expect(function () { peripheral.setNotify('0x1800', '0x2a00', {}); }).to.throw('config must be a boolean');
-        expect(function () { peripheral.setNotify('0x1800', '0x2a00', []); }).to.throw('config must be a boolean');
-        expect(function () { peripheral.setNotify('0x1800', '0x2a00', 123); }).to.throw('config must be a boolean');
-        expect(function () { peripheral.setNotify('0x1800', '0x2a00', 'xxx'); }).to.throw('config must be a boolean');
-        expect(function () { peripheral.setNotify('0x1800', '0x2a00', null); }).to.throw('config must be a boolean');
-        expect(function () { peripheral.setNotify('0x1800', '0x2a00', undefined); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.configNotify('0x1800', '0x2a00', {}); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.configNotify('0x1800', '0x2a00', []); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.configNotify('0x1800', '0x2a00', 123); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.configNotify('0x1800', '0x2a00', 'xxx'); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.configNotify('0x1800', '0x2a00', null); }).to.throw('config must be a boolean');
+        expect(function () { peripheral.configNotify('0x1800', '0x2a00', undefined); }).to.throw('config must be a boolean');
     });
 
-    it('peripheral.regCharHdlr(uuidServ, uuidChar, fn)', function () {
-        expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', function () {}); }).to.not.throw();
+    it('peripheral.onNotified(sid, cid, fn)', function () {
+        expect(function () { peripheral.onNotified('0x1800', '0x2a00', function () {}); }).to.not.throw();
 
-        expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', {}); }).to.throw('fn must be a function');
-        expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', []); }).to.throw('fn must be a function');
-        expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', 123); }).to.throw('fn must be a function');
-        expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', 'xxx'); }).to.throw('fn must be a function');
-        expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', true); }).to.throw('fn must be a function');
-        expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', undefined); }).to.throw('fn must be a function');
-        expect(function () { peripheral.regCharHdlr('0x1800', '0x2a00', null); }).to.throw('fn must be a function');
+        expect(function () { peripheral.onNotified('0x1800', '0x2a00', {}); }).to.throw('fn must be a function');
+        expect(function () { peripheral.onNotified('0x1800', '0x2a00', []); }).to.throw('fn must be a function');
+        expect(function () { peripheral.onNotified('0x1800', '0x2a00', 123); }).to.throw('fn must be a function');
+        expect(function () { peripheral.onNotified('0x1800', '0x2a00', 'xxx'); }).to.throw('fn must be a function');
+        expect(function () { peripheral.onNotified('0x1800', '0x2a00', true); }).to.throw('fn must be a function');
+        expect(function () { peripheral.onNotified('0x1800', '0x2a00', undefined); }).to.throw('fn must be a function');
+        expect(function () { peripheral.onNotified('0x1800', '0x2a00', null); }).to.throw('fn must be a function');
 
         wakeUpStub.restore();
     });
@@ -173,11 +156,10 @@ describe('Functional Check', function () {
     peripheral._controller = controller;
     peripheral.servs['0x1800'] = new Serv(servInfo, peripheral);
 
-
     describe('#.connect', function () {
         it('should connect ok', function (done) {
             var connectStub = sinon.stub(central._periphProcessor, 'connPeriph', function () {
-                    central.emit('IND', { type: 'DEV_INCOMING', data: peripheral });
+                    central.emit('ind', { type: 'devIncoming', periph: peripheral });
                 });
 
             peripheral.connect(function (err) {
@@ -193,7 +175,7 @@ describe('Functional Check', function () {
         });
 
         it('should do nothing if connHdl not equal to null or undefined', function (done) {
-            peripheral.connHdl = 0;
+            peripheral.connHandle = 0;
 
             peripheral.connect(function (err) {
                 if (err)
@@ -223,7 +205,7 @@ describe('Functional Check', function () {
         it('should do nothing if connHdl equal to null or undefined', function (done) {
             var disconnectStub = sinon.stub(controller, 'disconnect', generalFunc);
 
-            peripheral.connHdl = null;
+            peripheral.connHandle = null;
 
             peripheral.disconnect(function (err) {
                 if (err)
@@ -238,71 +220,49 @@ describe('Functional Check', function () {
         });
     });
 
-    describe('#.remove', function () {
-        it('should disconnect to peripheral and remove from objectbox', function (done) {
-            var disconnectStub = sinon.stub(controller, 'disconnect', generalFunc);;
-
-            peripheral.connHdl = 0;
-            peripheral._id = 1;
-
-            central.regPeriph(peripheral, function () {
-                expect(central.find(peripheral.addr)).to.be.deep.equal(peripheral);
-
-                peripheral.remove(function (err) {
-                    if(err)
-                        console.log(err);
-                    else {
-                        disconnectStub.restore();
-                        expect(disconnectStub).to.have.been.calledOnce;
-                        expect(disconnectStub).to.have.been.calledWith(peripheral);
-                        expect(central.find(peripheral.addr)).to.be.undefined;
-                        done();
-                    }
-                });
-            });
-
-        });
-    });
-
-    describe('#.update', function () {
+    describe('#.maintain', function () {
         var servInfo1 = {
                 uuid: '0x1800',
-                startHdl: 1,
-                endHdl: 20,
-                chars: [ 
+                startHandle: 1,
+                endHandle: 20,
+                charList: [ 
                     {
                         uuid: '0x2a00',
-                        hdl: 2,
+                        handle: 2,
                         prop: ['write']
                     }
                 ]
             },
             servInfo2 = {
                 uuid: '0xbb00',
-                startHdl: 21,
-                endHdl: 25,
-                chars: [ 
+                startHandle: 21,
+                endHandle: 25,
+                charList: [ 
                     {
                         uuid: '0xcc00',
-                        hdl: 22,
+                        handle: 22,
                         prop: ['read']
                     },
                     {
                         uuid: '0xcc01',
-                        hdl: 24,
+                        handle: 24,
                         prop: ['read']
                     }
                 ]
             };
 
-        peripheral.servs['0x1800'] = new Serv(servInfo1, peripheral);
-        peripheral.servs['0xbb00'] = new Serv(servInfo2, peripheral);
+        peripheral.servs['1'] = new Serv(servInfo1, peripheral);
+        peripheral.servs['21'] = new Serv(servInfo2, peripheral);
 
         it('should read characteristic value of service 0xcc00', function (done) {
-            var readStub = sinon.stub(controller, 'read', function () {
+            var charValue = {
+                    value: 10, 
+                    changed: 'xxx'
+                },
+                readStub = sinon.stub(controller, 'read', function () {
                     var deferred = Q.defer();
 
-                    deferred.resolve({ value: 10 });
+                    deferred.resolve(charValue);
                     return deferred.promise;
                 }),
                 charChangedHdlr,
@@ -310,16 +270,20 @@ describe('Functional Check', function () {
 
             charChangedHdlr = function (msg) {
                 var charInfo =  { 
-                        periphId: peripheral.addr,
-                        type: 'val',
-                        servUuid: '0xbb00',
-                        charUuid: null,
-                        value: { value: 10 }
+                        periph: peripheral,
+                        type: 'value',
+                        sid: {
+                            uuid: '0xbb00',
+                            handle: 21
+                        },
+                        cid: null,
+                        value: charValue,
+                        diff: charValue
                     };
 
-                charInfo.charUuid = '0xcc00';
+                charInfo.cid = { uuid: '0xcc00', handle: 22 };
                 if (_.isEqual(charInfo, msg)) evtCount += 1;
-                charInfo.charUuid = '0xcc01';
+                charInfo.cid = { uuid: '0xcc01', handle: 24 };
                 if (_.isEqual(charInfo, msg)) evtCount += 1;
 
                 if (evtCount === 2) controller.removeListener('charChanged', charChangedHdlr);
@@ -328,9 +292,9 @@ describe('Functional Check', function () {
             peripheral.status = 'online';
             central.regPeriph(peripheral);
             controller.on('charChanged', charChangedHdlr);
-            peripheral.update(function (err) {
-                var char1 = peripheral.servs['0xbb00'].chars['22'],
-                    char2 = peripheral.servs['0xbb00'].chars['24'];
+            peripheral.maintain(function (err) {
+                var char1 = peripheral.servs['21'].chars['22'],
+                    char2 = peripheral.servs['21'].chars['24'];
 
                 if (err)
                     console.log(err);
@@ -339,8 +303,8 @@ describe('Functional Check', function () {
                     expect(readStub).to.have.been.calledTwice;
                     expect(readStub).to.have.been.calledWith(char1);
                     expect(readStub).to.have.been.calledWith(char2);
-                    expect(char1.val).to.be.deep.equal({ value: 10 });
-                    expect(char2.val).to.be.deep.equal({ value: 10 });
+                    expect(char1.value).to.be.deep.equal(charValue);
+                    expect(char2.value).to.be.deep.equal(charValue);
                     expect(evtCount).to.be.equal(2);
                     done();
                 }
@@ -348,7 +312,7 @@ describe('Functional Check', function () {
         });
     });
 
-    describe('#.updateLinkParam', function () {
+    describe('#.tuneLink', function () {
         it('should update success and change linkParams property to new setting', function (done) {
             var updateLinkParamStub = sinon.stub(controller, 'updateLinkParam', generalFunc),
                 setting = {
@@ -358,7 +322,7 @@ describe('Functional Check', function () {
                 };
 
             peripheral.status = 'online';
-            peripheral.updateLinkParam(setting.interval, setting.latency, setting.timeout, function (err) {
+            peripheral.tuneLink(setting, function (err) {
                 if (err)
                     console.log(err);
                 else {
@@ -375,15 +339,15 @@ describe('Functional Check', function () {
             var updateLinkParamStub = sinon.stub(controller, 'updateLinkParam', generalFunc);
 
             peripheral.status = 'offline';
-            peripheral.updateLinkParam(0, 0, 0, function (err) {
+            peripheral.tuneLink({}, function (err) {
                 expect(err.message).to.be.equal('Device is not online.');
                 done();
             });
         });
     });
 
-    describe('#.encrypt', function () {
-        it('should encrypt success with bonding and create security model', function (done) {
+    describe('#.secure', function () {
+        it('should secure success with bonding and create security model', function (done) {
             var setBondParamStub = sinon.stub(controller, 'setBondParam', generalFunc),
                 bondStub = sinon.stub(controller, 'bond', generalFunc),
                 authenticateStub = sinon.stub(controller, 'authenticate', function () {
@@ -405,7 +369,8 @@ describe('Functional Check', function () {
                     bond: true
                 };
 
-            peripheral.encrypt(setting, function (err) {
+            peripheral.status = 'online';
+            peripheral.secure(setting, function (err) {
                 if (err)
                     console.log(err);
                 else {
@@ -425,55 +390,55 @@ describe('Functional Check', function () {
                 }
             });
         });
-        it('should encrypt success without bonding and create security model', function (done) {
-            var setBondParamStub = sinon.stub(controller, 'setBondParam', generalFunc),
-                bondStub = sinon.stub(controller, 'bond', generalFunc),
-                authenticateStub = sinon.stub(controller, 'authenticate', function () {
-                    var deferred = Q.defer(),
-                        result = {
-                            status: 0,
-                            dev_ltk: 'ltk',
-                            dev_div: 'div',
-                            dev_rand: 'rand'
-                        };
-                    deferred.resolve(result);
-                    return deferred.promise;
-                });
+        // it('should secure success without bonding and create security model', function (done) {
+        //     var setBondParamStub = sinon.stub(controller, 'setBondParam', generalFunc),
+        //         bondStub = sinon.stub(controller, 'bond', generalFunc),
+        //         authenticateStub = sinon.stub(controller, 'authenticate', function () {
+        //             var deferred = Q.defer(),
+        //                 result = {
+        //                     status: 0,
+        //                     dev_ltk: 'ltk',
+        //                     dev_div: 'div',
+        //                     dev_rand: 'rand'
+        //                 };
+        //             deferred.resolve(result);
+        //             return deferred.promise;
+        //         });
                 
-            var setting = {
-                    pairMode: 0x01,
-                    ioCap: 0x00,
-                    mitm: true,
-                    bond: false
-                };
+        //     var setting = {
+        //             pairMode: 0x01,
+        //             ioCap: 0x00,
+        //             mitm: true,
+        //             bond: false
+        //         };
 
-            peripheral.encrypt(setting, function (err) {
-                if (err)
-                    console.log(err);
-                else {
-                    setBondParamStub.restore();
-                    bondStub.restore();
-                    authenticateStub.restore();
-                    expect(setBondParamStub).to.have.callCount(4);
-                    expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.PairingMode.value, new Buffer([1]));
-                    expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.MitmProtection.value, new Buffer([1]));
-                    expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.IoCap.value, new Buffer([0]));
-                    expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.BondingEnabled.value, new Buffer([0]));
-                    expect(authenticateStub).to.have.been.calledOnce;
-                    expect(authenticateStub).to.have.been.calledWith(peripheral, 0, true, false);
-                    expect(bondStub).to.have.callCount(0);
-                    done();
-                }
-            });
-        });
+        //     peripheral.secure(setting, function (err) {
+        //         if (err)
+        //             console.log(err);
+        //         else {
+        //             setBondParamStub.restore();
+        //             bondStub.restore();
+        //             authenticateStub.restore();
+        //             expect(setBondParamStub).to.have.callCount(4);
+        //             expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.PairingMode.value, new Buffer([1]));
+        //             expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.MitmProtection.value, new Buffer([1]));
+        //             expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.IoCap.value, new Buffer([0]));
+        //             expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.BondingEnabled.value, new Buffer([0]));
+        //             expect(authenticateStub).to.have.been.calledOnce;
+        //             expect(authenticateStub).to.have.been.calledWith(peripheral, 0, true, false);
+        //             expect(bondStub).to.have.callCount(0);
+        //             done();
+        //         }
+        //     });
+        // });
     });
 
-    describe('#.passPasskey', function () {
+    describe('#.returnPasskey', function () {
         it('should pass success', function (done) {
             var passStub = sinon.stub(controller, 'passkeyUpdate', generalFunc),
                 passkey = '123456';
 
-            peripheral.passPasskey(passkey, function (err) {
+            peripheral.returnPasskey(passkey, function (err) {
                 if (err)
                     console.log(err);
                 else {
@@ -489,8 +454,8 @@ describe('Functional Check', function () {
     describe('#.findChar', function () {
         it('should find characteristic', function () {
             expect(peripheral.findChar('0xbb00', '0xcc05')).to.be.undefined;
-            expect(peripheral.findChar('0xbb00', '0xcc00')).to.be.deep.equal(peripheral.servs['0xbb00'].chars['22']);
-            expect(peripheral.findChar('0xbb00', 22)).to.be.deep.equal(peripheral.servs['0xbb00'].chars['22']);
+            expect(peripheral.findChar('0xbb00', '0xcc00')).to.be.deep.equal(peripheral.servs['21'].chars['22']);
+            expect(peripheral.findChar('0xbb00', 22)).to.be.deep.equal(peripheral.servs['21'].chars['22']);
         });
     });
 
@@ -507,10 +472,16 @@ describe('Functional Check', function () {
 
             charChangedHdlr = function (msg) {
                 var charInfo =  { 
-                        periphId: peripheral.addr,
+                        periph: peripheral,
                         type: 'desc',
-                        servUuid: '0xbb00',
-                        charUuid: '0xcc00',
+                        sid: {
+                            uuid: '0xbb00',
+                            handle: 21
+                        },
+                        cid: { 
+                            uuid: '0xcc00', 
+                            handle: 22 
+                        },
                         value: desc
                     };
 
@@ -537,9 +508,9 @@ describe('Functional Check', function () {
         });
     });
 
-    describe('#.setNotify', function () {
+    describe('#.configNotify', function () {
         it('should unable to set if does not have notify or indicate prop', function (done) {
-            peripheral.setNotify('0xbb00', '0xcc00', true, function (err) {
+            peripheral.configNotify('0xbb00', '0xcc00', true, function (err) {
                 if (err.message === 'Characteristic not allowed to notify or indication')
                     done();
             });
@@ -549,7 +520,7 @@ describe('Functional Check', function () {
             notifyStub = sinon.stub(controller, 'notify', generalFunc);
 
             peripheral.findChar('0xbb00', '0xcc00').prop.push('notify');
-            peripheral.setNotify('0xbb00', '0xcc00', true, function (err) {
+            peripheral.configNotify('0xbb00', '0xcc00', true, function (err) {
                 if (err)
                     console.log(err);
                 else {
@@ -571,7 +542,10 @@ describe('Functional Check', function () {
         });
 
         it('should read ok, characteristic val equal to write value, emit charChanged event if result not equal to old one', function (done) {
-            var readValue = { value: 20 },
+            var readValue = { 
+                    value: 10,
+                    changed: 'xxxxx' 
+                },
                 evtFlag = false,
                 readStub = sinon.stub(controller, 'read', function () {
                     var deferred = Q.defer();
@@ -581,11 +555,20 @@ describe('Functional Check', function () {
                 }),
                 charChangedHdlr = function (msg) {
                     var charInfo =  { 
-                            periphId: peripheral.addr,
-                            type: 'val',
-                            servUuid: '0xbb00',
-                            charUuid: '0xcc00',
-                            value: readValue
+                            periph: peripheral,
+                            type: 'value',
+                            sid: {
+                                uuid: '0xbb00',
+                                handle: 21
+                            },
+                            cid: { 
+                                uuid: '0xcc00', 
+                                handle: 22 
+                            },
+                            value: readValue,
+                            diff: {
+                                changed: 'xxxxx' 
+                            },
                         };
 
                     if (_.isEqual(charInfo, msg)) {
@@ -602,7 +585,7 @@ describe('Functional Check', function () {
                     readStub.restore();
                     expect(readStub).to.have.been.calledOnce;
                     expect(readStub).to.have.been.calledWith(peripheral.findChar('0xbb00', '0xcc00'));
-                    expect(peripheral.findChar('0xbb00', '0xcc00').val).to.be.deep.equal(readValue);
+                    expect(peripheral.findChar('0xbb00', '0xcc00').value).to.be.deep.equal(readValue);
                     expect(result).to.be.deep.equal(readValue);
                     expect(evtFlag).to.be.true;
                     done();
@@ -620,16 +603,26 @@ describe('Functional Check', function () {
         });
 
         it('should write ok, characteristic val equal to write value, emit charChanged event if value not equal to old one', function (done) {
-            var writeVal = { value: 100 },
+            var writeVal = { 
+                    value: 100,
+                    changed: 'xxxxx' 
+                },
                 evtFlag = false,
                 writeStub = sinon.stub(controller, 'write', generalFunc),
                 charChangedHdlr = function (msg) {
                     var charInfo =  { 
-                            periphId: peripheral.addr,
-                            type: 'val',
-                            servUuid: '0x1800',
-                            charUuid: '0x2a00',
-                            value: writeVal
+                            periph: peripheral,
+                            type: 'value',
+                            sid: {
+                                uuid: '0x1800',
+                                handle: 1
+                            },
+                            cid: { 
+                                uuid: '0x2a00', 
+                                handle: 2 
+                            },
+                            value: writeVal,
+                            diff: writeVal
                         };
 
                     if (_.isEqual(charInfo, msg)) {
@@ -646,7 +639,53 @@ describe('Functional Check', function () {
                     writeStub.restore();
                     expect(writeStub).to.have.been.calledOnce;
                     expect(writeStub).to.have.been.calledWith(peripheral.findChar('0x1800', '0x2a00'), writeVal);
-                    expect(peripheral.findChar('0x1800', '0x2a00').val).to.be.deep.equal(writeVal);
+                    expect(peripheral.findChar('0x1800', '0x2a00').value).to.be.deep.equal(writeVal);
+                    expect(evtFlag).to.be.true;
+                    done();
+                }
+            });
+        });
+
+        it('should write ok, characteristic val equal to write value, emit charChanged event if value not equal to old one', function (done) {
+            var writeVal = { 
+                    value: 10,
+                    changed: 'xxxxx' 
+                },
+                evtFlag = false,
+                writeStub = sinon.stub(controller, 'write', generalFunc),
+                charChangedHdlr = function (msg) {
+                    var charInfo =  { 
+                            periph: peripheral,
+                            type: 'value',
+                            sid: {
+                                uuid: '0x1800',
+                                handle: 1
+                            },
+                            cid: { 
+                                uuid: '0x2a00', 
+                                handle: 2 
+                            },
+                            value: writeVal,
+                            diff: {
+                                value: 10
+                            }
+                        };
+
+                    if (_.isEqual(charInfo, msg)) {
+                        evtFlag = true;
+                        controller.removeListener('charChanged', charChangedHdlr);
+                    }
+                };
+
+            controller.on('charChanged', charChangedHdlr);
+            peripheral.write('0x1800', '0x2a00', writeVal, function (err) {
+                if (err)
+                    console.log(err);
+                else {
+                    writeStub.restore();
+                    expect(writeStub).to.have.been.calledOnce;
+                    expect(writeStub).to.have.been.calledWith(peripheral.findChar('0x1800', '0x2a00'), writeVal);
+                    expect(peripheral.findChar('0x1800', '0x2a00').value).to.be.deep.equal(writeVal);
                     expect(evtFlag).to.be.true;
                     done();
                 }
@@ -654,12 +693,12 @@ describe('Functional Check', function () {
         });
     });
 
-    describe('#.regCharHdlr', function () {
+    describe('#.onNotified', function () {
         it('should register ok', function () {
             var hdlr = function () {};
 
-            expect(peripheral.regCharHdlr('0x1800', '0x2a00', hdlr)).to.be.deep.equal(peripheral);
-            expect(peripheral.servs['0x1800'].chars['2'].processInd).to.be.equal(hdlr);
+            expect(peripheral.onNotified('0x1800', '0x2a00', hdlr)).to.be.deep.equal(peripheral);
+            expect(peripheral.servs['1'].chars['2'].processInd).to.be.equal(hdlr);
 
             try {
                 fs.unlinkSync(path.resolve(__dirname + '/../lib/database/ble.db'));
