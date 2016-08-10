@@ -270,7 +270,6 @@ describe('Functional Check', function () {
 
             charChangedHdlr = function (msg) {
                 var charInfo =  { 
-                        periph: peripheral,
                         type: 'value',
                         sid: {
                             uuid: '0xbb00',
@@ -280,6 +279,8 @@ describe('Functional Check', function () {
                         value: charValue,
                         diff: charValue
                     };
+
+                delete msg.periph;
 
                 charInfo.cid = { uuid: '0xcc00', handle: 22 };
                 if (_.isEqual(charInfo, msg)) evtCount += 1;
@@ -472,7 +473,6 @@ describe('Functional Check', function () {
 
             charChangedHdlr = function (msg) {
                 var charInfo =  { 
-                        periph: peripheral,
                         type: 'desc',
                         sid: {
                             uuid: '0xbb00',
@@ -484,6 +484,8 @@ describe('Functional Check', function () {
                         },
                         value: desc
                     };
+
+                delete msg.periph;
 
                 if (_.isEqual(charInfo, msg)) {
                     evtFlag = true;
@@ -555,7 +557,6 @@ describe('Functional Check', function () {
                 }),
                 charChangedHdlr = function (msg) {
                     var charInfo =  { 
-                            periph: peripheral,
                             type: 'value',
                             sid: {
                                 uuid: '0xbb00',
@@ -570,6 +571,8 @@ describe('Functional Check', function () {
                                 changed: 'xxxxx' 
                             },
                         };
+
+                    delete msg.periph;
 
                     if (_.isEqual(charInfo, msg)) {
                         evtFlag = true;
@@ -611,7 +614,6 @@ describe('Functional Check', function () {
                 writeStub = sinon.stub(controller, 'write', generalFunc),
                 charChangedHdlr = function (msg) {
                     var charInfo =  { 
-                            periph: peripheral,
                             type: 'value',
                             sid: {
                                 uuid: '0x1800',
@@ -624,6 +626,8 @@ describe('Functional Check', function () {
                             value: writeVal,
                             diff: writeVal
                         };
+
+                    delete msg.periph;
 
                     if (_.isEqual(charInfo, msg)) {
                         evtFlag = true;
@@ -655,7 +659,6 @@ describe('Functional Check', function () {
                 writeStub = sinon.stub(controller, 'write', generalFunc),
                 charChangedHdlr = function (msg) {
                     var charInfo =  { 
-                            periph: peripheral,
                             type: 'value',
                             sid: {
                                 uuid: '0x1800',
@@ -670,6 +673,8 @@ describe('Functional Check', function () {
                                 value: 10
                             }
                         };
+
+                    delete msg.periph;
 
                     if (_.isEqual(charInfo, msg)) {
                         evtFlag = true;
