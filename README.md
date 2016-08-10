@@ -747,41 +747,42 @@ central.disallow('0xd05fb820a6bd');
 
 <a name = "EVT_ready"></a>
 ###Event: 'ready'  
-The central will fire an `ready` event when central is ready.  
 
 Event Handler: `function() { }`  
+The central will fire an `ready` event when central is ready.  
 
 *************************************************
 
 <a name = "EVT_error"></a>
 ###Event: 'error'  
-The central will fire an `error` event when an error occurs.  
 
 Event Handler: `function(err) { }`  
+The central will fire an `error` event when an error occurs.  
 
 *************************************************
 
 <a name = "EVT_permit"></a>
 ###Event: 'permitJoining'  
-The central will fire an `permitJoining` event when the central is allowing for devices to join the network. The event will be triggered at each tick of countdown. 
 
-Event Handler: `function(time) { }`  
-
-1. `time` (*Number*): seconds left to disallow devices to join the network.
+Event Handler: `function(joinTimeLeft) { }`  
+The central will fire an `permitJoining` event when the central is allowing for devices to join the network, where `joinTimeLeft` is number of seconds left to allow devices to join the network. The event will be triggered at each tick of countdown.  
 
 *************************************************
 
 <a name = "EVT_ind"></a>  
 ###Event: 'ind'  
-The central will fire an `ind` event upon receiving an indication from a peripheral. 
 
 Event Handler: `function(msg) { }`  
+The central will fire an `ind` event upon receiving an indication from a peripheral. The `msg` is an object with the properties given in the table:
 
-1. 
+| Property | Type            | Description                                                                                                                                 |
+|----------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| type     | String          | Indication type, can be `'devIncoming'`, `'devLeaving'`, `'devStatus'`, `'devNeedPasskey'`, `'attNotify'` and  `'attChange'`.               |
+| periph   | Object | String | peripheral instance, except that when type === 'devLeaving', peripheral will be a string of the address (since peripheral has been removed) |
+| data     | Depends         | Data along with the indication, which depends on the type of indication                                                                     |
 
- The `msg.type` can be `DEV_ONLINE`, `DEV_INCOMING`, `DEV_LEAVING`, `DEV_IDLE`, `NWK_PERMITJOIN`, `ATT_IND`, `PASSKEY_NEED` or `LOCAL_SERV_ERR` to reveal the message purpose.  
 
-- **DEV_ONLINE**  
+*  ####DEV_ONLINE**  
 
     A peripheral has just joined the network, but not yet synchronized with the remote device (services re-discovery will run in background).  
   
@@ -797,19 +798,36 @@ Event Handler: `function(msg) { }`
 
 <br />
 
-- **DEV_INCOMING**  
+*  #### 'devIncoming'  
 
     A peripheral has joined the network and synchronized with the remote.  
 
-    - `msg.type` (*String*): `'DEV_INCOMING'`  
-    - `msg.data` (*String*): Device address  
+    * `msg.type` (*String*): `'devIncoming'`  
+    * `msg.periph` (*Object*): peripheral
+    * `msg.data` (*String*): `undefined`
 
-    ```js
-    {
-        type: 'DEV_INCOMING',
-        data: '0x78c5e570796e'
-    }
-    ```
+<br />
+
+*  #### 'devLeaving'  
+
+    A peripheral has just left the network.  
+
+    * `msg.type` (*String*): `'devLeaving'`  
+    * `msg.periph` (*String*): The address of which peripheral is leaving   
+    * `msg.data` (*String*): Peripheral address  
+
+<br />
+
+*  #### 'devStatus'  
+
+    A peripheral has going online, going offline, or going to idle.
+
+    * `msg.type` (*String*): `'devStatus'` 
+    * `msg.periph` (*Object*): peripheral 
+    * `msg.data` (*String*): `'online'`, `'offline'`, or `'idle'`
+
+    *  Note: 
+        Due to limitation of the number of connections, 
 
 <br />
 
@@ -823,22 +841,6 @@ Event Handler: `function(msg) { }`
     ```js
     {
         type: 'DEV_IDLE',
-        data: '0x78c5e570796e'
-    }
-    ```
-
-<br />
-
-- **DEV_LEAVING**  
-
-    A peripheral has just left the network.  
-
-    - `msg.type` (*String*): `'DEV_LEAVING'`  
-    - `msg.data` (*String*): Device address  
-
-    ```js
-    {
-        type: 'DEV_LEAVING',
         data: '0x78c5e570796e'
     }
     ```
