@@ -7,7 +7,7 @@
 <a name="addDefinition"></a>
 ### 1. How to define your own Services and Characteristics
 
-To let **ble-shepherd** parse and build the packet of your private Services and Characteristics, you should first register the private definitions to **ble-shepherd** by `central.regGattDefs(type, regObjs)` method.  
+To let **ble-shepherd** parse and build the packet of your private Services and Characteristics, you should first register the private definitions to **ble-shepherd** by `central.declare(type, regObjs)` method.  
 
 * `regObjs` contains the registration information depending on which type, Service or Characteristic, you like to register to **ble-shepherd**.  
     * If `type === 'service'`, `regObjs` should be given with an array of the _Service information object_. Each entry in this array should be an object with properties listed in the table:
@@ -34,7 +34,7 @@ To let **ble-shepherd** parse and build the packet of your private Services and 
 * Example
     * Register service definations
     ```js
-    central.regGattDefs('service', [
+    central.declare('service', [
         { name: 'SimpleKeys', uuid: '0xffe0' },     // 'SimpleKeys' is any string you like to name your Service
         { name: 'Accelerometer', uuid: '0xffa0' }
     ]);
@@ -42,7 +42,7 @@ To let **ble-shepherd** parse and build the packet of your private Services and 
 
     * Register characteristic definitions
     ```js
-    central.regGattDefs('characteristic', [
+    central.declare('characteristic', [
         { name: 'KeyPressState', uuid: '0xffe1', params: [ 'Enable' ], types: [ 'uint8' ] }, 
         { name: 'AccelerometerX', uuid: '0xffa3', params: [ 'X' ], types: [ 'uint8' ] }, 
         { name: 'AccelerometerY', uuid: '0xffa4', params: [ 'Y' ], types: [ 'uint8' ] }, 
@@ -54,7 +54,7 @@ To let **ble-shepherd** parse and build the packet of your private Services and 
 <a name="addService"></a>
 ### 2. How to add your own Services to central
 
-Use `central.regLocalServ(servInfo, callback)` method to create a local Service on the central and register it to CC254X BNP.  
+Use `central.mount(servInfo, callback)` method to create a local Service on the central and register it to CC254X BNP.  
     
 * The following table shows the details of each property within `servInfo` object.  
 
@@ -99,7 +99,7 @@ Use `central.regLocalServ(servInfo, callback)` method to create a local Service 
         charsInfo : charsInfo
     };
 
-    central.regLocalServ(servInfo, function (err, service) {
+    central.mount(servInfo, function (err, service) {
         if (err)
             console.log(err);
         else
@@ -123,7 +123,7 @@ Use `central.regLocalServ(servInfo, callback)` method to create a local Service 
         charsInfo : charsInfo
     };
 
-    central.regLocalServ(servInfo, function (err, service) {
+    central.mount(servInfo, function (err, service) {
         if (err)
             console.log(err);
         else
@@ -142,13 +142,13 @@ Use `central.regLocalServ(servInfo, callback)` method to create a local Service 
         charsInfo : charsInfo
     };
 
-    central.regGattDefs('characteristic', [
+    central.declare('characteristic', [
         { name: 'data', uuid: '0xaa11', params: [ 'x', 'y', 'z' ], types: [ 'uint8', 'uint8', 'uint8' ] }, 
         { name: 'config', uuid: '0xaa12', params: [ 'range' ], types: [ 'uint8' ] }, 
         { name: 'period', uuid: '0xaa13', params: [ 'period' ], types: [ 'uint8' ] }
     ]);
 
-    central.regLocalServ(servInfo, function (err, service) {
+    central.mount(servInfo, function (err, service) {
         if (err)
             console.log(err);
         else
@@ -168,18 +168,17 @@ Let me show you an example. Assuming that I have a BLE relay module designed by 
 
 ```javascript
 var sivannRelayPlugin = require('bshep-plugin-sivann-relay'); 
-central.regPlugin('hello-my-relay', sivannRelayPlugin);
+central.support('hello-my-relay', sivannRelayPlugin);
 ```
 
 And in my application, I can easily tell if an incoming device is my `'hello-my-relay'`  
 
 ```javascript
-central.on('IND', function (msg) {
-    var dev;
+central.on('ind', function (msg) {
+    var dev = msg.periph;
 
     switch (msg.type) {
-        case 'DEV_INCOMING':
-            dev = msg.data;
+        case 'devIncoming':
 
             if (dev.name === 'hello-my-relay') {
                 // Ok, if I am here, I know my lovely relay is coming to the network,   
@@ -251,3 +250,13 @@ module.exports = relayPlugin;
 ```
 
 At the very last step, don't forget to publish your plugin to [npm](https://www.npmjs.com/).  
+
+#### Plugin list
+
+* [bshep-plugin-ti-keyfob](https://www.npmjs.com/package/bshep-plugin-ti-keyfob)
+* [bshep-plugin-ti-sensortag1](https://www.npmjs.com/package/bshep-plugin-ti-sensortag1)
+* [bshep-plugin-sivann-gassensor](https://www.npmjs.com/package/bshep-plugin-sivann-gassensor)
+* [bshep-plugin-sivann-nineaxis](https://www.npmjs.com/package/bshep-plugin-sivann-nineaxis)
+* [bshep-plugin-sivann-relay](https://www.npmjs.com/package/bshep-plugin-sivann-relay)
+* [bshep-plugin-sivann-remotecontrol](https://www.npmjs.com/package/bshep-plugin-sivann-remotecontrol)
+* [bshep-plugin-sivann-weatherstation ](https://www.npmjs.com/package/bshep-plugin-sivann-weatherstation )
