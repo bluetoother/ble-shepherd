@@ -62,7 +62,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 - Building your machine network with BLE devices.  
 - Controlling the network with no pain. Features of auto reconnection, permission of device joining, built-in database, and many more are off-the-shelf.  
 - Creating BLE IoT apps is simple and quick.  
-- Allowing you to define _Services_ and _Characteritics_ on **ble-shepherd** itself to make it a BLE gadget. **ble-shepherd** not just plays as a network controller.  
+- Allowing you to define _Services_ and _Characteristics_ on **ble-shepherd** itself to make it a BLE gadget. **ble-shepherd** not just plays as a network controller.  
 - Based-on node.js. It's easy to integrate BLE apps with other services or frameworks, e.g., http server, express, React.js, Angular.js.  
 
 <br />
@@ -140,8 +140,7 @@ central.start();
 * [central.remove()](#API_remove)
 * [central.declare()](#API_declare)
 * [central.support()](#API_support)
-* [central.mount()](#API_mount)
-* [Blocker](#API_blocker)
+* [Blocker](#Blocker)
     * [blocker.enable()](#API_enable)
     * [blocker.disable()](#API_disable)
     * [blocker.isEnabled()](#API_isEnabled)
@@ -163,6 +162,7 @@ central.start();
 * [peripheral.readDesc()](#API_readDesc)
 * [peripheral.configNotify()](#API_configNotify)
 * [peripheral.onNotified()](#API_onNotified)
+* [peripheral.dump()](#API_dump)
 
 Some methods are not supported for noble sub-module, they are listed in this table. (X: unsupported)
 
@@ -649,7 +649,7 @@ function app () {
 ```
 
 ***********************************************
-
+<a name="Blocker"></a>  
 ## Blocker Class  
 
 `central.blocker` returns an instance of this class, it can be used to block unauthorized devices from join the network according to the blacklist or the whitelist. The instance, which is denoted as `blocker` in this document.
@@ -834,7 +834,7 @@ The central will fire an `ind` event upon receiving an indication from a periphe
     * `msg.data` (*String*): `'online'`, `'offline'`, or `'idle'`  
 
 *  Note:  
-    Due to limitation of the number of connections, a peripheral needs to be idle in order to allow other peripheral to join the network. During idle, you can still operate the peripheral, but can not receive notification means indication from the idle peripheral.
+    Due to limitation of the number of connections, a peripheral needs to be idle in order to allow other peripheral to join the network. During idle, you can still operate the peripheral, but can not receive notification or indication from the idle peripheral.
 
 <br />
 
@@ -911,7 +911,7 @@ The central will fire an `ind` event upon receiving an indication from a periphe
         ```
 
     * Note:  
-        The diffrence between 'attChange' and 'attNotify' is that data along with 'attNotify' is which a Characteristic like to notify even if there is no change of it. A periodical notification is a good example, a Characteristic has to report something even there is no change of that thing. If the central does notice there is really something changed, it will then fire 'attChange' to report the change(s). It is suggested to use 'attChange' indication to update your GUI views, and to use 'attNotify' indication to log data. 
+        The diffrence between `'attChange'` and `'attNotify'` is that data along with `'attNotify'` is which a Characteristic like to notify even if there is no change of it. A periodical notification is a good example, a Characteristic has to report something even there is no change of that thing. If the central does notice there is really something changed, it will then fire `'attChange'` to report the change(s). It is suggested to use `'attChange'` indication to update your GUI views, and to use `'attNotify'` indication to log data. 
 
 <br />
 
@@ -941,7 +941,7 @@ Connect to a remote BLE peripheral. The central will fire an `'ind'` event with 
 ```javascript
 central.on('ind', function (msg) {
     if (msg.type === 'devStatus' && msg.status === 'onlone')
-        console.log('msg');
+        console.log(msg);
 });
 
 central.on('ind', function (msg) {
@@ -1085,7 +1085,7 @@ Note: This command is cc-bnp only.
 **Example**  
 
 ```javascript
-peripheral.passPasskey('123456', function (err) {
+peripheral.returnPasskey('123456', function (err) {
     if (err)
         console.log(err);
 });
@@ -1255,7 +1255,7 @@ Register a handler to handle notification or indication of the Characteristic.
         console.log(data);
     }
 ```
-All device records will be returned if `addrs` is not given
+
 *************************************************
 <a name="API_dump"></a>  
 ###.dump([sid[, cid]])  
@@ -1323,9 +1323,9 @@ peripheral.dump('0x1800', '0x2a00');
 
 Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md) to illustrate how to do further settings in ble-shepherd, e.g., register private definitions.  
 
-- How to define your own Services and Characteristics.  
-- How to add your own Services to central.  
-- How to create a Plugin belong your own device.  
+- [How to define your own Services and Characteristics.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addDefinition)  
+- [How to add your own Services to central.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addService)  
+- [How to create a Plugin belong your own device.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addPlugin)  
 
 <br />
 
