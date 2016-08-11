@@ -79,7 +79,7 @@ function bleApp () {
 <a name="devOnlineOffline"></a>
 ### 4.2 Deal with device incoming and leaving
 
-Let's deal with the received [`'ind'` events](#EVT_ind) in our app. This demo only shows how to tackle types of the `'devIncoming'` and `'devLeaving'` indcations. Here is the example:  
+Let's deal with the received [`'ind'` events](https://github.com/bluetoother/ble-shepherd#EVT_ind) in our app. This demo only shows how to tackle types of the `'devIncoming'` and `'devLeaving'` indcations. Here is the example:  
 
 ```js
 // bleSocket.js
@@ -148,7 +148,7 @@ function indicationHdlr (msg) {
                 //    a polling mechanism in this simple demo, thus our app does not accept 
                 //    any unrecognized pheriperal.  
 
-                dev.remove();
+                central.remove(dev.addr);
                 emitFlag = false;   // No need to tell the web client about this unrecognized device
                 break;
         }
