@@ -9,7 +9,7 @@ Here is a simple ble-shepherd webapp built up with ExpressJS and [socket.io](#ht
 This demo uses a CSR8510 BLE USB dongle with 5 simultaneous connections. A polling mechanism is required if you want to connect to peripherals more than 5. The following four steps guides you through the implementation of this demo.  
 
 - [Run the webapp with ble-shepherd](#runServer)  
-- [Deal with device online and offline status](#devOnlineOffline)  
+- [Deal with device incoming and leaving](#devOnlineOffline)  
 - [Deal with characteristic notifications](#charNotif)  
 - [Control devices on the webapp GUI](#ctrlDev)  
 
@@ -42,7 +42,9 @@ bleSocket.initialize(server);
 // bleSocket.js
 
 var io = require('socket.io'),
-    central = require('ble-shepherd')('noble');
+    BleShepherd = require('ble-shepherd');
+
+var central = new BleShepherd('noble');
 
 var connFlag = true,
     bleSocket;
@@ -56,7 +58,8 @@ exports.initialize = function(server) {
         
         if (connFlag) {
             // start running ble-shepherd
-            central.start(bleApp);
+            central.on('ready', bleApp)
+            central.start();
             connFlag = false;
         }
 
@@ -65,42 +68,38 @@ exports.initialize = function(server) {
     });
 };
 
-// bleApp listens all types of 'IND' event emitted by ble-shepherd, 
+// bleApp listens all types of 'ind' event emitted by ble-shepherd, 
 // and assign the corresponding handler for those event.
 function bleApp () {
-    central.on('IND', indicationHdlr);
+    central.on('ind', indicationHdlr);
 }
 ```
   
 *************************************************
 <a name="devOnlineOffline"></a>
-### 4.2 Deal with device online and offline status
+### 4.2 Deal with device incoming and leaving
 
-Let's deal with the received [`'IND'` events](#EVT_ind) in our app. This demo only shows how to tackle types of the `'DEV_INCOMING'` and `'DEV_LEAVING'` indcations. Here is the example:  
+Let's deal with the received [`'ind'` events](#EVT_ind) in our app. This demo only shows how to tackle types of the `'devIncoming'` and `'devLeaving'` indcations. Here is the example:  
 
 ```js
 // bleSocket.js
 
 function indicationHdlr (msg) {
-    var dev;
+    var dev = msg.periph;
 
     switch (msg.type) {
-        case 'DEV_INCOMING':
-            dev = central.find(msg.data);   // msg.data is the device address
-            if (dev)
-                devIncomingHdlr(dev);       // dispatch to device incoming handler
+        case 'devIncoming':
+            devIncomingHdlr(dev);       // dispatch to device incoming handler
             break;
 
-        case 'DEV_LEAVING':
-            dev = central.find(msg.data);   // msg.data is the device address
-            if (dev)
-                devLeavingHdlr(dev);        // dispatch to device leaving handler
+        case 'devLeaving':
+            devLeavingHdlr(dev);        // dispatch to device leaving handler
             break;
     }
 }
 ```
 
-- When received an indication of `'DEV_INCOMING'` type, check what kind of the device is and register handlers to tackle the characteristic changes. Then, broadcast the `'bleInd'` event along with a `'devIncoming'` type of indication to tell all web clients that a device has joined the network.  
+- When received an indication of `'devIncoming'` type, check what kind of the device is and register handlers to tackle the characteristic changes. Then, broadcast the `'bleInd'` event along with a `'devIncoming'` type of indication to tell all web clients that a device has joined the network.  
 
     - Here is an example, assume that a device with an address of '0x9059af0b8159' joins the network. We can register handlers corresponding to each characteristic notification, and enable those characteristics to start notifying their changes.  
 
@@ -109,8 +108,8 @@ function indicationHdlr (msg) {
 
     function devIncomingHdlr(dev) {
         var emitFlag = true,
-            devName = dev.findChar('0x1800', '0x2a00').val.name,
-            newDev;
+            devName = dev.dump('0x1800', '0x2a00').value.name,
+            sensorTag;
     
         // This demo uses device name to identify "_what a device is_".  
         // You can identify a device by its services, manufacturer name, 
@@ -120,18 +119,18 @@ function indicationHdlr (msg) {
             case 'TI BLE Sensor Tag':
                 sensorTag = dev;
                 // register characteristics handler
-                // signature: regCharHdlr(uuidServ, uuidChar, fn)
-                sensorTag.regCharHdlr('0xaa00', '0xaa01', tempCharHdlr);
-                sensorTag.regCharHdlr('0xaa10', '0xaa11', accelerometerCharHdlr);
-                sensorTag.regCharHdlr('0xaa20', '0xaa21', humidCharHdlr);
-                sensorTag.regCharHdlr('0xffe0', '0xffe1', simpleKeyCharHdlr);
+                // signature: onNotified(sid, cid, fn)
+                sensorTag.onNotified('0xaa00', '0xaa01', tempCharHdlr);
+                sensorTag.onNotified('0xaa10', '0xaa11', accelerometerCharHdlr);
+                sensorTag.onNotified('0xaa20', '0xaa21', humidCharHdlr);
+                sensorTag.onNotified('0xffe0', '0xffe1', simpleKeyCharHdlr);
     
                 // enable characteristics notification
-                // signature: setNotify(uuidServ, uuidChar, config[, callback])
-                sensorTag.setNotify('0xffe0', '0xffe1', true);
-                sensorTag.setNotify('0xaa00', '0xaa01', true);
-                sensorTag.setNotify('0xaa10', '0xaa11', true);
-                sensorTag.setNotify('0xaa20', '0xaa21', true);
+                // signature: configNotify(sid, cid, config[, callback])
+                sensorTag.configNotify('0xffe0', '0xffe1', true);
+                sensorTag.configNotify('0xaa00', '0xaa01', true);
+                sensorTag.configNotify('0xaa10', '0xaa11', true);
+                sensorTag.configNotify('0xaa20', '0xaa21', true);
                 break;
             case 'Wristband X':
                 // ... 
@@ -165,7 +164,7 @@ function indicationHdlr (msg) {
         }
     }
     ```
-- When received an indication of `'DEV_LEAVING'` type, broadcast the `'bleInd'` event with a `'devLeaving'` type of indication to tell all web clients that a device has left the network.  
+- When received an indication of `'devLeaving'` type, broadcast the `'bleInd'` event with a `'devLeaving'` type of indication to tell all web clients that a device has left the network.  
 
 ```js
     // bleSocket.js
@@ -180,7 +179,7 @@ function indicationHdlr (msg) {
         dev.status = 'offline';
         io.sockets.emit('bleInd', { // tell the client someone is leaving
             type: 'devLeaving',
-            data: msg.data
+            data: msg.periph
         });
     }
 ```
@@ -189,7 +188,7 @@ function indicationHdlr (msg) {
 <a name="charNotif"></a>
 ### 4.3 Deal with characteristic notifications
 
-Register a handler via regCharHdlr() to help you with tackling the notification of a particular characteristic. You can do anything upon receiving the characteristic notification in the handler, such as collecting data for further analysis or pushing data to cloud.  
+Register a handler via onNotified() to help you with tackling the notification of a particular characteristic. You can do anything upon receiving the characteristic notification in the handler, such as collecting data for further analysis or pushing data to cloud.  
   
 Let me show you an example. In `tempCharHdlr` function, I'll convert the received temperature value to Celsius within function tempConverter(), and broadcast the sensed temperature to all web clients through the websocket as well as push it to cloud. Please refer to [Texas Instruments SensorTag User Guide](http://processors.wiki.ti.com/index.php/SensorTag_User_Guide#IR_Temperature_Sensor) for how to convert the sensed raw data to temperature in Cel.  
 
