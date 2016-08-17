@@ -12,8 +12,8 @@ var BShepherd = require('../index'),
 var bShepherd = new BShepherd('cc-bnp', path, options);
 // var bShepherd = new BShepherd('noble');
 
-var sensorTagPlg = require('../../bluetoother/bshep-plugins/bshep-plugin-ti-sensortag1'),
-    keyFobPlg = require('../../bluetoother/bshep-plugins/bshep-plugin-ti-keyfob');
+var sensorTagPlg = require('bshep-plugin-ti-sensortag1'),
+    keyFobPlg = require('bshep-plugin-ti-keyfob');
 
 var sensorTag, keyFob, 
     sensorTemp = 0, 
@@ -22,52 +22,51 @@ var sensorTag, keyFob,
 bShepherd.init = appInit;
 bShepherd.start();
 
-bShepherd.on('READY', function () {
+bShepherd.on('ready', function () {
     bleApp(bShepherd);
 });
 
 function appInit () {
-    bShepherd.regPlugin('sensorTag', sensorTagPlg);
-    bShepherd.regPlugin('keyFob', keyFobPlg);
+    bShepherd.support('sensorTag', sensorTagPlg);
+    bShepherd.support('keyFob', keyFobPlg);
 }
 
 function bleApp (central) {
     var dev;
 
     central.permitJoin(60);
-    central.on('IND', function(msg) {
+    central.on('ind', function(msg) {
+        var periph = msg.periph;
+        
         switch (msg.type) {
-            case 'DEV_ONLINE':
-                console.log('dev online ' + msg.data);
+            case 'devStatus':
+                console.log('dev: ' + periph.addr + ', status change to ' + msg.data);
                 break;
-            case 'DEV_INCOMING':
-                dev = msg.data;
-
-                if (dev.name === 'sensorTag') {
+            case 'devIncoming':
+                if (periph.name === 'sensorTag') {
                     console.log('Sensor Tag join the network');
 
-                    sensorTag = dev;
+                    sensorTag = periph;
 
-                    sensorTag.regCharHdlr('0xaa00', '0xaa01', callbackTemp);
-                    sensorTag.regCharHdlr('0xaa10', '0xaa11', callbackAccelerometer);
-                    sensorTag.regCharHdlr('0xaa50', '0xaa51', callbackGyroscope);
-                } else if (dev.name === 'keyFob') {
+                    sensorTag.onNotified('0xaa00', '0xaa01', callbackTemp);
+                    sensorTag.onNotified('0xaa10', '0xaa11', callbackAccelerometer);
+                    sensorTag.onNotified('0xaa50', '0xaa51', callbackGyroscope);
+                } else if (periph.name === 'keyFob') {
                     console.log('KeyFob join the network');
 
-                    keyFob = dev;
+                    keyFob = periph;
 
-                    keyFob.regCharHdlr('0xffe0', '0xffe1', callbackSimpleKey);
+                    keyFob.onNotified('0xffe0', '0xffe1', callbackSimpleKey);
                     keyFobSimpleKey(keyFob, 1);
-                } 
+                }
                 break;
-            case 'DEV_LEAVING':
+            case 'devLeaving':
                 break;
-            case 'DEV_IDLE':
-                console.log('Idle device: ' + msg.data);
+            case 'attNotify':
                 break;
-            case 'ATT_IND':
+            case 'attChange':
                 break;
-            case 'PASSKEY_NEED':
+            case 'devNeedPasskey':
                 break;
         }
     });
@@ -87,7 +86,7 @@ function sensorTagTemp (sensorTag, value, callback) {
         buf = new Buffer([0x01]);
     }
 
-    sensorTag.setNotify('0xaa00', '0xaa01', config, function (err) {
+    sensorTag.configNotify('0xaa00', '0xaa01', config, function (err) {
         if (err) {
             console.log(err);
             callback(err);
@@ -116,7 +115,7 @@ function sensorTagAccelerometer (sensorTag, value) {
         buf = new Buffer([0x01]);
     }
 
-    sensorTag.setNotify('0xaa10', '0xaa11', config, function (err) {
+    sensorTag.configNotify('0xaa10', '0xaa11', config, function (err) {
         if (err) {
             console.log(err);
         } else {
@@ -142,7 +141,7 @@ function sensorTagGyroscope (sensorTag, value) {
         buf = new Buffer([0x07]);
     }
 
-    sensorTag.setNotify('0xaa50', '0xaa51', config, function (err) {
+    sensorTag.configNotify('0xaa50', '0xaa51', config, function (err) {
         if (err) {
             console.log(err);
         } else {
@@ -166,7 +165,7 @@ function keyFobSimpleKey (keyFob, value) {
     if (value === 0) { config = false; } 
     else { config = true; }
 
-    keyFob.setNotify('0xffe0', '0xffe1', config, function (err) {
+    keyFob.configNotify('0xffe0', '0xffe1', config, function (err) {
         if (err) {
             console.log(err);
         } else {

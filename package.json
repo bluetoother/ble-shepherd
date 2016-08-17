@@ -25,6 +25,8 @@
   "license": "MIT",
   "homepage": "https://github.com/bluetoother/ble-shepherd",
   "devDependencies": {
+    "bshep-plugin-ti-keyfob": "0.0.3",
+    "bshep-plugin-ti-sensortag1": "0.0.2",
     "chai": "^3.5.0",
     "mocha": "^2.5.3",
     "sinon": "^1.17.5",
@@ -32,9 +34,9 @@
   },
   "dependencies": {
     "async-kit": "^2.1.3",
-    "ble-char-packet": "0.0.3",
-    "busyman": "^0.1.2",
-    "cc-bnp": "^0.1.3",
+    "ble-packet": "0.0.3",
+    "busyman": "^0.1.5",
+    "cc-bnp": "^0.1.5",
     "enum": "^2.3.0",
     "noble": "hedywings/noble#hci-socket",
     "objectbox": "0.0.9",
