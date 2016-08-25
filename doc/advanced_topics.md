@@ -7,7 +7,7 @@
 <a name="addDefinition"></a>
 ### 1. How to define your own Services and Characteristics
 
-To let **ble-shepherd** parse and build the packet of your private Services and Characteristics, you should first register the private definitions to **ble-shepherd** by `central.declare(type, regObjs)` method.  
+To let **ble-shepherd** parse and build the packet of your private Services and Characteristics, you should first register the private definitions to **ble-shepherd** by calling `central.declare(type, regObjs)` method.  
 
 * `regObjs` contains the registration information depending on which type, Service or Characteristic, you like to register to **ble-shepherd**.  
     * If `type === 'service'`, `regObjs` should be given with an array of the _Service information object_. Each entry in this array should be an object with properties listed in the table:

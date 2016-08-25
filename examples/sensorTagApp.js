@@ -9,8 +9,8 @@ var BShepherd = require('../index'),
         flowControl: true
     };
 
-var bShepherd = new BShepherd('cc-bnp', path, options);
-// var bShepherd = new BShepherd('noble');
+var central = new BShepherd('cc-bnp', path, options);
+// var central = new BShepherd('noble');
 
 var sensorTagPlg = require('bshep-plugin-ti-sensortag1'),
     keyFobPlg = require('bshep-plugin-ti-keyfob');
@@ -19,17 +19,14 @@ var sensorTag, keyFob,
     sensorTemp = 0, 
     sensorAcceler = 0;
 
-bShepherd.init = appInit;
-bShepherd.start();
+central.support('sensorTag', sensorTagPlg);
+central.support('keyFob', keyFobPlg);
 
-bShepherd.on('ready', function () {
-    bleApp(bShepherd);
+central.start();
+
+central.on('ready', function () {
+    bleApp(central);
 });
-
-function appInit () {
-    bShepherd.support('sensorTag', sensorTagPlg);
-    bShepherd.support('keyFob', keyFobPlg);
-}
 
 function bleApp (central) {
     var dev;
@@ -40,7 +37,6 @@ function bleApp (central) {
         
         switch (msg.type) {
             case 'devStatus':
-                console.log('dev: ' + periph.addr + ', status change to ' + msg.data);
                 break;
             case 'devIncoming':
                 if (periph.name === 'sensorTag') {

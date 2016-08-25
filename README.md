@@ -1,5 +1,5 @@
 #ble-shepherd
-<br />
+A network controller and manager for the BLE machine network running on node.js
 
 [![NPM](https://nodei.co/npm/ble-shepherd.png?downloads=true)](https://nodei.co/npm/ble-shepherd/)  
 
@@ -13,7 +13,6 @@
     1.1 [Features](#Features)  
     1.2 [Installation](#Installation)  
     1.3 [Usage](#Usage)  
-
 2. [APIs and Events](#APIs)  
 3. [Advanced topics](#Advanced)  
 4. [Demo](#Demo)   
@@ -28,7 +27,7 @@
 
 **ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.  
   
-**ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating BLE *pheripheral* devices. This controller has carried many network managing things for you, i.e., auto scanning for *pheripheral* devices, storing(/reloading) connected devices records to(/from) the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
+**ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating BLE *peripheral* devices. This controller has carried many network managing things for you, i.e., auto scanning for *peripheral* devices, storing(/reloading) connected devices records to(/from) the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
 
 It is easy to set and receive notifications from remote *peripherals*. Furthermore, reading resources from and writing values to *periphrals* is also simple, here is an example:
 
@@ -44,7 +43,7 @@ peripheral.write('0x1800', '0x2a02', { flag: false }, function (err) {
 With **ble-shepherd**, you can get rid of such networking things and focus on your application logics. It opens another way of implementing IoT applications with BLE devices. With node.js, you can build your own application console(or dashboard) and design your own RESTful APIs in seconds. It's easy to make your BLE devices happy on the cloud.  
   
 **Note**:  
-At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/hedywings/ccBnp) and [noble](https://github.com/hedywings/noble) libraries. They are targeting on TI [CC254X BLE Network Processor](http://processors.wiki.ti.com/index.php/CC254X_WITH_EXT_MCU#Network_Processor) and CSR8510 BLE4.0 USB adapter, respectively. This project may support TI [CC264X](http://processors.wiki.ti.com/index.php/CC2640_BLE_Network_Processor) in the near future (if I can get the development tools). Please let me know if you have any suggestions about the BLE SoC solutions.  
+At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/bluetoother/cc-bnp) and [noble](https://github.com/hedywings/noble) libraries. They are targeting on TI [CC254X BLE Network Processor](http://processors.wiki.ti.com/index.php/CC254X_WITH_EXT_MCU#Network_Processor) and [BLE4.0 USB adapter](https://github.com/sandeepmistry/node-bluetooth-hci-socket#compatible-bluetooth-40-usb-adapters), respectively. This project may support TI [CC264X](http://processors.wiki.ti.com/index.php/CC2640_BLE_Network_Processor) in the near future (if I can get the development tools). Please let me know if you have any suggestions about the BLE SoC solutions.  
 
 <br />
 
@@ -80,7 +79,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 
 The following example shows how to create a new instance of the `BleShepherd` class and call method `start()` to bring the `central` up with different sub-module.  
 
-If you like to tackle something prior to your central starting, e.g., registering custom GATT definitions, just override the method `init()` to suit your needs.  
+You can tackle something prior to your central starting, e.g., registering custom GATT definitions, registering a plugin.  
   
 * Using `cc-bnp` as a sub-module  
   
@@ -95,10 +94,9 @@ var path = '/dev/ttyUSB0',      // The system path of the serial port to connect
 
 var central = new BleShepherd('cc-bnp', path, options);
 
-central.init = function () {
-    // do something before app starting
-    // usually register GATT definition by calling declare() here
-}
+// do something before app starting
+// usually register GATT definition by calling declare() here
+// or register a plugin by calling support
 
 central.start();
 ```
@@ -110,10 +108,7 @@ var BleShepherd = require('ble-shepherd');
 
 var central = new BleShepherd('noble');
 
-central.init = function () {
-    // do something before app starting
-    // usually register GATT definition by calling declare() here
-}
+// do something before app starting
 
 central.start();
 ```
@@ -150,7 +145,7 @@ central.start();
 * Events: [ready](#EVT_ready), [error](#EVT_error), [permitJoining](#EVT_permit) and [ind](#EVT_ind)
 
 ####2. Monitor and Control the Peripherals
-**peripheral** is a software endpoint, which represents a remote BLE device, in **ble-shepherd**. You can use `central.find()` to find a connected _pheripheral_ device with its address or connection handle. Once you get the endpoint, you can invoke its read()/write() methods to operate the remote device.  
+**peripheral** is a software endpoint, which represents a remote BLE device, in **ble-shepherd**. You can use `central.find()` to find a connected _peripheral_ device with its address or connection handle. Once you get the endpoint, you can invoke its read()/write() methods to operate the remote device.  
 
 * [peripheral.connect()](#API_connect)
 * [peripheral.disconnect()](#API_disconnect)
@@ -159,8 +154,8 @@ central.start();
 * [peripheral.returnPasskey()](#API_returnPasskey)
 * [peripheral.maintain()](#API_maintain)
 * [peripheral.read()](#API_read)
-* [peripheral.write()](#API_write)
 * [peripheral.readDesc()](#API_readDesc)
+* [peripheral.write()](#API_write)
 * [peripheral.configNotify()](#API_configNotify)
 * [peripheral.onNotified()](#API_onNotified)
 * [peripheral.dump()](#API_dump)
@@ -180,7 +175,6 @@ Some methods are not supported for noble sub-module, they are listed in this tab
 |                                       | remove                | O               | O               |
 |                                       | declare               | O               | O               |
 |                                       | support               | O               | O               |
-|                                       | mount                 | O               | X               |
 |                                       | blocker               | O               | O               |
 | Monitor and Control the Peripherals   | connect               | O               | O               |
 |                                       | disconnect            | O               | O               |
@@ -193,6 +187,7 @@ Some methods are not supported for noble sub-module, they are listed in this tab
 |                                       | write                 | O               | O               |
 |                                       | configNotify          | O               | O               |
 |                                       | onNotified            | O               | O               |
+|                                       | dump                  | O               | O               |
 
 <br />
 
@@ -206,17 +201,17 @@ Exposed by `require('ble-shepherd')`. According to the different sub-module, thi
 *************************************************
 <a name="API_BShepherdCcbnp"></a>  
 ### new BleShepherd(subModule, path[, opts])  
-Create a new instance of the BleShepherd class with `cc-bnp` sub-module. The created instance is denoted as `central` in this document.
+Create an instance of the BleShepherd class with `cc-bnp` sub-module. The created instance is denoted as `central` in this document.
 
 **Arguments**  
 
-1. `subModule` (*String*): `subModule` should be specified as `'cc-bnp'`.  
+1. `subModule` (*String*): Should be specified as `'cc-bnp'`.  
 2. `path` (*String*): A string that refers to the serial port system path, e.g., `'/dev/ttyUSB0'`.    
 3. `opts` (*Object*): An object to set up the [seiralport configuration options](https://www.npmjs.com/package/serialport#serialport-path-options-opencallback). The following example shows the `opts` with its default value.  
 
 **Returns**  
 
-- (*None*)  
+- (*Object*): central
 
 **Example**  
 
@@ -239,11 +234,11 @@ Create a new instance of the BleShepherd class with `noble` sub-module. The crea
 
 **Arguments**  
 
-1. `subModule` (*String*): `subModule` should be specified as `'noble'`.  
+1. `subModule` (*String*): Should be specified as `'noble'`.  
 
 **Returns**  
 
-- (*None*)
+- (*Object*): central
 
 **Example**  
 
@@ -256,7 +251,7 @@ var central = new BleShepherd('noble');
 *************************************************
 <a name="API_start"></a>  
 ### .start([callback])  
-Connect to the SoC and start to run the central. The central will fire an `'ready'` event when central is start to running.  
+Connect to the SoC and start to run the central. The central will fire an `'ready'` event when it is start to running.  
 
 **Arguments**  
 
@@ -328,11 +323,12 @@ Set up scan parameters of the BLE central.
 
 1. `setting` (*Object*): The following table shows the `setting` properties.  
 
-    | Property | Type   | Mandatory | Description            | Default value |
-    |----------|--------|-----------|------------------------|---------------|
-    | interval | Number | optional  | Scan interval(0.625ms) | 0x0010        |
-    | window   | Number | optional  | Scan window(0.625ms)   | 0x0010        |
-
+    | Property | Type   | Mandatory | Description                                                                       | Default value |
+    |----------|--------|-----------|-----------------------------------------------------------------------------------|---------------|
+    | time     | Number | optional  | Time to peform scanning (ms). `time` is only valid when using `cc-bnp` sub-module | 0x0010        |
+    | interval | Number | optional  | Scan interval(0.625ms).                                                           | 0x0010        |
+    | window   | Number | optional  | Scan window(0.625ms).                                                             | 0x0010        |
+    
 2. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
 
 **Returns**  
@@ -342,6 +338,13 @@ Set up scan parameters of the BLE central.
 **Example**  
 
 ```javascript
+// with `cc-bnp` sub-module
+central.tuneScan({ time: 2000, interval: 16, window: 16 }, function (err) {
+    if (err)
+        console.log(err);
+});
+
+// with `noble` sub-module, time can bot be set
 central.tuneScan({ interval: 16, window: 16 }, function (err) {
     if (err)
         console.log(err);
@@ -413,7 +416,7 @@ central.permitJoin(60);
 *************************************************
 <a name="API_list"></a>  
 ###.list([addrs])  
-List records of all Peripheral Devices managed by central.  
+List records of joined Peripheral Devices managed by central.  
 
 **Arguments**  
 
@@ -451,62 +454,64 @@ List records of all Peripheral Devices managed by central.
 ```javascript
 var devRecords = central.list()
 
-// devRecords is an array with records to show each Peripheral's information
-// [
-//     {
-//         addr: '0x544a165e1f53',
-//         addrType: 'public',
-//         status: 'online',
-//         connHdl: 70,
-//         servList: [
-//             {
-//                 uuid: '0x1800',
-//                 handle: 1,
-//                 charList: [
-//                     { uuid: '0x2a00', handle: 3 },
-//                     { uuid: '0x2a01', handle: 5 },
-//                     { uuid: '0x2a02', handle: 7 },
-//                     { uuid: '0x2a03', handle: 9 },
-//                     { uuid: '0x2a04', handle: 11 }
-//                 ]
-//             },
-//             {
-//                 uuid: '0x1801',
-//                 handle: 12,
-//                 charList: [
-//                     { uuid: '0x2a05', handle: 14 }
-//                 ]
-//             },
-//             {
-//                 uuid: '0x180a',
-//                 handle: 16,
-//                 charList: [
-//                     { uuid: '0x2a23', handle: 18 },
-//                     { uuid: '0x2a24', handle: 20 },
-//                     { uuid: '0x2a25', handle: 22 },
-//                     { uuid: '0x2a26', handle: 24 },
-//                     { uuid: '0x2a27', handle: 26 },
-//                     { uuid: '0x2a28', handle: 28 },
-//                     { uuid: '0x2a29', handle: 30 },
-//                     { uuid: '0x2a2a', handle: 32 },
-//                     { uuid: '0x2a50', handle: 34 }
-//                 ]
-//             },
-//             { 
-//                 uuid: '0xffa0',
-//                 handle: 35,
-//                 charList: [ 
-//                     { uuid: '0xffa1', handle: 37 },
-//                     { uuid: '0xffa2', handle: 40 },
-//                     { uuid: '0xffa3', handle: 43 },
-//                     { uuid: '0xffa4', handle: 47 },
-//                     { uuid: '0xffa5', handle: 51 } 
-//                 ]
-//             }
-//         ]
-//     },
-//     ...
-// ]
+/*
+devRecords is an array with records to show each Peripheral's information
+[
+    {
+        addr: '0x544a165e1f53',
+        addrType: 'public',
+        status: 'online',
+        connHdl: 70,
+        servList: [
+            {
+                uuid: '0x1800',
+                handle: 1,
+                charList: [
+                    { uuid: '0x2a00', handle: 3 },
+                    { uuid: '0x2a01', handle: 5 },
+                    { uuid: '0x2a02', handle: 7 },
+                    { uuid: '0x2a03', handle: 9 },
+                    { uuid: '0x2a04', handle: 11 }
+                ]
+            },
+            {
+                uuid: '0x1801',
+                handle: 12,
+                charList: [
+                    { uuid: '0x2a05', handle: 14 }
+                ]
+            },
+            {
+                uuid: '0x180a',
+                handle: 16,
+                charList: [
+                    { uuid: '0x2a23', handle: 18 },
+                    { uuid: '0x2a24', handle: 20 },
+                    { uuid: '0x2a25', handle: 22 },
+                    { uuid: '0x2a26', handle: 24 },
+                    { uuid: '0x2a27', handle: 26 },
+                    { uuid: '0x2a28', handle: 28 },
+                    { uuid: '0x2a29', handle: 30 },
+                    { uuid: '0x2a2a', handle: 32 },
+                    { uuid: '0x2a50', handle: 34 }
+                ]
+            },
+            { 
+                uuid: '0xffa0',
+                handle: 35,
+                charList: [ 
+                    { uuid: '0xffa1', handle: 37 },
+                    { uuid: '0xffa2', handle: 40 },
+                    { uuid: '0xffa3', handle: 43 },
+                    { uuid: '0xffa4', handle: 47 },
+                    { uuid: '0xffa5', handle: 51 } 
+                ]
+            }
+        ]
+    },
+    ...
+]
+*/
 ```
 
 *************************************************
@@ -520,7 +525,7 @@ Find a peripheral maintained by the central.
 
 **Returns**  
 
-- (*Object*): peripheral, an instance of the BlePeripheral class  
+- (*Object*): peripheral, an instance of the BlePeripheral class. Returns `undefined` if not found.
 
 **Example**  
 
@@ -569,7 +574,7 @@ central.remove(0, function (err) {
 *************************************************
 <a name="API_declare"></a>  
 ###.declare(type, regObjs)  
-Allows you to declare private Services or Characteristic definitions.  
+Allows you to declare private Services or Characteristic definitions. The definition tells **ble-shepherd** of how to parse and build the packet.
 
 **Arguments**  
 
@@ -772,7 +777,7 @@ blocker.unblock('0xd05fb820a6bd');
 <a name = "EVT_ready"></a>
 ###Event: 'ready'  
 
-Event Handler: `function() { }`  
+Listener: `function() { }`  
 The central will fire an `ready` event when central is ready.  
 
 *************************************************
@@ -780,7 +785,7 @@ The central will fire an `ready` event when central is ready.
 <a name = "EVT_error"></a>
 ###Event: 'error'  
 
-Event Handler: `function(err) { }`  
+Listener: `function(err) { }`  
 The central will fire an `error` event when an error occurs.  
 
 *************************************************
@@ -788,7 +793,7 @@ The central will fire an `error` event when an error occurs.
 <a name = "EVT_permit"></a>
 ###Event: 'permitJoining'  
 
-Event Handler: `function(joinTimeLeft) { }`  
+Listener: `function(joinTimeLeft) { }`  
 The central will fire an `permitJoining` event when the central is allowing for devices to join the network, where `joinTimeLeft` is number of seconds left to allow devices to join the network. The event will be triggered at each tick of countdown.  
 
 *************************************************
@@ -796,7 +801,7 @@ The central will fire an `permitJoining` event when the central is allowing for 
 <a name = "EVT_ind"></a>  
 ###Event: 'ind'  
 
-Event Handler: `function(msg) { }`  
+Listener: `function(msg) { }`  
 The central will fire an `ind` event upon receiving an indication from a peripheral. The `msg` is an object with the properties given in the table:
 
 | Property | Type            | Description                                                                                                                                 |
@@ -1070,7 +1075,7 @@ peripheral.encrypt(setting, function (err) {
 *************************************************
 <a name="API_returnPasskey"></a>  
 ###.returnPasskey(passkey[, callback])  
-Send the passkey required by the encryption procedure.  
+Return the passkey required by the encryption procedure.  
 
 Note: This command is cc-bnp only.  
 
@@ -1150,6 +1155,32 @@ peripheral.read(1, 3, function (err, value) {
 ```
 
 *************************************************
+<a name="API_readDesc"></a>  
+###.readDesc(sid, cid, callback)  
+Read the description from an allocated Characteristic on the remote device.  
+
+**Arguments**  
+
+1. `sid` (*String* | *Number*): Service UUID or Service handle.  An `sid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
+2. `cid` (*String* | *Number*): Characteristic UUID or Characteristic handle.  An `cid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
+3. `callback` (*Function*): `function (err, description) { }`. Get called along with a characteristic description when the reading completes.  
+
+**Returns**  
+
+- (*none*)  
+
+**Example**  
+
+```javascript
+peripheral.readDesc('0xfff0', '0xfff1', function (err, description) {
+    if (err)
+        console.log(err);
+    else
+        console.log(description);
+});
+```
+
+*************************************************
 <a name="API_write"></a>  
 ###.write(sid, cid, value[, callback])  
 Write a value to the allocated Characteristic on the remote device.  
@@ -1178,32 +1209,6 @@ peripheral.write('0x1800', '0x2a02', { flag: true }, function (err) {
 peripheral.write('0xfff0', '0xfff3', new Buffer([ 1 ]), function (err) {
     if (err)
         console.log(err);
-});
-```
-
-*************************************************
-<a name="API_readDesc"></a>  
-###.readDesc(sid, cid, callback)  
-Read the description from an allocated Characteristic on the remote device.  
-
-**Arguments**  
-
-1. `sid` (*String* | *Number*): Service UUID or Service handle.  An `sid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
-2. `cid` (*String* | *Number*): Characteristic UUID or Characteristic handle.  An `cid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
-3. `callback` (*Function*): `function (err, description) { }`. Get called along with a characteristic description when the reading completes.  
-
-**Returns**  
-
-- (*none*)  
-
-**Example**  
-
-```javascript
-peripheral.readDesc('0xfff0', '0xfff1', function (err, description) {
-    if (err)
-        console.log(err);
-    else
-        console.log(description);
 });
 ```
 
@@ -1260,7 +1265,7 @@ Register a handler to handle notification or indication of the Characteristic.
 *************************************************
 <a name="API_dump"></a>  
 ###.dump([sid[, cid]])  
-Dump record of the peripheral if arguments not given, a specified Service if only given `sid` or a specified Characteristic if given `sid` and `cid`. 
+Dump record of the peripheral if arguments not given, dump a specified Service if only given `sid` or dump a specified Characteristic if given `sid` and `cid`. 
 
 **Arguments**  
 
@@ -1297,7 +1302,7 @@ Dump record of the peripheral if arguments not given, a specified Service if onl
     | handle   | Number          | Characteristic handle      |
     | prop     | Array           | Characteristic property    |
     | desc     | String          | Characteristic description |
-    | charList | Object | Buffer | Characteristic value       |
+    | value    | Object | Buffer | Characteristic value       |
 
     - Characteristic property, `prop` may include: 'broadcast', 'read', 'writeWithoutResponse', 'write', 'notify', 'indicate', 'authenticatedSignedWrites', 'extendedProperties'
 
@@ -1344,7 +1349,7 @@ Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-s
 <a name="Example"></a>
 ## 5. Example  
 
-[sensorTagApp.js](https://github.com/hedywings/ble-shepherd/blob/develop/examples/sensorTagApp.js) is a very simple application with a sensorTag and a keyFob.  
+[sensorTagApp.js](https://github.com/bluetoother/ble-shepherd/blob/develop/examples/sensorTagApp.js) is a very simple application with a sensorTag and a keyFob.  
 
 <br />
 
