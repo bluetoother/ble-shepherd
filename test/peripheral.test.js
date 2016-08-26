@@ -341,7 +341,7 @@ describe('Functional Check', function () {
 
             peripheral.status = 'offline';
             peripheral.tuneLink({}, function (err) {
-                expect(err.message).to.be.equal('Device is not online.');
+                expect(err.message).to.be.equal('Peripheral is not online.');
                 done();
             });
         });

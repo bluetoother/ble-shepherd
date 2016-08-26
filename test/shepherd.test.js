@@ -38,7 +38,6 @@ describe('Constructor Check', function () {
 
         expect(central.bleCentral).to.be.null;
         expect(central.blocker).to.be.an('object');
-        expect(central.init).to.be.a('function');
         expect(central.setScanRule).to.be.a('function');
 
         expect(central.setPermitJoinTime).to.be.a('function');
@@ -219,7 +218,9 @@ describe('Functional Check', function () {
                 initStub = sinon.stub(controller, 'init', function () {
                     var deferred = Q.defer();
 
+                    central._controller.removeAllListeners('bnpReady');
                     deferred.resolve(centralAddr);
+
                     setTimeout(function () {
                         central.emit('ready');
                     }, 50);
@@ -227,6 +228,7 @@ describe('Functional Check', function () {
                 });
 
             central.start(function (err) {
+                console.log(err);
                 if (err)
                     console.log(err);
                 else {
