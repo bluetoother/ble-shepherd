@@ -16,11 +16,9 @@ var BShepherd = require('../index'),
     GATTDEFS = require('../lib/defs/gattdefs'),
     GAPDEFS = require('../lib/defs/gapdefs');
 
-try {
-    fs.unlinkSync(path.resolve(__dirname + '/../lib/database/ble.db'));
-} catch (e) {
-    console.log(e);
-}
+fs.exists(__dirname + '../lib/database/ble.db', function (isThere) {
+    if (isThere) { fs.unlink(__dirname + '../lib/database/ble.db'); }
+});
 
 var central = new BShepherd('cc-bnp', 'xxx'),
     controller = central._controller;
@@ -187,7 +185,7 @@ describe('Functional Check', function () {
     });
 
     describe('#.disconnect', function () {
-        it('should disconnect ok', function () {
+        it('should disconnect ok', function (done) {
             var disconnectStub = sinon.stub(controller, 'disconnect', generalFunc);
 
             peripheral.disconnect(function (err) {
