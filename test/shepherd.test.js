@@ -14,11 +14,9 @@ var BShepherd = require('../index'),
     Periph = require('../lib/model/peripheral'),
     GATTDEFS = require('../lib/defs/gattdefs');
 
-try {
-    fs.unlinkSync(path.resolve(__dirname + '/../lib/database/ble.db'));
-} catch (e) {
-    console.log(e);
-}
+fs.exists(__dirname + '../lib/database/ble.db', function (isThere) {
+    if (isThere) { fs.unlink(__dirname + '../lib/database/ble.db'); }
+});
 
 var central = new BShepherd('cc-bnp', 'xxx'),
     controller = central._controller;
@@ -50,8 +48,6 @@ describe('Constructor Check', function () {
         expect(central.blocker.unblock).to.be.a('function');
         expect(central.blocker.isBlacklisted).to.be.a('function');
         expect(central.blocker.isWhitelisted).to.be.a('function');
-        expect(central._onSignin).to.be.a('function');
-        expect(central._onAsyncExit).to.be.a('function');
     });
 
     it('should throw if subModule given with cc-bnp or noble', function () {
@@ -228,7 +224,6 @@ describe('Functional Check', function () {
                 });
 
             central.start(function (err) {
-                console.log(err);
                 if (err)
                     console.log(err);
                 else {
@@ -342,7 +337,7 @@ describe('Functional Check', function () {
     });
 
     describe('#.remove', function () {
-        it('should disconnect to peripheral and remove from objectbox', function () {
+        it('should disconnect to peripheral and remove from objectbox', function (done) {
             var disconnectStub = sinon.stub(controller, 'disconnect', generalFunc);
 
             periph3.connHandle = 0;
@@ -499,7 +494,7 @@ describe('Functional Check', function () {
     describe('#.unblock', function () {
         var blocker = central.blocker;
 
-        it('should unblock device from network and add to whitelist', function () {
+        it('should unblock device from network and add to whitelist', function (done) {
             blocker.unblock(periph1.addr, function (err) {
                 if (err)
                     console.log(err);

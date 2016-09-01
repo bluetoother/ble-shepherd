@@ -1,13 +1,13 @@
-#ble-shepherd
-A network controller and manager for the BLE machine network running on node.js
+#ble-shepherd  
+A network controller and manager for the BLE machine network running on node.js  
 
 [![NPM](https://nodei.co/npm/ble-shepherd.png?downloads=true)](https://nodei.co/npm/ble-shepherd/)  
 
-[![Travis branch](https://travis-ci.org/bluetoother/ble-shepherd.svg?branch=develop)](https://travis-ci.org/bluetoother/ble-shepherd)
-[![npm](https://img.shields.io/npm/v/ble-shepherd.svg?maxAge=2592000)](https://www.npmjs.com/package/ble-shepherd)
-[![npm](https://img.shields.io/npm/l/ble-shepherd.svg?maxAge=2592000)](https://www.npmjs.com/package/ble-shepherd)
+[![Travis branch](https://travis-ci.org/bluetoother/ble-shepherd.svg?branch=develop)](https://travis-ci.org/bluetoother/ble-shepherd)  
+[![npm](https://img.shields.io/npm/v/ble-shepherd.svg?maxAge=2592000)](https://www.npmjs.com/package/ble-shepherd)  
+[![npm](https://img.shields.io/npm/l/ble-shepherd.svg?maxAge=2592000)](https://www.npmjs.com/package/ble-shepherd)  
 
-## Table of Contents
+## Table of Contents  
 
 1. [Overview](#Overview)    
     1.1 [Features](#Features)  
@@ -23,13 +23,13 @@ A network controller and manager for the BLE machine network running on node.js
 <br />
 
 <a name="Overview"></a>
-## 1. Overview
+## 1. Overview  
 
 **ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.  
   
 **ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating BLE *peripheral* devices. This controller has carried many network managing things for you, i.e., auto scanning for *peripheral* devices, storing(/reloading) connected devices records to(/from) the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
 
-It is easy to set and receive notifications from remote *peripherals*. Furthermore, reading resources from and writing values to *periphrals* is also simple, here is an example:
+It is easy to set and receive notifications from remote *peripherals*. Furthermore, reading resources from and writing values to *periphrals* is also simple, here is an example:  
 
 ``` js
 peripheral.read('0x1800', '0x2a00', function (err, value) {
@@ -52,12 +52,12 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 * **BlePeripheral**: Class to create a software endpoint of a remote Peripheral Device on the central  
 * **central**: Instance of BleShepherd Class  
 * **peripheral**: Instance of BlePeripheral Class  
-* **sid**: identifier of an Service, it could be Service UUID or Service handle
-* **cid**: identifier of an Characteristic, it could be Characteristic UUID or Characteristic handle
+* **sid**: identifier of an Service, it could be Service UUID or Service handle  
+* **cid**: identifier of an Characteristic, it could be Characteristic UUID or Characteristic handle  
 
 
 <a name="Features"></a>
-### 1.1 Features
+### 1.1 Features  
 
 - Building your machine network with BLE devices.  
 - Controlling the network with no pain. Features of auto reconnection, permission of device joining, built-in database, and many more are off-the-shelf.  
@@ -68,14 +68,14 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 <br />
 
 <a name="Installation"></a>
-### 1.2 Installation
+### 1.2 Installation  
 
-> $ npm install ble-shepherd --save
+> $ npm install ble-shepherd --save  
 
 <br />
 
 <a name="Usage"></a>
-### 1.3 Usage
+### 1.3 Usage  
 
 The following example shows how to create a new instance of the `BleShepherd` class and call method `start()` to bring the `central` up with different sub-module.  
 
@@ -118,49 +118,51 @@ central.start();
 <br />
 
 <a name="APIs"></a>
-## 2. APIs and Events
+## 2. APIs and Events  
 
-####1. Control the Network 
+Each Command API supports both err-back callback style and promise-style if it is in an asynchronous manner.  
+
+####1. Control the Network  
 **central** is an instance created by `new BleShepherd(subModule)`, where `subModule` can be either a string of `'cc-bnp'` or `'noble'` to specify the sub-module.  
 
-* [new BleShepherd()](#API_BShepherdCcbnp) with `cc-bnp` sub-module
-* [new BleShepherd()](#API_BShepherdNoble) with `noble` sub-module
-* [central.start()](#API_start)
-* [central.stop()](#API_stop)
-* [central.reset()](#API_reset)
-* [central.tuneScan()](#API_tuneScan)
-* [central.tuneLink()](#API_tuneLink)
-* [central.permitJoin()](#API_permitJoin)
-* [central.list()](#API_list)
-* [central.find()](#API_find)
-* [central.remove()](#API_remove)
-* [central.declare()](#API_declare)
-* [central.support()](#API_support)
-* [Blocker](#Blocker)
-    * [blocker.enable()](#API_enable)
-    * [blocker.disable()](#API_disable)
-    * [blocker.isEnabled()](#API_isEnabled)
-    * [blocker.block()](#API_block)
-    * [blocker.unblock()](#API_unblock)
-* Events: [ready](#EVT_ready), [error](#EVT_error), [permitJoining](#EVT_permit) and [ind](#EVT_ind)
+* [new BleShepherd()](#API_BShepherdCcbnp) with `cc-bnp` sub-module  
+* [new BleShepherd()](#API_BShepherdNoble) with `noble` sub-module  
+* [central.start()](#API_start)  
+* [central.stop()](#API_stop)  
+* [central.reset()](#API_reset)  
+* [central.tuneScan()](#API_tuneScan)  
+* [central.tuneLink()](#API_tuneLink)  
+* [central.permitJoin()](#API_permitJoin)  
+* [central.list()](#API_list)  
+* [central.find()](#API_find)  
+* [central.remove()](#API_remove)  
+* [central.declare()](#API_declare)  
+* [central.support()](#API_support)  
+* [Blocker](#Blocker)  
+    * [blocker.enable()](#API_enable)  
+    * [blocker.disable()](#API_disable)  
+    * [blocker.isEnabled()](#API_isEnabled)  
+    * [blocker.block()](#API_block)  
+    * [blocker.unblock()](#API_unblock)  
+* Events: [ready](#EVT_ready), [error](#EVT_error), [permitJoining](#EVT_permit) and [ind](#EVT_ind)  
 
-####2. Monitor and Control the Peripherals
-**peripheral** is a software endpoint, which represents a remote BLE device, in **ble-shepherd**. You can use `central.find()` to find a connected _peripheral_ device with its address or connection handle. Once you get the endpoint, you can invoke its read()/write() methods to operate the remote device.  
+####2. Monitor and Control the Peripherals  
+**peripheral** is a software endpoint, which represents a remote BLE device, in **ble-shepherd**. You can use `central.find()` to find a connected _peripheral_ device with its address or connection handle. Once you get the endpoint, you can invoke its read()/write() methods to operate the remote device.   
 
-* [peripheral.connect()](#API_connect)
-* [peripheral.disconnect()](#API_disconnect)
-* [peripheral.tuneLink()](#API_periTuneLink)
-* [peripheral.secure()](#API_secure)
-* [peripheral.returnPasskey()](#API_returnPasskey)
-* [peripheral.maintain()](#API_maintain)
-* [peripheral.read()](#API_read)
-* [peripheral.readDesc()](#API_readDesc)
-* [peripheral.write()](#API_write)
-* [peripheral.configNotify()](#API_configNotify)
-* [peripheral.onNotified()](#API_onNotified)
-* [peripheral.dump()](#API_dump)
+* [peripheral.connect()](#API_connect)  
+* [peripheral.disconnect()](#API_disconnect)  
+* [peripheral.tuneLink()](#API_periTuneLink)  
+* [peripheral.secure()](#API_secure)  
+* [peripheral.returnPasskey()](#API_returnPasskey)  
+* [peripheral.maintain()](#API_maintain)  
+* [peripheral.read()](#API_read)  
+* [peripheral.readDesc()](#API_readDesc)  
+* [peripheral.write()](#API_write)  
+* [peripheral.configNotify()](#API_configNotify)  
+* [peripheral.onNotified()](#API_onNotified)  
+* [peripheral.dump()](#API_dump)  
 
-Some methods are not supported for noble sub-module, they are listed in this table. (X: unsupported)
+Some methods are not supported for noble sub-module, they are listed in this table. (X: unsupported)  
 
 | Interface                             | Method                | cc-bnp          |  noble          |
 | --------------------------------------| ----------------------| --------------- | --------------- |
@@ -194,14 +196,14 @@ Some methods are not supported for noble sub-module, they are listed in this tab
 *************************************************
 ## BleShepherd Class  
 
-Exposed by `require('ble-shepherd')`. According to the different sub-module, this class needs to be filled with different parameters when creating a new instance.
+Exposed by `require('ble-shepherd')`. According to the different sub-module, this class needs to be filled with different parameters when creating a new instance.  
 
 <br />
 
 *************************************************
 <a name="API_BShepherdCcbnp"></a>  
 ### new BleShepherd(subModule, path[, opts])  
-Create an instance of the BleShepherd class with `cc-bnp` sub-module. The created instance is denoted as `central` in this document.
+Create an instance of the BleShepherd class with `cc-bnp` sub-module. The created instance is denoted as `central` in this document.  
 
 **Arguments**  
 
@@ -211,11 +213,11 @@ Create an instance of the BleShepherd class with `cc-bnp` sub-module. The create
 
 **Returns**  
 
-- (*Object*): central
+- (*Object*): central  
 
 **Example**  
 
-```javascript
+```javascript  
 var BleShepherd = require('ble-shepherd');
 var path = '/dev/ttyUSB0',  // The system path of the serial port to connect to BNP
     opts: {                 // Serial port configuration options.
@@ -229,7 +231,7 @@ var central = new BleShepherd('cc-bnp', path, opts);
 
 *************************************************
 <a name="API_BShepherdNoble"></a>  
-### new BleShepherd(subModule)  
+### new BleShepherd(subModule)   
 Create a new instance of the BleShepherd class with `noble` sub-module. The created instance is denoted as `central` in this document.  
 
 **Arguments**  
@@ -238,11 +240,11 @@ Create a new instance of the BleShepherd class with `noble` sub-module. The crea
 
 **Returns**  
 
-- (*Object*): central
+- (*Object*): central  
 
 **Example**  
 
-```javascript
+```javascript  
 var BleShepherd = require('ble-shepherd');
 
 var central = new BleShepherd('noble');
@@ -255,20 +257,31 @@ Connect to the SoC and start to run the central. The central will fire an `'read
 
 **Arguments**  
 
-1. `callback` (*Function*): `function (err) { }`. Get called when start to running.
+1. `callback` (*Function*): `function (err) { }`. Get called when central start to running. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*None*)
+- (*Promise*)  
 
 **Example**  
 
-```javascript
+```javascript  
+
+// callback-style
 central.start(function(err) {
     if (err)
         console.log(err);
+    else
+        // do something after central started
 });
-```
+
+// promise-style
+central.start().then(function () {
+    // do something after central started
+}).fail(function (err) {
+    console.log(err);
+}).done();
+```  
 
 *************************************************
 <a name="API_stop"></a>  
@@ -277,11 +290,11 @@ Disconnect to the SoC and stop to run the central.
 
 **Arguments**  
 
-1. `callback` (*Function*): `function (err) { }`. Get called when stop to running.
+1. `callback` (*Function*): `function (err) { }`. Get called when central stop to running. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*None*)
+- (*Promise*)
 
 **Example**  
 
@@ -290,7 +303,7 @@ central.stop(function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_reset"></a>  
@@ -299,11 +312,11 @@ Reset the network.
 
 **Arguments**  
 
-1. `callback` (*Function*): `function (err) { }`. Get called when reset completes.
+1. `callback` (*Function*): `function (err) { }`. Get called when reset completes. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*None*)
+- (*Promise*)  
 
 **Example**  
 
@@ -312,11 +325,11 @@ central.reset(function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_tuneScan"></a>  
-### .tuneScan(setting, [callback])  
+### .tuneScan(setting[, callback])  
 Set up scan parameters of the BLE central.   
 
 **Arguments**  
@@ -329,15 +342,16 @@ Set up scan parameters of the BLE central.
     | interval | Number | optional  | Scan interval(0.625ms).                                                           | 0x0010        |
     | window   | Number | optional  | Scan window(0.625ms).                                                             | 0x0010        |
     
-2. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
+2. `callback` (*Function*): `function (err) { }`. Get called when parameters are set. The callback should be given if you don't use promise-style.  
+
 
 **Returns**  
 
-- (*None*)
+- (*Promise*)  
 
 **Example**  
 
-```javascript
+```javascript  
 // with `cc-bnp` sub-module
 central.tuneScan({ time: 2000, interval: 16, window: 16 }, function (err) {
     if (err)
@@ -355,11 +369,11 @@ central.tuneScan({ interval: 4000 }, function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_tuneLink"></a>  
-### .tuneLink(setting, [callback])  
+### .tuneLink(setting[, callback])  
 Set up link parameters of the BLE central.   
 
 **Arguments**  
@@ -372,11 +386,11 @@ Set up link parameters of the BLE central.
     | latency  | Number | optional  | Connection slave latency(in number of connection events)                       | 0x0000        |
     | timeout  | Number | optional  | Connection supervision timeout(10ms)                                           | 0x00c8        |
 
-2. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
+2. `callback` (*Function*): `function (err) { }`. Get called when parameters are set. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*None*)
+- (*Promise*)
 
 **Example**  
 
@@ -396,7 +410,7 @@ central.tuneLink({ interval: 4000 }, function (err) {
 *************************************************
 <a name="API_permitJoin"></a>  
 ###.permitJoin(duration)  
-Allow or disallow devices to join the network. The central will fire an `'permitJoining'` event when central is opened or closed for devices to join the network.
+Allow or disallow devices to join the network. The central will fire an `'permitJoining'` event when central is opened or closed for devices to join the network.  
 
 **Arguments**  
 
@@ -411,7 +425,7 @@ Allow or disallow devices to join the network. The central will fire an `'permit
 ```javascript
 // permit devices to join for 60 seconds 
 central.permitJoin(60);
-```
+```  
 
 *************************************************
 <a name="API_list"></a>  
@@ -420,7 +434,7 @@ List records of joined Peripheral Devices managed by central.
 
 **Arguments**  
 
-1. `addrs` (*String* | *String[]*): A single peripheral address or an array of peripheral addresses to query for their records. All device records will be returned if `addrs` is not given.
+1. `addrs` (*String* | *String[]*): A single peripheral address or an array of peripheral addresses to query for their records. All device records will be returned if `addrs` is not given.  
 
 **Returns**  
 
@@ -512,7 +526,7 @@ devRecords is an array with records to show each Peripheral's information
     ...
 ]
 */
-```
+```  
 
 *************************************************
 <a name="API_find"></a>  
@@ -525,35 +539,36 @@ Find a peripheral maintained by the central.
 
 **Returns**  
 
-- (*Object*): peripheral, an instance of the BlePeripheral class. Returns `undefined` if not found.
+- (*Object*): peripheral, an instance of the BlePeripheral class. Returns `undefined` if not found.  
 
 **Example**  
 
-```javascript
+```javascript  
 // find() by address - use a string as the argument
 var peripheral = central.find('0x78c5e570796e');
 
 // find() by connection handle - use a number as the argument
 var peripheral = central.find(0);
-```
+```  
 
 *************************************************
 <a name="API_remove"></a>  
-###.remove(addrOrHdl, callback)  
+###.remove(addrOrHdl[, callback])  
 Disconnect from the remote BLE peripheral and remove its record from database. The central will fire an `'ind'` event with meaasge type `'devLeaving'` when procedure of removing accomplished.  
 
 **Arguments**  
 
 1. `addrOrHdl` (*String* | *Number*): The address or connection handle of a peripheral which to be removed.  
-2. `callback` (*Function*): `function (err) { }`. Get called when remove completes.
+2. `callback` (*Function*): `function (err) { }`. Get called when remove completes. The callback should be given if you don't use promise-style.  
 
 **Returns**  
-- (*none*)
+
+- (*Promise*)  
 
 **Example**  
 
-```javascript
-central.on('ind', function (msg) {
+```javascript  
+central.on('ind', function (msg) { 
     if (msg.type === 'devLeaving')
         console.log(msg);
 });
@@ -569,12 +584,12 @@ central.remove(0, function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_declare"></a>  
 ###.declare(type, regObjs)  
-Allows you to declare private Services or Characteristic definitions. The definition tells **ble-shepherd** of how to parse and build the packet.
+Allows you to declare private Services or Characteristic definitions. The definition tells **ble-shepherd** of how to parse and build the packet.  
 
 **Arguments**  
 
@@ -615,15 +630,14 @@ Register a plugin provided by the third-party module. The plugin tells **ble-she
 1. `devName` (*String*): The name you'd like to use for the peripherals recognized by this plugin.  
 2. `plugin` (*Object*): An plugin object provided by the device manufacturer.  
 
-Note: Learn more in section **Advanced topics**: [How to create a Plugin for your own device.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addPlugin).  
-
+Note: Learn more in section **Advanced topics**: [How to create a Plugin for your own device.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addPlugin).    
 **Returns**  
 
 - (*Boolean*): `true` if registration succeeds, otherwise `false`.  
   
 **Example**  
   
-```javascript
+```javascript  
 // Require the plugin 'bshep-plugin-sivann-relay' for relay modules manufactured by sivann  
 var sivannRelayPlugin = require('bshep-plugin-sivann-relay'); 
 
@@ -652,24 +666,24 @@ function app () {
         }
     });
 }
-```
+```  
 
 ***********************************************
 <a name="Blocker"></a>  
 ## Blocker Class  
 
-`central.blocker` returns an instance of this class, it can be used to block unauthorized devices from join the network according to the blacklist or the whitelist. The instance, which is denoted as `blocker` in this document.
+`central.blocker` returns an instance of this class, it can be used to block unauthorized devices from join the network according to the blacklist or the whitelist. The instance, which is denoted as `blocker` in this document.  
 
-* Note
-    - when blocker eanbled with blacklist, only blocked device can not join the network.
-    - when blocker eanbled with whitelist, only unblocked device can join the network.
+* Note  
+    - when blocker eanbled with blacklist, only blocked device can not join the network.  
+    - when blocker eanbled with whitelist, only unblocked device can join the network.  
 
 <br />
 
 *************************************************
-<a name="API_enable"></a>  
+<a name="API_enable"></a>   
 ### blocker.enable([type])  
-Enable the blocker.
+Enable the blocker.  
 
 **Arguments**  
 
@@ -677,11 +691,11 @@ Enable the blocker.
 
 **Returns**  
 
-- (*object*): blocker
+- (*object*): blocker  
 
 **Example**  
 
-```javascript
+```javascript  
 // enable with the blacklist
 blocker.enable();
 
@@ -690,85 +704,85 @@ blocker.enable('black');
 
 // enable with the whitelist
 blocker.enable('white');
-```
+```  
 
 *************************************************
 <a name="API_disable"></a>  
 ### blocker.disable()  
-Disable the blocker.
+Disable the blocker.  
 
 **Arguments**  
 
-1. (*None*)
+1. (*None*)  
 
 **Returns**  
 
-- (*object*): blocker
+- (*object*): blocker  
 
 **Example**  
 
-```javascript
+```javascript  
 blocker.disable();
-```
+```  
 
 *************************************************
 <a name="API_isEnabled"></a>  
 ### blocker.isEnabled()  
-To see if the blocker is enabled.
+To see if the blocker is enabled.  
 
 **Arguments**  
 
-1. (*None*)
+1. (*None*)  
 
 **Returns**  
 
-- (*Boolean*): `true` if blocker eanbled, otherwise `false`.
+- (*Boolean*): `true` if blocker eanbled, otherwise `false`.  
 
 **Example**  
 
-```javascript
+```javascript  
 blocker.isEnabled();
-```
+```  
 
 *************************************************
 <a name="API_block"></a>  
 ### blocker.block(addr[, callback])  
-Block a device from the network. Once a device has been blocked, central will always reject its joining request. If a device is already in the network, central will first remove it from the network.
+Block a device from the network. Once a device has been blocked, central will always reject its joining request. If a device is already in the network, central will first remove it from the network.  
 
 **Arguments**  
 
 1. `addr` (*String*): Address of the peripheral device.  
-2. `callback` (*Function*): `function (err) {}`. Get called when device successfully block from the network. 
+2. `callback` (*Function*): `function (err) {}`. Get called when device successfully block from the network. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*none*)
+- (*Promise*)  
 
 **Example**  
 
-```javascript
-blocker.block('0xd05fb820a6bd');
-```
+```javascript  
+blocker.block('0xd05fb820a6bd');  
+```  
 
 *************************************************
 <a name="API_unblock"></a>  
 ### blocker.unblock(addr[, callback])  
-Unblock a device from the network.
+Unblock a device from the network.  
 
 **Arguments**  
 
 1. `addr` (*String*): Address of the peripheral device.  
-2. `callback` (*Function*): `function (err) {}`. Get called when device successfully unblock from the network.  
+2. `callback` (*Function*): `function (err) {}`. Get called when device successfully unblock from the network. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*None*)
+- (*Promise*)  
 
 **Example**  
 
-```javascript
+```javascript  
 blocker.unblock('0xd05fb820a6bd');
-```
+```  
 
 <br />
 
@@ -802,7 +816,7 @@ The central will fire an `permitJoining` event when the central is allowing for 
 ###Event: 'ind'  
 
 Listener: `function(msg) { }`  
-The central will fire an `ind` event upon receiving an indication from a peripheral. The `msg` is an object with the properties given in the table:
+The central will fire an `ind` event upon receiving an indication from a peripheral. The `msg` is an object with the properties given in the table:  
 
 | Property | Type            | Description                                                                                                                                 |
 |----------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
@@ -819,7 +833,7 @@ The central will fire an `ind` event upon receiving an indication from a periphe
     * `msg.periph` (*Object*): peripheral  
     * `msg.data` (*String*): `undefined`  
 
-<br />
+<br />  
 
 * **devLeaving**  
 
@@ -829,7 +843,7 @@ The central will fire an `ind` event upon receiving an indication from a periphe
     * `msg.periph` (*String*): The address of which peripheral is leaving   
     * `msg.data` (*String*): Peripheral address  
 
-<br />
+<br />  
 
 * **devStatus**  
 
@@ -840,39 +854,39 @@ The central will fire an `ind` event upon receiving an indication from a periphe
     * `msg.data` (*String*): `'online'`, `'offline'`, or `'idle'`  
 
 *  Note:  
-    Due to limitation of the number of connections, a peripheral needs to be idle in order to allow other peripheral to join the network. During idle, you can still operate the peripheral, but can not receive notification or indication from the idle peripheral.
+    Due to limitation of the number of connections, a peripheral needs to be idle in order to allow other peripheral to join the network. During idle, you can still operate the peripheral, but can not receive notification or indication from the idle peripheral.  
 
-<br />
+<br />  
 
 * **devNeedPasskey**  
 
-    A connection is requesting for a passkey in encryption process. This event is cc-bnp only.
+    A connection is requesting for a passkey in encryption process. This event is cc-bnp only.  
 
     * `msg.type` (*String*): `'devNeedPasskey'` 
     * `msg.periph` (*Object*): peripheral 
-    * `msg.data` (*Object*): This object has fileds of `devAddr`, `connHandle`, `uiInput`, and `uiOutput`.
+    * `msg.data` (*Object*): This object has fileds of `devAddr`, `connHandle`, `uiInput`, and `uiOutput`.  
 
-        ```js
+        ```js  
        {
             devAddr: '0x78c5e570796e',
             connHandle: 0,
             uiInput: 1,     // Whether to ask user to input a passcode, 0 or 1 means no or yes
             uiOutput: 0     // Whether to display a passcode, 0 or 1 means no or yes
         }
-        ```
+        ```  
 
 <br />
 
-* **attNotify**   
+* **attNotify**  
 
-    Characteristic value indication or notification.
+    Characteristic value indication or notification.  
 
-    * `msg.type` (*String*): `'attNotify'` 
-    * `msg.periph` (*Object*): peripheral 
-    * `msg.data` (*Object*): Content of the notification. This object has fileds of `sid`, `cid`, and `value`.
-        - `value` is a Characteristic value
+    * `msg.type` (*String*): `'attNotify'`  
+    * `msg.periph` (*Object*): peripheral  
+    * `msg.data` (*Object*): Content of the notification. This object has fileds of `sid`, `cid`, and `value`.  
+        - `value` is a Characteristic value  
 
-        ```js
+        ```js  
         {
             sid: {
                 uuid: '0xffe0',
@@ -886,21 +900,21 @@ The central will fire an `ind` event upon receiving an indication from a periphe
                 enable: 0 
             }
         }
-        ```
+        ```  
 
-<br />
+<br />  
 
 * **attChange**  
 
-    When there is any change of Characteristic value from notification/indication or read/write responses.
+    When there is any change of Characteristic value from notification/indication or read/write responses.  
 
-    * `msg.type` (*String*): `'attChange'` 
-    * `msg.periph` (*Object*): peripheral 
-    * `msg.data` (*Object*): Content of the changes. This object has fileds of `sid`, `cid`, and `value`.
-        - `value` is a raw buffer if Characteristic value is a buffer.
-        - `value` is a an object contains only the properties changed in Characteristic value if Characteristic value is an object.
+    * `msg.type` (*String*): `'attChange'`  
+    * `msg.periph` (*Object*): peripheral  
+    * `msg.data` (*Object*): Content of the changes. This object has fileds of `sid`, `cid`, and `value`.  
+        - `value` is a raw buffer if Characteristic value is a buffer.  
+        - `value` is a an object contains only the properties changed in Characteristic value if Characteristic value is an object.  
 
-        ```js
+        ```js  
         {
             sid: {
                 uuid: '0xffe0',
@@ -914,12 +928,12 @@ The central will fire an `ind` event upon receiving an indication from a periphe
                 enable: 1
             }
         }
-        ```
+        ```  
 
     * Note:  
-        The diffrence between `'attChange'` and `'attNotify'` is that data along with `'attNotify'` is which a Characteristic like to notify even if there is no change of it. A periodical notification is a good example, a Characteristic has to report something even there is no change of that thing. If the central does notice there is really something changed, it will then fire `'attChange'` to report the change(s). It is suggested to use `'attChange'` indication to update your GUI views, and to use `'attNotify'` indication to log data. 
+        The diffrence between `'attChange'` and `'attNotify'` is that data along with `'attNotify'` is which a Characteristic like to notify even if there is no change of it. A periodical notification is a good example, a Characteristic has to report something even there is no change of that thing. If the central does notice there is really something changed, it will then fire `'attChange'` to report the change(s). It is suggested to use `'attChange'` indication to update your GUI views, and to use `'attNotify'` indication to log data.  
 
-<br />
+<br />  
 
 ***********************************************
 
@@ -927,7 +941,7 @@ The central will fire an `ind` event upon receiving an indication from a periphe
 
 `central.find(addrOrHdl)` returns an instance of this class, otherwise returns `undefined` if not found. The instance, which is denoted as `peripheral` in this document, represents a remote peripheral in the server.  
 
-<br />
+<br />  
 
 *************************************************
 
@@ -936,11 +950,11 @@ The central will fire an `ind` event upon receiving an indication from a periphe
 Connect to a remote BLE peripheral. The central will fire an `'ind'` event with message type `'devStatus'` and message data 'online' when connection is established and will fire an `'ind'` event with message type `'devIncoming'` when peripheral synchronization accomplished.  
 
 **Arguments**  
-- `callback` (*Function*): `function (err) { }`. Get called when connection between central and remote peripheral is established and peripheral incoming the network.  
+- `callback` (*Function*): `function (err) { }`. Get called when connection between central and remote peripheral is established and peripheral incoming the network. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*none*)  
+- (*Promise*)  
 
 **Example**  
 
@@ -967,16 +981,18 @@ if (peripheral) {
 *************************************************
 <a name="API_disconnect"></a>  
 ###.disconnect([callback])  
-Disconnect from the remote BLE peripheral. The central will fire an `'ind'` event with meaasge type `'devStatus'` and message data 'offline' when procedure of disconnecting accomplished.  
+Disconnect from the remote BLE peripheral. The central will fire an `'ind'` event with meaasge type `'devStatus'` and message data 'offline' when procedure of disconnecting accomplished.   
 
 **Arguments**  
-- `callack` (*Function*): `function (err) { }`. Get called when connection between central and remote peripheral is disconnected.  
+- `callback` (*Function*): `function (err) { }`. Get called when connection between central and remote peripheral is disconnected. The callback should be given if you don't use promise-style.  
 
-**Returns**  
-- (*none*)
+**Returns**   
+
+- (*Promise*)  
 
 **Example**  
-```javascript
+
+```javascript  
 central.on('ind', function (msg) {
     if (msg.type === 'devStatus' && msg.data === 'offline')
         console.log(msg);
@@ -986,7 +1002,7 @@ peripheral.disconnect(function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_periTuneLink"></a>  
@@ -1003,15 +1019,15 @@ Update link parameters of the peripherial.
     | latency  | Number | optional  | Connection slave latency(in number of connection events)                       | 0x0000        |
     | timeout  | Number | optional  | Connection supervision timeout(10ms)                                           | 0x00c8        |
 
-2. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  
+2. `callback` (*Function*): `function (err) { }`. Get called when parameters are set.  The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*none*)  
+- (*Promise*)  
 
 **Example**  
 
-```javascript
+```javascript  
 peripheral.tuneLink({ interval: 8192, latency: 0, timeout: 1000 }, function (err) {
     if (err)
         console.log(err);
@@ -1022,7 +1038,7 @@ peripheral.tuneLink({ interval: 4000 }, function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_secure"></a>  
@@ -1034,7 +1050,7 @@ Note: This command is cc-bnp only.
 **Arguments**  
 
 1. `setting` (*Object*): Peripheral security setting. The following table shows the details of each property.  
-2. `callback` (*Function*): `function (err) { }`. Get called when encryption completes.  
+2. `callback` (*Function*): `function (err) { }`. Get called when encryption completes. The callback should be given if you don't use promise-style.  
 
 | Property | Type     | Mandatory | Description     | Default value |
 |----------|----------|-----------|-----------------|---------------|
@@ -1047,11 +1063,11 @@ Note: Please refer to document [TI BLE Vendor Specific HCI Guide.pdf (P77)](http
 
 **Returns**  
 
-- (*none*)  
+- (*Promise*)  
 
 **Example**  
 
-```javascript
+```javascript  
 var setting = {
     pairMode: 0x01, // WaitForReq
     ioCap: 0x04,    // KeyboardDisplay
@@ -1070,7 +1086,7 @@ peripheral.encrypt(setting, function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_returnPasskey"></a>  
@@ -1082,29 +1098,29 @@ Note: This command is cc-bnp only.
 **Arguments**  
 
 1. `passkey` (*String*): 6 character ASCII string of numbers (ex. '019655')  
-2. `callback` (*Function*): `function (err) { }`. Get called when passkey successfuly transmitted to the remote peripheral.  
+2. `callback` (*Function*): `function (err) { }`. Get called when passkey successfuly transmitted to the remote peripheral. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*none*)  
+- (*Promise*)  
 
 **Example**  
 
-```javascript
+```javascript  
 peripheral.returnPasskey('123456', function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_maintain"></a>  
 ###.maintain([callback])  
-Maintain the peripheral instance. This will refresh its record on central by reading all Characteristic values from the remote device.
+Maintain the peripheral instance. This will refresh its record on central by reading all Characteristic values from the remote device.  
 
 **Arguments**  
 
-1. `callback`(*Function*): `function (err) { }`. Get called when maintained.  
+1. `callback`(*Function*): `function (err) { }`. Get called when maintained. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
@@ -1112,31 +1128,31 @@ Maintain the peripheral instance. This will refresh its record on central by rea
 
 **Example**  
 
-```javascript
+```javascript  
 peripheral.maintain(function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_read"></a>  
-###.read(sid, cid, callback)  
+###.read(sid, cid[, callback])  
 Read the value of an allocated Characteristic from the remote device.  
 
 **Arguments**  
 
 1. `sid` (*String* | *Number*): Service UUID or Service handle.  An `sid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
 2. `cid` (*String* | *Number*): Characteristic UUID or Characteristic handle.  An `cid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
-3. `callback` (*Function*): `function (err, value) { }`. Get called along with the read value.  
+3. `callback` (*Function*): `function (err, value) { }`. Get called along with the read value. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*none*)  
+- (*Promise*)  
 
 **Example**  
 
-```javascript
+```javascript  
 // read() by UUID - use string as the argument
 peripheral.read('0x1800', '0x2a00', function (err, value) {
     if (err)
@@ -1152,33 +1168,33 @@ peripheral.read(1, 3, function (err, value) {
     else
         console.log(value);
 });
-```
+```  
 
 *************************************************
 <a name="API_readDesc"></a>  
-###.readDesc(sid, cid, callback)  
+###.readDesc(sid, cid[, callback])  
 Read the description from an allocated Characteristic on the remote device.  
 
 **Arguments**  
 
 1. `sid` (*String* | *Number*): Service UUID or Service handle.  An `sid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
 2. `cid` (*String* | *Number*): Characteristic UUID or Characteristic handle.  An `cid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
-3. `callback` (*Function*): `function (err, description) { }`. Get called along with a characteristic description when the reading completes.  
+3. `callback` (*Function*): `function (err, description) { }`. Get called along with a characteristic description when the reading completes. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*none*)  
+- (*Promise*)  
 
 **Example**  
 
-```javascript
+```javascript  
 peripheral.readDesc('0xfff0', '0xfff1', function (err, description) {
     if (err)
         console.log(err);
     else
         console.log(description);
 });
-```
+```  
 
 *************************************************
 <a name="API_write"></a>  
@@ -1190,16 +1206,16 @@ Write a value to the allocated Characteristic on the remote device.
 1. `sid` (*String* | *Number*): Service UUID or Service handle.  An `sid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
 2. `cid` (*String* | *Number*): Characteristic UUID or Characteristic handle.  An `cid` given in string will be taken as an UUID, or given in number will be taken as a handle. 
 3. `value` (*Object* | *Buffer*): Characteristic value. If the Characteristic is not a public one or is not registered through `central.declare()`, the `value` must be given with a buffer.  
-4. `callback` (*Function*): `function (err) { }`. Get called when written.  
+4. `callback` (*Function*): `function (err) { }`. Get called when written. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*none*)  
+- (*Promise*)  
 
 **Example**  
 
-```javascript
-// characteristic is public
+```javascript  
+// characteristic is public 
 peripheral.write('0x1800', '0x2a02', { flag: true }, function (err) {
     if (err)
         console.log(err);
@@ -1210,7 +1226,7 @@ peripheral.write('0xfff0', '0xfff3', new Buffer([ 1 ]), function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_configNotify"></a>  
@@ -1222,20 +1238,20 @@ Enable or disable the indication/notification of a Characteristic.
 1. `sid` (*String* | *Number*): Service UUID or Service handle.  An `sid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
 2. `cid` (*String* | *Number*): Characteristic UUID or Characteristic handle.  An `cid` given in string will be taken as an UUID, or given in number will be taken as a handle.  
 3. `config` (*Boolean*): `true` to enable and `false` to disable indication/notification of the characteristic.  
-4. `callback` (*Function*): `function (err) { }`. Get called when the configuration is set.  
+4. `callback` (*Function*): `function (err) { }`. Get called when the configuration is set. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
-- (*none*)  
+- (*Promise*)  
 
 **Example**  
 
-```javascript
+```javascript  
 peripheral.configNotify('0xfff0', '0xfff4', true, function (err) {
     if (err)
         console.log(err);
 });
-```
+```  
 
 *************************************************
 <a name="API_onNotified"></a>  
@@ -1254,13 +1270,13 @@ Register a handler to handle notification or indication of the Characteristic.
 
 **Example**  
 
-```javascript
+```javascript  
     peripheral.onNotified('0xffe0', '0xffe1', processInd);
 
     function processInd (data) {
         console.log(data);
     }
-```
+```  
 
 *************************************************
 <a name="API_dump"></a>  
@@ -1304,11 +1320,11 @@ Dump record of the peripheral if arguments not given, dump a specified Service i
     | desc     | String          | Characteristic description |
     | value    | Object | Buffer | Characteristic value       |
 
-    - Characteristic property, `prop` may include: 'broadcast', 'read', 'writeWithoutResponse', 'write', 'notify', 'indicate', 'authenticatedSignedWrites', 'extendedProperties'
+    - Characteristic property, `prop` may include: 'broadcast', 'read', 'writeWithoutResponse', 'write', 'notify', 'indicate', 'authenticatedSignedWrites', 'extendedProperties' 
 
 **Example**  
 
-```javascript
+```javascript  
 // dump a peripheral record
 peripheral.dump();
 
@@ -1318,13 +1334,13 @@ peripheral.dump('0x1800');
 // dump a Characteristic record
 peripheral.dump('0x1800', '0x2a00');
 
-```
+```  
 
 *************************************************
 
-<br />
+<br />  
 
-<a name="Advanced"></a>
+<a name="Advanced"></a>  
 ## 3. Advanced topics  
 
 Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md) to illustrate how to do further settings in ble-shepherd, e.g., register private definitions.  
@@ -1333,42 +1349,40 @@ Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-s
 - [How to add your own Services to central.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addService)  
 - [How to create a Plugin belong your own device.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addPlugin)  
 
-<br />
+<br />  
 
-*************************************************
-
-<a name="Demo"></a>
+<a name="Demo"></a>  
 ## 4. Demo  
 
 [Here is the document](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/demo.md) that show you a simple ble-shepherd webapp built up with ExpressJS and [socket.io](#http://socket.io/).  
 
-![ble-shepherd webapp](https://github.com/bluetoother/documents/blob/master/ble-shepherd/bShepherdWeb.png)
+![ble-shepherd webapp](https://github.com/bluetoother/documents/blob/master/ble-shepherd/bShepherdWeb.png)  
 
-<br />
+<br />  
 
-<a name="Example"></a>
+<a name="Example"></a>  
 ## 5. Example  
 
 [sensorTagApp.js](https://github.com/bluetoother/ble-shepherd/blob/develop/examples/sensorTagApp.js) is a very simple application with a sensorTag and a keyFob.  
 
-<br />
+<br />  
 
-<a name="Contributors"></a>
+<a name="Contributors"></a>  
 ## 6. Contributors  
   
 * [Hedy Wang](https://www.npmjs.com/~hedywings)  
 * [Peter Yi](https://www.npmjs.com/~petereb9)  
 * [Simen Li](https://www.npmjs.com/~simenkid)  
 
-<br />
+<br />  
 
-<a name="License"></a>
+<a name="License"></a>  
 ## 7. License  
   
-The MIT License (MIT)
+The MIT License (MIT)  
 
-Copyright (c) 2016
-Hedy Wang <hedywings@gmail.com>, Peter Yi <peter.eb9@gmail.com>, and Simen Li <simenkid@gmail.com>
+Copyright (c) 2016  
+Hedy Wang <hedywings@gmail.com>, Peter Yi <peter.eb9@gmail.com>, and Simen Li <simenkid@gmail.com>  
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1378,7 +1392,7 @@ copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:  
 
 The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+copies or substantial portions of the Software.  
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -1386,4 +1400,4 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+SOFTWARE.  
