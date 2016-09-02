@@ -1,6 +1,0 @@
-{"addr":"0x123456789012","addrType":0,"servList":[{"uuid":"0x1800","handle":1,"startHandle":1,"endHandle":20,"charList":[{"uuid":"0x2a00","handle":2,"prop":["write"],"desc":null,"value":{"value":10,"changed":"xxxxx"}}]},{"uuid":"0xbb00","handle":21,"startHandle":21,"endHandle":25,"charList":[{"uuid":"0xcc00","handle":22,"prop":["read"],"desc":"description","value":{"value":10,"changed":"xxxxx"}},{"uuid":"0xcc01","handle":24,"prop":["read"],"desc":null,"value":null}]},{"uuid":"0x1800","charList":[]}],"id":1,"_id":"Y4Hj2aUs9MazSt4e"}
-{"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
-{"addr":"0x123456789012","addrType":0,"servList":[],"id":1,"_id":"fU5EkLICSPhfYT4P"}
-{"addr":"0x112233445566","addrType":1,"servList":[],"id":2,"_id":"UHbvrRI18quuqtil"}
-{"addr":"0x665544332211","addrType":2,"servList":[],"id":3,"_id":"anpDTaGVgkPLUT0q"}
-{"$$deleted":true,"_id":"anpDTaGVgkPLUT0q"}
