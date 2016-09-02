@@ -14,9 +14,9 @@ var BShepherd = require('../index'),
     Periph = require('../lib/model/peripheral'),
     GATTDEFS = require('../lib/defs/gattdefs');
 
-fs.exists(__dirname + '../lib/database/ble.db', function (isThere) {
-    if (isThere) { fs.unlink(__dirname + '../lib/database/ble.db'); }
-});
+// fs.exists(__dirname + '../lib/database/ble.db', function (isThere) {
+//     if (isThere) { fs.unlink(__dirname + '../lib/database/ble.db'); }
+// });
 
 var central = new BShepherd('cc-bnp', 'xxx'),
     controller = central._controller;
@@ -24,6 +24,12 @@ var central = new BShepherd('cc-bnp', 'xxx'),
 central._periphBox._db._db.loadDatabase();
 
 describe('Constructor Check', function () {
+    try {
+        fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
+    } catch (e) {
+        console.log(e);
+    }
+
     it('should has all correct members after new', function () {
         expect(central._subModule).to.be.equal('cc-bnp');
         expect(central._controller).to.be.an('object');
@@ -535,6 +541,12 @@ describe('Functional Check', function () {
                     done();
                 }
             });
+
+            try {
+                fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
+            } catch (e) {
+                console.log(e);
+            }
         });
     });
 });
