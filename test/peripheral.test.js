@@ -16,9 +16,9 @@ var BShepherd = require('../index'),
     GATTDEFS = require('../lib/defs/gattdefs'),
     GAPDEFS = require('../lib/defs/gapdefs');
 
-fs.exists(__dirname + '../lib/database/ble.db', function (isThere) {
-    if (isThere) { fs.unlink(__dirname + '../lib/database/ble.db'); }
-});
+// fs.exists(__dirname + '../lib/database/ble.db', function (isThere) {
+//     if (isThere) { fs.unlink(__dirname + '../lib/database/ble.db'); }
+// });
 
 var central = new BShepherd('cc-bnp', 'xxx'),
     controller = central._controller;
@@ -34,7 +34,7 @@ var generalFunc = function () {
 
 describe('Signature Check', function() {
     try {
-        fs.unlinkSync(path.resolve(__dirname + '/../lib/database/ble.db'));
+        fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
     } catch (e) {
         console.log(e);
     }
@@ -704,7 +704,7 @@ describe('Functional Check', function () {
             expect(peripheral.servs['1'].chars['2'].processInd).to.be.equal(hdlr);
 
             try {
-                fs.unlinkSync(path.resolve(__dirname + '/../lib/database/ble.db'));
+                fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
             } catch (e) {
                 console.log(e);
             }
