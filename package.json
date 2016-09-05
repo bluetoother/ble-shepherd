@@ -1,6 +1,6 @@
 {
   "name": "ble-shepherd",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A network controller and manager for the BLE machine network running on node.js",
   "main": "index.js",
   "scripts": {
@@ -41,7 +41,7 @@
     "debug": "^2.2.0",
     "enum": "^2.3.0",
     "noble": "hedywings/noble#hci-socket",
-    "objectbox": "^0.2.0",
+    "objectbox": "^0.2.1",
     "q": "^1.4.1"
   },
   "bugs": {
