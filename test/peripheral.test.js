@@ -16,14 +16,8 @@ var BShepherd = require('../index'),
     GATTDEFS = require('../lib/defs/gattdefs'),
     GAPDEFS = require('../lib/defs/gapdefs');
 
-// fs.exists(__dirname + '../lib/database/ble.db', function (isThere) {
-//     if (isThere) { fs.unlink(__dirname + '../lib/database/ble.db'); }
-// });
-
-var central = new BShepherd('cc-bnp', 'xxx'),
-    controller = central._controller;
-
-central._periphBox._db._db.loadDatabase();
+var central,
+    controller;
 
 var generalFunc = function () {
     var deferred = Q.defer();
@@ -38,6 +32,12 @@ describe('Signature Check', function() {
     } catch (e) {
         console.log(e);
     }
+
+    central = new BShepherd('cc-bnp', 'xxx');
+    controller = central._controller;
+
+    central._periphBox._db._db.loadDatabase();
+
 
     var peripheral = new Periph({ addr: '0x123456789012', addrType: 0 }),
         wakeUpStub = sinon.stub(peripheral, '_wakeUp', generalFunc);
