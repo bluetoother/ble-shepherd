@@ -19,12 +19,6 @@ var central,
     blocker;
 
 describe('Constructor Check', function () {
-    try {
-        fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
-    } catch (e) {
-        console.log(e);
-    }
-
     it('should has all correct members after new', function () {
         central = new BShepherd('cc-bnp', 'xxx');
         controller = central._controller;
@@ -201,9 +195,6 @@ describe('Signature Check', function() {
 });
 
 describe('Functional Check', function () {
-    // var central = new BShepherd('cc-bnp', 'xxx'),
-    //     controller = central._controller;
-
     var periph1 = new Periph({ addr: '0x123456789012', addrType: 0 }),
         periph2 = new Periph({ addr: '0x112233445566', addrType: 1 }),
         periph3 = new Periph({ addr: '0x665544332211', addrType: 2});
