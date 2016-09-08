@@ -14,14 +14,9 @@ var BShepherd = require('../index'),
     Periph = require('../lib/model/peripheral'),
     GATTDEFS = require('../lib/defs/gattdefs');
 
-// fs.exists(__dirname + '../lib/database/ble.db', function (isThere) {
-//     if (isThere) { fs.unlink(__dirname + '../lib/database/ble.db'); }
-// });
-
-var central = new BShepherd('cc-bnp', 'xxx'),
-    controller = central._controller;
-
-central._periphBox._db._db.loadDatabase();
+var central,
+    controller,
+    blocker;
 
 describe('Constructor Check', function () {
     try {
@@ -31,6 +26,11 @@ describe('Constructor Check', function () {
     }
 
     it('should has all correct members after new', function () {
+        central = new BShepherd('cc-bnp', 'xxx');
+        controller = central._controller;
+
+        central._periphBox._db._db.loadDatabase();
+
         expect(central._subModule).to.be.equal('cc-bnp');
         expect(central._controller).to.be.an('object');
         expect(central._periphBox).to.be.an('object');
@@ -80,6 +80,7 @@ describe('Constructor Check', function () {
         ccbnp.removeAllListeners('ind');
     });
 });
+
 
 describe('Signature Check', function() {
     // var central = new BShepherd('cc-bnp', 'xxx');
@@ -447,9 +448,9 @@ describe('Functional Check', function () {
     });
 
     describe('#.blocker', function () {
-        var blocker = central.blocker;
-
         it('should enable blocker with blacklist', function () {
+            blocker = central.blocker;
+
             expect(blocker.enable()).to.be.deep.equal(central.blocker);
             expect(blocker.getType()).to.be.equal('black');
             expect(blocker.isEnabled()).to.be.true;
@@ -474,8 +475,6 @@ describe('Functional Check', function () {
     });
 
     describe('#.block', function () {
-        var blocker = central.blocker;
-
         it('should block device from network and add to blacklist', function (done) {
             var removeStub = sinon.stub(central, 'remove', function (addr, callback) {
                 callback(null);
@@ -498,8 +497,6 @@ describe('Functional Check', function () {
     });
 
     describe('#.unblock', function () {
-        var blocker = central.blocker;
-
         it('should unblock device from network and add to whitelist', function (done) {
             blocker.unblock(periph1.addr, function (err) {
                 if (err)
@@ -541,12 +538,6 @@ describe('Functional Check', function () {
                     done();
                 }
             });
-
-            try {
-                fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
-            } catch (e) {
-                console.log(e);
-            }
         });
     });
 });
