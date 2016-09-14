@@ -42,6 +42,7 @@
     "enum": "^2.3.0",
     "noble": "hedywings/noble#hci-socket",
     "objectbox": "^0.2.1",
+    "proving": "^0.1.0",
     "q": "^1.4.1"
   },
   "bugs": {

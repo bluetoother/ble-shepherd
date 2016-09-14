@@ -389,47 +389,47 @@ describe('Functional Check', function () {
                 }
             });
         });
-        // it('should secure success without bonding and create security model', function (done) {
-        //     var setBondParamStub = sinon.stub(controller, 'setBondParam', generalFunc),
-        //         bondStub = sinon.stub(controller, 'bond', generalFunc),
-        //         authenticateStub = sinon.stub(controller, 'authenticate', function () {
-        //             var deferred = Q.defer(),
-        //                 result = {
-        //                     status: 0,
-        //                     dev_ltk: 'ltk',
-        //                     dev_div: 'div',
-        //                     dev_rand: 'rand'
-        //                 };
-        //             deferred.resolve(result);
-        //             return deferred.promise;
-        //         });
+        it('should secure success without bonding and create security model', function (done) {
+            var setBondParamStub = sinon.stub(controller, 'setBondParam', generalFunc),
+                bondStub = sinon.stub(controller, 'bond', generalFunc),
+                authenticateStub = sinon.stub(controller, 'authenticate', function () {
+                    var deferred = Q.defer(),
+                        result = {
+                            status: 0,
+                            dev_ltk: 'ltk',
+                            dev_div: 'div',
+                            dev_rand: 'rand'
+                        };
+                    deferred.resolve(result);
+                    return deferred.promise;
+                });
                 
-        //     var setting = {
-        //             pairMode: 0x01,
-        //             ioCap: 0x00,
-        //             mitm: true,
-        //             bond: false
-        //         };
+            var setting = {
+                    pairMode: 0x01,
+                    ioCap: 0x00,
+                    mitm: true,
+                    bond: false
+                };
 
-        //     peripheral.secure(setting, function (err) {
-        //         if (err)
-        //             console.log(err);
-        //         else {
-        //             setBondParamStub.restore();
-        //             bondStub.restore();
-        //             authenticateStub.restore();
-        //             expect(setBondParamStub).to.have.callCount(4);
-        //             expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.PairingMode.value, new Buffer([1]));
-        //             expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.MitmProtection.value, new Buffer([1]));
-        //             expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.IoCap.value, new Buffer([0]));
-        //             expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.BondingEnabled.value, new Buffer([0]));
-        //             expect(authenticateStub).to.have.been.calledOnce;
-        //             expect(authenticateStub).to.have.been.calledWith(peripheral, 0, true, false);
-        //             expect(bondStub).to.have.callCount(0);
-        //             done();
-        //         }
-        //     });
-        // });
+            peripheral.secure(setting, function (err) {
+                if (err)
+                    console.log(err);
+                else {
+                    setBondParamStub.restore();
+                    bondStub.restore();
+                    authenticateStub.restore();
+                    expect(setBondParamStub).to.have.callCount(4);
+                    expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.PairingMode.value, new Buffer([1]));
+                    expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.MitmProtection.value, new Buffer([1]));
+                    expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.IoCap.value, new Buffer([0]));
+                    expect(setBondParamStub).to.have.been.calledWith(GAPDEFS.BondParam.BondingEnabled.value, new Buffer([0]));
+                    expect(authenticateStub).to.have.been.calledOnce;
+                    expect(authenticateStub).to.have.been.calledWith(peripheral, 0, true, false);
+                    expect(bondStub).to.have.callCount(0);
+                    done();
+                }
+            });
+        });
     });
 
     describe('#.returnPasskey', function () {

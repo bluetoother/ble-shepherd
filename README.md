@@ -675,8 +675,8 @@ function app () {
 `central.blocker` returns an instance of this class, it can be used to block unauthorized devices from join the network according to the blacklist or the whitelist. The instance, which is denoted as `blocker` in this document.  
 
 * Note  
-    - when blocker eanbled with blacklist, only blocked device can not join the network.  
-    - when blocker eanbled with whitelist, only unblocked device can join the network.  
+    - when blocker enabled with blacklist, only blocked device can not join the network.  
+    - when blocker enabled with whitelist, only unblocked device can join the network.  
 
 <br />
 
@@ -736,7 +736,7 @@ To see if the blocker is enabled.
 
 **Returns**  
 
-- (*Boolean*): `true` if blocker eanbled, otherwise `false`.  
+- (*Boolean*): `true` if blocker enabled, otherwise `false`.  
 
 **Example**  
 
@@ -981,7 +981,7 @@ if (peripheral) {
 *************************************************
 <a name="API_disconnect"></a>  
 ###.disconnect([callback])  
-Disconnect from the remote BLE peripheral. The central will fire an `'ind'` event with meaasge type `'devStatus'` and message data 'offline' when procedure of disconnecting accomplished.   
+Disconnect from the remote BLE peripheral. The central will fire an `'ind'` event with message type `'devStatus'` and message data 'offline' when procedure of disconnecting accomplished.   
 
 **Arguments**  
 - `callback` (*Function*): `function (err) { }`. Get called when connection between central and remote peripheral is disconnected. The callback should be given if you don't use promise-style.  
@@ -1007,7 +1007,7 @@ peripheral.disconnect(function (err) {
 *************************************************
 <a name="API_periTuneLink"></a>  
 ###.tuneLink(setting[, callback])  
-Update link parameters of the peripherial.  
+Update link parameters of the peripheral.  
 
 **Arguments**  
 
@@ -1098,7 +1098,7 @@ Note: This command is cc-bnp only.
 **Arguments**  
 
 1. `passkey` (*String*): 6 character ASCII string of numbers (ex. '019655')  
-2. `callback` (*Function*): `function (err) { }`. Get called when passkey successfuly transmitted to the remote peripheral. The callback should be given if you don't use promise-style.  
+2. `callback` (*Function*): `function (err) { }`. Get called when passkey successfully transmitted to the remote peripheral. The callback should be given if you don't use promise-style.  
 
 **Returns**  
 
@@ -1354,9 +1354,23 @@ Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-s
 <a name="Demo"></a>  
 ## 4. Demo  
 
-[Here is the document](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/demo.md) that show you a simple ble-shepherd webapp built up with ExpressJS and [socket.io](#http://socket.io/).  
+**ble-shepherd** provides two demo, using different techniques to achieve respectively, one of them is the use of [ExpressJS](https://expressjs.com/) and [Bootstrap](http://getbootstrap.com/), while the other is using HTTP Server and [ReactJS](https://facebook.github.io/react/). You can choose one of your favorite or commonly used to try.
+
+### 1. ble-shepherd with [ExpressJS](https://expressjs.com/) and [Bootstrap](http://getbootstrap.com/)
+
+[Here is the document](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/demo.md) that show you a simple ble-shepherd webapp built up with ExpressJS and [Bootstrap](http://getbootstrap.com/).  
 
 ![ble-shepherd webapp](https://github.com/bluetoother/documents/blob/master/ble-shepherd/bShepherdWeb.png)  
+
+### 2. ble-shepherd with HTTP Server and [ReactJS](https://facebook.github.io/react/)
+
+This demo is built on top of [quick-demo-boilerplate](https://github.com/PeterEB/quick-demo-boilerplate). In order to demonstrate **ble-shepherd** can do some management and control things, it will mock up some peripherals after server startup, and show you some simple applications.
+
+You can refer to [quick-demo](https://github.com/bluetoother/quick-demo) for more detail.
+
+![ble-shepherd demo](https://github.com/bluetoother/documents/blob/master/quick-demo/quick%20demo(ok).gif)  
+
+<br />  
 
 <br />  
 
