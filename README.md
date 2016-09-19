@@ -25,7 +25,7 @@ A network controller and manager for the BLE machine network running on node.js
 <a name="Overview"></a>
 ## 1. Overview  
 
-**ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.  
+**ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.(Here is a quick [**DEMO**](https://github.com/bluetoother/ble-shepherd#2-ble-shepherd-with-http-server-and-reactjs)!)  
   
 **ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating BLE *peripheral* devices. This controller has carried many network managing things for you, i.e., auto scanning for *peripheral* devices, storing(/reloading) connected devices records to(/from) the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
 
@@ -96,7 +96,7 @@ var central = new BleShepherd('cc-bnp', path, options);
 
 // do something before app starting
 // usually register GATT definition by calling declare() here
-// or register a plugin by calling support
+// or register a plugin by calling support()
 
 central.start();
 ```
@@ -336,12 +336,11 @@ Set up scan parameters of the BLE central.
 
 1. `setting` (*Object*): The following table shows the `setting` properties.  
 
-    | Property | Type   | Mandatory | Description                                                                       | Default value |
-    |----------|--------|-----------|-----------------------------------------------------------------------------------|---------------|
-    | time     | Number | optional  | Time to peform scanning (ms). `time` is only valid when using `cc-bnp` sub-module | 0x0010        |
-    | interval | Number | optional  | Scan interval(0.625ms).                                                           | 0x0010        |
-    | window   | Number | optional  | Scan window(0.625ms).                                                             | 0x0010        |
-    
+    | Property | Type   | Mandatory | Description                                                                      | Default value |
+    |----------|--------|-----------|----------------------------------------------------------------------------------|---------------|
+    | time     | Number | optional  | Time to peform scanning(ms). `time` is only valid when using `cc-bnp` sub-module | 0x07d0        |
+    | interval | Number | optional  | Scan interval(0.625ms).                                                          | 0x0010        |
+    | window   | Number | optional  | Scan window(0.625ms).                                                            | 0x0010        
 2. `callback` (*Function*): `function (err) { }`. Get called when parameters are set. The callback should be given if you don't use promise-style.  
 
 
@@ -358,7 +357,7 @@ central.tuneScan({ time: 2000, interval: 16, window: 16 }, function (err) {
         console.log(err);
 });
 
-// with `noble` sub-module, time can bot be set
+// with `noble` sub-module, time can not be set
 central.tuneScan({ interval: 16, window: 16 }, function (err) {
     if (err)
         console.log(err);
@@ -410,7 +409,7 @@ central.tuneLink({ interval: 4000 }, function (err) {
 *************************************************
 <a name="API_permitJoin"></a>  
 ###.permitJoin(duration)  
-Allow or disallow devices to join the network. The central will fire an `'permitJoining'` event when central is opened or closed for devices to join the network.  
+Allow or disallow devices to join the network. The central will fire a `'permitJoining'` event when central is opened or closed for devices to join the network.  
 
 **Arguments**  
 
@@ -1364,13 +1363,11 @@ Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-s
 
 ### 2. ble-shepherd with HTTP Server and [ReactJS](https://facebook.github.io/react/)
 
-This demo is built on top of [quick-demo-boilerplate](https://github.com/PeterEB/quick-demo-boilerplate). In order to demonstrate **ble-shepherd** can do some management and control things, it will mock up some peripherals after server startup, and show you some simple applications.
+In order to demonstrate **ble-shepherd** can do some management and control things, it will mock up some peripherals after server startup, and show you some simple applications.
 
 You can refer to [quick-demo](https://github.com/bluetoother/quick-demo) for more detail.
 
 ![ble-shepherd demo](https://github.com/bluetoother/documents/blob/master/quick-demo/quick%20demo(ok).gif)  
-
-<br />  
 
 <br />  
 
