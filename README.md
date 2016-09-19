@@ -64,6 +64,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 - Creating BLE IoT apps is simple and quick.  
 - Allowing you to define _Services_ and _Characteristics_ on **ble-shepherd** itself to make it a BLE gadget. **ble-shepherd** not just plays as a network controller.  
 - Based-on node.js. It's easy to integrate BLE apps with other services or frameworks, e.g., http server, express, React.js, Angular.js.  
+- Supports [BIPSO](https://bluetoother.github.io/bipso)-compatible] devices. ([IPSO Technical Archive](http://www.ipso-alliance.org/ipso-community/resources/technical-archive/))  
 
 <br />
 
@@ -1353,19 +1354,17 @@ Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-s
 <a name="Demo"></a>  
 ## 4. Demo  
 
-**ble-shepherd** provides two demo, using different techniques to achieve respectively, one of them is the use of [ExpressJS](https://expressjs.com/) and [Bootstrap](http://getbootstrap.com/), while the other is using HTTP Server and [ReactJS](https://facebook.github.io/react/). You can choose one of your favorite or commonly used to try.
+Here I made two demos to demonstrate how ble-shepherd can be integrated into a webapp along with different techniques. The first webapp uses [ExpressJS](https://expressjs.com/) and [Bootstrap](http://getbootstrap.com/) while the other uses node.js [http](https://nodejs.org/dist/latest-v4.x/docs/api/http.html#http_class_http_server) server and [ReactJS](https://facebook.github.io/react/).  
 
-### 1. ble-shepherd with [ExpressJS](https://expressjs.com/) and [Bootstrap](http://getbootstrap.com/)
+### 1. BLE webapp with ExpressJS and Bootstrap
 
-[Here is the document](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/demo.md) that show you a simple ble-shepherd webapp built up with ExpressJS and [Bootstrap](http://getbootstrap.com/).  
+[Here is the document](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/demo.md) that shows how I built this app.  
 
 ![ble-shepherd webapp](https://github.com/bluetoother/documents/blob/master/ble-shepherd/bShepherdWeb.png)  
 
-### 2. ble-shepherd with HTTP Server and [ReactJS](https://facebook.github.io/react/)
+### 2. BLE webapp with HTTP Server and [ReactJS](https://facebook.github.io/react/)
 
-In order to demonstrate **ble-shepherd** can do some management and control things, it will mock up some peripherals after server startup, and show you some simple applications.
-
-You can refer to [quick-demo](https://github.com/bluetoother/quick-demo) for more detail.
+In order to demonstrate without any physical device, I also made an app with some [BIPSO-compatible](https://bluetoother.github.io/bipso) mocks to simulate devices activities. You can follow the instructions in this [quick-demo](https://github.com/bluetoother/quick-demo) and try it out.  
 
 ![ble-shepherd demo](https://github.com/bluetoother/documents/blob/master/quick-demo/quick%20demo(ok).gif)  
 
