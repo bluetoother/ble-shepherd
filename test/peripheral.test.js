@@ -27,11 +27,22 @@ var generalFunc = function () {
 };
 
 describe('Signature Check', function() {
-    try {
-        fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
-    } catch (e) {
-        console.log(e);
-    }
+    before(function (done) {
+        fs.stat(path.resolve(__dirname, '../lib/database/ble.db'), function (err, stats) {
+            if (err) 
+                done();
+            else if (stats.isFile()) 
+                fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'), function () {
+                    done();
+                });
+        });
+    });
+
+    // try {
+    //     fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
+    // } catch (e) {
+    //     console.log(e);
+    // }
 
     central = new BShepherd('cc-bnp', 'xxx');
     controller = central._controller;
@@ -703,11 +714,11 @@ describe('Functional Check', function () {
             expect(peripheral.onNotified('0x1800', '0x2a00', hdlr)).to.be.deep.equal(peripheral);
             expect(peripheral.servs['1'].chars['2'].processInd).to.be.equal(hdlr);
 
-            try {
-                fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
-            } catch (e) {
-                console.log(e);
-            }
+            // try {
+            //     fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
+            // } catch (e) {
+            //     console.log(e);
+            // }
         });
     });
 });
