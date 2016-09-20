@@ -1,6 +1,6 @@
 {
   "name": "ble-shepherd",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "A network controller and manager for the BLE machine network running on node.js",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,7 @@
   ],
   "author": "Hedy Wang <hedywings@gmail.com>",
   "contributors": [
+    "Simen Li <simenkid@gmail.com>",
     "Peter Yi <peter.eb9@gmail.com>"
   ],
   "license": "MIT",
