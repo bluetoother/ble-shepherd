@@ -35,8 +35,6 @@ describe('Constructor Check', function () {
         central = new BShepherd('cc-bnp', 'xxx');
         controller = central._controller;
 
-        // central._periphBox._db._db.loadDatabase();
-
         expect(central._subModule).to.be.equal('cc-bnp');
         expect(central._controller).to.be.an('object');
         expect(central._periphBox).to.be.an('object');

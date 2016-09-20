@@ -28,27 +28,27 @@ var generalFunc = function () {
 
 describe('Signature Check', function() {
     before(function (done) {
-        fs.stat(path.resolve(__dirname, '../lib/database/ble.db'), function (err, stats) {
-            if (err) 
-                done();
-            else if (stats.isFile()) 
-                fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'), function () {
+        fs.stat('./test/database/ble.db', function (err, stats) {
+            if (err) {
+                fs.stat('./test/database', function (err, stats) {
+                    if (err) {
+                        fs.mkdir('./test/database', function () {
+                            done();
+                        });
+                    } else {
+                        done();
+                    }
+                });
+            } else if (stats.isFile()) {
+                fs.unlink(path.resolve('./test/database/ble.db'), function () {
                     done();
                 });
+            }
         });
     });
 
-    // try {
-    //     fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'));
-    // } catch (e) {
-    //     console.log(e);
-    // }
-
-    central = new BShepherd('cc-bnp', 'xxx');
+    central = new BShepherd('cc-bnp', 'xxx', { defaultDbPath: __dirname + '/database/ble.db' });
     controller = central._controller;
-
-    central._periphBox._db._db.loadDatabase();
-
 
     var peripheral = new Periph({ addr: '0x123456789012', addrType: 0 }),
         wakeUpStub = sinon.stub(peripheral, '_wakeUp', generalFunc);
