@@ -19,11 +19,23 @@ var central,
     blocker;
 
 describe('Constructor Check', function () {
+
+    before(function (done) {
+        fs.stat(path.resolve(__dirname, '../lib/database/ble.db'), function (err, stats) {
+            if (err) 
+                done();
+            else if (stats.isFile()) 
+                fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'), function () {
+                    done();
+                });
+        });
+    });
+
     it('should has all correct members after new', function () {
         central = new BShepherd('cc-bnp', 'xxx');
         controller = central._controller;
 
-        central._periphBox._db._db.loadDatabase();
+        // central._periphBox._db._db.loadDatabase();
 
         expect(central._subModule).to.be.equal('cc-bnp');
         expect(central._controller).to.be.an('object');

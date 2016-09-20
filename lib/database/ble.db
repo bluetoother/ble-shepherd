@@ -1,3 +1,5 @@
-{"addr":"0x123456789012","addrType":0,"servList":[],"id":1,"_id":"8Y97DZaR8unCJ2sR"}
-{"addr":"0x112233445566","addrType":1,"servList":[],"id":2,"_id":"Ertjhh70m00FppKu"}
 {"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
+{"addr":"0x123456789012","addrType":0,"servList":[],"id":1,"_id":"YtwRepRf8UAq7HEd"}
+{"addr":"0x112233445566","addrType":1,"servList":[],"id":2,"_id":"zSHtsOkOXOA9cph0"}
+{"addr":"0x665544332211","addrType":2,"servList":[],"id":3,"_id":"PDz4uChEJMAOLfGw"}
+{"$$deleted":true,"_id":"PDz4uChEJMAOLfGw"}
