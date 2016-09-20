@@ -66,6 +66,9 @@ function bleApp (central) {
                 break;
         }
     });
+    central.on('error', function (err) {
+        console.log(err);
+    });
 }
 
 /*****************************************************

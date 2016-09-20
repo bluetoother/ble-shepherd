@@ -3,7 +3,7 @@ A network controller and manager for the BLE machine network running on node.js
 
 [![NPM](https://nodei.co/npm/ble-shepherd.png?downloads=true)](https://nodei.co/npm/ble-shepherd/)  
 
-[![Travis branch](https://travis-ci.org/bluetoother/ble-shepherd.svg?branch=develop)](https://travis-ci.org/bluetoother/ble-shepherd)
+[![Travis branch](https://travis-ci.org/bluetoother/ble-shepherd.svg?branch=master)](https://travis-ci.org/bluetoother/ble-shepherd)
 [![npm](https://img.shields.io/npm/v/ble-shepherd.svg?maxAge=2592000)](https://www.npmjs.com/package/ble-shepherd)
 [![npm](https://img.shields.io/npm/l/ble-shepherd.svg?maxAge=2592000)](https://www.npmjs.com/package/ble-shepherd)
 
@@ -596,7 +596,7 @@ Allows you to declare private Services or Characteristic definitions. The defini
 1. `type` (*String*): Can be `'service'` or `'characteristic'` to specify which type of definition to register with.  
 2. `regObjs` (*Array*): An array of the _Service information object_ or _Characteristic information object_ according to the given `type`.  
 
-Note: Learn more in section **Advanced topics**: [How to define your own Services and Characteristics](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#1-how-to-define-your-own-services-and-characteristics).  
+Note: Learn more in section **Advanced topics**: [How to define your own Services and Characteristics](https://github.com/bluetoother/ble-shepherd/blob/master/doc/advanced_topics.md#addDefinition).  
 
 **Returns**  
 
@@ -630,7 +630,8 @@ Register a plugin provided by the third-party module. The plugin tells **ble-she
 1. `devName` (*String*): The name you'd like to use for the peripherals recognized by this plugin.  
 2. `plugin` (*Object*): An plugin object provided by the device manufacturer.  
 
-Note: Learn more in section **Advanced topics**: [How to create a Plugin for your own device.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addPlugin).    
+Note: Learn more in section **Advanced topics**: [How to create a Plugin for your own device.](https://github.com/bluetoother/ble-shepherd/blob/master/doc/advanced_topics.md#addPlugin).   
+ 
 **Returns**  
 
 - (*Boolean*): `true` if registration succeeds, otherwise `false`.  
@@ -1343,11 +1344,11 @@ peripheral.dump('0x1800', '0x2a00');
 <a name="Advanced"></a>  
 ## 3. Advanced topics  
 
-Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md) to illustrate how to do further settings in ble-shepherd, e.g., register private definitions.  
+Here is a [tutorial of the advanced topics](https://github.com/bluetoother/ble-shepherd/blob/master/doc/advanced_topics.md) to illustrate how to do further settings in ble-shepherd, e.g., register private definitions.  
 
-- [How to define your own Services and Characteristics.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addDefinition)  
-- [How to add your own Services to central.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addService)  
-- [How to create a Plugin belong your own device.](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/advanced_topics.md#addPlugin)  
+- [How to define your own Services and Characteristics.](https://github.com/bluetoother/ble-shepherd/blob/master/doc/advanced_topics.md#addDefinition)  
+- [How to add your own Services to central.](https://github.com/bluetoother/ble-shepherd/blob/master/doc/advanced_topics.md#addService)  
+- [How to create a Plugin belong your own device.](https://github.com/bluetoother/ble-shepherd/blob/master/doc/advanced_topics.md#addPlugin)  
 
 <br />  
 
@@ -1358,7 +1359,7 @@ Here I made two demos to demonstrate how ble-shepherd can be integrated into a w
 
 ### 1. BLE webapp with ExpressJS and Bootstrap
 
-[Here is the document](https://github.com/bluetoother/ble-shepherd/blob/develop/doc/demo.md) that shows how I built this app.  
+[Here is the document](https://github.com/bluetoother/ble-shepherd/blob/master/doc/demo.md) that shows how I built this app.  
 
 ![ble-shepherd webapp](https://github.com/bluetoother/documents/blob/master/ble-shepherd/bShepherdWeb.png)  
 
@@ -1373,7 +1374,7 @@ In order to demonstrate without any physical device, I also made an app with som
 <a name="Example"></a>  
 ## 5. Example  
 
-[sensorTagApp.js](https://github.com/bluetoother/ble-shepherd/blob/develop/examples/sensorTagApp.js) is a very simple application with a sensorTag and a keyFob.  
+[sensorTagApp.js](https://github.com/bluetoother/ble-shepherd/blob/master/examples/sensorTagApp.js) is a very simple application with a sensorTag and a keyFob.  
 
 <br />  
 
