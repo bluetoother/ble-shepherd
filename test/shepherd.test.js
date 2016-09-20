@@ -21,18 +21,29 @@ var central,
 describe('Constructor Check', function () {
 
     before(function (done) {
-        fs.stat(path.resolve(__dirname, '../lib/database/ble.db'), function (err, stats) {
-            if (err) 
-                done();
-            else if (stats.isFile()) 
-                fs.unlink(path.resolve(__dirname, '../lib/database/ble.db'), function () {
+        fs.stat('./test/database/ble.db', function (err, stats) {
+            if (err) {
+                fs.stat('./test/database', function (err, stats) {
+                    if (err) {
+                        fs.mkdir('./test/database', function () {
+                            done();
+                        });
+                    } else {
+                        done();
+                    }
+                });
+            } else if (stats.isFile()) {
+                fs.unlink(path.resolve('./test/database/ble.db'), function () {
                     done();
                 });
+            }
         });
     });
 
     it('should has all correct members after new', function () {
-        central = new BShepherd('cc-bnp', 'xxx');
+        var opts = { defaultDbPath: __dirname + '/database/ble.db' };
+        
+        central = new BShepherd('cc-bnp', 'xxx', opts);
         controller = central._controller;
 
         expect(central._subModule).to.be.equal('cc-bnp');
@@ -41,7 +52,7 @@ describe('Constructor Check', function () {
         expect(central._enable).to.be.equal('pending');
         expect(central._resetting).to.be.false;
         expect(central._permitJoinTimer).to.be.null;
-        expect(central._spCfg).to.be.deep.equal({ path: 'xxx', options: undefined });
+        expect(central._spCfg).to.be.deep.equal({ path: 'xxx', options: opts });
         expect(central._plugins).to.be.an('object');
 
         expect(central.bleCentral).to.be.null;
@@ -239,7 +250,7 @@ describe('Functional Check', function () {
                     expect(central.bleCentral.addr).to.be.equal(centralAddr);
                     expect(central._enable).to.be.equal(true);
                     expect(initStub).to.have.been.calledOnce;
-                    expect(initStub).to.have.been.calledWith({ path: 'xxx', options: undefined });
+                    expect(initStub).to.have.been.calledWith({ path: 'xxx', options: { defaultDbPath: __dirname + '/database/ble.db' } });
                     done();
                 }
             });

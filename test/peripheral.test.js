@@ -28,7 +28,7 @@ var generalFunc = function () {
 
 describe('Signature Check', function() {
     before(function (done) {
-        fs.stat('./test/database/ble.db', function (err, stats) {
+        fs.stat('./test/database/ble1.db', function (err, stats) {
             if (err) {
                 fs.stat('./test/database', function (err, stats) {
                     if (err) {
@@ -40,14 +40,14 @@ describe('Signature Check', function() {
                     }
                 });
             } else if (stats.isFile()) {
-                fs.unlink(path.resolve('./test/database/ble.db'), function () {
+                fs.unlink(path.resolve('./test/database/ble1.db'), function () {
                     done();
                 });
             }
         });
     });
 
-    central = new BShepherd('cc-bnp', 'xxx', { defaultDbPath: __dirname + '/database/ble.db' });
+    central = new BShepherd('cc-bnp', 'xxx', { defaultDbPath: __dirname + '/database/ble1.db' });
     controller = central._controller;
 
     var peripheral = new Periph({ addr: '0x123456789012', addrType: 0 }),
