@@ -162,7 +162,7 @@ describe('Signature Check', function() {
         expect(function () { central.declare('service', null); }).to.throw('regObjs must be an object or an array');
     });
 
-    it('central.regPlugin(devName, plugin)', function () {
+    it('central.support(devName, plugin)', function () {
         expect(function () { central.support('relay', { examine: function() {} }); }).to.not.throw();
 
         expect(function () { central.support({}, { examine: function() {} }); }).to.throw('devName should be a string');
@@ -410,7 +410,7 @@ describe('Functional Check', function () {
                 };
 
             expect(central.support('xxx', plugin)).to.be.true;
-            expect(central._plugins['xxx']).to.be.deep.equal(plugin.examine);
+            expect(central._plugins['xxx']).to.be.deep.equal({ examine: plugin.examine, methods: undefined});
             expect(GATTDEFS.ServUuid.get(0xfff1)).to.be.a('object');
         });
     });

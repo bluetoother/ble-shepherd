@@ -66,7 +66,7 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 - Creating BLE IoT apps is simple and quick.  
 - Allowing you to define _Services_ and _Characteristics_ on **ble-shepherd** itself to make it a BLE gadget. **ble-shepherd** not just plays as a network controller.  
 - Based-on node.js. It's easy to integrate BLE apps with other services or frameworks, e.g., http server, express, React.js, Angular.js.  
-- Supports [BIPSO](https://bluetoother.github.io/bipso)-compatible] devices. ([IPSO Technical Archive](http://www.ipso-alliance.org/ipso-community/resources/technical-archive/))  
+- Supports [BIPSO](https://bluetoother.github.io/bipso)-compatible devices. ([IPSO Technical Archive](http://www.ipso-alliance.org/ipso-community/resources/technical-archive/))  
 
 <br />
 
@@ -821,11 +821,11 @@ The central will fire a `permitJoining` event when the central is allowing for d
 Listener: `function(msg) { }`  
 The central will fire an `ind` event upon receiving an indication from a peripheral. The `msg` is an object with the properties given in the table:  
 
-| Property | Type            | Description                                                                                                                                 |
-|----------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| type     | String          | Indication type, can be `'devIncoming'`, `'devLeaving'`, `'devStatus'`, `'devNeedPasskey'`, `'attNotify'` and  `'attChange'`.               |
-| periph   | Object | String | peripheral instance, except that when type === 'devLeaving', peripheral will be a string of the address (since peripheral has been removed) |
-| data     | Depends         | Data along with the indication, which depends on the type of indication                                                                     |
+| Property | Type             | Description                                                                                                                                 |
+|----------|------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| type     | String           | Indication type, can be `'devIncoming'`, `'devLeaving'`, `'devStatus'`, `'devNeedPasskey'`, `'attNotify'` and  `'attChange'`.               |
+| periph   | Object \| String | peripheral instance, except that when type === 'devLeaving', peripheral will be a string of the address (since peripheral has been removed) |
+| data     | Depends          | Data along with the indication, which depends on the type of indication                                                                     |
 
 
 * **devIncoming**  
