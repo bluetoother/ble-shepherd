@@ -9,8 +9,8 @@ var BShepherd = require('../index'),
         flowControl: true
     };
 
-var central = new BShepherd('cc-bnp', path, options);
-// var central = new BShepherd('noble');
+// var central = new BShepherd('cc-bnp', path, options);
+var central = new BShepherd('noble');
 
 var sensorTagPlg = require('bshep-plugin-ti-sensortag1'),
     keyFobPlg = require('bshep-plugin-ti-keyfob');

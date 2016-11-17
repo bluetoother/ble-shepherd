@@ -1300,6 +1300,7 @@ Dump record of the peripheral if arguments not given, dump a specified Service i
     | Property | Type   | Description                                                          |
     |----------|--------|----------------------------------------------------------------------|
     | addr     | String | Address of the peripheral device                                     |
+    | status   | String | Status of the peripheral device                                      |
     | addrType | String | Address type of the peripheral device                                |
     | servList | Array  | Service list. Each entry in `servList` is the Service record object  |
 
@@ -1315,13 +1316,13 @@ Dump record of the peripheral if arguments not given, dump a specified Service i
 
     - Characteristic record  
 
-    | Property | Type            | Description                |
-    |----------|-----------------|----------------------------|
-    | uuid     | String          | Characteristic UUID        |
-    | handle   | Number          | Characteristic handle      |
-    | prop     | Array           | Characteristic property    |
-    | desc     | String          | Characteristic description |
-    | value    | Object | Buffer | Characteristic value       |
+    | Property | Type             | Description                |
+    |----------|------------------|----------------------------|
+    | uuid     | String           | Characteristic UUID        |
+    | handle   | Number           | Characteristic handle      |
+    | prop     | Array            | Characteristic property    |
+    | desc     | String           | Characteristic description |
+    | value    | Object \| Buffer | Characteristic value       |
 
     - Characteristic property, `prop` may include: 'broadcast', 'read', 'writeWithoutResponse', 'write', 'notify', 'indicate', 'authenticatedSignedWrites', 'extendedProperties' 
 
