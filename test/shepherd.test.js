@@ -181,7 +181,7 @@ describe('Signature Check', function() {
         expect(function () { central.support('switch', null); }).to.throw('plugin should be an object');
     });
 
-    it('central.regLocalServ(servInfo[, callback])', function () {
+    it('central.mount(servInfo[, callback])', function () {
         expect(function () { central.mount([]); }).to.throw('servInfo must be an object');
         expect(function () { central.mount(123); }).to.throw('servInfo must be an object');
         expect(function () { central.mount('xxx'); }).to.throw('servInfo must be an object');
@@ -196,12 +196,12 @@ describe('Signature Check', function() {
         expect(function () { central.mount({ charsInfo: undefined }); }).to.throw('servInfo.charsInfo must be an array.');
         expect(function () { central.mount({ charsInfo: null }); }).to.throw('servInfo.charsInfo must be an array.');
 
-        expect(function () { central.mount({ charsInfo: [], uuid: {} }); }).to.throw('servInfo.uuid must be a string and start with 0x');
-        expect(function () { central.mount({ charsInfo: [], uuid: [] }); }).to.throw('servInfo.uuid must be a string and start with 0x');
-        expect(function () { central.mount({ charsInfo: [], uuid: 123 }); }).to.throw('servInfo.uuid must be a string and start with 0x');
-        expect(function () { central.mount({ charsInfo: [], uuid: true }); }).to.throw('servInfo.uuid must be a string and start with 0x');
-        expect(function () { central.mount({ charsInfo: [], uuid: undefined }); }).to.throw('servInfo.uuid must be a string and start with 0x');
-        expect(function () { central.mount({ charsInfo: [], uuid: null }); }).to.throw('servInfo.uuid must be a string and start with 0x');
+        expect(function () { central.mount({ charsInfo: [], uuid: {} }); }).to.throw('servInfo.uuid must be a string');
+        expect(function () { central.mount({ charsInfo: [], uuid: [] }); }).to.throw('servInfo.uuid must be a string');
+        expect(function () { central.mount({ charsInfo: [], uuid: 123 }); }).to.throw('servInfo.uuid must be a string');
+        expect(function () { central.mount({ charsInfo: [], uuid: true }); }).to.throw('servInfo.uuid must be a string');
+        expect(function () { central.mount({ charsInfo: [], uuid: undefined }); }).to.throw('servInfo.uuid must be a string');
+        expect(function () { central.mount({ charsInfo: [], uuid: null }); }).to.throw('servInfo.uuid must be a string');
     });
 
     it('central.blocker.enable([type])', function () {

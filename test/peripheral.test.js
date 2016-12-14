@@ -93,20 +93,22 @@ describe('Signature Check', function() {
         peripheral.servs['0x1800'] = { uuid: '0x1800' };
 
         expect(function () { peripheral.findChar('0x1800', '0x2a00'); }).to.not.throw();
+        expect(function () { peripheral.findChar('0X1800', '0x2a00'); }).to.not.throw();
+        expect(function () { peripheral.findChar('0X1800', '0X2A00'); }).to.not.throw();
+        expect(function () { peripheral.findChar('1800', '0X2A00'); }).to.not.throw();
+        expect(function () { peripheral.findChar('1800', '2a00'); }).to.not.throw();
 
-        expect(function () { peripheral.findChar({}, '0x2a00'); }).to.throw('sid must be a string and start with 0x');
-        expect(function () { peripheral.findChar([], '0x2a00'); }).to.throw('sid must be a string and start with 0x');
-        expect(function () { peripheral.findChar('xxx', '0x2a00'); }).to.throw('sid must be a string and start with 0x');
-        expect(function () { peripheral.findChar(true, '0x2a00'); }).to.throw('sid must be a string and start with 0x');
-        expect(function () { peripheral.findChar(undefined, '0x2a00'); }).to.throw('sid must be a string and start with 0x');
-        expect(function () { peripheral.findChar(null, '0x2a00'); }).to.throw('sid must be a string and start with 0x');
+        expect(function () { peripheral.findChar({}, '0x2a00'); }).to.throw('sid must be a number or a string');
+        expect(function () { peripheral.findChar([], '0x2a00'); }).to.throw('sid must be a number or a string');
+        expect(function () { peripheral.findChar(true, '0x2a00'); }).to.throw('sid must be a number or a string');
+        expect(function () { peripheral.findChar(undefined, '0x2a00'); }).to.throw('sid must be a number or a string');
+        expect(function () { peripheral.findChar(null, '0x2a00'); }).to.throw('sid must be a number or a string');
 
-        expect(function () { peripheral.findChar('0x1800', {}); }).to.throw('cid must be a number or a string start with 0x');
-        expect(function () { peripheral.findChar('0x1800', []); }).to.throw('cid must be a number or a string start with 0x');
-        expect(function () { peripheral.findChar('0x1800', 'xxx'); }).to.throw('cid must be a number or a string start with 0x');
-        expect(function () { peripheral.findChar('0x1800', undefined); }).to.throw('cid must be a number or a string start with 0x');
-        expect(function () { peripheral.findChar('0x1800', true); }).to.throw('cid must be a number or a string start with 0x');
-        expect(function () { peripheral.findChar('0x1800', null); }).to.throw('cid must be a number or a string start with 0x');
+        expect(function () { peripheral.findChar('0x1800', {}); }).to.throw('cid must be a number or a string');
+        expect(function () { peripheral.findChar('0x1800', []); }).to.throw('cid must be a number or a string');
+        expect(function () { peripheral.findChar('0x1800', undefined); }).to.throw('cid must be a number or a string');
+        expect(function () { peripheral.findChar('0x1800', true); }).to.throw('cid must be a number or a string');
+        expect(function () { peripheral.findChar('0x1800', null); }).to.throw('cid must be a number or a string');
     });
 
     it('peripheral.write(sid, cid, value, callback)', function () {
