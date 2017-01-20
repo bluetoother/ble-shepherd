@@ -75,6 +75,12 @@ At this moment, **ble-shepherd** is built on top of [cc-bnp](https://github.com/
 
 > $ npm install ble-shepherd --save  
 
+* Hardware
+    - [SmartRF05EB (with CC2540EM)](http://www.ti.com/tool/cc2540dk)  
+    - [CC2540 USB Dongle](http://www.ti.com/tool/CC2540EMK-USB)  
+    - [BLE4.0 USB adapter](https://github.com/sandeepmistry/node-bluetooth-hci-socket#compatible-bluetooth-40-usb-adapters)
+    - CC2640/CC2650 (Not tested yet. I don't have the kit.)  
+
 <br />
 
 <a name="Usage"></a>
