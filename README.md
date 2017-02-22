@@ -17,7 +17,7 @@ Please visit the [Wiki](https://github.com/bluetoother/ble-shepherd/wiki).
 
 ## Overview  
 
-**ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.(Here is a quick [**DEMO**](https://github.com/bluetoother/ble-shepherd#2-ble-webapp-with-http-server-and-reactjs)!)  
+**ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.(Here is a quick [**DEMO**](https://github.com/bluetoother/ble-shepherd/wiki#2-ble-webapp-with-http-server-and-reactjs)!)  
 
 ![BLE Network](https://github.com/bluetoother/documents/blob/master/ble-shepherd/ble_network.png)
   
