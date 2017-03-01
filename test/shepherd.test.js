@@ -204,6 +204,15 @@ describe('Signature Check', function() {
         expect(function () { central.mount({ charsInfo: [], uuid: null }); }).to.throw('servInfo.uuid must be a string');
     });
 
+    it('central.onDiscovered(hdlr)', function () {
+        expect(function () { central.onDiscovered([]); }).to.throw('hdlr must be a function');
+        expect(function () { central.onDiscovered(123); }).to.throw('hdlr must be a function');
+        expect(function () { central.onDiscovered('xxx'); }).to.throw('hdlr must be a function');
+        expect(function () { central.onDiscovered(true); }).to.throw('hdlr must be a function');
+        expect(function () { central.onDiscovered(undefined); }).to.throw('hdlr must be a function');
+        expect(function () { central.onDiscovered(null); }).to.throw('hdlr must be a function');
+    });
+
     it('central.blocker.enable([type])', function () {
         expect(function () { central.blocker.enable(); }).to.not.throw();
         expect(function () { central.blocker.enable('black'); }).to.not.throw();
@@ -456,6 +465,15 @@ describe('Functional Check', function () {
                     done();
                 }
             });
+        });
+    });
+
+    describe('#.onDiscovered', function () {
+        it('should register successfully', function () {
+            var hdlr = function () {};
+
+            expect(central.onDiscovered(hdlr)).to.be.equal(central);
+            expect(central.onDiscover).to.be.equal(hdlr);
         });
     });
 
