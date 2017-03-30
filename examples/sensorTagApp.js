@@ -9,8 +9,8 @@ var BShepherd = require('../index'),
         flowControl: true
     };
 
-// var central = new BShepherd('cc-bnp', path, options);
-var central = new BShepherd('noble');
+var central = new BShepherd('cc-bnp', path, options);
+// var central = new BShepherd('noble');
 
 var sensorTagPlg = require('bshep-plugin-ti-sensortag1'),
     keyFobPlg = require('bshep-plugin-ti-keyfob');
@@ -25,51 +25,47 @@ central.support('keyFob', keyFobPlg);
 central.start();
 
 central.on('ready', function () {
-    bleApp(central);
+    central.permitJoin(60);
 });
 
-function bleApp (central) {
-    var dev;
+central.on('ind', function(msg) {
+    var periph = msg.periph;
+    
+    switch (msg.type) {
+        case 'devStatus':
+            break;
+        case 'devIncoming':
+            if (periph.name === 'sensorTag') {
+                console.log('Sensor Tag join the network');
 
-    central.permitJoin(60);
-    central.on('ind', function(msg) {
-        var periph = msg.periph;
-        
-        switch (msg.type) {
-            case 'devStatus':
-                break;
-            case 'devIncoming':
-                if (periph.name === 'sensorTag') {
-                    console.log('Sensor Tag join the network');
+                sensorTag = periph;
 
-                    sensorTag = periph;
+                sensorTag.onNotified('0xaa00', '0xaa01', callbackTemp);
+                sensorTag.onNotified('0xaa10', '0xaa11', callbackAccelerometer);
+                sensorTag.onNotified('0xaa50', '0xaa51', callbackGyroscope);
+            } else if (periph.name === 'keyFob') {
+                console.log('KeyFob join the network');
 
-                    sensorTag.onNotified('0xaa00', '0xaa01', callbackTemp);
-                    sensorTag.onNotified('0xaa10', '0xaa11', callbackAccelerometer);
-                    sensorTag.onNotified('0xaa50', '0xaa51', callbackGyroscope);
-                } else if (periph.name === 'keyFob') {
-                    console.log('KeyFob join the network');
+                keyFob = periph;
 
-                    keyFob = periph;
+                keyFob.onNotified('0xffe0', '0xffe1', callbackSimpleKey);
+                keyFobSimpleKey(keyFob, 1);
+            }
+            break;
+        case 'devLeaving':
+            break;
+        case 'attNotify':
+            break;
+        case 'attChange':
+            break;
+        case 'devNeedPasskey':
+            break;
+    }
+});
 
-                    keyFob.onNotified('0xffe0', '0xffe1', callbackSimpleKey);
-                    keyFobSimpleKey(keyFob, 1);
-                }
-                break;
-            case 'devLeaving':
-                break;
-            case 'attNotify':
-                break;
-            case 'attChange':
-                break;
-            case 'devNeedPasskey':
-                break;
-        }
-    });
-    central.on('error', function (err) {
-        console.log(err);
-    });
-}
+central.on('error', function (err) {
+    console.log(err);
+});
 
 /*****************************************************
  *    sensorTag   API                                *
