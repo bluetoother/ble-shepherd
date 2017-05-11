@@ -1,4 +1,4 @@
-#ble-shepherd  
+# ble-shepherd  
 A network controller and manager for the BLE machine network running on node.js  
 
 [![NPM](https://nodei.co/npm/ble-shepherd.png?downloads=true)](https://nodei.co/npm/ble-shepherd/)  
@@ -19,7 +19,7 @@ Please visit the [Wiki](https://github.com/bluetoother/ble-shepherd/wiki).
 
 **ble-shepherd** is a BLE network controller running on node.js. It is an extension of BLE *central* device that aims to help you in building a BLE machine network with less effort.(Here is a quick [**DEMO**](https://github.com/bluetoother/ble-shepherd/wiki#2-ble-webapp-with-http-server-and-reactjs)!)  
 
-![BLE Network](https://github.com/bluetoother/documents/blob/master/ble-shepherd/ble_network.png)
+![BLE Network](https://raw.githubusercontent.com/bluetoother/documents/master/ble-shepherd/ble_network.png)
   
 **ble-shepherd** has all the features you need in controlling your BLE network, monitoring and operating BLE *peripheral* devices. This controller has carried many network managing things for you, i.e., auto scanning for *peripheral* devices, storing(/reloading) connected devices records to(/from) the built-in database, configuring connection parameters, and notifying online/offline status of devices with auto reconnection.  
 
