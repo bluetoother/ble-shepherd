@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/bluetoother/documents/master/ble-shepherd/ble.png" align="right" height="96" width="96" />
+
 # ble-shepherd  
 A network controller and manager for the BLE machine network running on node.js  
 
