@@ -37,7 +37,8 @@ With **ble-shepherd**, you can get rid of such networking things and focus on yo
     - [SmartRF05EB (with CC2540EM)](http://www.ti.com/tool/cc2540dk)  
     - [CC2540 USB Dongle](http://www.ti.com/tool/CC2540EMK-USB)  
     - [BLE4.0 USB adapter](https://github.com/sandeepmistry/node-bluetooth-hci-socket#compatible-bluetooth-40-usb-adapters)
-    - CC2640/CC2650 (Not tested yet. I don't have the kit.)  
+    - [CC2640R2F LaunchPad](http://www.ti.com/tool/LAUNCHXL-CC2640R2)
+    - [CC2650 SensorTag](http://www.ti.com/tool/cc2650stk)
 
 <br />
 
